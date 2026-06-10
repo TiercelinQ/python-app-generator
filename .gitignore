@@ -1,0 +1,40 @@
+# Settings locaux Claude Code — personnels, jamais commités
+.claude/settings.local.json
+
+# Mémoire auto Claude Code — personnelle, jamais commitée
+.claude/agent-memory/
+
+# Sessions sauvegardées — propres à chaque utilisateur
+claude-sessions/
+
+# Environnements virtuels des apps générées
+.venv/
+venv/
+
+# Données applicatives générées
+*.db
+preferences.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Build
+dist/
+build/
+*.spec
+*.exe
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
