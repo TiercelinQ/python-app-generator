@@ -19,7 +19,9 @@ Format de sortie :
 ├── main.py                        # Point d'entrée — instancie QApplication et MainWindow
 ├── config.py                      # Constantes globales, ICON_COLORS, PRIMARY_*
 ├── requirements.txt               # Dépendances PyQt6, qtawesome
-├── preferences.json               # Généré au premier lancement (si préférences activées)
+├── pyproject.toml                 # Config ruff, mypy, pytest
+├── preferences.json               # Racine projet — généré au 1er lancement (si Q3=Oui)
+├── logs/                          # Créé automatiquement par utils/logger.py
 ├── models/
 │   ├── __init__.py
 │   ├── exceptions.py              # Exceptions métier nommées
@@ -33,10 +35,31 @@ Format de sortie :
 │   ├── __init__.py
 │   └── [entite]_controller.py     # [description rôle]
 ├── utils/
-│   └── helpers.py                 # Fonctions pures (formatage, JSON, validation)
+│   ├── helpers.py                 # Fonctions pures (formatage, JSON, validation)
+│   └── logger.py                  # Configuration logging (voir @rules/logging.md)
 └── resources/
     ├── styles_light.qss           # Thème clair — tous tokens design-system.md
-    └── styles_dark.qss            # Thème sombre — tous tokens design-system.md
+    ├── styles_dark.qss            # Thème sombre — tous tokens design-system.md
+    └── i18n/                      # Si i18n activée — voir @rules/i18n.md
+        ├── app_fr.ts / .qm
+        └── app_en.ts / .qm
+
+# Si tests activés en Phase 1 :
+tests/
+├── __init__.py
+├── conftest.py                    # Fixtures partagées (qapp via pytest-qt auto)
+├── test_helpers.py                # Tests utils/helpers.py
+├── models/
+│   ├── __init__.py
+│   ├── test_exceptions.py
+│   └── test_[entite]_model.py
+├── controllers/
+│   ├── __init__.py
+│   └── test_[entite]_controller.py
+└── views/
+    ├── __init__.py
+    └── test_[entite]_view.py      # Smoke tests uniquement
+requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 
 ### Tableau tokens → règles QSS
 
@@ -49,6 +72,16 @@ Format de sortie :
 | primary-400             | —            | #818CF8       | QTabBar::tab:selected (sombre) |
 | border                  | #E5E7EB      | #374151       | QWidget#topbar, QStatusBar, QDialog |
 | …                       | …            | …             | …               |
+
+### Mapping sources → tests (si tests activés en Phase 1)
+
+| Module source                        | Fichier test                                  |
+| ------------------------------------ | --------------------------------------------- |
+| `models/[entite]_model.py`           | `tests/models/test_[entite]_model.py`         |
+| `models/exceptions.py`               | `tests/models/test_exceptions.py`             |
+| `controllers/[entite]_controller.py` | `tests/controllers/test_[entite]_controller.py` |
+| `views/[entite]_view.py`             | `tests/views/test_[entite]_view.py` (smoke)   |
+| `utils/helpers.py`                   | `tests/test_helpers.py`                       |
 ```
 
 Terminer par :

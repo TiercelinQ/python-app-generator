@@ -2,17 +2,17 @@
 
 ## Principes
 
-- Zéro valeur visuelle en dur dans Python. Tout dans `styles.qss` ou `config.py`.
+- Zéro valeur visuelle en dur dans Python. Tout dans `styles_light.qss` / `styles_dark.qss` ou `config.py`.
 - Chaque widget stylé a un `objectName` correspondant à une règle QSS nommée.
 - Chaque règle QSS porte un commentaire `/* token : [nom] */` traçant vers `design-system.md`.
-- Mode sombre : remplacement complet (`styles_light.qss` → `styles_dark.qss`). Jamais surcharge partielle.
-- Deux fichiers séparés si complexité le justifie, sinon un seul fichier rechargé.
+- Mode sombre : remplacement complet de la feuille (`styles_light.qss` → `styles_dark.qss`). Jamais surcharge partielle.
+- **Deux fichiers obligatoires** : `resources/styles_light.qss` + `resources/styles_dark.qss`. Pas de fichier unique conditionnel.
 
 ## Organisation interne obligatoire
 
 ```qss
 /* ============================================================
-   styles.qss — [NOM_APP] v[VERSION]
+   styles_[clair|sombre].qss — [NOM_APP] v[VERSION]
    Thème : [clair | sombre]
    Référence : design-system.md v1.0
    ============================================================ */

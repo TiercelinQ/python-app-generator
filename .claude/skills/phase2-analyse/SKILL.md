@@ -27,13 +27,27 @@ Produire une fiche structurée :
 - DB : [valeur choisie en Phase 1]
 - Préférences : [Oui/Non]
 - i18n : [Oui/Non]
-- Couleur primaire : [choix Phase 1]
+- Tests : [Oui/Non] — pytest + pytest-qt
+- Packaging .exe : [Oui/Non] — PyInstaller
+- Couleur primaire : [choix Phase 1 + hex primary-600]
+
+**Calibrage (figé après cette phase)**
+- Fonctionnalités comptées : [N]
+- Fichiers estimés : [N]
+- Taille retenue : [Petit | Moyen / Grand]
+- Lots : [N] (dont 1 lot tests si activé)
 ```
+
+| Taille        | Fichiers | Fonctionnalités | Lots (sans tests) | Lots (avec tests) |
+| ------------- | -------- | --------------- | ----------------- | ----------------- |
+| Petit         | < 10     | ≤ 5             | 3                 | 4                 |
+| Moyen / Grand | ≥ 10     | > 5             | 4                 | 5                 |
 
 Terminer par :
 
 ```
 → Validation requise avant Phase 3.
+  Le calibrage est verrouillé dès validation.
   Confirmer ou lister les ajustements.
 ```
 

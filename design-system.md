@@ -1,17 +1,8 @@
-# Design System — v1.1
+# Design System — v1.0
 
 > Référence contraignante pour toutes les applications Python/PyQt6.
 > Usage : applications desktop Windows, usage personnel et professionnel.
 > Indissociable de `layout.md`.
-
-## Changelog
-
-| Version | Date       | Changement principal                                          |
-| ------- | ---------- | ------------------------------------------------------------- |
-| v1.1    | 2026-06-12 | QSS 2 fichiers obligatoires · règle dérivation primary-* HSL  |
-| v1.0    | initial    | Typographie, couleurs, espacements, composants, états         |
-
-Toute application générée référence la version active dans son `README.md`.
 
 ---
 
@@ -247,10 +238,10 @@ icon = qta.icon("fa6s.house", color=ICON_COLORS[theme]["default"], scale_factor=
 
 ## 11. RÈGLES D'APPLICATION QSS
 
-1. **Zéro valeur visuelle en dur dans le code Python.** Toute couleur, taille, police est dans `styles_light.qss` / `styles_dark.qss`.
+1. **Zéro valeur visuelle en dur dans le code Python.** Toute couleur, taille, police est dans `styles.qss`.
 2. **Chaque widget stylé a un `objectName`** correspondant à une règle QSS nommée.
-3. **Le mode sombre est géré par remplacement complet** de la feuille QSS (`styles_light.qss` → `styles_dark.qss`), pas par surcharge partielle.
-4. **Toute valeur QSS est tracée vers un token de ce fichier.** Un commentaire `/* token : [nom] */` indique le token source.
+3. **Le mode sombre est géré par remplacement de la feuille QSS** complète, pas par surcharge partielle.
+4. **Toute valeur dans `styles.qss` est tracée vers un token de ce fichier.** Un commentaire indique le token source.
 
 ```qss
 /* Exemple — token : bg / text */

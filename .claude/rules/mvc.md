@@ -28,6 +28,14 @@ controllers/
 
 utils/
 └── helpers.py             # Fonctions pures uniquement — zéro PyQt6, zéro logique métier
+
+tests/                     # Si tests activés en Phase 1 — voir @rules/tests.md
+├── __init__.py
+├── conftest.py
+├── test_helpers.py
+├── models/
+├── controllers/
+└── views/
 ```
 
 ## utils/helpers.py — contenu autorisé uniquement
@@ -48,30 +56,72 @@ Chaque lot :
 5. Python 3.10+ · PyQt6 stable · zéro API PyQt5.
 6. Conformité `design-system.md` et `layout.md`.
 
-Dernier lot uniquement — cross-fichiers : 7. Tous imports inter-couches résolus. 8. Signaux/slots cohérents. 9. Contrat architectural respecté. 10. Zéro valeur visuelle en dur dans Python.
+Dernier lot uniquement — cross-fichiers :
+7. Tous imports inter-couches résolus.
+8. Signaux/slots cohérents.
+9. Contrat architectural respecté.
+10. Zéro valeur visuelle en dur dans Python.
+11. README.md généré et complet.
+
+Lot tests uniquement (si activé) :
+12. Chaque module source a son fichier test correspondant.
+13. `pytest` exit code 0 — tous les tests passent.
 
 ## Livraison par lots
 
+### Sans tests (Phase 1 Q5 = Non)
+
 **Petit projet (3 lots) :**
 
-| Lot | Contenu                                                                                     |
-| --- | ------------------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/`                                                                     |
-| 2   | `views/` + `controllers/`                                                                   |
-| 3   | `main.py` + `utils/helpers.py` + `resources/styles.qss` + `requirements.txt` + instructions |
+| Lot | Contenu                                                                          |
+| --- | -------------------------------------------------------------------------------- |
+| 1   | `config.py` + `models/` (incluant `db.py` et `migrations.py` si DB)              |
+| 2   | `views/` + `controllers/`                                                        |
+| 3   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
 
 **Moyen / Grand projet (4 lots) :**
 
-| Lot | Contenu                                                                                     |
-| --- | ------------------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/`                                                                     |
-| 2   | `views/`                                                                                    |
-| 3   | `controllers/`                                                                              |
-| 4   | `main.py` + `utils/helpers.py` + `resources/styles.qss` + `requirements.txt` + instructions |
+| Lot | Contenu                                                                          |
+| --- | -------------------------------------------------------------------------------- |
+| 1   | `config.py` + `models/` (incluant `db.py` et `migrations.py` si DB)              |
+| 2   | `views/`                                                                         |
+| 3   | `controllers/`                                                                   |
+| 4   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+
+### Avec tests (Phase 1 Q5 = Oui)
+
+**Petit projet (4 lots) :**
+
+| Lot | Contenu                                                                          |
+| --- | -------------------------------------------------------------------------------- |
+| 1   | `config.py` + `models/`                                                          |
+| 2   | `views/` + `controllers/`                                                        |
+| 3   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 4   | `tests/` + `requirements-dev.txt` + instructions pytest                          |
+
+**Moyen / Grand projet (5 lots) :**
+
+| Lot | Contenu                                                                          |
+| --- | -------------------------------------------------------------------------------- |
+| 1   | `config.py` + `models/`                                                          |
+| 2   | `views/`                                                                         |
+| 3   | `controllers/`                                                                   |
+| 4   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 5   | `tests/` + `requirements-dev.txt` + instructions pytest                          |
+
+### Contenu du dossier `utils/`
+
+- `utils/helpers.py` — fonctions pures (formatage, validation, JSON)
+- `utils/logger.py` — configuration logging (voir `@rules/logging.md`)
+- `utils/resource_path.py` — helper PyInstaller `sys._MEIPASS` (si packaging opt-in)
+
+### Format
 
 Format d'annonce : `📦 Lot N/[total] — [contenu]`
 Chaque fichier livré en bloc complet et autonome.
-Confirmation demandée : `Lot N validé ? Je passe au lot N+1 dès confirmation.` (sauf dernier lot)
+**Enchaînement automatique** entre les lots — aucune confirmation demandée.
+L'utilisateur peut interrompre à tout moment.
+En cas d'anomalie détectée par l'utilisateur après un lot : invocation libre de toute commande de correction.
 
 ## Résolution d'anomalie — protocole nettoyage
 

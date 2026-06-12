@@ -42,7 +42,7 @@ Toute interface générée respecte intégralement ces deux fichiers.
 | OS cible             | Windows                                            |
 | Framework UI         | PyQt6                                              |
 | Architecture         | MVC stricte                                        |
-| Style                | QSS centralisé dans `resources/styles.qss`         |
+| Style                | QSS centralisé — `resources/styles_light.qss` + `resources/styles_dark.qss` |
 | Icônes               | qtawesome (Font Awesome)                           |
 | Internationalisation | FR/EN — FR par défaut — `PyQt6.QtCore.QTranslator` |
 | Python               | 3.10+                                              |
@@ -51,7 +51,7 @@ Toute interface générée respecte intégralement ces deux fichiers.
 
 ## RÈGLES ABSOLUES
 
-- Zéro valeur visuelle en dur dans Python — tout dans `styles.qss` ou `config.py`.
+- Zéro valeur visuelle en dur dans Python — tout dans `styles_light.qss` / `styles_dark.qss` ou `config.py`.
 - Exception documentée : couleurs d'icônes qtawesome dans `config.py` (contrainte technique).
 - Chaque widget stylé a un `objectName` correspondant à une règle QSS.
 - Mode sombre : remplacement complet de la feuille QSS, jamais surcharge partielle.
@@ -60,9 +60,16 @@ Toute interface générée respecte intégralement ces deux fichiers.
 - Zéro `# TODO`, zéro `pass` injustifié. PEP 8 · type hints · docstrings.
 - Python 3.10+ · PyQt6 stable · zéro API PyQt5.
 - Aucune bibliothèque non validée en Phase 1.
+- Si tests activés en Phase 1 (Q5) : dossier `tests/` obligatoire, pytest + pytest-qt, voir `@rules/tests.md`.
+- Si i18n activé en Phase 1 (Q4) : dossier `resources/i18n/` obligatoire, voir `@rules/i18n.md`.
+- Si DB ≠ aucune en Phase 1 (Q2) : `models/db.py` + `models/migrations.py` obligatoires, voir `@rules/db.md`.
+- Si packaging activé en Phase 1 (Q6) : `build.spec` + `scripts/build.ps1` livrés, voir `@rules/config.md`.
+- `utils/logger.py` et `sys.excepthook` obligatoires dans toute app — voir `@rules/logging.md` et `@rules/errors.md`.
 - Après résolution d'anomalie, proposer : "Veux-tu mémoriser ce point ? `/memoriser`"
 
-Détail des règles par domaine : @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md
+Détail des règles par domaine :
+@rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md ·
+@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md
 
 ---
 
@@ -73,22 +80,26 @@ Toutes les commandes ci-dessous sont des skills Claude Code invocables avec `/` 
 | Commande                | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Menu démarrage / reprise                     |
-| `/phase1-cadrage`       | `skills/phase1-cadrage/`       | Cadrage — 4 questions + couleur              |
-| `/phase2-analyse`       | `skills/phase2-analyse/`       | Fiche besoins structurée                     |
+| `/charger-projet`       | `skills/charger-projet/`       | Charger un projet existant depuis README.md  |
+| `/phase1-cadrage`       | `skills/phase1-cadrage/`       | Cadrage — 6 questions + couleur              |
+| `/phase2-analyse`       | `skills/phase2-analyse/`       | Fiche besoins + calibrage figé               |
 | `/phase3-layout`        | `skills/phase3-layout/`        | Proposition layout                           |
 | `/phase4-contrat`       | `skills/phase4-contrat/`       | Contrat architectural verrouillé             |
-| `/phase5-developpement` | `skills/phase5-developpement/` | Livraison par lots                           |
+| `/phase5-developpement` | `skills/phase5-developpement/` | Livraison par lots — enchaînement auto       |
+| `/feature-add`          | `skills/feature-add/`          | Ajouter une fonctionnalité à un projet livré |
 | `/session`              | `skills/session/`              | Générer le fichier de sauvegarde             |
 | `/statut`               | `skills/statut/`               | État courant du projet                       |
 | `/generate-readme`      | `skills/generate-readme/`      | Générer le README.md d'un projet existant    |
-| `/memoriser`            | `skills/memoriser/`            | Mémoriser une erreur, décision ou préférence |
+| `/memoriser`            | `skills/memoriser/`            | Mémoriser dans `.claude/project-memory.md`   |
 | `/contrat`              | `skills/contrat/`              | Arborescence du contrat validé               |
 
 ---
 
 ## CALIBRAGE (FIGÉ APRÈS PHASE 1)
 
-| Taille        | Fichiers | Fonctionnalités | Lots |
-| ------------- | -------- | --------------- | ---- |
-| Petit         | < 10     | ≤ 5             | 3    |
-| Moyen / Grand | ≥ 10     | > 5             | 4    |
+| Taille        | Fichiers | Fonctionnalités | Lots (sans tests) | Lots (avec tests) |
+| ------------- | -------- | --------------- | ----------------- | ----------------- |
+| Petit         | < 10     | ≤ 5             | 3                 | 4                 |
+| Moyen / Grand | ≥ 10     | > 5             | 4                 | 5                 |
+
+Le lot supplémentaire correspond à `tests/` + `requirements-dev.txt` (voir `@rules/tests.md`).

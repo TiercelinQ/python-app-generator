@@ -1,5 +1,6 @@
 ---
 description: Affiche l'arborescence complète du contrat architectural validé en Phase 4.
+model: claude-haiku-4-5
 disable-model-invocation: true
 ---
 

@@ -1,16 +1,7 @@
-# Layout Système — v2.1
+# Layout Système — v2.0
 
 > Référence contraignante pour toutes les applications Python/PyQt6.
-> Construit sur `design-system.md v1.1`. Les deux fichiers sont indissociables.
-
-## Changelog
-
-| Version | Date       | Changement principal                                                  |
-| ------- | ---------- | --------------------------------------------------------------------- |
-| v2.1    | 2026-06-12 | 6 positions de toasts spécifiées · onglets neutres · préférences précisées |
-| v2.0    | initial    | Structure globale, topbar, drawer, statusbar, composants récurrents   |
-
-Toute application générée référence la version active dans son `README.md`.
+> Construit sur `design-system.md v1.0`. Les deux fichiers sont indissociables.
 
 ---
 
@@ -89,13 +80,11 @@ Toute application générée référence la version active dans son `README.md`.
 [ Logo / Nom app ]  [ Onglets navigation ]  ···  [ Thème ]
 ```
 
-| Zone                              | Contenu                         | Largeur     |
-| --------------------------------- | ------------------------------- | ----------- |
-| Gauche                            | Logo SVG 24px + nom application | fixe        |
-| Gauche ou Centre (choix Phase 3)  | Onglets de navigation (QTabBar) | flexible    |
-| Droite                            | Sélecteur thème clair/sombre    | fixe — 40px |
-
-L'alignement des onglets (gauche-après-logo OU centré) est tranché en Phase 3.
+| Zone   | Contenu                         | Largeur     |
+| ------ | ------------------------------- | ----------- |
+| Gauche | Logo SVG 24px + nom application | fixe        |
+| Centre | Onglets de navigation (QTabBar) | flexible    |
+| Droite | Sélecteur thème clair/sombre    | fixe — 40px |
 
 ### Logo / Nom application
 
@@ -105,7 +94,7 @@ L'alignement des onglets (gauche-après-logo OU centré) est tranché en Phase 3
 
 ### Onglets de navigation (QTabBar)
 
-- Intégrés dans la topbar, alignement défini en Phase 3 (gauche-après-logo ou centré).
+- Intégrés dans la topbar, alignés centre.
 - Maximum 5 onglets visibles. Au-delà → menu déroulant `···`.
 - Onglet actif : texte `primary-600` (clair) / `primary-400` (sombre), bordure bas 2px `primary-600` / `primary-400`.
 - Onglet inactif : texte `text-subtle`, fond transparent.
@@ -148,37 +137,16 @@ L'alignement des onglets (gauche-après-logo OU centré) est tranché en Phase 3
 
 Remplace intégralement le bandeau inline. Aucun bandeau inline dans les applications.
 
-### Position — choix Phase 3
-
-6 positions disponibles. Défaut : `top-right`.
-
-| Position       | Ancrage             | Animation entrée               | Animation sortie                |
-| -------------- | ------------------- | ------------------------------ | ------------------------------- |
-| `top-right`    | haut + droite       | Glissement depuis la droite    | Fondu + glissement droite       |
-| `top-left`     | haut + gauche       | Glissement depuis la gauche    | Fondu + glissement gauche       |
-| `top-center`   | haut + centre       | Glissement depuis le haut      | Fondu + glissement haut         |
-| `bottom-right` | bas + droite        | Glissement depuis la droite    | Fondu + glissement droite       |
-| `bottom-left`  | bas + gauche        | Glissement depuis la gauche    | Fondu + glissement gauche       |
-| `bottom-center`| bas + centre        | Glissement depuis le bas       | Fondu + glissement bas          |
-
-### Marges et empilement
-
-| Token                       | Valeur                                                 |
-| --------------------------- | ------------------------------------------------------ |
-| largeur                     | 320px (fixe)                                           |
-| margin depuis le bord       | `spacing-4` = 16px                                     |
-| margin depuis topbar / statusbar | `spacing-4` = 16px (selon ancrage haut/bas)       |
-| espacement entre toasts     | `spacing-2` = 8px                                      |
-| empilement                  | Vertical, file d'attente, sans chevauchement           |
-| sens d'empilement (haut)    | nouveau toast en haut, anciens descendent              |
-| sens d'empilement (bas)     | nouveau toast en bas, anciens remontent                |
-| durée transition            | `transition-slow` = 250ms                              |
-
-### Implémentation
-
-- Le `ToastManager` (`views/toast_manager.py`) reçoit la position depuis `config.TOAST_POSITION`.
-- Constante `config.TOAST_POSITION` = `"top-right"` par défaut, modifiée selon le choix Phase 3.
-- Le manager calcule l'ancrage à partir du `geometry()` de la fenêtre principale.
+| Token                   | Valeur                                                 |
+| ----------------------- | ------------------------------------------------------ |
+| position                | Coin haut-droit, superposé au contenu                  |
+| largeur                 | 320px                                                  |
+| margin depuis le bord   | `spacing-4` = 16px                                     |
+| margin depuis la topbar | `spacing-4` = 16px                                     |
+| espacement entre toasts | `spacing-2` = 8px                                      |
+| empilement              | Vertical, file d'attente, sans chevauchement           |
+| animation entrée        | Glissement depuis la droite, `transition-slow` = 250ms |
+| animation sortie        | Fondu + glissement droite, `transition-slow` = 250ms   |
 
 ### Durées d'affichage
 
@@ -363,19 +331,14 @@ Affichée sous un `QTableView` contenant plus de 50 lignes.
 
 ## 10. PRÉFÉRENCES PERSISTÉES
 
-Fichier `preferences.json` à la racine du projet (gitignoré).
-En mode packaging `.exe` : `%APPDATA%/[NomApp]/preferences.json` (voir `@rules/config.md`).
+Fichier `preferences.json` ou `QSettings` :
 
-| Préférence         | Valeur par défaut |
-| ------------------ | ----------------- |
-| thème              | système OS        |
-| fenêtre taille     | 1280×800          |
-| fenêtre position   | centrée           |
-| drawer état        | fermé             |
-| langue (si i18n)   | fr                |
-| position toasts    | top-right         |
-
-Lecture/écriture via `utils/helpers.py` — `load_preferences()` / `save_preferences(data)`.
+| Préférence       | Valeur par défaut |
+| ---------------- | ----------------- |
+| thème            | système OS        |
+| fenêtre taille   | 1280×800          |
+| fenêtre position | centrée           |
+| drawer état      | fermé             |
 
 ---
 
