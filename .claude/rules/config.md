@@ -27,10 +27,12 @@ LOG_BACKUP_COUNT: int = 5
 # Toast position — see @layout.md
 TOAST_POSITION: str = "top-right"
 
-# Primary colors — replace these 4 values to change the primary color
+# Primary colors — replace these values to change the primary color
 PRIMARY_50:  str = "#EEF2FF"   # light selection bg
 PRIMARY_400: str = "#818CF8"   # dark active text
-PRIMARY_600: str = "#4F46E5"   # light active text/border
+PRIMARY_600: str = "#4F46E5"   # light active text/border, primary button bg
+PRIMARY_700: str = "#4338CA"   # primary button hover (both modes)
+PRIMARY_800: str = "#3730A3"   # primary button pressed (both modes)
 PRIMARY_900: str = "#312E81"   # dark selection bg
 
 # qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
@@ -38,15 +40,19 @@ ICON_COLORS: dict = {
     "light": {
         "default":  "#6B7280",   # text-subtle
         "active":   PRIMARY_600,
-        "danger":   "#DC2626",   # danger-600
         "success":  "#16A34A",   # success-600
+        "warning":  "#D97706",   # warning-600
+        "danger":   "#DC2626",   # danger-600
+        "info":     "#2563EB",   # info-600
         "muted":    "#9CA3AF",   # text-muted
     },
     "dark": {
         "default":  "#9CA3AF",   # text-subtle dark
         "active":   PRIMARY_400,
-        "danger":   "#F87171",   # danger-600 dark
         "success":  "#4ADE80",   # success-600 dark
+        "warning":  "#FCD34D",   # warning-600 dark
+        "danger":   "#F87171",   # danger-600 dark
+        "info":     "#60A5FA",   # info-600 dark
         "muted":    "#6B7280",   # text-muted dark
     }
 }
@@ -58,29 +64,31 @@ Any constant reused in more than one file goes into `config.py`.
 
 ## Deriving the primary tokens from `primary-600`
 
-The user provides **only** `primary-600` in Phase 1. Claude derives the other 3 by a deterministic HSL-based rule — same hue (`H`), same saturation (`S`), only lightness (`L`) changes.
+The user provides **only** `primary-600` in Phase 1. Claude derives the other 5 by a deterministic HSL-based rule — same hue (`H`), same saturation (`S`), only lightness (`L`) changes.
 
 | Token         | HSL formula                                | Visual role               |
 | ------------- | ------------------------------------------ | ------------------------- |
 | `primary-50`  | `H` unchanged · `S` unchanged · `L` = 95%  | Selection bg (light)      |
 | `primary-400` | `H` unchanged · `S` unchanged · `L` = 70%  | Active text (dark)        |
 | `primary-600` | **Provided by the user**                    | Active text/border (light) |
+| `primary-700` | `H` unchanged · `S` unchanged · `L` = 50%  | Primary button hover      |
+| `primary-800` | `H` unchanged · `S` unchanged · `L` = 42%  | Primary button pressed    |
 | `primary-900` | `H` unchanged · `S` unchanged · `L` = 25%  | Selection bg (dark)       |
 
-Method: convert the `primary-600` hex to HSL, recompute the 3 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side.
+Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen.
 
 ### Default proposed colors correspondence table
 
-| Name        | primary-600 | primary-50 (derived) | primary-400 (derived) | primary-900 (derived) |
-| ----------- | ----------- | -------------------- | --------------------- | --------------------- |
-| Slate Blue  | #4F46E5     | #EEF2FF              | #818CF8               | #312E81               |
-| Royal Blue  | #2563EB     | #EFF6FF              | #60A5FA               | #1E3A8A               |
-| Emerald     | #059669     | #ECFDF5              | #34D399               | #064E3B               |
-| Crimson     | #DC2626     | #FEF2F2              | #F87171               | #7F1D1D               |
-| Amber       | #D97706     | #FFFBEB              | #FBBF24               | #78350F               |
-| Violet      | #7C3AED     | #F5F3FF              | #A78BFA               | #4C1D95               |
+| Name        | primary-600 | primary-50 | primary-400 | primary-700 | primary-800 | primary-900 |
+| ----------- | ----------- | ---------- | ----------- | ----------- | ----------- | ----------- |
+| Slate Blue  | #4F46E5     | #EEF2FF    | #818CF8     | #4338CA     | #3730A3     | #312E81     |
+| Royal Blue  | #2563EB     | #EFF6FF    | #60A5FA     | #1D4ED8     | #1E40AF     | #1E3A8A     |
+| Emerald     | #059669     | #ECFDF5    | #34D399     | #047857     | #065F46     | #064E3B     |
+| Crimson     | #DC2626     | #FEF2F2    | #F87171     | #B91C1C     | #991B1B     | #7F1D1D     |
+| Amber       | #D97706     | #FFFBEB    | #FBBF24     | #B45309     | #92400E     | #78350F     |
+| Violet      | #7C3AED     | #F5F3FF    | #A78BFA     | #6D28D9     | #5B21B6     | #4C1D95     |
 
-For any custom value (option E in Phase 1), Claude computes the 3 derived values and announces them explicitly before writing them to `config.py`.
+For any custom value (option E in Phase 1), Claude computes the 5 derived values and announces them explicitly before writing them to `config.py`.
 
 ---
 

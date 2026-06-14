@@ -1,14 +1,15 @@
-# Layout System — v2.1
+# Layout System — v2.2
 
 > Binding reference for all Python/PyQt6 applications.
-> Built on `design-system.md v1.1`. The two files are inseparable.
+> Built on `design-system.md v1.2`. The two files are inseparable.
 
 ## Changelog
 
-| Version | Date       | Main change                                                           |
-| ------- | ---------- | --------------------------------------------------------------------- |
-| v2.1    | 2026-06-12 | 6 toast positions specified · neutral tabs · preferences clarified    |
-| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components     |
+| Version | Date       | Main change                                                                       |
+| ------- | ---------- | --------------------------------------------------------------------------------- |
+| v2.2    | 2026-06-14 | statusbar text `text-subtle` (WCAG) · dark toast tints · layering reference        |
+| v2.1    | 2026-06-12 | 6 toast positions specified · neutral tabs · preferences clarified                 |
+| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components                  |
 
 Every generated application references the active version in its `README.md`.
 
@@ -214,6 +215,9 @@ Fully replaces the inline banner. No inline banner in the applications.
 | `danger`  | `danger-50`  | `danger-600`  | x-circle       |
 | `info`    | `info-50`    | `info-600`    | info           |
 
+> `*-50` is the toast surface role: pale tint in light, deep tint in dark (see `design-system.md §2`). Both keep AA contrast with `text` and the `*-600` accent. Toast icons use the matching `ICON_COLORS` entry (`config.py`), per mode.
+> Layering: toasts sit above modals (`z-toast` = 400, see `design-system.md §13`) so a persistent `danger` toast is never hidden.
+
 ---
 
 ## 6. RIGHT DRAWER
@@ -223,7 +227,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | width            | `drawer-width` = 320px                                 |
 | animation        | slide from the right, `transition-slow` = 250ms        |
 | light mode bg    | `bg-elevated` = #FFFFFF                                |
-| dark mode bg     | `bg-elevated` = #374151                                |
+| dark mode bg     | `bg-elevated` = #1F2937                                |
 | left border      | 1px `border`                                           |
 | padding          | `spacing-6` = 24px                                     |
 | overlay bg       | `text` 40% opacity                                     |
@@ -241,11 +245,13 @@ Fully replaces the inline banner. No inline banner in the applications.
 | ------------------ | ------------------------- |
 | height             | `statusbar-height` = 28px |
 | light mode bg      | `bg-muted` = #F3F4F6      |
-| dark mode bg       | `bg-muted` = #1F2937      |
+| dark mode bg       | `bg-muted` = #374151      |
 | top border         | 1px `border`              |
 | horizontal padding | `spacing-4` = 16px        |
 | font               | `normal` `xs` (12px)      |
-| text color         | `text-muted`              |
+| text color         | `text-subtle`             |
+
+> WCAG: `text-subtle` on `bg-muted` reaches ~4.4:1, marginal vs AA (4.5:1). Essential or error status must use `text` for full contrast. `text-muted` is reserved for disabled/decorative use (see `design-system.md §12`).
 
 ### Statusbar zones (left → right)
 
@@ -381,7 +387,7 @@ Read/write via `utils/helpers.py` — `load_preferences()` / `save_preferences(d
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.2`.
 
 | Need                       | Token                                          |
 | -------------------------- | ---------------------------------------------- |
@@ -397,4 +403,7 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | State transitions          | `transition-default` = 150ms                   |
 | Shape                      | `radius` = 0px (flat design)                   |
 | Shadows                    | none (flat design)                             |
+| Line-height                | `leading-tight` 1.25 / `leading-normal` 1.5    |
+| Overlay opacity            | `opacity-overlay` 40% (`text` color)           |
+| Stacking order             | layering scale (`design-system.md §13`)        |
 ```
