@@ -64,8 +64,8 @@ requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 
 | Token design-system.md | Valeur clair | Valeur sombre | Règle QSS cible |
 | ----------------------- | ------------ | ------------- | --------------- |
-| bg                      | #FFFFFF      | #111827       | QMainWindow, #main_content, #topbar |
-| primary-600             | #4F46E5      | —             | QTabBar::tab:selected, #btn_primary |
+| bg                      | #FFFFFF      | #1A1A1F       | QMainWindow, #main_content, #topbar |
+| primary-600             | #4682B4      | —             | QTabBar::tab:selected, #btn_primary |
 | …                       | …            | …             | …               |
 
 ### Mapping sources → tests (si tests activés)

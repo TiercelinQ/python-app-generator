@@ -138,7 +138,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **Segoe UI** typography (Windows native)
-- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) - change a single `primary-600` hex, the others are HSL-derived
+- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - change a single `primary-600` hex, the others are HSL-derived
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---

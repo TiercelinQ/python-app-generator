@@ -28,12 +28,12 @@ LOG_BACKUP_COUNT: int = 5
 TOAST_POSITION: str = "top-right"
 
 # Primary colors — replace these values to change the primary color
-PRIMARY_50:  str = "#EEF2FF"   # light selection bg
-PRIMARY_400: str = "#818CF8"   # dark active text
-PRIMARY_600: str = "#4F46E5"   # light active text/border, primary button bg
-PRIMARY_700: str = "#4338CA"   # primary button hover (both modes)
-PRIMARY_800: str = "#3730A3"   # primary button pressed (both modes)
-PRIMARY_900: str = "#312E81"   # dark selection bg
+PRIMARY_50:  str = "#EDF3F8"   # light selection bg
+PRIMARY_400: str = "#5A9FD4"   # dark active text
+PRIMARY_600: str = "#4682B4"   # light active text/border, primary button bg
+PRIMARY_700: str = "#396A93"   # primary button hover (both modes)
+PRIMARY_800: str = "#2F5879"   # primary button pressed (both modes)
+PRIMARY_900: str = "#2A4F72"   # dark selection bg
 
 # qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
 ICON_COLORS: dict = {
@@ -47,13 +47,13 @@ ICON_COLORS: dict = {
         "muted":    "#9CA3AF",   # text-muted
     },
     "dark": {
-        "default":  "#9CA3AF",   # text-subtle dark
+        "default":  "#9A9AB0",   # text-subtle dark
         "active":   PRIMARY_400,
-        "success":  "#4ADE80",   # success-600 dark
-        "warning":  "#FCD34D",   # warning-600 dark
-        "danger":   "#F87171",   # danger-600 dark
-        "info":     "#60A5FA",   # info-600 dark
-        "muted":    "#6B7280",   # text-muted dark
+        "success":  "#4A9E6A",   # success-600 dark
+        "warning":  "#CCA840",   # warning-600 dark
+        "danger":   "#C04A4A",   # danger-600 dark
+        "info":     "#4682B4",   # info-600 dark
+        "muted":    "#5A5A72",   # text-muted dark
     }
 }
 ```
@@ -75,13 +75,13 @@ The user provides **only** `primary-600` in Phase 1. Claude derives the other 5 
 | `primary-800` | `H` unchanged · `S` unchanged · `L` = 42%  | Primary button pressed    |
 | `primary-900` | `H` unchanged · `S` unchanged · `L` = 25%  | Selection bg (dark)       |
 
-Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen.
+Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen. Steel Blue is a special case: its `primary-600` sits near L 49%, so its `-700`/`-800` are set darker than the generic L 50/42 stops to keep the hover/pressed darken visible.
 
 ### Default proposed colors correspondence table
 
 | Name        | primary-600 | primary-50 | primary-400 | primary-700 | primary-800 | primary-900 |
 | ----------- | ----------- | ---------- | ----------- | ----------- | ----------- | ----------- |
-| Slate Blue  | #4F46E5     | #EEF2FF    | #818CF8     | #4338CA     | #3730A3     | #312E81     |
+| Steel Blue  | #4682B4     | #EDF3F8    | #5A9FD4     | #396A93     | #2F5879     | #2A4F72     |
 | Royal Blue  | #2563EB     | #EFF6FF    | #60A5FA     | #1D4ED8     | #1E40AF     | #1E3A8A     |
 | Emerald     | #059669     | #ECFDF5    | #34D399     | #047857     | #065F46     | #064E3B     |
 | Crimson     | #DC2626     | #FEF2F2    | #F87171     | #B91C1C     | #991B1B     | #7F1D1D     |

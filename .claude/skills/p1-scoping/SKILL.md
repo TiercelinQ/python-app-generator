@@ -37,7 +37,7 @@ After receiving the answers, propose the primary color choice:
 ```
 Couleur primaire pour ce projet (un seul hex `primary-600` suffit — Claude dérive les autres) :
 
-A. Slate Blue — primary-600 = #4F46E5 — professionnel, tech, sobre (recommandé)
+A. Steel Blue — primary-600 = #4682B4 — professionnel, tech, sobre (recommandé)
 B. [Color 1] — primary-600 = [hex] — [character in 3 words]
 C. [Color 2] — primary-600 = [hex] — [character in 3 words]
 D. [Color 3] — primary-600 = [hex] — [character in 3 words]
@@ -48,14 +48,14 @@ E. [Color 4] — primary-600 = [hex] — [character in 3 words]
 
 Color rules (see `@rules/config.md` "Deriving the primary tokens"):
 
-- Slate Blue is always option A and the recommended default. Propose 4 professional colors (options B-E) suited to the described application context.
+- Steel Blue is always option A and the recommended default. Propose 4 professional colors (options B-E) suited to the described application context.
 - From the chosen `primary-600`, Claude **derives** automatically:
   - `primary-50`  = same hue, ~95% lightness (light selection bg)
   - `primary-400` = same hue, ~70% lightness (dark active text)
   - `primary-900` = same hue, ~25% lightness (dark selection bg)
 - The 4 values are written to `config.py` (`PRIMARY_*`) and `styles_light.qss` / `styles_dark.qss`.
 - The global `design-system.md` stays unchanged.
-- If A or no answer: Slate Blue by default (values already known).
+- If A or no answer: Steel Blue by default (values already known).
 
 Then announce the **provisional** calibration:
 

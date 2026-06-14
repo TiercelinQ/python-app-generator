@@ -56,7 +56,7 @@ pip install -r requirements-dev.txt
 pytest
 
 ## Couleur primaire
-[Déduite de PRIMARY_600 / PRIMARY_400 dans config.py — sinon "Slate Blue #4F46E5 / #818CF8"]
+[Déduite de PRIMARY_600 / PRIMARY_400 dans config.py — sinon "Steel Blue #4682B4 / #5A9FD4"]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).

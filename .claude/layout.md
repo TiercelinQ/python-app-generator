@@ -1,7 +1,7 @@
 # Layout System — v2.2
 
 > Binding reference for all Python/PyQt6 applications.
-> Built on `design-system.md v1.2`. The two files are inseparable.
+> Built on `design-system.md v1.3`. The two files are inseparable.
 
 ## Changelog
 
@@ -80,7 +80,7 @@ Every generated application references the active version in its `README.md`.
 | ------------------ | ---------------------- |
 | height             | `topbar-height` = 48px |
 | light mode bg      | `bg` = #FFFFFF         |
-| dark mode bg       | `bg` = #111827         |
+| dark mode bg       | `bg` = #1A1A1F         |
 | bottom border      | 1px `border`           |
 | horizontal padding | `spacing-4` = 16px     |
 
@@ -128,7 +128,7 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 | Token               | Value                          |
 | ------------------- | ------------------------------ |
 | light mode bg       | `bg` = #FFFFFF                 |
-| dark mode bg        | `bg` = #111827                 |
+| dark mode bg        | `bg` = #1A1A1F                 |
 | inner padding       | `spacing-6` = 24px             |
 | scroll              | vertical — `QScrollArea`       |
 | max content width   | `content-xl` = 1024px (centered) |
@@ -227,7 +227,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | width            | `drawer-width` = 320px                                 |
 | animation        | slide from the right, `transition-slow` = 250ms        |
 | light mode bg    | `bg-elevated` = #FFFFFF                                |
-| dark mode bg     | `bg-elevated` = #1F2937                                |
+| dark mode bg     | `bg-elevated` = #2A2A35                                |
 | left border      | 1px `border`                                           |
 | padding          | `spacing-6` = 24px                                     |
 | overlay bg       | `text` 40% opacity                                     |
@@ -245,7 +245,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | ------------------ | ------------------------- |
 | height             | `statusbar-height` = 28px |
 | light mode bg      | `bg-muted` = #F3F4F6      |
-| dark mode bg       | `bg-muted` = #374151      |
+| dark mode bg       | `bg-muted` = #313140      |
 | top border         | 1px `border`              |
 | horizontal padding | `spacing-4` = 16px        |
 | font               | `normal` `xs` (12px)      |
@@ -320,7 +320,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | ---------------- | ---------------------------------- |
 | width            | dynamic per content, min 480px     |
 | light mode bg    | `bg` = #FFFFFF                     |
-| dark mode bg     | `bg` = #111827                     |
+| dark mode bg     | `bg` = #1A1A1F                     |
 | border           | 1px `border`                       |
 | padding          | `spacing-6` = 24px                 |
 | overlay bg       | `text` 40% opacity                 |
@@ -387,7 +387,7 @@ Read/write via `utils/helpers.py` — `load_preferences()` / `save_preferences(d
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.2`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.3`.
 
 | Need                       | Token                                          |
 | -------------------------- | ---------------------------------------------- |

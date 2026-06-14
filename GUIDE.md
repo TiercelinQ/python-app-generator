@@ -95,7 +95,7 @@ Sans cette activation, `/memoriser` formule les notes mais ne les persiste pas e
 
 ### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de couleur primaire : Slate Blue recommandé par défaut + 4 propositions adaptées au contexte ; l'utilisateur fournit `primary-600`, Claude dérive les autres via formule HSL.
+6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de couleur primaire : Steel Blue recommandé par défaut + 4 propositions adaptées au contexte ; l'utilisateur fournit `primary-600`, Claude dérive les autres via formule HSL.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 

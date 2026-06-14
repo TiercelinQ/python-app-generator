@@ -1,4 +1,4 @@
-# Design System — v1.2
+# Design System — v1.3
 
 > Binding reference for all Python/PyQt6 applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -8,6 +8,7 @@
 
 | Version | Date       | Main change                                                                                  |
 | ------- | ---------- | ------------------------------------------------------------------------------------------- |
+| v1.3    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/charts/selection · Steel Blue primary (both modes) |
 | v1.2    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · WCAG AA target · layering scale · dark surface ramp fix · dark charts · focus dark · selection · opacity/border-width tokens |
 | v1.1    | 2026-06-12 | Dark mode tokens · semantic palette                                                          |
 | v1.0    | initial    | Typography, colors, spacing, components, states                                              |
@@ -67,58 +68,58 @@ Every generated application references the active version in its `README.md`.
 
 | Token           | Value   | Usage                  |
 | --------------- | ------- | ---------------------- |
-| `bg`            | #111827 | Main background, topbar |
-| `bg-subtle`     | #1F2937 | Secondary areas        |
-| `bg-elevated`   | #1F2937 | Drawer, modals         |
-| `bg-muted`      | #374151 | Statusbar, hover       |
-| `text`          | #F9FAFB | Primary text           |
-| `text-subtle`   | #9CA3AF | Secondary text         |
-| `text-muted`    | #6B7280 | Disabled text          |
-| `border`        | #374151 | Standard borders       |
-| `border-subtle` | #1F2937 | Discreet separators    |
-| `border-strong` | #4B5563 | Table headers          |
+| `bg`            | #1A1A1F | Main background, topbar |
+| `bg-subtle`     | #22222A | Secondary areas        |
+| `bg-elevated`   | #2A2A35 | Drawer, modals         |
+| `bg-muted`      | #313140 | Statusbar, hover       |
+| `text`          | #D4D4D4 | Primary text           |
+| `text-subtle`   | #9A9AB0 | Secondary text         |
+| `text-muted`    | #5A5A72 | Disabled text          |
+| `border`        | #3A3A4A | Standard borders       |
+| `border-subtle` | #2E2E3A | Discreet separators    |
+| `border-strong` | #4A4A5E | Table headers          |
 
-> Dark surface ramp: `bg` #111827 < {`bg-subtle`, `bg-elevated`} #1F2937 < `bg-muted` #374151. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
+> Dark surface ramp: `bg` #1A1A1F < `bg-subtle` #22222A < `bg-elevated` #2A2A35 < `bg-muted` #313140. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
-### Primary color — Slate Blue
+### Primary color — Steel Blue
 
 | Token         | Light   | Dark    | Usage                              |
 | ------------- | ------- | ------- | ---------------------------------- |
-| `primary-50`  | #EEF2FF | —       | Selection / active bg (light)      |
-| `primary-400` | —       | #818CF8 | Active text/border (dark)          |
-| `primary-600` | #4F46E5 | —       | Active text/border, primary button bg (light) |
-| `primary-700` | #4338CA | #4338CA | Primary button hover (both modes)  |
-| `primary-800` | #3730A3 | #3730A3 | Primary button pressed (both modes) |
-| `primary-900` | —       | #312E81 | Selection / active bg (dark)       |
+| `primary-50`  | #EDF3F8 | —       | Selection / active bg (light)      |
+| `primary-400` | —       | #5A9FD4 | Active text/border (dark)          |
+| `primary-600` | #4682B4 | #4682B4 | Primary button fill (both modes); active text/border (light) |
+| `primary-700` | #396A93 | #396A93 | Primary button hover (both modes)  |
+| `primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
+| `primary-900` | —       | #2A4F72 | Selection / active bg (dark)       |
 
-> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the primary color across the whole application. `primary-700` and `primary-800` are derived from `primary-600` by the same HSL rule (see `rules/config.md`); `primary-700`/`primary-800` share one value across modes (button hover/pressed).
+> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the primary color across the whole application. `primary-700`/`primary-800` share one value across modes (button hover/pressed). For a custom color they derive from `primary-600` by the HSL rule (see `rules/config.md`); Steel Blue is a preset whose explicit values win over that rule (its `primary-600` already sits near L 49%, so `primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
 
 ### Semantic colors
 
 | Token         | Light   | Dark    | Usage                       |
 | ------------- | ------- | ------- | --------------------------- |
-| `success-50`  | #F0FDF4 | #14532D | Success toast bg            |
-| `success-600` | #16A34A | #4ADE80 | Success border, icon        |
-| `warning-50`  | #FFFBEB | #78350F | Warning toast bg            |
-| `warning-600` | #D97706 | #FCD34D | Warning border, icon        |
-| `danger-50`   | #FFF1F2 | #7F1D1D | Danger toast bg             |
-| `danger-600`  | #DC2626 | #F87171 | Danger border, icon         |
+| `success-50`  | #F0FDF4 | #1D3F2A | Success toast bg            |
+| `success-600` | #16A34A | #4A9E6A | Success border, icon        |
+| `warning-50`  | #FFFBEB | #483B13 | Warning toast bg            |
+| `warning-600` | #D97706 | #CCA840 | Warning border, icon        |
+| `danger-50`   | #FFF1F2 | #441818 | Danger toast bg             |
+| `danger-600`  | #DC2626 | #C04A4A | Danger border, icon         |
 | `danger-700`  | #B91C1C | #B91C1C | Danger button hover         |
 | `danger-800`  | #991B1B | #991B1B | Danger button pressed       |
-| `info-50`     | #EFF6FF | #1E3A8A | Info toast bg               |
-| `info-600`    | #2563EB | #60A5FA | Info border, icon           |
+| `info-50`     | #EFF6FF | #1A3042 | Info toast bg               |
+| `info-600`    | #2563EB | #4682B4 | Info border, icon           |
 
-> Naming note: the `*-50` token is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, so toasts stay readable in both themes (message text uses `text`, border/icon use `*-600`). On a `*-50` dark background the `text` color (#F9FAFB) and the `*-600` dark accent both keep WCAG AA contrast.
+> Naming note: the `*-50` token is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, so toasts stay readable in both themes (message text uses `text`, border/icon use `*-600`). On a `*-50` dark background the `text` color (#D4D4D4) and the `*-600` dark accent both keep WCAG AA contrast.
 
 ### Charts / visualization palette
 
 | Token           | Light (value)         | Dark (value)          |
 | --------------- | --------------------- | --------------------- |
-| `chart-primary` | `primary-600` #4F46E5 | `primary-400` #818CF8 |
-| `chart-success` | `success-600` #16A34A | #4ADE80               |
-| `chart-warning` | `warning-600` #D97706 | #FCD34D               |
-| `chart-danger`  | `danger-600` #DC2626  | #F87171               |
-| `chart-info`    | `info-600` #2563EB    | #60A5FA               |
+| `chart-primary` | `primary-600` #4682B4 | `primary-400` #5A9FD4 |
+| `chart-success` | `success-600` #16A34A | #4A9E6A               |
+| `chart-warning` | `warning-600` #D97706 | #CCA840               |
+| `chart-danger`  | `danger-600` #DC2626  | #C04A4A               |
+| `chart-info`    | `info-600` #2563EB    | #4682B4               |
 
 > Charts use the `-600` accents on a light background and the brighter dark accents (`primary-400` / `*-600` dark) on a dark background, for legible series against either theme.
 
@@ -126,8 +127,8 @@ Every generated application references the active version in its `README.md`.
 
 | Token              | Light       | Dark        | Usage                         |
 | ------------------ | ----------- | ----------- | ----------------------------- |
-| `selection-bg`     | `primary-50` #EEF2FF | `primary-900` #312E81 | Selected text background |
-| `selection-text`   | `text` #111827       | `text` #F9FAFB        | Selected text color      |
+| `selection-bg`     | `primary-50` #EDF3F8 | `primary-900` #2A4F72 | Selected text background |
+| `selection-text`   | `text` #111827       | `text` #D4D4D4        | Selected text color      |
 
 ---
 
@@ -280,7 +281,7 @@ Icons are Python widgets colored dynamically — they do NOT go through QSS.
 ICON_COLORS = {
     "light": {
         "default":  "#6B7280",   # text-subtle
-        "active":   "#4F46E5",   # primary-600
+        "active":   "#4682B4",   # primary-600
         "success":  "#16A34A",   # success-600
         "warning":  "#D97706",   # warning-600
         "danger":   "#DC2626",   # danger-600
@@ -288,13 +289,13 @@ ICON_COLORS = {
         "muted":    "#9CA3AF",   # text-muted
     },
     "dark": {
-        "default":  "#9CA3AF",   # text-subtle
-        "active":   "#818CF8",   # primary-400
-        "success":  "#4ADE80",   # success-600 dark
-        "warning":  "#FCD34D",   # warning-600 dark
-        "danger":   "#F87171",   # danger-600 dark
-        "info":     "#60A5FA",   # info-600 dark
-        "muted":    "#6B7280",   # text-muted dark
+        "default":  "#9A9AB0",   # text-subtle
+        "active":   "#5A9FD4",   # primary-400
+        "success":  "#4A9E6A",   # success-600 dark
+        "warning":  "#CCA840",   # warning-600 dark
+        "danger":   "#C04A4A",   # danger-600 dark
+        "info":     "#4682B4",   # info-600 dark
+        "muted":    "#5A5A72",   # text-muted dark
     }
 }
 ```
