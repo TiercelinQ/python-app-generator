@@ -1,6 +1,6 @@
 # Verification rules — single source of truth
 
-> Centralized, reusable verification for the whole framework. Referenced by `/phase5-developpement`, `/feature-add`, `/fix`, and `/test` — never duplicated in those skills.
+> Centralized, reusable verification for the whole framework. Referenced by `/p5-development`, `/feature-add`, `/fix`, and `/test` — never duplicated in those skills.
 > Two parts: **executable verification** (run real commands) and **static integrity** (read the code). Run silently; report only on a discrepancy.
 
 ---
@@ -44,7 +44,7 @@ Rules:
 ### Last batch only — cross-file
 8. All inter-layer imports resolved.
 9. Signals/slots consistent (every connected signal has a slot, every slot is connected).
-10. Architectural contract (`docs/specs/04-contrat.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
+10. Architectural contract (`docs/specs/04-architect.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
 11. Zero hardcoded visual value in Python; `README.md` generated and complete.
 
 ### Per-domain (conditional — see the matching rule for detail)

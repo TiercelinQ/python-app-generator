@@ -17,6 +17,8 @@ A short French report stating what passed, with command output as proof; or a li
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
 1. **Apply `rules/verification.md §A`** in order:

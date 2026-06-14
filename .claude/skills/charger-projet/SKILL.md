@@ -17,10 +17,12 @@ A one-block confirmation (French) of the loaded project.
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet à charger ? (chemin du dossier)`. Read everything below relative to that root.
+
 Use the native Claude Code tools (Windows-compatible):
 
 1. **Read the source of truth in priority order:**
-   - `docs/specs/04-contrat.md` (locked contract — most reliable). If present, it is authoritative for the structure.
+   - `docs/specs/04-architect.md` (locked contract — most reliable). If present, it is authoritative for the structure.
    - Other `docs/specs/*` for the scoping/analysis/layout decisions.
    - `README.md` at the root. If both specs and README are absent: offer `/generate-readme` and stop.
 2. **Detect `tests/`** via `Glob` with the pattern `tests/**/*.py` → count the files for `[N]`.
@@ -41,4 +43,4 @@ Specs    : [docs/specs présent : oui/non]
 Prêt pour : développement · corrections · améliorations · ajustements.
 ```
 
-Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-contrat.md`): report it, do not fix without a request (hand off to `/fix` or `/refactor`).
+Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/fix` or `/refactor`).

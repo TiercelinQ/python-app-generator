@@ -4,9 +4,6 @@
 # Mémoire auto Claude Code — personnelle, jamais commitée
 .claude/agent-memory/
 
-# Sessions sauvegardées — propres à chaque utilisateur
-claude-sessions/
-
 # Environnements virtuels des apps générées
 .venv/
 venv/

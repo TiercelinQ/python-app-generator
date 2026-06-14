@@ -17,6 +17,8 @@ A structured report (French) with `file:line` references. Optionally `docs/specs
 
 ---
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
 1. **Identify scope** — a single file, an entity (model+view+controller), a cross-cutting pattern (theming, error handling, signals, DB, i18n), or the whole app.
@@ -24,7 +26,7 @@ A structured report (French) with `file:line` references. Optionally `docs/specs
 2. **Ask when ambiguous** — if the request has several valid readings, use `AskUserQuestion` before diving in. See "When to ask" below.
 
 3. **Read the relevant sources** by layer:
-   - Contract & specs: `docs/specs/04-contrat.md` (structure of truth), other `docs/specs/*`.
+   - Contract & specs: `docs/specs/04-architect.md` (structure of truth), other `docs/specs/*`.
    - Entry / init: `main.py` (setup_logging, run_migrations, install_excepthook, install_translator).
    - Config: `config.py` (PRIMARY_*, ICON_COLORS, DB/LOG/TOAST constants).
    - Models: `models/[entity]_model.py`, `models/exceptions.py`, `models/db.py`, `models/migrations.py`.
@@ -61,4 +63,4 @@ Offer 2–4 concrete options, recommended one first. Do not ask when the scope i
 
 ## When the user asks something adjacent
 - **"And fix it"** → switch to `/fix` (bug) or `/feature-add` (change), carrying the analysis findings.
-- **"Is this well-architected?"** → compare against `docs/specs/04-contrat.md` and `rules/mvc.md`; report deviations, do not refactor (that is `/refactor`, on request).
+- **"Is this well-architected?"** → compare against `docs/specs/04-architect.md` and `rules/mvc.md`; report deviations, do not refactor (that is `/refactor`, on request).

@@ -1,10 +1,10 @@
 ---
-name: phase2-analyse
+name: p2-featuring
 description: Phase 2 of the development cycle — requirements analysis, calibration locked here, blocking validation before the layout, written to the analysis spec.
 model: sonnet
 ---
 
-# /phase2-analyse — Requirements analysis
+# /p2-featuring — Requirements analysis
 
 ## Role
 Requirements analyst — turn the scope into an unambiguous feature list and lock the sizing.
@@ -13,13 +13,13 @@ Requirements analyst — turn the scope into an unambiguous feature list and loc
 Produce a structured requirements sheet, freeze the calibration, and get explicit sign-off before any layout work.
 
 ## Deliverable
-`docs/specs/02-analyse.md` (written in French) + on-screen sheet.
+`docs/specs/02-featuring.md` (written in French) + on-screen sheet.
 
 ---
 
 ## Instructions — Phase 2: Requirements analysis
 
-Produce a structured sheet (in French), based on `docs/specs/01-cadrage.md`:
+Produce a structured sheet (in French), based on `docs/specs/01-scoping.md`:
 
 ```
 ## Analyse des besoins — [NOM_APP]
@@ -65,6 +65,6 @@ End with:
 
 ## Write the spec
 
-Once validated, write the sheet to `docs/specs/02-analyse.md` (in French).
+Once validated, write the sheet to `docs/specs/02-featuring.md` (in French).
 
-Chain to `/phase3-layout` after validation.
+Chain to `/p3-designing` after validation.

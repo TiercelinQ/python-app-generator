@@ -7,6 +7,7 @@
 - Every QSS rule carries a `/* token : [name] */` comment tracing to `design-system.md`.
 - Dark mode: complete sheet replacement (`styles_light.qss` → `styles_dark.qss`). Never a partial override.
 - **Two mandatory files**: `resources/styles_light.qss` + `resources/styles_dark.qss`. No single conditional file.
+- **Fusion style mandatory** in `main.py`: `app.setStyle("Fusion")` right after `QApplication(sys.argv)`. The native Windows style (`windowsvista`) paints native frames for tabs/widgets and partially ignores QSS borders — QSS only becomes authoritative under Fusion. Without it, flat styling (e.g. `QTabBar` borders) renders wrong on Windows.
 
 ## Mandatory internal organization
 
@@ -27,10 +28,17 @@ QWidget#topbar { background-color: #FFFFFF; border-bottom: 1px solid #E5E7EB;
                  min-height: 48px; max-height: 48px; padding: 0 16px; }
 
 /* --- TABS -------------------------------------------------- */
-/* token : text-subtle / primary-600 / bg-muted / topbar-height */
-QTabBar::tab { ... }
-QTabBar::tab:selected { color: #4F46E5; border-bottom: 2px solid #4F46E5; }
-QTabBar::tab:hover { background-color: #F3F4F6; }
+/* token : bg / text-subtle / primary-600 / bg-muted / topbar-height */
+/* Style the QTabBar WIDGET, not only ::tab — otherwise the native engine paints
+   its own background block behind the tabs (grey/blue, not matching the topbar). */
+QTabBar#nav_tabs { background-color: transparent; border: none; }
+/* outline:none removes the native focus rectangle (left/right/top borders on the
+   active tab); the transparent border-bottom reserves the underline space so the
+   layout does not shift on selection. */
+QTabBar::tab { background-color: transparent; border: none;
+               border-bottom: 2px solid transparent; outline: none; }
+QTabBar::tab:selected { color: #4F46E5; border: none; border-bottom: 2px solid #4F46E5; }
+QTabBar::tab:hover:!selected { background-color: #F3F4F6; }
 
 /* --- MAIN CONTENT ------------------------------------------ */
 /* token : bg / spacing-6 */
@@ -175,4 +183,5 @@ If a color was chosen in Phase 1 (≠ Slate Blue): only the 6 `primary-50/400/60
 - **Do not** handle dark mode with a `[theme]`-conditional single sheet or partial override — replace the whole sheet.
 - **Do not** add `border-radius`, `box-shadow`, `QGraphicsDropShadowEffect`, or a gradient — flat design is global.
 - **Do not** style a widget without giving it an `objectName` (or use a generic class selector when a named rule is expected).
+- **Do not** style a `QTabBar` only via `::tab` — also set the `QTabBar` widget background to `transparent`, add `outline: none` on `::tab`, and `setDrawBase(False)` on the widget. Selected tab: `border: none` + `border-bottom` only. **Root cause of persistent left/right/top borders on Windows: the native `windowsvista` style** — none of the QSS above works until `app.setStyle("Fusion")` is set in `main.py`. Verify in both themes on a real Windows machine (the offscreen platform does not use `windowsvista`).
 - **Do not** put icon colors in QSS — qtawesome colors live in `config.py` (`ICON_COLORS`), the one documented exception.

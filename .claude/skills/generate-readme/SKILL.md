@@ -19,7 +19,7 @@ Write a README that reflects what was actually built.
 
 Use the native Claude Code tools (no shell — Windows-compatible):
 
-1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code:
+1. **Sources, in priority**: `docs/specs/*` (especially `04-architect.md`) for the intended structure, then the real code:
    - List Python files via `Glob` `**/*.py` (exclude `__pycache__/`, `.venv/`, `venv/`).
    - Read `config.py`, `requirements.txt`, `main.py` (ignore if absent).
    - Detect `tests/` via `Glob` `tests/**/*.py`; read `requirements-dev.txt` if present.

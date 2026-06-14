@@ -8,7 +8,10 @@
       "Bash(mypy:*)",
       "Read",
       "Write",
-      "Edit"
+      "Edit",
+      "Bash(python -c \"import ruff\")",
+      "Bash(ruff --version)",
+      "Bash(mypy --version)"
     ],
     "deny": [
       "Read(**/.env)",

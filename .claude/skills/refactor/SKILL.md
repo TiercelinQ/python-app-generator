@@ -13,7 +13,7 @@ Cautious refactorer — improve structure, preserve behavior, never act without 
 Propose a clear restructuring plan, get explicit validation, then apply it with no behavior change.
 
 ## Deliverable
-A validated plan, then the refactored files on disk + a passing verification + an updated `docs/specs/04-contrat.md` if the structure changed.
+A validated plan, then the refactored files on disk + a passing verification + an updated `docs/specs/04-architect.md` if the structure changed.
 
 ---
 
@@ -21,9 +21,11 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 **No refactor without an explicitly validated plan.** This skill never edits code on first contact. It signals → proposes a plan → waits → only then applies. (Aligned with the global behavior rules.)
 
+> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+
 ## Steps
 
-1. **Load context**: `docs/specs/04-contrat.md`, then `design-system.md`, `layout.md`, `rules/mvc.md` · `rules/qss.md` (not auto-imported).
+1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `rules/mvc.md` · `rules/qss.md` (not auto-imported).
 
 2. **Diagnose** what is actually wrong: duplication, a view doing business logic, a god-controller, a model leaking UI concerns, a hardcoded value bypassing a QSS token, a SQL query outside `models/`, a `print()` instead of `logger`. Anchor each finding to `file:line`.
 
@@ -35,7 +37,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 5. **Apply** only after validation. Minimum diff. Respect the MVC layers, the contract, and the QSS rules.
 
-6. **Verify**: `rules/verification.md §A` — behavior unchanged, ruff/mypy clean, `pytest` still green if tests exist. If the structure changed (new shared file, moved code), update `docs/specs/04-contrat.md`.
+6. **Verify**: `rules/verification.md §A` — behavior unchanged, ruff/mypy clean, `pytest` still green if tests exist. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.

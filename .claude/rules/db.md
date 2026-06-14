@@ -151,6 +151,17 @@ run_migrations()   # avant création de la MainWindow
 
 ---
 
+## Seed data (if DB ≠ none)
+
+Delivered in the last phase of generation as a standalone script `scripts/seed.py`:
+- Single responsibility: populate the DB with a coherent demo dataset via the business models (`models/`), never raw SQL outside `models/db.py`.
+- Idempotent: check the target tables are empty before inserting; re-running must not duplicate rows.
+- FK integrity: insert parents before children, reuse the returned ids.
+- Volume: ~5-15 rows per entity, realistic French values.
+- Never run automatically (no call from `main.py`); run manually with `python scripts/seed.py`.
+
+---
+
 ## Anti-patterns — what NOT to do
 
 - **Do not** write a SQL query outside `models/`.

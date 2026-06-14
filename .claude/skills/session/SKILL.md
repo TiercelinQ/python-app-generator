@@ -13,15 +13,15 @@ Session archivist.
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
-`claude-sessions/SESSION_[app_name]_S[N].md` (French).
+`docs/sessions/SESSION_[app_name]_S[N].md` (French).
 
 ---
 
 Use the native Claude Code tools (Windows-compatible):
 
-1. **Create** the `claude-sessions/` folder if it does not exist (PowerShell: `New-Item -ItemType Directory -Force -Path claude-sessions | Out-Null`).
-2. Determine `[N]`: list `claude-sessions/SESSION_*_S*.md` via `Glob`, extract the integers (`S(\d+)\.md$`), `[N] = max + 1` (or `1` if none). `[app_name]` = exact `APP_NAME` from `config.py` (no spaces).
-3. **Write** `claude-sessions/SESSION_[app_name]_S[N].md` via `Write`:
+1. **Create** the `docs/sessions/` folder if it does not exist (PowerShell: `New-Item -ItemType Directory -Force -Path docs/sessions | Out-Null`).
+2. Determine `[N]`: list `docs/sessions/SESSION_*_S*.md` via `Glob`, extract the integers (`S(\d+)\.md$`), `[N] = max + 1` (or `1` if none). `[app_name]` = exact `APP_NAME` from `config.py` (no spaces).
+3. **Write** `docs/sessions/SESSION_[app_name]_S[N].md` via `Write`:
 
 ```markdown
 # SESSION_S[N] — [NOM_APP] · [Phase terminée]
@@ -44,8 +44,8 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 ## Specs
 
-Référence : docs/specs/01-cadrage.md · 02-analyse.md · 03-layout.md · 04-contrat.md
-(le contrat verrouillé dans 04-contrat.md fait foi — ne pas le dupliquer ici)
+Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-architect.md
+(le contrat verrouillé dans 04-architect.md fait foi — ne pas le dupliquer ici)
 
 ## Lots livrés
 
@@ -58,14 +58,14 @@ Référence : docs/specs/01-cadrage.md · 02-analyse.md · 03-layout.md · 04-co
 [liste ou "aucun"]
 ```
 
-> If `docs/specs/04-contrat.md` exists, reference it instead of duplicating the full tree. Only summarize the locked decisions here.
+> If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree. Only summarize the locked decisions here.
 
 4. Confirm:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💾 SAUVEGARDE SESSION
-Fichier écrit : claude-sessions/SESSION_[nom_app]_S[N].md
+Fichier écrit : docs/sessions/SESSION_[nom_app]_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

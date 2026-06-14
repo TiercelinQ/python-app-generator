@@ -32,15 +32,25 @@ Que faire ?
 
 Routing:
 
-- `1` → chain immediately to `/phase1-cadrage`.
+- `1` → ask for the destination folder, then chain to `/p1-scoping`:
+  ```
+  Où créer l'application ? (chemin du dossier de destination, ex: C:\projets\MonApp)
+  ```
+  Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
 - `2` → ask for the SESSION file path:
   ```
   Indique le chemin vers ton fichier SESSION :
-  (ex: C:\projets\mon-app\claude-sessions\SESSION_MonApp_S1.md)
+  (ex: C:\projets\mon-app\docs\sessions\SESSION_MonApp_S1.md)
   ```
-  Read the file via the native `Read` tool (never `cat` — Windows-compatible), then invoke `/session` for the resume.
-- `3` → invoke `/charger-projet` (from the target project root, `.claude/` present).
-- `4` → ensure the project is loaded (`/charger-projet` if not already), then route by intent:
+  Read the file via the native `Read` tool (never `cat` — Windows-compatible). The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it before resuming, then invoke `/session` for the resume.
+- `3` → ask for the project root to load, then invoke `/charger-projet` (`.claude/` present at that root):
+  ```
+  Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
+  ```
+- `4` → ask for the project root, ensure the project is loaded (`/charger-projet` if not already), then route by intent:
+  ```
+  Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
+  ```
   - add a feature → `/feature-add`
   - understand / trace how something works → `/analyze`
   - fix a bug → `/fix`

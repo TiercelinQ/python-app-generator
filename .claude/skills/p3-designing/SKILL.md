@@ -1,10 +1,10 @@
 ---
-name: phase3-layout
+name: p3-designing
 description: Phase 3 of the development cycle — layout proposal from layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
 model: sonnet
 ---
 
-# /phase3-layout — Layout proposal
+# /p3-designing — Layout proposal
 
 ## Role
 UI designer — map the validated features onto the binding layout system.
@@ -13,7 +13,7 @@ UI designer — map the validated features onto the binding layout system.
 Define the concrete layout (tabs, drawer/modal, toast position) within `layout.md` constraints.
 
 ## Deliverable
-`docs/specs/03-layout.md` (written in French) + on-screen synthesis.
+`docs/specs/03-designing.md` (written in French) + on-screen synthesis.
 
 ---
 
@@ -21,7 +21,7 @@ Define the concrete layout (tabs, drawer/modal, toast position) within `layout.m
 
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
-Based on the features validated in Phase 2 (`docs/specs/02-analyse.md`), propose a layout drawn from `layout.md`, then ask the customization questions in **a single block**.
+Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout drawn from `layout.md`, then ask the customization questions in **a single block**.
 
 ### Step 1 — Initial proposal
 
@@ -43,6 +43,8 @@ Produce (in French):
 ```
 
 ### Step 2 — Customization questions (single block)
+
+For each question, mark the option you recommend with `(recommandé)`, chosen from the validated feature context.
 
 ```
 Quelques choix à confirmer :
@@ -109,6 +111,6 @@ Produce the complete synthesis (in French): topbar, tabs, secondary panel, recur
 
 ## Write the spec
 
-Once validated, write the synthesis to `docs/specs/03-layout.md` (in French).
+Once validated, write the synthesis to `docs/specs/03-designing.md` (in French).
 
-Chain to `/phase4-contrat` after validation.
+Chain to `/p4-architect` after validation.

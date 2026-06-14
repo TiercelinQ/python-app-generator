@@ -13,13 +13,15 @@ Senior PyQt6 developer working on an existing, contracted codebase.
 Add the requested feature end-to-end, contract-compliant, after an explicit contract-diff validation, without scope creep.
 
 ## Deliverable
-The created/modified files on disk (one batch) + an updated `docs/specs/04-contrat.md` if the structure changed.
+The created/modified files on disk (one batch) + an updated `docs/specs/04-architect.md` if the structure changed.
 
 ---
 
 ## Prerequisite
 
-The project must be loaded (`/charger-projet` run at session start, OR `docs/specs/04-contrat.md` / README.md present and read).
+The project must be loaded (`/charger-projet` run at session start, OR `docs/specs/04-architect.md` / README.md present and read).
+
+If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
 
 If no contract is known: stop and ask for `/charger-projet`.
 
@@ -37,8 +39,10 @@ Nouvelle fonctionnalité — quelques questions :
    B. Extension d'une entité existante
    C. Nouvelle vue partagée (sans nouveau model)
    D. Modification UI seule (QSS ou layout)
-4. Tests à générer pour cette feature ? Oui / Non (déduit de la stack projet)
+4. Tests à générer pour cette feature ? Oui / Non (recommandé : aligné sur la stack projet)
 ```
+
+Mark a `(recommandé)` option for each closed question, inferred from the existing project.
 
 ## Step 2 — Architectural contract diff
 
@@ -60,7 +64,7 @@ Produce (in French):
 [aucun | nouveau composant à respecter dans les tokens existants]
 ```
 
-→ Validation required before writing. Update `docs/specs/04-contrat.md` once the diff is applied.
+→ Validation required before writing. Update `docs/specs/04-architect.md` once the diff is applied.
 
 ## Step 3 — Application — strict rules
 

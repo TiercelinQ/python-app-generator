@@ -1,10 +1,10 @@
 ---
-name: phase4-contrat
+name: p4-architect
 description: Phase 4 of the development cycle — architectural contract (full tree, role of each file, tokens → QSS table, source→test mapping), written to the contract spec and locked after validation.
 model: sonnet
 ---
 
-# /phase4-contrat — Architectural contract
+# /p4-architect — Architectural contract
 
 ## Role
 Software architect — design the locked structure the whole build will follow.
@@ -13,11 +13,11 @@ Software architect — design the locked structure the whole build will follow.
 Produce a complete, unambiguous architectural contract that freezes the file tree, QSS mapping, and (if tests) the source→test mapping.
 
 ## Deliverable
-`docs/specs/04-contrat.md` (written in French) — the locked source of truth + on-screen contract.
+`docs/specs/04-architect.md` (written in French) — the locked source of truth + on-screen contract.
 
 ---
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). Read `docs/specs/01-cadrage.md` through `03-layout.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
 Present the complete project tree with the role of each file, then the QSS token table. Output format (in French):
 
@@ -31,7 +31,7 @@ Present the complete project tree with the role of each file, then the QSS token
 ├── config.py                      # Constantes globales, ICON_COLORS, PRIMARY_*
 ├── requirements.txt
 ├── pyproject.toml                 # Config ruff, mypy, pytest
-├── docs/specs/                    # Specs de génération (FR) : 01-cadrage … 04-contrat
+├── docs/specs/                    # Specs de génération (FR) : 01-scoping … 04-architect
 ├── preferences.json               # Racine projet — généré au 1er lancement (si Q3=Oui)
 ├── logs/                          # Créé automatiquement par utils/logger.py
 ├── models/
@@ -94,6 +94,6 @@ End with:
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-contrat.md` (in French). This file is the **locked source of truth** re-read by `/phase5-developpement`, `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
 
-Chain to `/phase5-developpement` after validation.
+Chain to `/p5-development` after validation.

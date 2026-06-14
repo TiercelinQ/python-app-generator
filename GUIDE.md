@@ -24,11 +24,11 @@ claude-python-framework/
 │   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
 ├── skills/
 │   ├── python-app/           # Menu démarrage / reprise / maintenance (4 options)
-│   ├── phase1-cadrage/       # Cadrage — 6 questions + 1 hex couleur → docs/specs/01-cadrage.md
-│   ├── phase2-analyse/       # Fiche besoins + calibrage figé → docs/specs/02-analyse.md
-│   ├── phase3-layout/        # Proposition layout + personnalisation → docs/specs/03-layout.md
-│   ├── phase4-contrat/       # Contrat architectural verrouillé → docs/specs/04-contrat.md
-│   ├── phase5-developpement/ # Livraison par lots (enchaînement auto)
+│   ├── p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+│   ├── p2-featuring/       # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
+│   ├── p3-designing/        # Proposition layout + personnalisation → docs/specs/03-designing.md
+│   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
+│   ├── p5-development/ # Livraison par lots (enchaînement auto)
 │   ├── feature-add/          # Ajouter une feature à un projet livré (diff de contrat)
 │   ├── analyze/              # Tracer une fonctionnalité à travers les couches
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
@@ -54,8 +54,8 @@ claude-python-framework/
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
-| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-cadrage.md` … `04-contrat.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-contrat.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `fix`, `refactor`, `test` (+ `feature-add`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -93,9 +93,9 @@ Sans cette activation, `/memoriser` formule les notes mais ne les persiste pas e
 /python-app → 1
 ```
 
-### Phase 1 — Cadrage
+### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de couleur primaire — l'utilisateur fournit uniquement `primary-600`, Claude dérive les 3 autres via formule HSL.
+6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de couleur primaire : Slate Blue recommandé par défaut + 4 propositions adaptées au contexte ; l'utilisateur fournit `primary-600`, Claude dérive les autres via formule HSL.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 
@@ -104,30 +104,30 @@ Calibrage **provisoire** annoncé (figé après Phase 2) :
 | Petit         | 3                 | 4                 |
 | Moyen / Grand | 4                 | 5                 |
 
-Écrit `docs/specs/01-cadrage.md`.
+Écrit `docs/specs/01-scoping.md`.
 
-### Phase 2 — Analyse des besoins
+### Phase 2 — Featuring
 
-Fiche structurée + calibrage **confirmé** à partir du compte réel. Validation bloquante avant Phase 3. Écrit `docs/specs/02-analyse.md`.
+Fiche structurée + calibrage **confirmé** à partir du compte réel. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Layout
+### Phase 3 — Designing
 
-Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts). Validation bloquante. Écrit `docs/specs/03-layout.md`.
+Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts). Validation bloquante. Écrit `docs/specs/03-designing.md`.
 
-### Phase 4 — Contrat architectural
+### Phase 4 — Architect
 
-Arborescence + rôle de chaque fichier + tableau tokens → QSS + mapping source→test. **Verrouillé après validation.** Écrit `docs/specs/04-contrat.md` (source de vérité).
+Arborescence + rôle de chaque fichier + tableau tokens → QSS + mapping source→test. **Verrouillé après validation.** Écrit `docs/specs/04-architect.md` (source de vérité).
 
-### Phase 5 — Développement par lots
+### Phase 5 — Development
 
-Claude crée les dossiers et écrit les fichiers directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Découpage selon la table de `rules/mvc.md` (conditionnel tests). Dernier lot : instructions d'installation + `README.md` à la racine. Vérification exécutable appliquée (`rules/verification.md`).
+Claude crée les dossiers et écrit les fichiers directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Découpage selon la table de `rules/mvc.md` (conditionnel tests). Dernier lot : instructions d'installation + `README.md` à la racine + `scripts/seed.py` (jeu de données cohérent si une base est présente). Vérification exécutable appliquée (`rules/verification.md`).
 
 ---
 
 ## Reprendre une session
 
 ```
-/session            # sauvegarder en fin de session (claude-sessions/)
+/session            # sauvegarder en fin de session (docs/sessions/)
 /python-app → 2     # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -139,7 +139,7 @@ Claude crée les dossiers et écrit les fichiers directement sur le disque. Anno
 /python-app → 3       # ou directement /charger-projet depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-contrat.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
 
 ### Maintenance (`/python-app → 4`)
 
@@ -184,11 +184,11 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (él
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/python-app`           | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 6 questions + couleur (HSL)                |
-| `/phase2-analyse`       | Sonnet | Fiche besoins + calibrage figé                       |
-| `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
-| `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé                     |
-| `/phase5-developpement` | Sonnet | Livraison par lots — enchaînement automatique        |
+| `/p1-scoping`       | Sonnet | Scoping — 6 questions + couleur (HSL)                |
+| `/p2-featuring`       | Sonnet | Fiche besoins + calibrage figé                       |
+| `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/p4-architect`       | Sonnet | Contrat architectural verrouillé                     |
+| `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
 | `/feature-add`          | Sonnet | Ajouter une feature à un projet livré (diff)         |
 | `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
@@ -231,7 +231,7 @@ requirements-dev.txt
 
 - `design-system.md` (v1.1) et `layout.md` (v2.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
-- Le contrat (`docs/specs/04-contrat.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
 - `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q6 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.

@@ -1,10 +1,10 @@
 ---
-name: phase5-developpement
+name: p5-development
 description: Phase 5 of the development cycle — batch code delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
 model: sonnet
 ---
 
-# /phase5-developpement — Batch development
+# /p5-development — Batch development
 
 ## Role
 Senior PyQt6 developer — build the contracted app to a clean, runnable state.
@@ -19,7 +19,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-contrat.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - PEP 8 · type hints · docstrings · ruff + mypy clean.
@@ -30,17 +30,17 @@ Critical reminders:
 
 ## Target directory
 
-At the start of Phase 5, ask for the target project root directory:
+Use the project root chosen at the start of the flow (via `/python-app` or `/p1-scoping`). If it was not set in this flow, ask for it once:
 
 ```
 Répertoire de destination pour les fichiers ? (ex: C:\projets\MonApp)
 ```
 
-Store this path. Write all files there via `Write`. Create the needed subfolders before writing the files they contain.
+Write all files there via `Write`. Create the needed subfolders before writing the files they contain.
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** deviate from `docs/specs/04-contrat.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
+- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
 - **Do not** use `QMessageBox` for business errors, `print()` for diagnostics, or hardcoded colors in Python.
 - **Do not** write SQL outside `models/` or build a query by concatenation.
 - **Do not** leave a `# TODO`, an unjustified `pass`, or a placeholder. Each batch is complete and self-contained.
@@ -72,7 +72,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   Framework : python v1.0.0
 
   ## Contexte métier
-  [Ce que fait l'app — synthèse issue de docs/specs/02-analyse.md : objectif + fonctionnalités clés]
+  [Ce que fait l'app — synthèse issue de docs/specs/02-featuring.md : objectif + fonctionnalités clés]
 
   ## Écarts par rapport au framework
   - Aucun
@@ -92,6 +92,16 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   }
   ```
   The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it.
+
+## Seed batch — only if DB ≠ none (Phase 1 Q2)
+
+If a database was selected, deliver a standalone seed script `scripts/seed.py` that inserts a coherent demo dataset:
+- Uses `models/db.py` (`get_connection()`) and the business models — never raw SQL outside `models/`.
+- Coherent, FK-respecting data (~5-15 rows per entity), realistic French values, parents before children.
+- Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
+- Run instruction added to the README: `python scripts/seed.py`. Never called from `main.py`.
+
+Announce `Lot [final]/[total] — scripts/seed.py` (before the tests batch if both apply). See `@rules/db.md`.
 
 ## Test batch — only if Phase 1 Q5 = Yes
 

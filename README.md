@@ -13,12 +13,12 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 A structured prompt system that generates complete, production-ready PyQt6 desktop applications through a 5-phase cycle, then maintains them:
 
 1. **Scoping** — 6 questions (objective, DB, prefs, i18n, tests, packaging) + primary color (HSL derivation from a single hex)
-2. **Requirements** — structured feature sheet, explicit out-of-scope, locked sizing
-3. **Layout** — navigation, drawer/modal, toast position (6 positions)
-4. **Architecture contract** — full file tree, QSS token table, source→test mapping — locked before any code is written
-5. **Development** — auto-chained batch delivery, dedicated test batch if opted-in
+2. **Featuring** — structured feature sheet, explicit out-of-scope, locked sizing
+3. **Designing** — navigation, drawer/modal, toast position (6 positions)
+4. **Architect** — full file tree, QSS token table, source→test mapping — locked before any code is written
+5. **Development** — auto-chained batch delivery, seed script if a DB is used, dedicated test batch if opted-in
 
-Each phase writes a French spec to `docs/specs/` (`01-cadrage` … `04-contrat`); the contract is the source of truth.
+Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
 **Maintenance commands**: `/feature-add` (incremental work via a contract diff), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/charger-projet` and `/generate-readme` to load/document existing apps.
 
@@ -75,11 +75,11 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/python-app`           | Start menu (4 entry points incl. maintenance)      |
-| `/phase1-cadrage`       | Scoping — 6 questions + primary color (HSL derive) |
-| `/phase2-analyse`       | Requirements sheet + locked sizing                 |
-| `/phase3-layout`        | Layout proposal + customization                    |
-| `/phase4-contrat`       | Locked architecture contract                       |
-| `/phase5-developpement` | Auto-chained batch delivery                        |
+| `/p1-scoping`       | Scoping — 6 questions + primary color (HSL derive) |
+| `/p2-featuring`       | Featuring — requirements sheet + locked sizing     |
+| `/p3-designing`        | Designing — layout proposal + customization        |
+| `/p4-architect`       | Architect — locked architecture contract           |
+| `/p5-development` | Auto-chained batch delivery                        |
 | `/feature-add`          | Add a feature to a shipped project (diff first)    |
 | `/analyze`              | Trace a feature across the MVC layers              |
 | `/fix`                  | Fix a bug — decision tree, root cause              |
@@ -104,7 +104,7 @@ my_app/
 ├── README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-cadrage … 04-contrat
+├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
 ├── models/
 │   ├── exceptions.py              # Named business exceptions
 │   ├── db.py                      # Single DB access point (if DB ≠ none)
@@ -138,7 +138,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** — zero border-radius, zero shadows, zero gradients
 - **QSS sheets** — all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **Segoe UI** typography (Windows native)
-- **Slate Blue** primary color by default — change a single `primary-600` hex, the other 3 are HSL-derived
+- **Slate Blue** primary color recommended by default (+ 4 contextual proposals) — change a single `primary-600` hex, the others are HSL-derived
 - **Toasts only** — no inline banners, no `QMessageBox` for business errors
 
 ---
