@@ -1,35 +1,35 @@
-# Règles MVC strictes
+# Strict MVC rules
 
-## Séparation des responsabilités
+## Separation of responsibilities
 
-- `models/` : logique métier, accès données. Jamais PyQt6 sauf `QObject`/`pyqtSignal`.
-- `views/` : widgets PyQt6 uniquement. Aucune logique métier. Émet des signaux.
-- `controllers/` : connecte signaux View → Model. Aucune mise en page.
-- Imports unidirectionnels : Controller → Model + View. Jamais Model → View.
-- Une entité = un fichier. Constantes dans `config.py`.
+- `models/`: business logic, data access. Never PyQt6 except `QObject`/`pyqtSignal`.
+- `views/`: PyQt6 widgets only. No business logic. Emit signals.
+- `controllers/`: connect View signals → Model. No layout.
+- Unidirectional imports: Controller → Model + View. Never Model → View.
+- One entity = one file. Constants in `config.py`.
 
-## Structure obligatoire
+## Mandatory structure
 
 ```
 models/
 ├── __init__.py
-├── exceptions.py          # Exceptions métier nommées
-└── [entite]_model.py      # Un fichier par entité
+├── exceptions.py          # Named business exceptions
+└── [entity]_model.py      # One file per entity
 
 views/
 ├── __init__.py
-├── main_window.py         # Fenêtre principale (topbar, layout global)
-├── toast_manager.py       # Système de toasts
-└── [entite]_view.py       # Un fichier par vue
+├── main_window.py         # Main window (topbar, global layout)
+├── toast_manager.py       # Toast system
+└── [entity]_view.py       # One file per view
 
 controllers/
 ├── __init__.py
-└── [entite]_controller.py # Un fichier par entité
+└── [entity]_controller.py # One file per entity
 
 utils/
-└── helpers.py             # Fonctions pures uniquement — zéro PyQt6, zéro logique métier
+└── helpers.py             # Pure functions only — zero PyQt6, zero business logic
 
-tests/                     # Si tests activés en Phase 1 — voir @rules/tests.md
+tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 ├── __init__.py
 ├── conftest.py
 ├── test_helpers.py
@@ -38,102 +38,95 @@ tests/                     # Si tests activés en Phase 1 — voir @rules/tests.
 └── views/
 ```
 
-## utils/helpers.py — contenu autorisé uniquement
+## utils/helpers.py — allowed content only
 
-- Formatage de dates, nombres, chaînes.
-- Validation de données (email, numérique…).
-- Lecture/écriture fichiers JSON (préférences).
-- Fonctions de conversion génériques.
+- Date, number, string formatting.
+- Data validation (email, numeric…).
+- JSON file read/write (preferences).
+- Generic conversion functions.
 
-## Vérification d'intégrité par lot (silencieuse — signalée si écart)
+## Batch delivery
 
-Chaque lot :
+### Without tests (Phase 1 Q5 = No)
 
-1. Syntaxe Python valide.
-2. Imports : tous utilisés, aucun manquant, séparation MVC respectée.
-3. Responsabilités MVC respectées.
-4. Zéro `# TODO`, zéro `pass` injustifié.
-5. Python 3.10+ · PyQt6 stable · zéro API PyQt5.
-6. Conformité `design-system.md` et `layout.md`.
+**Small project (3 batches):**
 
-Dernier lot uniquement — cross-fichiers :
-7. Tous imports inter-couches résolus.
-8. Signaux/slots cohérents.
-9. Contrat architectural respecté.
-10. Zéro valeur visuelle en dur dans Python.
-11. README.md généré et complet.
+| Batch | Content                                                                          |
+| ----- | -------------------------------------------------------------------------------- |
+| 1     | `config.py` + `models/` (including `db.py` and `migrations.py` if DB)             |
+| 2     | `views/` + `controllers/`                                                         |
+| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
 
-Lot tests uniquement (si activé) :
-12. Chaque module source a son fichier test correspondant.
-13. `pytest` exit code 0 — tous les tests passent.
+**Medium / Large project (4 batches):**
 
-## Livraison par lots
+| Batch | Content                                                                          |
+| ----- | -------------------------------------------------------------------------------- |
+| 1     | `config.py` + `models/` (including `db.py` and `migrations.py` if DB)             |
+| 2     | `views/`                                                                          |
+| 3     | `controllers/`                                                                   |
+| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
 
-### Sans tests (Phase 1 Q5 = Non)
+### With tests (Phase 1 Q5 = Yes)
 
-**Petit projet (3 lots) :**
+**Small project (4 batches):**
 
-| Lot | Contenu                                                                          |
-| --- | -------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/` (incluant `db.py` et `migrations.py` si DB)              |
-| 2   | `views/` + `controllers/`                                                        |
-| 3   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| Batch | Content                                                                          |
+| ----- | -------------------------------------------------------------------------------- |
+| 1     | `config.py` + `models/`                                                          |
+| 2     | `views/` + `controllers/`                                                         |
+| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 4     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
 
-**Moyen / Grand projet (4 lots) :**
+**Medium / Large project (5 batches):**
 
-| Lot | Contenu                                                                          |
-| --- | -------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/` (incluant `db.py` et `migrations.py` si DB)              |
-| 2   | `views/`                                                                         |
-| 3   | `controllers/`                                                                   |
-| 4   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| Batch | Content                                                                          |
+| ----- | -------------------------------------------------------------------------------- |
+| 1     | `config.py` + `models/`                                                          |
+| 2     | `views/`                                                                          |
+| 3     | `controllers/`                                                                   |
+| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 5     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
 
-### Avec tests (Phase 1 Q5 = Oui)
+### Content of the `utils/` folder
 
-**Petit projet (4 lots) :**
-
-| Lot | Contenu                                                                          |
-| --- | -------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/`                                                          |
-| 2   | `views/` + `controllers/`                                                        |
-| 3   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
-| 4   | `tests/` + `requirements-dev.txt` + instructions pytest                          |
-
-**Moyen / Grand projet (5 lots) :**
-
-| Lot | Contenu                                                                          |
-| --- | -------------------------------------------------------------------------------- |
-| 1   | `config.py` + `models/`                                                          |
-| 2   | `views/`                                                                         |
-| 3   | `controllers/`                                                                   |
-| 4   | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
-| 5   | `tests/` + `requirements-dev.txt` + instructions pytest                          |
-
-### Contenu du dossier `utils/`
-
-- `utils/helpers.py` — fonctions pures (formatage, validation, JSON)
-- `utils/logger.py` — configuration logging (voir `@rules/logging.md`)
-- `utils/resource_path.py` — helper PyInstaller `sys._MEIPASS` (si packaging opt-in)
+- `utils/helpers.py` — pure functions (formatting, validation, JSON)
+- `utils/logger.py` — logging configuration (see `@rules/logging.md`)
+- `utils/resource_path.py` — PyInstaller `sys._MEIPASS` helper (if packaging opt-in)
 
 ### Format
 
-Format d'annonce : `📦 Lot N/[total] — [contenu]`
-Chaque fichier livré en bloc complet et autonome.
-**Enchaînement automatique** entre les lots — aucune confirmation demandée.
-L'utilisateur peut interrompre à tout moment.
-En cas d'anomalie détectée par l'utilisateur après un lot : invocation libre de toute commande de correction.
+Announcement format: `Lot N/[total] — [content]`
+Each file delivered as a complete, self-contained block.
+**Automatic chaining** between batches — no confirmation requested.
+The user can interrupt at any time.
+If the user reports an anomaly after a batch: free invocation of any correction command.
 
-## Résolution d'anomalie — protocole nettoyage
+## Integrity verification
 
-Dès que la solution définitive est identifiée et livrée :
+Per-batch and cross-file integrity checks (Python syntax, used/unidirectional imports, MVC responsibilities, signals/slots, zero hardcoded visual value, source↔test mapping) live in **`rules/verification.md`** — the single source of truth for verification. Run them silently every batch; report only on a discrepancy. Cross-file checks run on the last batch.
+
+## Anti-patterns — what NOT to do (MVC)
+
+- **Do not** import a View from a Model, or call `show_toast` / touch a widget from a Model. Models are PyQt6-free except `QObject`/`pyqtSignal`.
+- **Do not** put business logic or data access in a View or a Controller. Views render and emit signals; controllers wire and intercept; logic lives in models.
+- **Do not** propagate a business exception out of the controller — intercept it and call `view.show_toast(...)` (see `@rules/errors.md`).
+- **Do not** put PyQt6, business logic, or data access in `utils/helpers.py` — pure functions only.
+- **Do not** spread one entity across more files than `model + view + controller`. If it grows, that is a contract change → declare the deviation (Phase 4 protocol).
+- **Do not** hardcode a shared constant in one layer — promote it to `config.py`.
+
+## Anomaly resolution — cleanup protocol
+
+As soon as the definitive solution is identified and delivered:
 
 ```
 Anomalie résolue. Éléments à retirer des tentatives précédentes :
 
 Fichier [nom] :
-- [ligne / bloc / import / objectName à supprimer]
+- [line / block / import / objectName to delete]
 ```
 
-## Ajustements post-livraison
+Cover all affected files. Then offer: "Veux-tu mémoriser ce point ? `/memoriser`"
 
-Correction isolée sur le fichier concerné + ses dépendances directes. Livraison du fichier complet corrigé.
+## Post-delivery adjustments
+
+Isolated fix on the affected file + its direct dependencies. Deliver the complete fixed file (full rewrite via `Write`, never a partial diff).

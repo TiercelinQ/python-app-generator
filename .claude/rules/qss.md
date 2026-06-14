@@ -1,20 +1,20 @@
-# Règles QSS et styles
+# QSS and styles rules
 
-## Principes
+## Principles
 
-- Zéro valeur visuelle en dur dans Python. Tout dans `styles_light.qss` / `styles_dark.qss` ou `config.py`.
-- Chaque widget stylé a un `objectName` correspondant à une règle QSS nommée.
-- Chaque règle QSS porte un commentaire `/* token : [nom] */` traçant vers `design-system.md`.
-- Mode sombre : remplacement complet de la feuille (`styles_light.qss` → `styles_dark.qss`). Jamais surcharge partielle.
-- **Deux fichiers obligatoires** : `resources/styles_light.qss` + `resources/styles_dark.qss`. Pas de fichier unique conditionnel.
+- Zero hardcoded visual value in Python. Everything in `styles_light.qss` / `styles_dark.qss` or `config.py`.
+- Every styled widget has an `objectName` matching a named QSS rule.
+- Every QSS rule carries a `/* token : [name] */` comment tracing to `design-system.md`.
+- Dark mode: complete sheet replacement (`styles_light.qss` → `styles_dark.qss`). Never a partial override.
+- **Two mandatory files**: `resources/styles_light.qss` + `resources/styles_dark.qss`. No single conditional file.
 
-## Organisation interne obligatoire
+## Mandatory internal organization
 
 ```qss
 /* ============================================================
-   styles_[clair|sombre].qss — [NOM_APP] v[VERSION]
-   Thème : [clair | sombre]
-   Référence : design-system.md v1.0
+   styles_[light|dark].qss — [APP_NAME] v[VERSION]
+   Theme: [light | dark]
+   Reference: design-system.md v1.1
    ============================================================ */
 
 /* --- BASE -------------------------------------------------- */
@@ -26,13 +26,13 @@ QMainWindow { background-color: #FFFFFF; color: #111827; }
 QWidget#topbar { background-color: #FFFFFF; border-bottom: 1px solid #E5E7EB;
                  min-height: 48px; max-height: 48px; padding: 0 16px; }
 
-/* --- ONGLETS ----------------------------------------------- */
+/* --- TABS -------------------------------------------------- */
 /* token : text-subtle / primary-600 / bg-muted / topbar-height */
 QTabBar::tab { ... }
 QTabBar::tab:selected { color: #4F46E5; border-bottom: 2px solid #4F46E5; }
 QTabBar::tab:hover { background-color: #F3F4F6; }
 
-/* --- CONTENU PRINCIPAL ------------------------------------- */
+/* --- MAIN CONTENT ------------------------------------------ */
 /* token : bg / spacing-6 */
 QWidget#main_content { background-color: #FFFFFF; padding: 24px; }
 
@@ -43,20 +43,20 @@ QWidget#toast_warning { background-color: #FFFBEB; border-left: 4px solid #D9770
 QWidget#toast_danger  { background-color: #FFF1F2; border-left: 4px solid #DC2626; }
 QWidget#toast_info    { background-color: #EFF6FF; border-left: 4px solid #2563EB; }
 
-/* --- BOUTONS ----------------------------------------------- */
+/* --- BUTTONS ----------------------------------------------- */
 /* token : primary-600 / border / text / danger-600 / text-subtle */
 QPushButton#btn_primary   { background-color: #4F46E5; color: #FFFFFF; border: none; }
 QPushButton#btn_secondary { background-color: transparent; color: #111827; border: 1px solid #E5E7EB; }
 QPushButton#btn_danger    { background-color: #DC2626; color: #FFFFFF; border: none; }
 QPushButton#btn_ghost     { background-color: transparent; color: #6B7280; border: none; }
 
-/* --- CHAMPS DE SAISIE -------------------------------------- */
+/* --- INPUT FIELDS ------------------------------------------ */
 /* token : border / text / spacing-2 / spacing-3 */
 QLineEdit { border: 1px solid #E5E7EB; color: #111827; padding: 8px 12px; }
 QLineEdit:focus { border: 2px solid #4F46E5; }
 QComboBox { ... }
 
-/* --- TABLEAUX ---------------------------------------------- */
+/* --- TABLES ------------------------------------------------ */
 /* token : bg-subtle / text-subtle / border-strong / border-subtle / primary-50 / bg-muted */
 QTableView { border: none; gridline-color: #F3F4F6; }
 QHeaderView::section { background-color: #F9FAFB; border-bottom: 2px solid #D1D5DB; }
@@ -73,16 +73,16 @@ QStatusBar { background-color: #F3F4F6; border-top: 1px solid #E5E7EB;
 /* token : bg-elevated / border / spacing-6 */
 QWidget#drawer { background-color: #FFFFFF; border-left: 1px solid #E5E7EB; padding: 24px; }
 
-/* --- DIALOGUE / MODALE ------------------------------------- */
+/* --- DIALOG / MODAL ---------------------------------------- */
 /* token : bg / border / spacing-6 */
 QDialog { background-color: #FFFFFF; border: 1px solid #E5E7EB; }
 ```
 
-## Tokens de référence (design-system.md v1.0)
+## Reference tokens (design-system.md v1.1)
 
-### Mode clair
+### Light mode
 
-| Token           | Valeur  |
+| Token           | Value   |
 | --------------- | ------- |
 | `bg`            | #FFFFFF |
 | `bg-subtle`     | #F9FAFB |
@@ -97,9 +97,9 @@ QDialog { background-color: #FFFFFF; border: 1px solid #E5E7EB; }
 | `primary-50`    | #EEF2FF |
 | `primary-600`   | #4F46E5 |
 
-### Mode sombre
+### Dark mode
 
-| Token           | Valeur  |
+| Token           | Value   |
 | --------------- | ------- |
 | `bg`            | #111827 |
 | `bg-subtle`     | #1F2937 |
@@ -114,8 +114,21 @@ QDialog { background-color: #FFFFFF; border: 1px solid #E5E7EB; }
 | `primary-400`   | #818CF8 |
 | `primary-900`   | #312E81 |
 
-### Flat design (non négociable)
+### Flat design (non-negotiable)
 
-- `border-radius` : 0px sur tous les widgets.
-- Aucune ombre (`box-shadow`, `QGraphicsDropShadowEffect`).
-- Aucun dégradé.
+- `border-radius`: 0px on all widgets.
+- No shadow (`box-shadow`, `QGraphicsDropShadowEffect`).
+- No gradient.
+
+## Per-project primary color
+
+If a color was chosen in Phase 1 (≠ Slate Blue): only the 4 `primary-50/400/600/900` values change in the project's `styles_*.qss` and `config.py`. The global `design-system.md` stays unchanged.
+
+## Anti-patterns — what NOT to do
+
+- **Do not** set a color/size/font directly in Python (`setStyleSheet("...")` inline, `QColor(...)` for a themed value). Route it through the QSS sheets + an `objectName`.
+- **Do not** write a QSS value without a `/* token : ... */` comment tracing to `design-system.md`.
+- **Do not** handle dark mode with a `[theme]`-conditional single sheet or partial override — replace the whole sheet.
+- **Do not** add `border-radius`, `box-shadow`, `QGraphicsDropShadowEffect`, or a gradient — flat design is global.
+- **Do not** style a widget without giving it an `objectName` (or use a generic class selector when a named rule is expected).
+- **Do not** put icon colors in QSS — qtawesome colors live in `config.py` (`ICON_COLORS`), the one documented exception.

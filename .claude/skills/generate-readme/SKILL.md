@@ -1,75 +1,65 @@
 ---
-description: Génère ou régénère le fichier README.md d'un projet Python/PyQt6 existant
-             en analysant le code source. Invoquer depuis la racine du projet cible.
-model: claude-sonnet-4-6
+name: generate-readme
+description: Generate or regenerate the README.md of an existing Python/PyQt6 project from its specs and source code. Invoke from the target project root.
+model: sonnet
 ---
 
-## Analyse du projet
+# /generate-readme — Generate the README.md
 
-Utiliser les outils natifs Claude Code (pas de commandes shell — compatible Windows) :
+## Role
+Technical writer — produce an accurate project README from specs + code.
 
-1. **Lister les fichiers Python** via l'outil `Glob` avec le pattern `**/*.py`
-   (exclure `__pycache__/`, `.venv/`, `venv/`).
-2. **Lire** `config.py` via l'outil `Read` (ignorer si absent).
-3. **Lire** `requirements.txt` via `Read` (ignorer si absent).
-4. **Lire** `main.py` via `Read` (ignorer si absent).
-5. **Détecter `tests/`** via `Glob` avec le pattern `tests/**/*.py`
-   (présent si au moins un fichier retourné).
-6. **Lire** `requirements-dev.txt` via `Read` si présent.
+## Goal
+Write a README that reflects what was actually built.
 
-## Instructions
+## Deliverable
+`README.md` at the project root.
 
-Sur la base de l'analyse, générer un fichier `README.md` à la racine du projet via
-l'outil `Write` (jamais via `cat`/heredoc — incompatible Windows) :
+---
+
+Use the native Claude Code tools (no shell — Windows-compatible):
+
+1. **Sources, in priority**: `docs/specs/*` (especially `04-contrat.md`) for the intended structure, then the real code:
+   - List Python files via `Glob` `**/*.py` (exclude `__pycache__/`, `.venv/`, `venv/`).
+   - Read `config.py`, `requirements.txt`, `main.py` (ignore if absent).
+   - Detect `tests/` via `Glob` `tests/**/*.py`; read `requirements-dev.txt` if present.
+   - When specs and code disagree, the code is what shipped — describe the code and note the divergence.
+2. Generate `README.md` at the root via `Write`:
 
 ```markdown
 # [NOM_APP] — v[VERSION]
 
 ## Objectif
-[Déduit de config.py, main.py et de la structure générale]
+[Déduit de docs/specs, config.py, main.py et de la structure]
 
 ## Fonctionnalités
 - [Déduites des views/ et controllers/ présents]
 
 ## Stack technique
-- OS : Windows
-- Framework : PyQt6
-- Python : 3.10+
-- Icônes : qtawesome
+- OS : Windows · Framework : PyQt6 · Python : 3.10+ · Icônes : qtawesome
 - DB : [déduit de config.py ou models/]
 - i18n : [Oui/Non — déduit de resources/i18n/ ou config.py]
 - Tests : [Oui (pytest + pytest-qt) | Non — déduit de la présence de tests/]
 
 ## Architecture
-[Arborescence réelle du projet avec rôle de chaque fichier]
+[Arborescence réelle avec rôle de chaque fichier]
 
 ## Installation
-
-# 1. Créer l'environnement virtuel
 python -m venv .venv
-
-# 2. Activer (Windows)
 .venv\Scripts\activate
-
-# 3. Installer les dépendances
 pip install -r requirements.txt
-
-# 4. Lancer l'application
 python main.py
 
 ## Tests
 [Section incluse uniquement si tests/ détecté]
-
 pip install -r requirements-dev.txt
-pytest                     # tous les tests
-pytest tests/models/       # une couche
-pytest -v                  # verbeux
+pytest
 
 ## Couleur primaire
 [Déduite de PRIMARY_600 / PRIMARY_400 dans config.py — sinon "Slate Blue #4F46E5 / #818CF8"]
 ```
 
-Écrire le fichier via l'outil `Write` (chemin : `README.md` à la racine).
+3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.
 
-Confirmer avec :
-`README.md généré à la racine du projet.`
+Confirm with: `README.md généré à la racine du projet.`

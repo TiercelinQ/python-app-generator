@@ -1,14 +1,14 @@
-# Protocole gestion des erreurs
+# Error handling protocol
 
-## Principe de séparation
+## Separation principle
 
-- **Model** : lève des exceptions métier explicites (classes dans `models/exceptions.py`).
-- **Controller** : intercepte via `try/except`. Ne propage jamais d'exception vers la View.
-- **View** : expose `show_toast(type, message, description=None)`. Ne gère aucune logique d'erreur.
+- **Model**: raises explicit business exceptions (classes in `models/exceptions.py`).
+- **Controller**: intercepts via `try/except`. Never propagates an exception to the View.
+- **View**: exposes `show_toast(type, message, description=None)`. Handles no error logic.
 
 ---
 
-## `models/exceptions.py` — structure obligatoire
+## `models/exceptions.py` — mandatory structure
 
 ```python
 class RecordNotFoundError(Exception):
@@ -24,11 +24,11 @@ class FileError(Exception):
     """Erreur lecture/écriture fichier."""
 ```
 
-Jamais `raise Exception("message")` générique dans les models.
+Never a generic `raise Exception("message")` in the models.
 
 ---
 
-## Pattern controller — obligatoire
+## Controller pattern — mandatory
 
 ```python
 import logging
@@ -52,7 +52,7 @@ def save(self, data: dict) -> None:
         self.view.show_toast("success", "Enregistrement sauvegardé")
 ```
 
-Notification d'information (action neutre, pas une erreur) :
+Information notification (neutral action, not an error):
 
 ```python
 self.view.show_toast("info", "Export démarré", "Fichier généré dans 5s")
@@ -60,7 +60,7 @@ self.view.show_toast("info", "Export démarré", "Fichier généré dans 5s")
 
 ---
 
-## `show_toast` — signature obligatoire dans toute vue principale
+## `show_toast` — mandatory signature in every main view
 
 ```python
 def show_toast(self, type: str, message: str, description: str | None = None) -> None:
@@ -76,27 +76,27 @@ def show_toast(self, type: str, message: str, description: str | None = None) ->
 
 ---
 
-## Mapping exception → toast (référence)
+## Exception → toast mapping (reference)
 
-| Exception métier         | Type toast | Description optionnelle conseillée |
+| Business exception       | Toast type | Suggested optional description     |
 | ------------------------ | ---------- | ---------------------------------- |
-| `ValidationError`        | warning    | Détail du champ invalide           |
+| `ValidationError`        | warning    | Invalid field detail               |
 | `RecordNotFoundError`    | danger     | —                                  |
-| `DatabaseError`          | danger     | `str(e)` (technique)               |
-| `FileError`              | danger     | Chemin du fichier                  |
-| Succès métier            | success    | —                                  |
-| Information non bloquante| info       | —                                  |
+| `DatabaseError`          | danger     | `str(e)` (technical)               |
+| `FileError`              | danger     | File path                          |
+| Business success         | success    | —                                  |
+| Non-blocking information  | info       | —                                  |
 
 ---
 
-## Gestion des exceptions non capturées — `sys.excepthook`
+## Uncaught exceptions — `sys.excepthook`
 
-Tout crash non géré dans le thread Qt principal doit :
-1. Être loggé avec stacktrace complète.
-2. Afficher un toast `danger` à l'utilisateur.
-3. Ne pas écrire sur stdout/stderr en mode `--windowed`.
+Any unhandled crash in the main Qt thread must:
+1. Be logged with full stacktrace.
+2. Show a `danger` toast to the user.
+3. Not write to stdout/stderr in `--windowed` mode.
 
-Installation dans `main.py` (obligatoire) :
+Installation in `main.py` (mandatory):
 
 ```python
 import logging
@@ -128,7 +128,7 @@ def install_excepthook(main_window) -> None:
     sys.excepthook = hook
 ```
 
-Appel :
+Call:
 
 ```python
 window = MainWindow()
@@ -138,21 +138,23 @@ window.show()
 
 ---
 
-## Interdictions
+## Toasts — durations (layout.md)
 
-- Zéro `QMessageBox` pour erreurs métier.
-- Zéro bandeau inline.
-- Zéro exception propagée hors du controller.
-- Zéro `except Exception` attrapant tout sans re-raise — sauf dans l'`excepthook`.
-- Zéro `print(traceback)` — utiliser `logger.exception(...)`.
+| Type      | Duration   | Manual dismiss      |
+| --------- | ---------- | ------------------- |
+| `success` | 4s         | No                  |
+| `info`    | 4s         | No                  |
+| `warning` | 6s         | Yes (×)             |
+| `danger`  | persistent | Yes (×) mandatory   |
 
 ---
 
-## Toasts — durées (layout.md)
+## Anti-patterns — what NOT to do
 
-| Type      | Durée      | Fermeture manuelle  |
-| --------- | ---------- | ------------------- |
-| `success` | 4s         | Non                 |
-| `info`    | 4s         | Non                 |
-| `warning` | 6s         | Oui (×)             |
-| `danger`  | persistant | Oui (×) obligatoire |
+- **Do not** use `QMessageBox` for a business error — toasts only.
+- **Do not** use an inline banner — toasts only.
+- **Do not** propagate an exception out of the controller.
+- **Do not** use `except Exception` that catches everything without re-raise — except in the `excepthook`.
+- **Do not** `print(traceback)` — use `logger.exception(...)`.
+- **Do not** `raise Exception("...")` generic in a model — define a named exception in `models/exceptions.py`.
+- **Do not** build the user-facing message in the model — the controller decides the toast wording.

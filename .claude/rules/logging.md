@@ -1,17 +1,17 @@
-# Règles logging
+# Logging rules
 
-## Principe
+## Principle
 
-- Module `logging` (stdlib) uniquement — zéro dépendance externe.
-- `RotatingFileHandler` pour limiter la taille des logs.
-- Une instance logger par module : `logger = logging.getLogger(__name__)`.
-- Zéro `print()` dans le code livré — uniquement `logger.*`.
+- `logging` module (stdlib) only — zero external dependency.
+- `RotatingFileHandler` to cap log size.
+- One logger instance per module: `logger = logging.getLogger(__name__)`.
+- Zero `print()` in delivered code — only `logger.*`.
 
 ---
 
-## Configuration centralisée
+## Centralized configuration
 
-Fichier obligatoire `utils/logger.py` (fonction pure, importée par `main.py`) :
+Mandatory file `utils/logger.py` (pure function, imported by `main.py`):
 
 ```python
 """Configuration centralisée du logging."""
@@ -67,7 +67,7 @@ def _debug_enabled() -> bool:
 
 ---
 
-## Usage dans les modules
+## Usage in modules
 
 ```python
 # models/client_model.py
@@ -86,24 +86,23 @@ class ClientModel:
             raise
 ```
 
-### Conventions de niveaux
+### Level conventions
 
-| Niveau   | Usage                                                                  |
+| Level    | Usage                                                                  |
 | -------- | ---------------------------------------------------------------------- |
-| DEBUG    | Traces détaillées, valeurs intermédiaires                              |
-| INFO     | Étapes métier importantes (démarrage, login, action utilisateur clé)   |
-| WARNING  | Conditions inattendues mais non bloquantes (validation utilisateur KO) |
-| ERROR    | Erreur métier interceptée (DatabaseError, FileError…)                  |
-| CRITICAL | Crash imminent / état corrompu — précède sys.exit                      |
+| DEBUG    | Detailed traces, intermediate values                                   |
+| INFO     | Important business steps (startup, login, key user action)             |
+| WARNING  | Unexpected but non-blocking conditions (user validation failed)        |
+| ERROR    | Intercepted business error (DatabaseError, FileError…)                 |
+| CRITICAL | Imminent crash / corrupt state — precedes sys.exit                     |
 
-### `logger.exception` obligatoire
+### `logger.exception` mandatory
 
-Dans les blocs `except` qui re-raise ou échouent silencieusement (toast affiché),
-utiliser `logger.exception(message)` pour capturer la stacktrace complète.
+In `except` blocks that re-raise or fail silently (toast shown), use `logger.exception(message)` to capture the full stacktrace.
 
 ---
 
-## Activation depuis main.py
+## Activation from main.py
 
 ```python
 # main.py
@@ -117,17 +116,14 @@ logger.info("Démarrage application")
 
 ---
 
-## Interdictions
+## Anti-patterns — what NOT to do
 
-- Zéro `print()` dans le code livré.
-- Zéro log de mot de passe, token, donnée personnelle identifiable.
-- Pas d'écriture vers stdout en mode `--windowed` (PyInstaller).
+- **Do not** use `print()` in delivered code — only `logger.*`.
+- **Do not** log a password, token, or personally identifiable data.
+- **Do not** write to stdout in `--windowed` mode (PyInstaller).
+- **Do not** silence an `except` that doesn't re-raise without a `logger.exception(...)`.
+- **Do not** configure logging outside `utils/logger.py` (single setup point, called first in `main.py`).
 
----
+## Integrity verification
 
-## Vérification d'intégrité
-
-1. `utils/logger.py` présent et conforme au template.
-2. `setup_logging()` appelé en première ligne de `main.py` (avant tout autre import métier).
-3. Aucun `print(` dans `models/`, `views/`, `controllers/`, `utils/`.
-4. Tous les blocs `except` qui ne re-raise pas appellent `logger.exception(...)`.
+Detailed in `@rules/verification.md`. Key points: `utils/logger.py` present and conforming; `setup_logging()` called on the first line of `main.py` (before any business import); no `print(` in `models/`, `views/`, `controllers/`, `utils/`; every non-re-raising `except` calls `logger.exception(...)`.

@@ -1,75 +1,75 @@
-# Règles tests automatisés
+# Automated tests rules
 
 ## Activation
 
-Conditionnel — activé si choix Phase 1 (Q5) = `Oui`.
+Conditional — enabled if Phase 1 choice (Q5) = `Yes`.
 
-Si activé :
-- Dossier `tests/` obligatoire dans le contrat architectural (Phase 4).
-- Lot dédié supplémentaire en Phase 5 (Petit : 4 lots · Moyen/Grand : 5 lots).
-- `requirements-dev.txt` obligatoire.
+If enabled:
+- `tests/` folder mandatory in the architectural contract (Phase 4).
+- Dedicated extra batch in Phase 5 (Small: 4 batches · Medium/Large: 5 batches).
+- `requirements-dev.txt` mandatory.
 
-Si désactivé :
-- Aucun dossier `tests/`, aucun lot supplémentaire.
-- Nombre de lots inchangé (Petit : 3 · Moyen/Grand : 4).
+If disabled:
+- No `tests/` folder, no extra batch.
+- Batch count unchanged (Small: 3 · Medium/Large: 4).
 
 ---
 
-## Stack non négociable
+## Non-negotiable stack
 
 - `pytest >= 8.0`
-- `pytest-qt >= 4.4` (smoke tests Views)
-- `unittest.mock` (stdlib) pour les mocks — zéro framework externe
+- `pytest-qt >= 4.4` (View smoke tests)
+- `unittest.mock` (stdlib) for mocks — zero external framework
 
 ---
 
-## Structure obligatoire
+## Mandatory structure
 
 ```
 tests/
 ├── __init__.py
-├── conftest.py                          # Fixtures partagées (qapp via pytest-qt auto)
-├── test_helpers.py                      # 1 fichier par module utils
+├── conftest.py                          # Shared fixtures (qapp via pytest-qt auto)
+├── test_helpers.py                      # 1 file per utils module
 ├── models/
 │   ├── __init__.py
-│   ├── test_exceptions.py               # Smoke isinstance
-│   └── test_[entite]_model.py           # 1 par modèle
+│   ├── test_exceptions.py               # isinstance smoke
+│   └── test_[entity]_model.py           # 1 per model
 ├── controllers/
 │   ├── __init__.py
-│   └── test_[entite]_controller.py      # 1 par controller (model mocké)
+│   └── test_[entity]_controller.py      # 1 per controller (mocked model)
 └── views/
     ├── __init__.py
-    └── test_[entite]_view.py            # Smoke uniquement
+    └── test_[entity]_view.py            # Smoke only
 ```
 
 ---
 
 ## Conventions
 
-- Nommage fichier : `test_[module].py` pour tester `[module].py`.
-- Nommage fonction : `test_[comportement]` en français explicite.
-  Exemple : `test_validation_email_invalide_leve_validation_error`.
-- Une classe `Test[Classe]` par classe testée, sinon fonctions plates.
-- `@pytest.mark.parametrize` uniquement si ≥ 3 cas similaires.
-- Aucun `assert True`, aucun test vide, aucun `pass`.
-- Aucun `time.sleep` — utiliser `qtbot.wait`, `qtbot.waitSignal` ou mocks.
-- Aucun accès réseau, aucun accès DB de production — fixtures isolées.
+- File naming: `test_[module].py` to test `[module].py`.
+- Function naming: `test_[behavior]` in explicit French.
+  Example: `test_validation_email_invalide_leve_validation_error`.
+- One `Test[Class]` class per tested class, otherwise flat functions.
+- `@pytest.mark.parametrize` only for ≥ 3 similar cases.
+- No `assert True`, no empty test, no `pass`.
+- No `time.sleep` — use `qtbot.wait`, `qtbot.waitSignal`, or mocks.
+- No network access, no production DB access — isolated fixtures.
 
 ---
 
-## Couverture cible par couche
+## Target coverage per layer
 
-| Couche                  | Cible                          | Quoi tester                                                |
+| Layer                   | Target                         | What to test                                               |
 | ----------------------- | ------------------------------ | ---------------------------------------------------------- |
-| `models/`               | Logique métier complète        | Méthodes publiques, exceptions levées, edge cases          |
-| `models/exceptions.py`  | Smoke isinstance               | Chaque exception hérite bien d'`Exception`                 |
-| `controllers/`          | Wiring + try/except            | Model mocké, `view.show_toast` appelé avec bon type        |
-| `utils/helpers.py`      | 100% lignes                    | Toutes branches des fonctions pures                        |
-| `views/`                | Smoke uniquement               | Instanciation sans crash + `objectName` présents           |
+| `models/`               | Full business logic            | Public methods, raised exceptions, edge cases              |
+| `models/exceptions.py`  | isinstance smoke               | Each exception properly inherits `Exception`               |
+| `controllers/`          | Wiring + try/except            | Mocked model, `view.show_toast` called with the right type |
+| `utils/helpers.py`      | 100% lines                     | All branches of the pure functions                         |
+| `views/`                | Smoke only                     | Instantiation without crash + `objectName` present         |
 
 ---
 
-## Pattern test controller (obligatoire)
+## Controller test pattern (mandatory)
 
 ```python
 from unittest.mock import Mock
@@ -103,7 +103,7 @@ def test_save_database_error_emet_toast_danger():
 
 ---
 
-## Pattern smoke test view (obligatoire)
+## View smoke test pattern (mandatory)
 
 ```python
 import pytest
@@ -126,7 +126,7 @@ def test_client_view_contient_bouton_primaire(qtbot):
 
 ---
 
-## conftest.py — structure minimale
+## conftest.py — minimal structure
 
 ```python
 """Fixtures partagées pour la suite de tests."""
@@ -146,23 +146,28 @@ def empty_model():
 
 ---
 
-## Lancement
+## Running
 
 ```bash
-pytest                              # Tous les tests
-pytest tests/models/                # Une couche
-pytest -k validation                # Filtre par nom
-pytest -v                           # Verbeux
-pytest --tb=short                   # Traceback court
+pytest                              # All tests
+pytest tests/models/                # One layer
+pytest -k validation                # Filter by name
+pytest -v                           # Verbose
+pytest --tb=short                   # Short traceback
 ```
 
 ---
 
-## Vérification d'intégrité du lot tests
+## Anti-patterns — what NOT to do
 
-1. Chaque module source (`models/`, `controllers/`, `views/`, `utils/`) a son fichier test correspondant.
-2. `pytest` exit code 0 — tous les tests passent.
-3. Aucun `assert True`, aucun test vide.
-4. Aucun `time.sleep`.
-5. Aucun accès réseau ou DB de production.
-6. `requirements-dev.txt` présent et à jour.
+- **Do not** write `assert True`, an empty test, or a `pass` body.
+- **Do not** use `time.sleep` — use `qtbot.wait` / `qtbot.waitSignal` / mocks.
+- **Do not** hit the network or a production DB — isolated fixtures only.
+- **Do not** redefine the `qapp` fixture — pytest-qt provides it.
+- **Do not** test a controller without mocking its model.
+- **Do not** go beyond smoke for views (instantiation + `objectName` + key widgets via `findChild`).
+- **Do not** create a test suite when Phase 1 Q5 = No (and `/test` never scaffolds one unasked).
+
+## Integrity verification (test batch)
+
+Detailed in `@rules/verification.md`. Key points: each source module has its matching test file (Phase 4 mapping); `pytest` exit code 0; `requirements-dev.txt` present.

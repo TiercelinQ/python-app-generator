@@ -1,25 +1,37 @@
 ---
-description: Phase 3 du cycle de développement — proposition de layout.
-             Invoquer après validation de la Phase 2.
-model: claude-sonnet-4-6
+name: phase3-layout
+description: Phase 3 of the development cycle — layout proposal from layout.md, grouped customization questions, validated synthesis written to the layout spec before Phase 4.
+model: sonnet
 ---
 
-## Instructions — Phase 3 : Proposition de layout
+# /phase3-layout — Layout proposal
 
-Sur la base des fonctionnalités validées en Phase 2, proposer un layout issu de `layout.md`,
-puis poser les questions de personnalisation en **un seul bloc**.
+## Role
+UI designer — map the validated features onto the binding layout system.
+
+## Goal
+Define the concrete layout (tabs, drawer/modal, toast position) within `layout.md` constraints.
+
+## Deliverable
+`docs/specs/03-layout.md` (written in French) + on-screen synthesis.
 
 ---
 
-### Étape 1 — Proposition initiale
+## Instructions — Phase 3: Layout proposal
 
-Produire :
+**Read `design-system.md` and `layout.md` first** (no longer auto-imported).
+
+Based on the features validated in Phase 2 (`docs/specs/02-analyse.md`), propose a layout drawn from `layout.md`, then ask the customization questions in **a single block**.
+
+### Step 1 — Initial proposal
+
+Produce (in French):
 
 ```
 ## Layout proposé — [NOM_APP]
 
 **Structure**
-[Description de la disposition : topbar, onglets, contenu principal, statusbar]
+[Description : topbar, onglets, contenu principal, statusbar]
 
 **Onglets**
 | Onglet | Contenu |
@@ -30,11 +42,7 @@ Produire :
 - [Tableau / Formulaire / Arborescence / Graphiques — selon les fonctionnalités]
 ```
 
----
-
-### Étape 2 — Questions de personnalisation (un seul bloc)
-
-Poser immédiatement après la proposition :
+### Step 2 — Customization questions (single block)
 
 ```
 Quelques choix à confirmer :
@@ -74,67 +82,33 @@ Quelques choix à confirmer :
    F. Bas-centre
 ```
 
-Afficher uniquement les questions pertinentes selon le contexte des fonctionnalités.
-Si le projet n'a visiblement pas besoin de drawer ni de modale, ne pas poser les questions 3/4
-mais mentionner l'absence de panneau secondaire dans la proposition.
-La question 5 (toasts) est toujours posée.
+Show only the relevant questions for the feature context. If the project clearly needs no drawer or modal, skip questions 3/4 and note the absence of a secondary panel. Question 5 (toasts) is always asked.
 
-Si l'utilisateur choisit D à la question 4 : poser 3 questions en un seul bloc pour l'aider à
-définir la disposition :
+If the user picks D on question 4: ask 3 questions in a single block to help define the layout:
 
 ```
 Pour t'aider à choisir la disposition :
 
 a. Quel est l'objectif principal de cette modale ?
-   (ex: saisir un formulaire, afficher un détail, confirmer une action, visualiser un document…)
-
-b. Y a-t-il des actions à effectuer depuis cette modale (boutons Valider / Annuler / Supprimer…) ?
-   Oui / Non
-
-c. Le contenu est-il homogène (un seul bloc) ou hétérogène (plusieurs sections distinctes) ?
-   Homogène / Hétérogène — préciser les sections si hétérogène
+b. Y a-t-il des actions à effectuer depuis cette modale ? Oui / Non
+c. Le contenu est-il homogène (un seul bloc) ou hétérogène (plusieurs sections) ?
 ```
 
-Sur la base des réponses, proposer 2 dispositions adaptées avec une recommandation justifiée,
-puis demander confirmation avant de passer à la synthèse.
+Based on the answers, propose 2 suited layouts with a justified recommendation, then confirm before the synthesis.
 
----
+### Step 3 — Final synthesis
 
-### Étape 3 — Synthèse finale
-
-Après réception des réponses, produire la synthèse complète :
+Produce the complete synthesis (in French): topbar, tabs, secondary panel, recurring components, toast position, applied constraints.
 
 ```
-## Layout validé — [NOM_APP]
-
-**Topbar**
-- Logo + nom : gauche
-- Onglets : [gauche après logo | centrés]
-- Toggle thème : droite
-- Hauteur : 48px
-
-**Onglets**
-| Onglet | Contenu |
-| ------ | ------- |
-| …      | …       |
-
-**Panneau secondaire** : [Drawer | Modale | Aucun]
-- [Drawer] Largeur : [320px fixe | Xpx fixe | dynamique]
-- [Modale] Taille : [X×Y fixe | dynamique]
-- [Modale] Disposition : [description retenue]
-
-**Composants récurrents**
-- [liste]
-
-**Toasts** : [emplacement retenu] · zéro bandeau inline
-
-**Contraintes appliquées**
-- Topbar 48px · Statusbar 28px · Fenêtre min 1024×768
-- Drawer : ouvert sur action explicite, fermable via Échap / overlay / ×
-- Position et taille fenêtre restaurées au relancement
-
 → Validation requise avant Phase 4.
   Confirmer ou lister les ajustements.
 ```
 
-**Règle bloquante** : ne pas passer à Phase 4 tant que la validation n'est pas explicite.
+**Blocking rule**: do not move to Phase 4 until validation is explicit.
+
+## Write the spec
+
+Once validated, write the synthesis to `docs/specs/03-layout.md` (in French).
+
+Chain to `/phase4-contrat` after validation.

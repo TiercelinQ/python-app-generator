@@ -1,14 +1,25 @@
 ---
-description: Mémorise un point important pour éviter de reproduire une erreur
-             ou consolider une décision. Invoquer après résolution d'anomalie
-             ou validation d'un choix structurant.
-model: claude-haiku-4-5
-disable-model-invocation: true
+name: memoriser
+description: Memorize an error not to repeat, a structural decision, or a generation preference — persisted into Claude Code native memory (project memory folder + MEMORY.md index), available in later sessions.
+model: haiku
 ---
 
-## Étape 1 — Catégoriser
+# /memoriser — Memorization
 
-Demander à l'utilisateur ce qu'il souhaite mémoriser :
+## Role
+Memory keeper.
+
+## Goal
+Persist a durable lesson, decision, or preference into native memory.
+
+## Deliverable
+A native memory file + a one-line pointer in `MEMORY.md`.
+
+---
+
+## Step 1 — Categorize
+
+Ask what to retain (in French):
 
 ```
 Que veux-tu retenir ?
@@ -19,41 +30,34 @@ C. Une préférence de génération — décrire le comportement souhaité
 D. Autre — décrire librement
 ```
 
-## Étape 2 — Persister dans `.claude/project-memory.md`
+## Step 2 — Persist via Claude Code native memory
 
-Le fichier `.claude/project-memory.md` est versionné avec le projet (commitable).
-Il complète la mémoire personnelle Claude Code (`~/.claude/agent-memory/`, locale machine).
+Category → native memory type:
 
-Procédure (compatible Windows) :
+| Choice | Memory type  | Expected content                                              |
+| ------ | ------------ | ------------------------------------------------------------- |
+| A      | `feedback`   | The note + **Why:** (why it was an error) and **How to apply:** (corrective rule) lines |
+| B      | `project`    | The decision + context (convert any relative date to absolute) |
+| C      | `feedback`   | The preference + **Why:** and **How to apply:**               |
+| D      | `reference`  | Pointer / free note                                           |
 
-1. Vérifier l'existence du fichier via `Glob` sur `.claude/project-memory.md`.
-2. Si absent : créer via `Write` avec l'en-tête initial :
-   ```markdown
-   # Mémoire projet
+Procedure:
+- Write a `<kebab-slug>.md` file in the project memory folder (managed by Claude Code), with the native frontmatter:
+  ```markdown
+  ---
+  name: <kebab-slug>
+  description: <one-line summary>
+  metadata:
+    type: feedback | project | reference
+  ---
 
-   > Notes accumulées sur les erreurs à éviter, décisions structurantes et préférences.
-   > Versionné avec le projet — partageable entre utilisateurs.
-   ```
-3. Lire le contenu existant via `Read`.
-4. Construire le nouveau contenu = ancien + nouvelle note.
-5. Écrire le tout via `Write`.
+  <dense note; for feedback, follow with **Why:** and **How to apply:**>
+  ```
+- Add a one-line pointer in `MEMORY.md`: `- [Title](file.md) — hook`.
+- Before writing: check that no existing entry already covers the point → update it rather than duplicate.
 
-Format de la note ajoutée :
+## Step 3 — Confirmation
 
-```markdown
----
+If auto-memory is not enabled: say so (`/config → Memory`), still formulate the entry. Confirm in one line (French).
 
-## [YYYY-MM-DD] — [Catégorie : Erreur | Décision | Préférence | Note]
-
-**Contexte** : [brève description de la situation]
-**À retenir** : [formulation actionnable — ce que Claude doit faire ou éviter]
-```
-
-## Étape 3 — Confirmation
-
-```
-Mémorisé dans .claude/project-memory.md. Ce point sera appliqué dans les sessions
-suivantes sur ce projet (et partagé si le fichier est commité).
-```
-
-Ne pas ajouter `/session · /statut · /contrat` en fin de réponse.
+Do not append the `/session · /statut · /contrat` reminder after this reply.

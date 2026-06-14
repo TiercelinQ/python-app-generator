@@ -1,20 +1,20 @@
-# Règles base de données
+# Database rules
 
-## Stack par choix Phase 1 Q2
+## Stack per Phase 1 Q2 choice
 
-| Choix DB    | Bibliothèque             | Fichier modèle de référence |
+| DB choice   | Library                  | Reference model file        |
 | ----------- | ------------------------ | --------------------------- |
 | SQLite      | `sqlite3` (stdlib)       | `models/db.py`              |
 | PostgreSQL  | `psycopg[binary]>=3.2.0` | `models/db.py`              |
-| JSON        | `json` (stdlib)          | direct dans les modèles     |
-| CSV         | `csv` (stdlib)           | direct dans les modèles     |
-| aucune      | —                        | —                           |
+| JSON        | `json` (stdlib)          | direct in the models        |
+| CSV         | `csv` (stdlib)           | direct in the models        |
+| none        | —                        | —                           |
 
 ---
 
 ## Architecture (SQLite / PostgreSQL)
 
-### `models/db.py` — point d'accès unique
+### `models/db.py` — single access point
 
 ```python
 """Accès base de données — point d'entrée unique."""
@@ -49,7 +49,7 @@ def get_connection() -> Iterator[sqlite3.Connection]:
         conn.close()
 ```
 
-### Usage dans les modèles métier
+### Usage in the business models
 
 ```python
 # models/client_model.py
@@ -68,15 +68,14 @@ class ClientModel:
 
 ---
 
-## Migrations versionnées (SQLite / PostgreSQL)
+## Versioned migrations (SQLite / PostgreSQL)
 
-### Principe
+### Principle
 
-- Le schéma est versionné via une table `_schema_version` (entier).
-- `config.DB_SCHEMA_VERSION` indique la version cible attendue par le code.
-- Au démarrage, `models/migrations.py` compare `version_en_db` et `version_cible`,
-  applique séquentiellement les migrations manquantes.
-- **Une seule direction** : `up` uniquement. Pas de rollback automatique.
+- The schema is versioned via a `_schema_version` table (integer).
+- `config.DB_SCHEMA_VERSION` indicates the target version expected by the code.
+- At startup, `models/migrations.py` compares `db_version` and `target_version`, applies the missing migrations sequentially.
+- **One direction only**: `up` only. No automatic rollback.
 
 ### `models/migrations.py`
 
@@ -131,7 +130,7 @@ def run_migrations() -> None:
                 current = version
 ```
 
-### Appel depuis main.py
+### Call from main.py
 
 ```python
 from models.migrations import run_migrations
@@ -142,31 +141,24 @@ run_migrations()   # avant création de la MainWindow
 
 ---
 
-## Mode JSON / CSV (projets sans SGBD)
+## JSON / CSV mode (projects without a DBMS)
 
-- Stockage dans `data/` à la racine du projet (gitignoré).
-- `utils/helpers.py` expose `load_json(path)` / `save_json(path, data)` /
-  `read_csv(path)` / `write_csv(path, rows)`.
-- Chaque modèle métier encapsule son chemin de fichier.
-- Pas de migrations versionnées en JSON/CSV — la responsabilité incombe à l'utilisateur.
-- En cas de schéma JSON modifié : conversion explicite au chargement (fonction dédiée).
-
----
-
-## Interdictions
-
-- Zéro requête SQL en dehors de `models/`.
-- Zéro accès direct à `sqlite3.connect()` hors `models/db.py`.
-- Zéro `SELECT *` sans justification (lister les colonnes).
-- Zéro concaténation de chaîne pour construire des requêtes — uniquement paramètres `?` ou `%s`.
-- Zéro migration `down` automatique.
+- Storage in `data/` at the project root (gitignored).
+- `utils/helpers.py` exposes `load_json(path)` / `save_json(path, data)` / `read_csv(path)` / `write_csv(path, rows)`.
+- Each business model encapsulates its file path.
+- No versioned migrations in JSON/CSV — responsibility lies with the user.
+- If the JSON schema changes: explicit conversion at load time (dedicated function).
 
 ---
 
-## Vérification d'intégrité
+## Anti-patterns — what NOT to do
 
-1. Si DB ≠ aucune : `models/db.py` présent avec `get_connection` context manager.
-2. Si DB ≠ aucune : `models/migrations.py` présent et appelé dans `main.py` avant la MainWindow.
-3. `config.DB_SCHEMA_VERSION` cohérent avec le max(MIGRATIONS.keys()).
-4. Aucun `sqlite3.connect` ni `psycopg.connect` hors `models/db.py`.
-5. Tous les paramètres SQL passent via paramètres préparés (`?` ou `%s`), jamais en concaténation.
+- **Do not** write a SQL query outside `models/`.
+- **Do not** call `sqlite3.connect()` / `psycopg.connect()` outside `models/db.py`.
+- **Do not** `SELECT *` without justification (list the columns).
+- **Do not** build a query by string concatenation — only `?` or `%s` parameters.
+- **Do not** write an automatic `down` migration.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points (if DB ≠ none): `models/db.py` present with the `get_connection` context manager; `models/migrations.py` present and called in `main.py` before the MainWindow; `config.DB_SCHEMA_VERSION` consistent with `max(MIGRATIONS.keys())`; no `connect` outside `models/db.py`; all SQL parameters via prepared params (`?` / `%s`), never concatenation.

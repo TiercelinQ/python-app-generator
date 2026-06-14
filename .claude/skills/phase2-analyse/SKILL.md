@@ -1,12 +1,25 @@
 ---
-description: Phase 2 du cycle de développement — analyse des besoins.
-  Invoquer après la Phase 1 pour structurer les besoins avant le layout.
-model: claude-sonnet-4-6
+name: phase2-analyse
+description: Phase 2 of the development cycle — requirements analysis, calibration locked here, blocking validation before the layout, written to the analysis spec.
+model: sonnet
 ---
 
-## Instructions — Phase 2 : Analyse des besoins
+# /phase2-analyse — Requirements analysis
 
-Produire une fiche structurée :
+## Role
+Requirements analyst — turn the scope into an unambiguous feature list and lock the sizing.
+
+## Goal
+Produce a structured requirements sheet, freeze the calibration, and get explicit sign-off before any layout work.
+
+## Deliverable
+`docs/specs/02-analyse.md` (written in French) + on-screen sheet.
+
+---
+
+## Instructions — Phase 2: Requirements analysis
+
+Produce a structured sheet (in French), based on `docs/specs/01-cadrage.md`:
 
 ```
 ## Analyse des besoins — [NOM_APP]
@@ -38,12 +51,9 @@ Produire une fiche structurée :
 - Lots : [N] (dont 1 lot tests si activé)
 ```
 
-| Taille        | Fichiers | Fonctionnalités | Lots (sans tests) | Lots (avec tests) |
-| ------------- | -------- | --------------- | ----------------- | ----------------- |
-| Petit         | < 10     | ≤ 5             | 3                 | 4                 |
-| Moyen / Grand | ≥ 10     | > 5             | 4                 | 5                 |
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source). **The calibration is confirmed here, from the real feature count.**
 
-Terminer par :
+End with:
 
 ```
 → Validation requise avant Phase 3.
@@ -51,5 +61,10 @@ Terminer par :
   Confirmer ou lister les ajustements.
 ```
 
-**Règle bloquante** : ne pas passer à Phase 3 tant que la validation n'est pas explicite.
-Si validation partielle : lister les points ouverts, bloquer jusqu'à résolution complète.
+**Blocking rule**: do not move to Phase 3 until validation is explicit. If partial validation: list the open points, block until full resolution.
+
+## Write the spec
+
+Once validated, write the sheet to `docs/specs/02-analyse.md` (in French).
+
+Chain to `/phase3-layout` after validation.

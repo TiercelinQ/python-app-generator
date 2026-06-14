@@ -1,22 +1,31 @@
 ---
-description: Ajoute une fonctionnalité à un projet existant en respectant le contrat
-             architectural verrouillé. Invoquer depuis la racine du projet cible,
-             après /charger-projet ou sur un projet déjà chargé.
-model: claude-sonnet-4-6
+name: feature-add
+description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /charger-projet or on an already-loaded project.
+model: sonnet
 ---
 
-## Pré-requis
+# /feature-add — Add a feature to a delivered project
 
-Le projet doit être chargé (`/charger-projet` exécuté en début de session, OU
-README.md présent et lu).
+## Role
+Senior PyQt6 developer working on an existing, contracted codebase.
 
-Si aucun contrat n'est connu : interrompre et demander `/charger-projet`.
+## Goal
+Add the requested feature end-to-end, contract-compliant, after an explicit contract-diff validation, without scope creep.
+
+## Deliverable
+The created/modified files on disk (one batch) + an updated `docs/specs/04-contrat.md` if the structure changed.
 
 ---
 
-## Étape 1 — Cadrage léger de la fonctionnalité
+## Prerequisite
 
-Poser en un seul bloc :
+The project must be loaded (`/charger-projet` run at session start, OR `docs/specs/04-contrat.md` / README.md present and read).
+
+If no contract is known: stop and ask for `/charger-projet`.
+
+## Step 1 — Light feature scoping
+
+Ask in a single block (in French):
 
 ```
 Nouvelle fonctionnalité — quelques questions :
@@ -31,11 +40,9 @@ Nouvelle fonctionnalité — quelques questions :
 4. Tests à générer pour cette feature ? Oui / Non (déduit de la stack projet)
 ```
 
----
+## Step 2 — Architectural contract diff
 
-## Étape 2 — Diff du contrat architectural
-
-Produire :
+Produce (in French):
 
 ```
 ## Diff contrat — ajout : [nom feature]
@@ -53,48 +60,39 @@ Produire :
 [aucun | nouveau composant à respecter dans les tokens existants]
 ```
 
-→ Validation requise avant écriture.
+→ Validation required before writing. Update `docs/specs/04-contrat.md` once the diff is applied.
 
----
+## Step 3 — Application — strict rules
 
-## Étape 3 — Application — règles strictes
+- Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change.
+- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/verification.md`.
+- No modification not listed in the validated diff.
+- No opportunistic improvement of adjacent code.
+- DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `models/migrations.py`.
+- UI string added and i18n enabled → update the `.ts` (remind the user to run `scripts/i18n_update.ps1`).
+- New styled widget → add a QSS rule in `styles_light.qss` AND `styles_dark.qss`.
+- If the validated diff introduces a deviation from the contract, record it in the app's `CLAUDE.md` (`## Écarts par rapport au framework`).
 
-- Respecter intégralement `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`,
-  `@rules/config.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`.
-- Aucune modification non listée dans le diff validé.
-- Aucune amélioration opportuniste du code adjacent.
-- Si migration DB nécessaire : incrémenter `DB_SCHEMA_VERSION`, ajouter une entrée
-  dans `MIGRATIONS` de `models/migrations.py`.
-- Si chaîne UI ajoutée et i18n activée : mettre à jour `.ts` (rappeler à l'utilisateur
-  de lancer `scripts/i18n_update.ps1`).
-- Si nouveau widget stylé : ajouter règle QSS dans `styles_light.qss` ET `styles_dark.qss`.
+## Step 4 — Delivery
 
----
-
-## Étape 4 — Livraison
-
-Format identique à Phase 5 — un seul lot pour la feature :
+Single batch for the feature:
 
 ```
-📦 Feature [nom] — [N fichiers]
+Feature [nom] — [N fichiers]
 ```
 
-Livrer chaque fichier créé/modifié en bloc complet.
+Deliver each created/modified file as a complete block. If tests requested: deliver in the same batch, at the end.
 
-Si tests demandés : livrer dans le même lot, à la fin.
+## Step 5 — Anomaly
 
----
+If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup protocol then offer `/memoriser`.
 
-## Étape 5 — Anomalie
+## Anti-patterns — what NOT to do
+- **Do not** write anything not listed in the validated diff, or improve adjacent code.
+- **Do not** add a DB column without bumping `DB_SCHEMA_VERSION` + a `MIGRATIONS` entry.
+- **Do not** add a styled widget without rules in BOTH `styles_*.qss`.
+- **Do not** exceed the contract silently — the diff + validation IS the protocol.
 
-Si l'utilisateur signale une anomalie après livraison, appliquer le protocole
-de `@rules/mvc.md` (section "Résolution d'anomalie") puis proposer `/memoriser`.
+## Verification
 
----
-
-## Vérification d'intégrité
-
-1. Tous les fichiers créés/modifiés correspondent au diff validé en Étape 2.
-2. Aucune régression dans les imports (les fichiers existants restent fonctionnels).
-3. Si tests : `pytest` exit code 0 sur l'ensemble du projet (pas seulement les nouveaux).
-4. Mise à jour `README.md` si la feature change la stack ou ajoute une dépendance.
+Apply `rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project; update `README.md` if the feature changes the stack or adds a dependency.

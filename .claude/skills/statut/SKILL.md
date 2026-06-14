@@ -1,10 +1,23 @@
 ---
-description: Affiche l'état courant du projet en cours (phase, lot, décisions verrouillées, points ouverts).
-disable-model-invocation: true
-model: claude-haiku-4-5
+name: statut
+description: Show the current state of the in-progress project (phase, batch, locked decisions, open points).
+model: haiku
 ---
 
-Afficher exactement ce format :
+# /statut — Current state
+
+## Role
+Status reporter.
+
+## Goal
+Give a one-glance state of the project.
+
+## Deliverable
+The status block (French).
+
+---
+
+Show exactly this format (in French):
 
 ```
 Phase : [nom] | Lot : [X/total] | Prochain : [action attendue]
@@ -12,6 +25,6 @@ Décisions verrouillées : [liste]
 Points ouverts : [liste ou "aucun"]
 ```
 
-Si aucun projet en cours : "Aucun projet actif. Taper /python-app pour démarrer."
+If no project is active: "Aucun projet actif. Taper /python-app pour démarrer."
 
-Ne pas ajouter `/session · /statut · /contrat` en fin de réponse.
+Do not append the `/session · /statut · /contrat` reminder after this reply.

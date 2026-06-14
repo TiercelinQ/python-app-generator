@@ -1,111 +1,89 @@
-# Guide d'utilisation — Python App Generator
+# Guide d'utilisation — Python App Generator (unifié)
+
+> Version unifiée : pipeline de génération + skills de maintenance, rôle explicite par skill, specs persistées, vérification exécutable, mémoire native.
 
 ---
 
-## Structure du projet
+## Structure du framework
 
 ```
-python-app-generator/
-├── .claude/
-│   ├── CLAUDE.md                              # Instructions core
-│   ├── design-system.md                       # Référence visuelle contraignante (v1.1)
-│   ├── layout.md                              # Référence layout contraignante (v2.1)
-│   ├── rules/
-│   │   ├── mvc.md                             # Séparation MVC, livraison par lots, nettoyage anomalies
-│   │   ├── qss.md                             # Règles QSS, tokens light/dark, flat design
-│   │   ├── errors.md                          # Protocole erreurs, toasts, sys.excepthook
-│   │   ├── config.md                          # config.py, requirements, packaging, dérivation couleurs
-│   │   ├── tests.md                           # pytest + pytest-qt, couverture par couche
-│   │   ├── logging.md                         # logging stdlib + RotatingFileHandler
-│   │   ├── i18n.md                            # Workflow .ts/.qm, pylupdate6 / lrelease
-│   │   └── db.md                              # Migrations versionnées SQLite/PostgreSQL
-│   └── skills/
-│       ├── python-app/         /python-app        # Menu démarrage / reprise (4 options)
-│       ├── phase1-cadrage/     /phase1-cadrage    # Cadrage — 6 questions + 1 hex couleur
-│       ├── phase2-analyse/     /phase2-analyse    # Fiche besoins + calibrage figé
-│       ├── phase3-layout/      /phase3-layout     # Proposition layout + personnalisation
-│       ├── phase4-contrat/     /phase4-contrat    # Contrat architectural verrouillé
-│       ├── phase5-developpement/ /phase5-...      # Livraison par lots (enchaînement auto)
-│       ├── feature-add/        /feature-add       # Ajouter une feature à un projet livré
-│       ├── charger-projet/     /charger-projet    # Chargement d'un projet existant
-│       ├── generate-readme/    /generate-readme   # Génération README.md projet existant
-│       ├── session/            /session           # Sauvegarde de session
-│       ├── statut/             /statut            # État courant du projet
-│       ├── contrat/            /contrat           # Arborescence du contrat validé
-│       ├── memoriser/          /memoriser         # Persiste dans .claude/project-memory.md
-├── .gitignore
-├── GUIDE.md                                   # Ce fichier
-└── README.md                                  # Présentation du repo GitHub
+claude-python-framework/
+├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
+├── design-system.md          # Référence visuelle contraignante (v1.1) — source de vérité unique
+├── layout.md                 # Référence layout contraignante (v2.1) — 6 positions de toasts
+├── rules/
+│   ├── mvc.md                # Séparation MVC, livraison par lots, nettoyage anomalies
+│   ├── qss.md                # Règles QSS, tokens light/dark, flat design
+│   ├── errors.md             # Protocole erreurs, toasts, sys.excepthook
+│   ├── config.md             # config.py, requirements, packaging, dérivation couleurs HSL
+│   ├── security.md           # Validation entrées, SQL paramétré, secrets keyring, anti-injection
+│   ├── tests.md              # pytest + pytest-qt, couverture par couche
+│   ├── logging.md            # logging stdlib + RotatingFileHandler
+│   ├── i18n.md               # Workflow .ts/.qm, pylupdate6 / lrelease
+│   ├── db.md                 # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
+│   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
+├── skills/
+│   ├── python-app/           # Menu démarrage / reprise / maintenance (4 options)
+│   ├── phase1-cadrage/       # Cadrage — 6 questions + 1 hex couleur → docs/specs/01-cadrage.md
+│   ├── phase2-analyse/       # Fiche besoins + calibrage figé → docs/specs/02-analyse.md
+│   ├── phase3-layout/        # Proposition layout + personnalisation → docs/specs/03-layout.md
+│   ├── phase4-contrat/       # Contrat architectural verrouillé → docs/specs/04-contrat.md
+│   ├── phase5-developpement/ # Livraison par lots (enchaînement auto)
+│   ├── feature-add/          # Ajouter une feature à un projet livré (diff de contrat)
+│   ├── analyze/              # Tracer une fonctionnalité à travers les couches
+│   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
+│   ├── refactor/             # Restructurer sous validation explicite uniquement
+│   ├── test/                 # Vérification exécutable (ruff, mypy, pytest, smoke)
+│   ├── charger-projet/       # Chargement d'un projet existant
+│   ├── generate-readme/      # Génération README.md projet existant
+│   ├── session/              # Sauvegarde de session
+│   ├── statut/               # État courant du projet
+│   ├── contrat/              # Arborescence du contrat validé
+│   └── memoriser/            # Persiste dans la mémoire native Claude Code
+├── settings.json             # Permissions d'exécution (python, pip, pytest, ruff, mypy)
+├── GUIDE.md                  # Ce fichier
+└── README.md                 # Présentation du repo GitHub (EN)
 ```
+
+> Structure **plate** : un seul `design-system.md` et un seul `layout.md` (source de vérité unique — plus de duplicats racine/`.claude`). `CLAUDE.md` les importe via `@`.
 
 ---
 
-## Installation depuis GitHub
+## Nouveautés de la version unifiée
+
+| Apport                        | Détail                                                                          |
+| ----------------------------- | ------------------------------------------------------------------------------- |
+| **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
+| **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-cadrage.md` … `04-contrat.md` (en français). |
+| **Contrat = source de vérité**| `docs/specs/04-contrat.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Skills de maintenance**     | `analyze`, `fix`, `refactor`, `test` (+ `feature-add`) avec arbres de décision et anti-patterns. |
+| **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
+| **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
+
+---
+
+## Installation
 
 ```bash
-# Cloner le repo
-git clone https://github.com/[utilisateur]/python-app-generator.git
-cd python-app-generator
+# Copier le dossier du framework dans le projet cible (ou démarrer dedans)
+# Claude Code détecte CLAUDE.md automatiquement.
+claude
 ```
 
 ### Prérequis
 
 ```bash
-# Claude Code CLI installé et connecté
-claude --version
-
-# Python 3.10+ (pour exécuter les apps générées)
-python --version
+claude --version      # Claude Code CLI installé et connecté
+python --version      # Python 3.10+ (pour exécuter les apps générées)
 ```
-
-### Démarrage
-
-```bash
-# Depuis le dossier python-app-generator/
-claude
-```
-
-Claude Code détecte `.claude/CLAUDE.md` automatiquement. `design-system.md` et `layout.md`
-sont dans `.claude/` et importés via `@` — chargés à chaque session.
 
 ### Activer la mémoire (une seule fois, par machine)
 
 ```
-/config
-→ Memory → Enable auto memory → On
+/config → Memory → Enable auto memory → On
 ```
 
 Sans cette activation, `/memoriser` formule les notes mais ne les persiste pas entre sessions.
-
----
-
-## Fichiers ignorés par git (.gitignore)
-
-Les fichiers suivants sont exclus du repo — propres à chaque utilisateur et machine :
-
-| Fichier / Dossier             | Raison                                    |
-| ----------------------------- | ----------------------------------------- |
-| `.claude/settings.local.json` | Permissions et hooks personnels           |
-| `.claude/agent-memory/`       | Mémoire auto Claude Code — personnelle    |
-| `claude-sessions/`            | Fichiers SESSION propres à chaque projet  |
-| `preferences.json`            | Préférences utilisateur des apps générées |
-| `*.db`                        | Données applicatives                      |
-| `.venv/`                      | Environnement virtuel local               |
-
-> **Note** : `.claude/settings.json` (sans `.local`) peut être commité si tu veux partager
-> des permissions ou hooks communs à tous les utilisateurs du repo.
-
----
-
-## Effort recommandé par modèle
-
-| Skill                                                                                                                                                  | Modèle | Effort recommandé     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ | --------------------- |
-| `/python-app` · `/statut` · `/contrat` · `/session` · `/memoriser` · `/charger-projet`                                                                 | Haiku  | — (tâches mécaniques) |
-| `/phase1-cadrage` · `/phase2-analyse` · `/phase3-layout` · `/phase4-contrat` · `/phase5-developpement` · `/feature-add` · `/generate-readme`           | Sonnet | `medium`              |
-
-`high` : justifié pour la Phase 4 (contrat complexe) ou le débogage multi-fichiers.
-Changer l'effort en session : `/effort medium` ou `/effort high`.
 
 ---
 
@@ -117,182 +95,87 @@ Changer l'effort en session : `/effort medium` ou `/effort high`.
 
 ### Phase 1 — Cadrage
 
-Claude pose 6 questions en un seul bloc :
+6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de couleur primaire — l'utilisateur fournit uniquement `primary-600`, Claude dérive les 3 autres via formule HSL.
 
-1. Objectif de l'application
-2. Base de données (SQLite / PostgreSQL / JSON / CSV / aucune)
-3. Préférences persistantes entre sessions (Oui / Non)
-4. Internationalisation FR/EN (Oui / Non)
-5. Tests automatisés — pytest + pytest-qt (Oui / Non — recommandé Oui pour usage pro)
-6. Packaging .exe via PyInstaller (Oui / Non)
-
-Puis propose 3 couleurs primaires adaptées au contexte + Slate Blue par défaut +
-option personnalisée. L'utilisateur fournit uniquement `primary-600`, Claude dérive
-`primary-50`, `primary-400`, `primary-900` via formule HSL déterministe.
-
-Annonce un calibrage **provisoire** (sera figé après Phase 2) :
+Calibrage **provisoire** annoncé (figé après Phase 2) :
 
 | Taille        | Lots (sans tests) | Lots (avec tests) |
 | ------------- | ----------------- | ----------------- |
 | Petit         | 3                 | 4                 |
 | Moyen / Grand | 4                 | 5                 |
 
+Écrit `docs/specs/01-cadrage.md`.
+
 ### Phase 2 — Analyse des besoins
 
-Fiche structurée : objectif, fonctionnalités retenues, hors périmètre, contraintes techniques.
-**Le calibrage est confirmé ici, à partir du compte réel de fonctionnalités.**
-**→ Validation explicite requise avant Phase 3 — verrouille le nombre de lots.**
+Fiche structurée + calibrage **confirmé** à partir du compte réel. Validation bloquante avant Phase 3. Écrit `docs/specs/02-analyse.md`.
 
-### Phase 3 — Proposition de layout
+### Phase 3 — Layout
 
-Claude propose une structure issue de `layout.md` puis pose les questions de personnalisation
-en un seul bloc :
-
-1. Position des onglets (gauche après logo / centrés)
-2. Panneau secondaire (Drawer / Modale / Aucun)
-3. Largeur du drawer si sélectionné (fixe 320px / fixe personnalisée / dynamique)
-   ou taille de la modale si sélectionnée (fixe / dynamique)
-4. Disposition interne de la modale si sélectionnée :
-   - Header + contenu + footer
-   - Header + 2 colonnes + footer
-   - Header + contenu (sans footer)
-   - Autre → Claude pose 3 questions pour aider à choisir, propose 2 dispositions avec recommandation
-5. Emplacement des toasts (haut-droit par défaut, 5 autres positions disponibles)
-
-Produit une synthèse complète du layout validé.
-**→ Validation explicite requise avant Phase 4.**
+Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts). Validation bloquante. Écrit `docs/specs/03-layout.md`.
 
 ### Phase 4 — Contrat architectural
 
-Arborescence complète + rôle de chaque fichier + tableau tokens → règles QSS.
-**→ Verrouillé après validation. Tout écart impose : arrêt → déclaration → validation.**
+Arborescence + rôle de chaque fichier + tableau tokens → QSS + mapping source→test. **Verrouillé après validation.** Écrit `docs/specs/04-contrat.md` (source de vérité).
 
 ### Phase 5 — Développement par lots
 
-Claude crée les dossiers et écrit les fichiers directement sur le disque — aucune action manuelle requise.
-Format d'annonce : `📦 Lot N/[total] — [contenu]`
-Enchaînement automatique entre les lots sans confirmation.
-
-**Contenu par taille de projet — sans tests (Q5 = Non) :**
-
-| Taille               | Lot 1                   | Lot 2                     | Lot 3                                                    | Lot 4                                                    |
-| -------------------- | ----------------------- | ------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| Petit (3 lots)       | `config.py` + `models/` | `views/` + `controllers/` | `main.py` + `utils/` + `styles_*.qss` + `requirements.txt` | —                                                          |
-| Moyen/Grand (4 lots) | `config.py` + `models/` | `views/`                  | `controllers/`                                             | `main.py` + `utils/` + `styles_*.qss` + `requirements.txt` |
-
-**Contenu par taille de projet — avec tests (Q5 = Oui) :**
-
-| Taille               | Lot 1                   | Lot 2                     | Lot 3                                                    | Lot 4                                                    | Lot 5                                                    |
-| -------------------- | ----------------------- | ------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| Petit (4 lots)       | `config.py` + `models/` | `views/` + `controllers/` | `main.py` + `utils/` + `styles_*.qss` + `requirements.txt` | `tests/` + `requirements-dev.txt`                          | —                                                          |
-| Moyen/Grand (5 lots) | `config.py` + `models/` | `views/`                  | `controllers/`                                             | `main.py` + `utils/` + `styles_*.qss` + `requirements.txt` | `tests/` + `requirements-dev.txt`                          |
-
-**Dernier lot applicatif — livrables supplémentaires obligatoires :**
-
-- Instructions d'installation (venv, pip, lancement)
-- `README.md` écrit automatiquement à la racine du projet
-
-**Lot tests — uniquement si Q5 = Oui :**
-
-- `tests/` complet (miroir de la structure source)
-- `requirements-dev.txt` (`pytest`, `pytest-qt`)
-- Instructions `pytest` ajoutées au README
-
-> **Note** : Claude Code demandera la permission d'exécuter Bash la première fois.
-> Accepter pour tous les appels du projet pour ne pas être interrompu à chaque fichier.
+Claude crée les dossiers et écrit les fichiers directement sur le disque. Annonce `Lot N/[total] — [contenu]`. Enchaînement automatique. Découpage selon la table de `rules/mvc.md` (conditionnel tests). Dernier lot : instructions d'installation + `README.md` à la racine. Vérification exécutable appliquée (`rules/verification.md`).
 
 ---
 
-## Reprendre une session existante
-
-### Sauvegarder en fin de session
+## Reprendre une session
 
 ```
-/session
-```
-
-Claude crée automatiquement le dossier `claude-sessions/` (s'il n'existe pas) et écrit
-le fichier `SESSION_NomApp_SN.md` dedans.
-
-### Reprendre
-
-```
-/python-app → 2
-```
-
-Claude demande le chemin du fichier SESSION, le lit automatiquement et reprend
-sans re-poser les questions résolues.
-
-```
-ex: C:\projets\mon-app\claude-sessions\SESSION_MonApp_S1.md
+/session            # sauvegarder en fin de session (claude-sessions/)
+/python-app → 2     # reprendre : fournir le chemin du fichier SESSION
 ```
 
 ---
 
-## Travailler sur un projet existant (Phase 5 terminée)
+## Travailler sur un projet livré
 
-Le `.claude/` doit être présent à la racine du projet. Si ce n'est pas le cas :
+```
+/python-app → 3       # ou directement /charger-projet depuis la racine du projet
+```
+
+Claude lit `docs/specs/04-contrat.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
+
+### Maintenance (`/python-app → 4`)
+
+| Besoin                          | Commande      |
+| ------------------------------- | ------------- |
+| Ajouter une fonctionnalité      | `/feature-add` |
+| Comprendre / tracer le code     | `/analyze`     |
+| Corriger un bug                 | `/fix`         |
+| Restructurer (sous validation)  | `/refactor`    |
+| Vérifier le build / lancer les checks | `/test`  |
+
+---
+
+## Vérification exécutable
+
+`rules/verification.md` est la source unique. Commandes (échec bloquant quand l'environnement le permet) :
 
 ```bash
-# Copier le .claude/ dans le projet existant (Windows)
-xcopy /E /I python-app-generator\.claude mon-projet\.claude
+python -m venv .venv ; .venv\Scripts\activate
+pip install -r requirements.txt        # + requirements-dev.txt si tests/outillage
+ruff check .                           # lint
+ruff format --check .                  # format
+mypy .                                 # type-check strict
+pytest                                 # si tests activés uniquement
+python main.py                         # smoke launch
 ```
 
-Puis lancer Claude Code depuis la racine du projet :
-
-```bash
-cd mon-projet\
-claude
-```
-
-**Projet avec README.md :**
-
-```
-/charger-projet
-```
-
-Claude lit `README.md`, confirme la prise en charge et applique toutes les règles.
-
-**Projet sans README.md :**
-
-```
-/generate-readme
-```
-
-Claude analyse le code source et génère `README.md` automatiquement.
+`/test` exécute cette échelle ; `/fix` y renvoie pour confirmer une correction.
 
 ---
 
 ## Gestion des anomalies et mémoire
 
-### Résolution d'anomalie
+Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (éléments des tentatives infructueuses à retirer) puis propose `Veux-tu mémoriser ce point ? /memoriser`.
 
-Après chaque correction, Claude produit :
-
-```
-Anomalie résolue. Éléments à retirer des tentatives précédentes :
-Fichier [nom] : [lignes / blocs à supprimer]
-```
-
-Puis propose : `Veux-tu mémoriser ce point ? /memoriser`
-
-### /memoriser
-
-```
-/memoriser
-```
-
-Claude demande ce qu'il faut retenir :
-
-- A. Erreur à ne plus reproduire
-- B. Décision structurante
-- C. Préférence de génération
-- D. Autre
-
-Consigne une note datée et catégorisée dans `~/.claude/agent-memory/`.
-Disponible dans toutes les sessions suivantes sur ce projet.
-
-> La mémoire est stockée localement sur ta machine — elle n'est pas commitée dans le repo.
+`/memoriser` catégorise (erreur / décision / préférence / autre) et écrit dans la **mémoire native Claude Code** (+ pointeur dans `MEMORY.md`), disponible dans les sessions suivantes.
 
 ---
 
@@ -300,19 +183,23 @@ Disponible dans toutes les sessions suivantes sur ce projet.
 
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
-| `/python-app`           | Haiku  | Menu démarrage / reprise (4 options)                 |
-| `/phase1-cadrage`       | Sonnet | Cadrage — 6 questions + couleur primaire             |
+| `/python-app`           | Haiku  | Menu démarrage / reprise / maintenance               |
+| `/phase1-cadrage`       | Sonnet | Cadrage — 6 questions + couleur (HSL)                |
 | `/phase2-analyse`       | Sonnet | Fiche besoins + calibrage figé                       |
 | `/phase3-layout`        | Sonnet | Proposition layout + personnalisation                |
 | `/phase4-contrat`       | Sonnet | Contrat architectural verrouillé                     |
 | `/phase5-developpement` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/feature-add`          | Sonnet | Ajouter une feature à un projet livré                |
-| `/charger-projet`       | Haiku  | Charger un projet existant depuis son README.md      |
+| `/feature-add`          | Sonnet | Ajouter une feature à un projet livré (diff)         |
+| `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
+| `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
+| `/refactor`             | Sonnet | Restructurer sous validation                         |
+| `/test`                 | Sonnet | Vérification exécutable                               |
+| `/charger-projet`       | Haiku  | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
-| `/session`              | Haiku  | Sauvegarder la session dans `claude-sessions/`       |
-| `/statut`               | Haiku  | État courant (phase, lot, décisions, points ouverts) |
-| `/contrat`              | Haiku  | Arborescence du contrat architectural validé         |
-| `/memoriser`            | Haiku  | Persister dans `.claude/project-memory.md`           |
+| `/session`              | Haiku  | Sauvegarder la session                               |
+| `/statut`               | Haiku  | État courant                                         |
+| `/contrat`              | Haiku  | Contrat architectural validé                         |
+| `/memoriser`            | Haiku  | Persister dans la mémoire native                     |
 
 ---
 
@@ -320,132 +207,31 @@ Disponible dans toutes les sessions suivantes sur ce projet.
 
 ```
 mon-app/
-├── main.py                        # Point d'entrée
+├── main.py                        # Point d'entrée — logger, migrations, excepthook
 ├── config.py                      # Constantes, PRIMARY_*, ICON_COLORS
-├── requirements.txt
-├── README.md                      # Généré automatiquement en fin de Phase 5
-├── preferences.json               # Généré au premier lancement (si activé)
-├── claude-sessions/               # Fichiers SESSION (gitignorés)
-├── models/
-│   ├── __init__.py
-│   ├── exceptions.py              # Exceptions métier nommées
-│   └── [entite]_model.py
-├── views/
-│   ├── __init__.py
-│   ├── main_window.py             # Fenêtre principale, topbar, layout global
-│   ├── toast_manager.py           # Toasts (position, animation, durées)
-│   └── [entite]_view.py
-├── controllers/
-│   ├── __init__.py
-│   └── [entite]_controller.py
-├── utils/
-│   └── helpers.py                 # Fonctions pures (formatage, JSON, validation)
-└── resources/
-    ├── styles_light.qss           # Thème clair — tous tokens design-system.md
-    └── styles_dark.qss            # Thème sombre — tous tokens design-system.md
+├── requirements.txt · pyproject.toml
+├── README.md                      # Généré en fin de Phase 5
+├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
+├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
+├── docs/specs/                    # Specs de génération (FR)
+├── models/                        # exceptions.py, db.py + migrations.py (si DB), [entite]_model.py
+├── views/                         # main_window.py, toast_manager.py, [entite]_view.py
+├── controllers/                   # [entite]_controller.py
+├── utils/                         # helpers.py, logger.py
+└── resources/                     # styles_light.qss, styles_dark.qss, i18n/ (si activé)
 
 # Si tests activés en Phase 1 :
-tests/
-├── __init__.py
-├── conftest.py                    # Fixtures partagées (qapp via pytest-qt auto)
-├── test_helpers.py
-├── models/
-│   ├── __init__.py
-│   ├── test_exceptions.py
-│   └── test_[entite]_model.py
-├── controllers/
-│   ├── __init__.py
-│   └── test_[entite]_controller.py
-└── views/
-    ├── __init__.py
-    └── test_[entite]_view.py      # Smoke tests uniquement
-requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
-```
-
----
-
-## Ajouter une fonctionnalité à un projet livré
-
-```
-/feature-add
-```
-
-Workflow incrémental :
-1. Cadrage léger (description + entité + type de modif + tests Oui/Non).
-2. Diff du contrat architectural (fichiers créés / modifiés / supprimés).
-3. Validation avant écriture.
-4. Livraison en un seul lot.
-5. Mise à jour `README.md` si stack ou dépendances changent.
-
-Respect intégral des règles `@rules/*.md` — aucune modification non listée au diff.
-
----
-
-## Logging, erreurs, base de données
-
-### Logging (`@rules/logging.md`)
-
-Toute app embarque `utils/logger.py` (config centralisée — `RotatingFileHandler` 1 MB × 5).
-Logs dans `logs/[NomApp].log`, niveau `INFO` par défaut.
-
-Activer le mode debug : variable d'environnement `[NOM_APP]_DEBUG=1`.
-
-### Erreurs non capturées (`@rules/errors.md`)
-
-`sys.excepthook` installé dans `main.py` → log critical + toast `danger` automatique.
-Pas de crash silencieux en mode `--windowed`.
-
-### Migrations DB (`@rules/db.md`)
-
-`config.DB_SCHEMA_VERSION` + `models/migrations.py` avec dict `MIGRATIONS[version]`.
-Appliquées au démarrage avant la `MainWindow`. Pas de rollback automatique.
-
----
-
-## Tests automatisés
-
-Activés via la **Q5 de la Phase 1** (recommandé : Oui pour usage pro).
-
-### Stack
-
-- `pytest >= 8.0`
-- `pytest-qt >= 4.4` (smoke tests Views)
-- `unittest.mock` (stdlib) pour les mocks
-
-### Structure
-
-`tests/` miroir de la structure source — un fichier de test par module source.
-Détails complets et patterns : `.claude/rules/tests.md`.
-
-### Couverture par défaut
-
-| Couche                 | Cible                                                      |
-| ---------------------- | ---------------------------------------------------------- |
-| `models/`              | Logique métier complète, exceptions, edge cases            |
-| `models/exceptions.py` | Smoke isinstance                                           |
-| `controllers/`         | Wiring + try/except (model mocké → vérif `show_toast`)     |
-| `utils/helpers.py`     | 100% lignes                                                |
-| `views/`               | Smoke uniquement (instanciation + `objectName` via qtbot)  |
-
-### Lancement
-
-```bash
-pip install -r requirements-dev.txt
-pytest                              # tous les tests
-pytest tests/models/                # une couche
-pytest -k validation                # filtre par nom
-pytest -v                           # verbeux
+tests/                             # Miroir de la structure source
+requirements-dev.txt
 ```
 
 ---
 
 ## Points de vigilance
 
-- `design-system.md` (v1.1) et `layout.md` (v2.1) sont dans `.claude/` — ne pas les déplacer ni modifier sans bump de version.
-- Les couleurs d'icônes qtawesome sont dans `config.py`, pas dans QSS (contrainte technique qtawesome).
-- Le contrat architectural (Phase 4) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration.
-- `/charger-projet`, `/generate-readme` et `/feature-add` doivent être invoqués depuis la racine du projet cible.
-- `.claude/project-memory.md` est commitable et partageable — `~/.claude/agent-memory/` reste local à la machine.
-- `.claude/settings.local.json` est gitignorée — chaque utilisateur configure ses propres permissions locales.
-- `build.spec` est **versionné** (non gitignoré) si packaging Phase 1 Q6 = Oui.
-- Toutes les commandes shell utilisées par les skills sont compatibles Windows PowerShell — pas de Bash requis.
+- `design-system.md` (v1.1) et `layout.md` (v2.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
+- Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
+- Le contrat (`docs/specs/04-contrat.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
+- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q6 = Oui.
+- Toutes les commandes shell des skills sont compatibles Windows PowerShell.

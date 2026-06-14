@@ -1,36 +1,39 @@
-# Structure config.py et dépendances
+# config.py structure and dependencies
 
-## config.py — structure minimale obligatoire
+## config.py — mandatory minimum structure
 
 ```python
 # config.py
-APP_NAME: str = "NomApp"
+APP_NAME: str = "AppName"
 APP_VERSION: str = "1.0.0"
 
-# Base de données (si applicable)
-DB_PATH: str = "data/nom_app.db"
-DB_SCHEMA_VERSION: int = 1                    # voir @rules/db.md
+# Database (if applicable)
+DB_PATH: str = "data/app_name.db"
+DB_SCHEMA_VERSION: int = 1                    # see @rules/db.md
 
-# Préférences (si applicable) — fichier à la racine du projet
+# Preferences (if applicable) — file at the project root
 PREFERENCES_FILE: str = "preferences.json"
 
-# Internationalisation (si activée) — voir @rules/i18n.md
+# Internationalization (if enabled) — see @rules/i18n.md
 DEFAULT_LOCALE: str = "fr"
 SUPPORTED_LOCALES: list[str] = ["fr", "en"]
 
-# Logging — voir @rules/logging.md
-LOG_DIR: str = "logs"                         # ou %APPDATA%/[NomApp]/logs pour packaging
+# Logging — see @rules/logging.md
+LOG_DIR: str = "logs"                         # or %APPDATA%/[AppName]/logs for packaging
 LOG_LEVEL: str = "INFO"
-LOG_MAX_BYTES: int = 1_000_000                # 1 MB par fichier
+LOG_MAX_BYTES: int = 1_000_000                # 1 MB per file
 LOG_BACKUP_COUNT: int = 5
 
-# Couleurs primaires — remplacer ces 4 valeurs pour changer la couleur primaire
-PRIMARY_50:  str = "#EEF2FF"   # fond sélection clair
-PRIMARY_400: str = "#818CF8"   # texte actif sombre
-PRIMARY_600: str = "#4F46E5"   # texte/bordure actif clair
-PRIMARY_900: str = "#312E81"   # fond sélection sombre
+# Toast position — see @layout.md
+TOAST_POSITION: str = "top-right"
 
-# Icônes qtawesome — couleurs par thème (contrainte technique : non stylable via QSS)
+# Primary colors — replace these 4 values to change the primary color
+PRIMARY_50:  str = "#EEF2FF"   # light selection bg
+PRIMARY_400: str = "#818CF8"   # dark active text
+PRIMARY_600: str = "#4F46E5"   # light active text/border
+PRIMARY_900: str = "#312E81"   # dark selection bg
+
+# qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
 ICON_COLORS: dict = {
     "light": {
         "default":  "#6B7280",   # text-subtle
@@ -40,89 +43,86 @@ ICON_COLORS: dict = {
         "muted":    "#9CA3AF",   # text-muted
     },
     "dark": {
-        "default":  "#9CA3AF",   # text-subtle sombre
+        "default":  "#9CA3AF",   # text-subtle dark
         "active":   PRIMARY_400,
-        "danger":   "#F87171",   # danger-600 sombre
-        "success":  "#4ADE80",   # success-600 sombre
-        "muted":    "#6B7280",   # text-muted sombre
+        "danger":   "#F87171",   # danger-600 dark
+        "success":  "#4ADE80",   # success-600 dark
+        "muted":    "#6B7280",   # text-muted dark
     }
 }
 ```
 
-Toute constante réutilisée dans plus d'un fichier va dans `config.py`.
+Any constant reused in more than one file goes into `config.py`.
 
 ---
 
-## Dérivation des tokens primaires à partir de `primary-600`
+## Deriving the primary tokens from `primary-600`
 
-L'utilisateur fournit **uniquement** `primary-600` en Phase 1. Claude dérive les 3 autres
-par règle déterministe basée sur HSL — même teinte (`H`), même saturation (`S`), seule
-la luminosité (`L`) change.
+The user provides **only** `primary-600` in Phase 1. Claude derives the other 3 by a deterministic HSL-based rule — same hue (`H`), same saturation (`S`), only lightness (`L`) changes.
 
-| Token         | Formule HSL                                | Rôle visuel               |
+| Token         | HSL formula                                | Visual role               |
 | ------------- | ------------------------------------------ | ------------------------- |
-| `primary-50`  | `H` inchangé · `S` inchangé · `L` = 95%    | Fond sélection (clair)    |
-| `primary-400` | `H` inchangé · `S` inchangé · `L` = 70%    | Texte actif (sombre)      |
-| `primary-600` | **Fourni par l'utilisateur**                | Texte/bordure actif (clair) |
-| `primary-900` | `H` inchangé · `S` inchangé · `L` = 25%    | Fond sélection (sombre)   |
+| `primary-50`  | `H` unchanged · `S` unchanged · `L` = 95%  | Selection bg (light)      |
+| `primary-400` | `H` unchanged · `S` unchanged · `L` = 70%  | Active text (dark)        |
+| `primary-600` | **Provided by the user**                    | Active text/border (light) |
+| `primary-900` | `H` unchanged · `S` unchanged · `L` = 25%  | Selection bg (dark)       |
 
-Méthode : convertir le hex `primary-600` en HSL, recalculer les 3 luminosités, reconvertir
-en hex. Aucune dépendance externe — utiliser `colorsys` (stdlib) côté Claude.
+Method: convert the `primary-600` hex to HSL, recompute the 3 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side.
 
-### Table de correspondance des couleurs proposées par défaut
+### Default proposed colors correspondence table
 
-| Nom         | primary-600 | primary-50 (dérivé) | primary-400 (dérivé) | primary-900 (dérivé) |
-| ----------- | ----------- | ------------------- | -------------------- | -------------------- |
-| Slate Blue  | #4F46E5     | #EEF2FF             | #818CF8              | #312E81              |
-| Royal Blue  | #2563EB     | #EFF6FF             | #60A5FA              | #1E3A8A              |
-| Emerald     | #059669     | #ECFDF5             | #34D399              | #064E3B              |
-| Crimson     | #DC2626     | #FEF2F2             | #F87171              | #7F1D1D              |
-| Amber       | #D97706     | #FFFBEB             | #FBBF24              | #78350F              |
-| Violet      | #7C3AED     | #F5F3FF             | #A78BFA              | #4C1D95              |
+| Name        | primary-600 | primary-50 (derived) | primary-400 (derived) | primary-900 (derived) |
+| ----------- | ----------- | -------------------- | --------------------- | --------------------- |
+| Slate Blue  | #4F46E5     | #EEF2FF              | #818CF8               | #312E81               |
+| Royal Blue  | #2563EB     | #EFF6FF              | #60A5FA               | #1E3A8A               |
+| Emerald     | #059669     | #ECFDF5              | #34D399               | #064E3B               |
+| Crimson     | #DC2626     | #FEF2F2              | #F87171               | #7F1D1D               |
+| Amber       | #D97706     | #FFFBEB              | #FBBF24               | #78350F               |
+| Violet      | #7C3AED     | #F5F3FF              | #A78BFA               | #4C1D95               |
 
-Pour toute valeur personnalisée (option E en Phase 1), Claude calcule les 3 dérivés et
-les annonce explicitement avant de les écrire dans `config.py`.
+For any custom value (option E in Phase 1), Claude computes the 3 derived values and announces them explicitly before writing them to `config.py`.
 
 ---
 
-## Préférences persistées — valeurs par défaut
+## Persisted preferences — default values
 
-Activées si Phase 1 Q3 = Oui. Stockées dans `preferences.json` à la **racine du projet**
-(gitignoré). En mode packaging `.exe`, déplacer vers `%APPDATA%/[NomApp]/preferences.json`.
+Enabled if Phase 1 Q3 = Yes. Stored in `preferences.json` at the **project root** (gitignored). In `.exe` packaging mode, move to `%APPDATA%/[AppName]/preferences.json`.
 
-| Préférence         | Valeur par défaut |
+| Preference         | Default value     |
 | ------------------ | ----------------- |
-| thème              | système OS        |
-| fenêtre taille     | 1280×800          |
-| fenêtre position   | centrée           |
-| drawer état        | fermé             |
-| langue (si i18n)   | fr                |
+| theme              | OS system         |
+| window size        | 1280×800          |
+| window position    | centered          |
+| drawer state       | closed            |
+| language (if i18n) | fr                |
 
-Lecture/écriture via `utils/helpers.py` (fonctions pures, voir `@rules/mvc.md`).
+Read/write via `utils/helpers.py` (pure functions, see `@rules/mvc.md`).
 
 ---
 
-## requirements.txt — versioning loose
+## requirements.txt — loose versioning
 
 ```
 PyQt6>=6.7.0
 qtawesome>=1.3.0
 ```
 
-Versions loose (`>=`), fixées à la version minimale validée en Phase 1.
+Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 
-### Dépendances conditionnelles
+### Conditional dependencies
 
-| Condition Phase 1                    | Dépendance ajoutée à requirements.txt   |
+| Phase 1 condition                    | Dependency added to requirements.txt    |
 | ------------------------------------ | --------------------------------------- |
-| DB = SQLite                          | aucune (sqlite3 stdlib)                 |
+| DB = SQLite                          | none (sqlite3 stdlib)                   |
 | DB = PostgreSQL                      | `psycopg[binary]>=3.2.0`                |
-| DB = JSON ou CSV                     | aucune                                  |
-| i18n = Oui                           | aucune (PyQt6.QtCore.QTranslator natif) |
+| DB = JSON or CSV                     | none                                    |
+| i18n = Yes                           | none (PyQt6.QtCore.QTranslator native)  |
+
+> **Version maintenance**: these versions reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minimum versions (`pip index versions`, PyPI). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
 
 ---
 
-## requirements-dev.txt — si tests activés OU pour usage pro
+## requirements-dev.txt — if tests enabled OR for pro use
 
 ```
 pytest>=8.0.0
@@ -131,19 +131,19 @@ ruff>=0.6.0
 mypy>=1.11.0
 ```
 
-Installation locale :
+Local install:
 
 ```bash
 pip install -r requirements.txt -r requirements-dev.txt
 ```
 
-Voir `@rules/tests.md` pour la structure des tests.
+See `@rules/tests.md` for the test structure.
 
 ---
 
-## pyproject.toml — configuration outillage
+## pyproject.toml — tooling configuration
 
-Livré dans le dernier lot applicatif :
+Delivered in the last application batch:
 
 ```toml
 [tool.ruff]
@@ -165,7 +165,7 @@ testpaths = ["tests"]
 qt_api = "pyqt6"
 ```
 
-Commandes développeur :
+Developer commands:
 
 ```bash
 ruff check .              # lint
@@ -176,50 +176,50 @@ pytest                    # tests
 
 ---
 
-## Internationalisation (si activée)
+## Internationalization (if enabled)
 
-Synthèse — détail complet dans `@rules/i18n.md`.
+Summary — full detail in `@rules/i18n.md`.
 
-- Toutes les chaînes visibles passent par `self.tr("texte")` dans les Views.
-- Fichiers dans `resources/i18n/` : `app_fr.ts` et `app_en.ts`, compilés en `.qm`.
-- Langue chargée au démarrage depuis préférences, FR par défaut.
-- Changement de langue : redémarrage (pas de rechargement à chaud).
-- Zéro chaîne en dur dans Views, Controllers ou Models.
+- All visible strings go through `self.tr("text")` in the Views.
+- Files in `resources/i18n/`: `app_fr.ts` and `app_en.ts`, compiled to `.qm`.
+- Language loaded at startup from preferences, FR by default.
+- Language change: restart (no hot reload).
+- Zero hardcoded string in Views, Controllers, or Models.
 
 ---
 
 ## Logging
 
-Synthèse — détail complet dans `@rules/logging.md`.
+Summary — full detail in `@rules/logging.md`.
 
-- Module `logging` (stdlib) + `RotatingFileHandler`.
-- Fichier `logs/[NomApp].log`, rotation à 1 MB × 5 backups.
-- Niveau `INFO` par défaut, `DEBUG` si variable d'environnement `[NOM_APP]_DEBUG=1`.
-- Format : `%(asctime)s [%(levelname)s] %(name)s — %(message)s`.
-
----
-
-## Gestion des erreurs non capturées
-
-Synthèse — détail dans `@rules/errors.md`.
-
-- `sys.excepthook` installé dans `main.py` : log l'exception puis affiche un toast danger.
-- Aucune trace dans stdout/stderr en mode `--windowed` (PyInstaller).
+- `logging` module (stdlib) + `RotatingFileHandler`.
+- File `logs/[AppName].log`, rotation at 1 MB × 5 backups.
+- `INFO` level by default, `DEBUG` if env var `[APP_NAME]_DEBUG=1`.
+- Format: `%(asctime)s [%(levelname)s] %(name)s — %(message)s`.
 
 ---
 
-## Packaging Windows (.exe) — opt-in via Phase 1 Q6
+## Uncaught error handling
 
-Si Q6 = Oui, un dernier mini-lot livre `build.spec` + script `build.ps1`.
+Summary — detail in `@rules/errors.md`.
+
+- `sys.excepthook` installed in `main.py`: logs the exception then shows a danger toast.
+- No trace to stdout/stderr in `--windowed` mode (PyInstaller).
+
+---
+
+## Windows packaging (.exe) — opt-in via Phase 1 Q6
+
+If Q6 = Yes, a final mini-batch delivers `build.spec` + a `build.ps1` script.
 
 ```bash
-pyinstaller --onefile --windowed --name [NomApp] main.py ^
+pyinstaller --onefile --windowed --name [AppName] main.py ^
             --add-data "resources;resources" ^
             --icon resources/icon.ico
 ```
 
-Détails :
-- Chemins resources gérés via `helpers.resource_path()` qui résout `sys._MEIPASS` en mode bundled.
-- `preferences.json` et `logs/` déplacés vers `%APPDATA%/[NomApp]/` en mode bundled.
-- `build.spec` est **commité** (cf. `.gitignore` mis à jour).
-- Signature `.exe` : hors périmètre du générateur (à faire à part avec `signtool`).
+Details:
+- Resource paths handled via `helpers.resource_path()` which resolves `sys._MEIPASS` in bundled mode.
+- `preferences.json` and `logs/` moved to `%APPDATA%/[AppName]/` in bundled mode.
+- `build.spec` is **committed** (cf. updated `.gitignore`).
+- `.exe` signing: out of the generator's scope (done separately with `signtool`).

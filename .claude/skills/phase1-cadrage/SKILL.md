@@ -1,12 +1,25 @@
 ---
-description: Phase 1 du cycle de développement — cadrage d'une nouvelle application.
-             Invoquer immédiatement quand l'utilisateur choisit "1. Nouvelle application".
-model: claude-sonnet-4-6
+name: phase1-cadrage
+description: Phase 1 of the development cycle — scoping a new application (6 questions + primary color HSL derivation), provisional calibration, and writing of the scoping spec.
+model: sonnet
 ---
 
-## Instructions — Phase 1 : Cadrage
+# /phase1-cadrage — Scoping
 
-Poser les 6 questions suivantes en **un seul bloc** :
+## Role
+Project scoper — turn a vague idea into a bounded, validated scope.
+
+## Goal
+Lock the project parameters (DB, prefs, i18n, tests, packaging, color) before any analysis.
+
+## Deliverable
+`docs/specs/01-cadrage.md` (written in French) + on-screen summary.
+
+---
+
+## Instructions — Phase 1: Scoping
+
+Ask the following 6 questions in **a single block** (in French):
 
 ```
 1. Objectif de l'application — description libre.
@@ -17,39 +30,40 @@ Poser les 6 questions suivantes en **un seul bloc** :
 6. Packaging .exe (PyInstaller — build.spec + script PowerShell) ? Oui / Non
 ```
 
-Après réception des réponses, proposer le choix de couleur primaire :
+After receiving the answers, propose the primary color choice:
 
 ```
 Couleur primaire pour ce projet (un seul hex `primary-600` suffit — Claude dérive les 3 autres) :
 
-A. [Couleur 1] — primary-600 = [hex] — [caractère en 3 mots]
-B. [Couleur 2] — primary-600 = [hex] — [caractère en 3 mots]
-C. [Couleur 3] — primary-600 = [hex] — [caractère en 3 mots]
+A. [Color 1] — primary-600 = [hex] — [character in 3 words]
+B. [Color 2] — primary-600 = [hex] — [character in 3 words]
+C. [Color 3] — primary-600 = [hex] — [character in 3 words]
 D. Slate Blue  — primary-600 = #4F46E5 — professionnel, tech, sobre (défaut)
 E. Personnalisé — fournir un hex `primary-600` (ex: #2563EB)
 ```
 
-Règles couleur (voir `@rules/config.md` section "Dérivation des tokens primaires") :
+Color rules (see `@rules/config.md` "Deriving the primary tokens"):
 
-- Proposer 3 couleurs professionnelles adaptées au contexte de l'application décrite.
-- À partir de la valeur `primary-600` retenue, Claude **dérive** automatiquement :
-  - `primary-50`   = même teinte, luminosité ~95% (fond sélection clair)
-  - `primary-400`  = même teinte, luminosité ~70% (texte actif sombre)
-  - `primary-900`  = même teinte, luminosité ~25% (fond sélection sombre)
-- Les 4 valeurs sont écrites dans `config.py` (`PRIMARY_*`) et `styles_light.qss` / `styles_dark.qss`.
-- Le `design-system.md` global reste inchangé.
-- Si D ou pas de réponse : Slate Blue par défaut (4 valeurs déjà connues).
+- Propose 3 professional colors suited to the described application context.
+- From the chosen `primary-600`, Claude **derives** automatically:
+  - `primary-50`  = same hue, ~95% lightness (light selection bg)
+  - `primary-400` = same hue, ~70% lightness (dark active text)
+  - `primary-900` = same hue, ~25% lightness (dark selection bg)
+- The 4 values are written to `config.py` (`PRIMARY_*`) and `styles_light.qss` / `styles_dark.qss`.
+- The global `design-system.md` stays unchanged.
+- If D or no answer: Slate Blue by default (4 values already known).
 
-Annoncer ensuite le calibrage **provisoire** :
+Then announce the **provisional** calibration:
 
 ```
 Calibrage provisoire : [Petit | Moyen/Grand] — [N] lots (dont 1 lot tests si activé)
 (Sera confirmé à la fin de la Phase 2, après comptage des fonctionnalités réelles.)
 ```
 
-| Taille        | Fichiers | Fonctionnalités | Lots (sans tests) | Lots (avec tests) |
-| ------------- | -------- | --------------- | ----------------- | ----------------- |
-| Petit         | < 10     | ≤ 5             | 3                 | 4                 |
-| Moyen / Grand | ≥ 10     | > 5             | 4                 | 5                 |
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source).
 
-Enchaîner immédiatement sur la Phase 2 (skill `/phase2-analyse`).
+## Write the spec
+
+Write `docs/specs/01-cadrage.md` (in French) capturing: objective, DB, preferences, i18n, tests, packaging, primary color (the 4 derived hex values), validated libraries, and the provisional calibration. If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+
+Chain immediately to Phase 2 (`/phase2-analyse`).

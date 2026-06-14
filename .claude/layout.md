@@ -1,58 +1,58 @@
-# Layout Système — v2.1
+# Layout System — v2.1
 
-> Référence contraignante pour toutes les applications Python/PyQt6.
-> Construit sur `design-system.md v1.1`. Les deux fichiers sont indissociables.
+> Binding reference for all Python/PyQt6 applications.
+> Built on `design-system.md v1.1`. The two files are inseparable.
 
 ## Changelog
 
-| Version | Date       | Changement principal                                                  |
+| Version | Date       | Main change                                                           |
 | ------- | ---------- | --------------------------------------------------------------------- |
-| v2.1    | 2026-06-12 | 6 positions de toasts spécifiées · onglets neutres · préférences précisées |
-| v2.0    | initial    | Structure globale, topbar, drawer, statusbar, composants récurrents   |
+| v2.1    | 2026-06-12 | 6 toast positions specified · neutral tabs · preferences clarified    |
+| v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components     |
 
-Toute application générée référence la version active dans son `README.md`.
+Every generated application references the active version in its `README.md`.
 
 ---
 
-## 1. STRUCTURE GLOBALE
+## 1. GLOBAL STRUCTURE
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │              TOPBAR (48px)                          │
-│  [ Logo / Nom ]  [ Onglets nav ]  [ Thème ]        │
+│  [ Logo / Name ]  [ Nav tabs ]  [ Theme ]          │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│            CONTENU PRINCIPAL                        │
-│            (zone scrollable)                        │
+│            MAIN CONTENT                             │
+│            (scrollable area)                        │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
 │                STATUSBAR (28px)                     │
 └─────────────────────────────────────────────────────┘
 ```
 
-**Drawer droit** (optionnel, par-dessus le contenu) :
+**Right drawer** (optional, over the content):
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                     TOPBAR                          │
 ├───────────────────────────────┬─────────────────────┤
 │                               │                     │
-│       CONTENU PRINCIPAL       │  DRAWER (320px)     │
-│       (réduit)                │  coulissant         │
+│       MAIN CONTENT            │  DRAWER (320px)     │
+│       (reduced)               │  sliding            │
 │                               │                     │
 ├───────────────────────────────┴─────────────────────┤
 │                   STATUSBAR                         │
 └─────────────────────────────────────────────────────┘
 ```
 
-**Toast** (superposé, coin haut-droit) :
+**Toast** (overlaid, top-right corner):
 
 ```
 ┌─────────────────────────────────────────────────────┐
 │                     TOPBAR              [ Toast 1 ] │
 ├─────────────────────────────────────────[ Toast 2 ]─┤
 │                                                     │
-│            CONTENU PRINCIPAL                        │
+│            MAIN CONTENT                             │
 │                                                     │
 ├─────────────────────────────────────────────────────┤
 │                   STATUSBAR                         │
@@ -61,153 +61,153 @@ Toute application générée référence la version active dans son `README.md`.
 
 ---
 
-## 2. FENÊTRE
+## 2. WINDOW
 
-| Token               | Valeur                       |
+| Token               | Value                        |
 | ------------------- | ---------------------------- |
 | `min-width`         | 1024px                       |
 | `min-height`        | 768px                        |
-| état au lancement   | restauré (position + taille) |
-| thème au lancement  | suit le thème OS             |
-| thème par défaut OS | clair                        |
+| state on launch     | restored (position + size)   |
+| theme on launch     | follows the OS theme         |
+| OS default theme    | light                        |
 
 ---
 
 ## 3. TOPBAR
 
-| Token              | Valeur                 |
+| Token              | Value                  |
 | ------------------ | ---------------------- |
-| hauteur            | `topbar-height` = 48px |
-| fond mode clair    | `bg` = #FFFFFF         |
-| fond mode sombre   | `bg` = #111827         |
-| bordure bas        | 1px `border`           |
-| padding horizontal | `spacing-4` = 16px     |
+| height             | `topbar-height` = 48px |
+| light mode bg      | `bg` = #FFFFFF         |
+| dark mode bg       | `bg` = #111827         |
+| bottom border      | 1px `border`           |
+| horizontal padding | `spacing-4` = 16px     |
 
-### Zones de la topbar (gauche → droite)
+### Topbar zones (left → right)
 
 ```
-[ Logo / Nom app ]  [ Onglets navigation ]  ···  [ Thème ]
+[ Logo / App name ]  [ Navigation tabs ]  ···  [ Theme ]
 ```
 
-| Zone                              | Contenu                         | Largeur     |
+| Zone                              | Content                         | Width       |
 | --------------------------------- | ------------------------------- | ----------- |
-| Gauche                            | Logo SVG 24px + nom application | fixe        |
-| Gauche ou Centre (choix Phase 3)  | Onglets de navigation (QTabBar) | flexible    |
-| Droite                            | Sélecteur thème clair/sombre    | fixe — 40px |
+| Left                              | SVG logo 24px + app name        | fixed       |
+| Left or Center (Phase 3 choice)   | Navigation tabs (QTabBar)       | flexible    |
+| Right                             | Light/dark theme selector       | fixed — 40px |
 
-L'alignement des onglets (gauche-après-logo OU centré) est tranché en Phase 3.
+Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 
-### Logo / Nom application
+### Logo / App name
 
-- Icône SVG `icon-lg` (24px) + label `semibold` `base` (16px).
-- Couleur : `text`.
-- Non cliquable.
+- SVG icon `icon-lg` (24px) + label `semibold` `base` (16px).
+- Color: `text`.
+- Not clickable.
 
-### Onglets de navigation (QTabBar)
+### Navigation tabs (QTabBar)
 
-- Intégrés dans la topbar, alignement défini en Phase 3 (gauche-après-logo ou centré).
-- Maximum 5 onglets visibles. Au-delà → menu déroulant `···`.
-- Onglet actif : texte `primary-600` (clair) / `primary-400` (sombre), bordure bas 2px `primary-600` / `primary-400`.
-- Onglet inactif : texte `text-subtle`, fond transparent.
-- Hover : fond `bg-muted`, transition `transition-default`.
-- Police : `medium` `sm` (14px).
-- Hauteur onglet : `topbar-height` = 48px (pleine hauteur topbar).
-- Padding horizontal par onglet : `spacing-4` = 16px.
+- Embedded in the topbar, alignment defined in Phase 3 (left-after-logo or centered).
+- Maximum 5 visible tabs. Beyond → `···` dropdown menu.
+- Active tab: `primary-600` text (light) / `primary-400` (dark), 2px `primary-600` / `primary-400` bottom border.
+- Inactive tab: `text-subtle` text, transparent background.
+- Hover: `bg-muted` background, `transition-default` transition.
+- Font: `medium` `sm` (14px).
+- Tab height: `topbar-height` = 48px (full topbar height).
+- Horizontal padding per tab: `spacing-4` = 16px.
 
-### Sélecteur de thème
+### Theme selector
 
-- Icône seule (soleil / lune), taille `icon-lg` = 24px.
-- Tooltip obligatoire : "Passer en mode sombre" / "Passer en mode clair".
-- Toggle instantané — persisté en préférences utilisateur.
+- Icon only (sun / moon), size `icon-lg` = 24px.
+- Mandatory tooltip: "Passer en mode sombre" / "Passer en mode clair".
+- Instant toggle — persisted in user preferences.
 
 ---
 
-## 4. ZONE DE CONTENU PRINCIPAL
+## 4. MAIN CONTENT AREA
 
-| Token               | Valeur                         |
+| Token               | Value                          |
 | ------------------- | ------------------------------ |
-| fond mode clair     | `bg` = #FFFFFF                 |
-| fond mode sombre    | `bg` = #111827                 |
-| padding intérieur   | `spacing-6` = 24px             |
+| light mode bg       | `bg` = #FFFFFF                 |
+| dark mode bg        | `bg` = #111827                 |
+| inner padding       | `spacing-6` = 24px             |
 | scroll              | vertical — `QScrollArea`       |
-| largeur max contenu | `content-xl` = 1024px (centré) |
+| max content width   | `content-xl` = 1024px (centered) |
 
-### En-tête de section
+### Section header
 
 ```
-[ Titre de la section ]   [ Sous-titre / description courte ]
+[ Section title ]   [ Subtitle / short description ]
 ```
 
-- Titre : `bold` `2xl` (24px), couleur `text`.
-- Sous-titre : `normal` `sm` (14px), couleur `text-subtle`.
-- Margin bas : `spacing-6` = 24px avant le contenu.
+- Title: `bold` `2xl` (24px), color `text`.
+- Subtitle: `normal` `sm` (14px), color `text-subtle`.
+- Bottom margin: `spacing-6` = 24px before the content.
 
 ---
 
 ## 5. TOAST
 
-Remplace intégralement le bandeau inline. Aucun bandeau inline dans les applications.
+Fully replaces the inline banner. No inline banner in the applications.
 
-### Position — choix Phase 3
+### Position — Phase 3 choice
 
-6 positions disponibles. Défaut : `top-right`.
+6 positions available. Default: `top-right`.
 
-| Position       | Ancrage             | Animation entrée               | Animation sortie                |
+| Position       | Anchor              | Enter animation                | Exit animation                  |
 | -------------- | ------------------- | ------------------------------ | ------------------------------- |
-| `top-right`    | haut + droite       | Glissement depuis la droite    | Fondu + glissement droite       |
-| `top-left`     | haut + gauche       | Glissement depuis la gauche    | Fondu + glissement gauche       |
-| `top-center`   | haut + centre       | Glissement depuis le haut      | Fondu + glissement haut         |
-| `bottom-right` | bas + droite        | Glissement depuis la droite    | Fondu + glissement droite       |
-| `bottom-left`  | bas + gauche        | Glissement depuis la gauche    | Fondu + glissement gauche       |
-| `bottom-center`| bas + centre        | Glissement depuis le bas       | Fondu + glissement bas          |
+| `top-right`    | top + right         | Slide from the right           | Fade + slide right              |
+| `top-left`     | top + left          | Slide from the left            | Fade + slide left               |
+| `top-center`   | top + center        | Slide from the top             | Fade + slide up                 |
+| `bottom-right` | bottom + right      | Slide from the right           | Fade + slide right              |
+| `bottom-left`  | bottom + left       | Slide from the left            | Fade + slide left               |
+| `bottom-center`| bottom + center     | Slide from the bottom          | Fade + slide down               |
 
-### Marges et empilement
+### Margins and stacking
 
-| Token                       | Valeur                                                 |
-| --------------------------- | ------------------------------------------------------ |
-| largeur                     | 320px (fixe)                                           |
-| margin depuis le bord       | `spacing-4` = 16px                                     |
-| margin depuis topbar / statusbar | `spacing-4` = 16px (selon ancrage haut/bas)       |
-| espacement entre toasts     | `spacing-2` = 8px                                      |
-| empilement                  | Vertical, file d'attente, sans chevauchement           |
-| sens d'empilement (haut)    | nouveau toast en haut, anciens descendent              |
-| sens d'empilement (bas)     | nouveau toast en bas, anciens remontent                |
-| durée transition            | `transition-slow` = 250ms                              |
+| Token                            | Value                                                  |
+| -------------------------------- | ------------------------------------------------------ |
+| width                            | 320px (fixed)                                          |
+| margin from edge                 | `spacing-4` = 16px                                     |
+| margin from topbar / statusbar   | `spacing-4` = 16px (per top/bottom anchor)             |
+| spacing between toasts           | `spacing-2` = 8px                                      |
+| stacking                         | Vertical, queue, no overlap                            |
+| stacking direction (top)         | new toast on top, older ones descend                   |
+| stacking direction (bottom)      | new toast at bottom, older ones rise                   |
+| transition duration              | `transition-slow` = 250ms                              |
 
-### Implémentation
+### Implementation
 
-- Le `ToastManager` (`views/toast_manager.py`) reçoit la position depuis `config.TOAST_POSITION`.
-- Constante `config.TOAST_POSITION` = `"top-right"` par défaut, modifiée selon le choix Phase 3.
-- Le manager calcule l'ancrage à partir du `geometry()` de la fenêtre principale.
+- The `ToastManager` (`views/toast_manager.py`) receives the position from `config.TOAST_POSITION`.
+- `config.TOAST_POSITION` = `"top-right"` by default, modified per Phase 3 choice.
+- The manager computes the anchor from the main window's `geometry()`.
 
-### Durées d'affichage
+### Display durations
 
-| Type      | Durée      | Fermeture manuelle  |
+| Type      | Duration   | Manual dismiss      |
 | --------- | ---------- | ------------------- |
-| `success` | 4s         | Non                 |
-| `info`    | 4s         | Non                 |
-| `warning` | 6s         | Oui (×)             |
-| `danger`  | persistant | Oui (×) obligatoire |
+| `success` | 4s         | No                  |
+| `info`    | 4s         | No                  |
+| `warning` | 6s         | Yes (×)             |
+| `danger`  | persistent | Yes (×) mandatory   |
 
-### Anatomie du toast
+### Toast anatomy
 
 ```
 ┌────────────────────────────────────┐
-│ [icône]  Message principal     [×] │
-│          Description optionnelle   │
+│ [icon]  Main message           [×] │
+│         Optional description       │
 └────────────────────────────────────┘
 ```
 
-| Token              | Valeur                                       |
+| Token              | Value                                        |
 | ------------------ | -------------------------------------------- |
 | padding            | `spacing-3` vertical, `spacing-4` horizontal |
-| bordure gauche     | 4px couleur sémantique                       |
-| fond               | fond sémantique (`*-50`)                     |
-| police message     | `medium` `sm` (14px)                         |
-| police description | `normal` `xs` (12px), `text-subtle`          |
-| icône              | `icon-md` = 20px                             |
+| left border        | 4px semantic color                           |
+| bg                 | semantic bg (`*-50`)                         |
+| message font       | `medium` `sm` (14px)                         |
+| description font   | `normal` `xs` (12px), `text-subtle`          |
+| icon               | `icon-md` = 20px                             |
 
-| Type      | Fond         | Bordure       | Icône          |
+| Type      | Bg           | Border        | Icon           |
 | --------- | ------------ | ------------- | -------------- |
 | `success` | `success-50` | `success-600` | check-circle   |
 | `warning` | `warning-50` | `warning-600` | alert-triangle |
@@ -216,184 +216,185 @@ Remplace intégralement le bandeau inline. Aucun bandeau inline dans les applica
 
 ---
 
-## 6. DRAWER DROIT
+## 6. RIGHT DRAWER
 
-| Token            | Valeur                                                 |
+| Token            | Value                                                  |
 | ---------------- | ------------------------------------------------------ |
-| largeur          | `drawer-width` = 320px                                 |
-| animation        | glissement depuis la droite, `transition-slow` = 250ms |
-| fond mode clair  | `bg-elevated` = #FFFFFF                                |
-| fond mode sombre | `bg-elevated` = #374151                                |
-| bordure gauche   | 1px `border`                                           |
+| width            | `drawer-width` = 320px                                 |
+| animation        | slide from the right, `transition-slow` = 250ms        |
+| light mode bg    | `bg-elevated` = #FFFFFF                                |
+| dark mode bg     | `bg-elevated` = #374151                                |
+| left border      | 1px `border`                                           |
 | padding          | `spacing-6` = 24px                                     |
-| overlay fond     | `text` opacité 40%                                     |
+| overlay bg       | `text` 40% opacity                                     |
 
-- Ouvert par action explicite uniquement. Jamais automatiquement.
-- Fermeture : clic overlay, touche Échap, ou bouton × dans le drawer.
-- En-tête drawer : titre `semibold` `lg` (18px) + bouton × aligné à droite.
-- Contenu drawer : scrollable verticalement si dépassement.
+- Opened by explicit action only. Never automatically.
+- Close: click overlay, Escape key, or × button in the drawer.
+- Drawer header: `semibold` `lg` (18px) title + × button aligned right.
+- Drawer content: vertically scrollable on overflow.
 
 ---
 
 ## 7. STATUSBAR
 
-| Token              | Valeur                    |
+| Token              | Value                     |
 | ------------------ | ------------------------- |
-| hauteur            | `statusbar-height` = 28px |
-| fond mode clair    | `bg-muted` = #F3F4F6      |
-| fond mode sombre   | `bg-muted` = #1F2937      |
-| bordure haut       | 1px `border`              |
-| padding horizontal | `spacing-4` = 16px        |
-| police             | `normal` `xs` (12px)      |
-| couleur texte      | `text-muted`              |
+| height             | `statusbar-height` = 28px |
+| light mode bg      | `bg-muted` = #F3F4F6      |
+| dark mode bg       | `bg-muted` = #1F2937      |
+| top border         | 1px `border`              |
+| horizontal padding | `spacing-4` = 16px        |
+| font               | `normal` `xs` (12px)      |
+| text color         | `text-muted`              |
 
-### Zones statusbar (gauche → droite)
+### Statusbar zones (left → right)
 
 ```
-[ Message statut ]  ···  [ Progression ]  [ Info contextuelle ]
+[ Status message ]  ···  [ Progress ]  [ Contextual info ]
 ```
 
-| Zone   | Contenu                                                                   |
+| Zone   | Content                                                                   |
 | ------ | ------------------------------------------------------------------------- |
-| Gauche | Message statut courant ("Prêt", "Chargement…", "3 éléments sélectionnés") |
-| Centre | `QProgressBar` compact (8px) — visible uniquement si opération en cours   |
-| Droite | Info contextuelle fixe (nb enregistrements, version, connexion DB…)       |
+| Left   | Current status message ("Prêt", "Chargement…", "3 éléments sélectionnés") |
+| Center | Compact `QProgressBar` (8px) — visible only when an operation is running  |
+| Right  | Fixed contextual info (record count, version, DB connection…)             |
 
 ---
 
-## 8. COMPOSANTS RÉCURRENTS
+## 8. RECURRING COMPONENTS
 
-### Tableau de données (QTableView)
+### Data table (QTableView)
 
-- En-tête : fond `bg-subtle`, `semibold` `sm` (14px), `text-subtle`.
-- Bordure en-tête bas : 2px `border-strong`.
-- Ligne : hauteur dynamique (padding vertical `spacing-2` = 8px), bordure bas 1px `border-subtle`.
-- Colonnes : largeur dynamique (`resizeColumnsToContents`). Exception : colonne actions — largeur fixe selon contenu.
-- Ligne sélectionnée : fond `primary-50` / `primary-900` (sombre).
-- Ligne hover : fond `bg-muted`.
-- Alternance de lignes : désactivée (flat design).
-- Pagination sous le tableau si > 50 lignes.
+- Header: `bg-subtle` bg, `semibold` `sm` (14px), `text-subtle`.
+- Header bottom border: 2px `border-strong`.
+- Row: dynamic height (vertical padding `spacing-2` = 8px), 1px `border-subtle` bottom border.
+- Columns: dynamic width (`resizeColumnsToContents`). Exception: actions column — fixed width per content.
+- Selected row: `primary-50` / `primary-900` (dark) bg.
+- Row hover: `bg-muted` bg.
+- Row alternation: disabled (flat design).
+- Pagination below the table if > 50 rows.
 
-### Formulaire de saisie
+### Input form
 
-- Labels au-dessus des champs, `medium` `sm` (14px), `text`.
-- Champs : largeur étirée dans le conteneur (`setSizePolicy(Expanding, Fixed)`), hauteur dynamique (padding vertical `spacing-2` = 8px).
-- Espacement entre champs : `spacing-4` = 16px.
-- Champ en erreur : bordure 2px `danger-600` + message `danger-600` sous le champ, `xs` (12px).
-- Actions formulaire : alignées à droite — Annuler (secondaire) + Valider (primaire), largeur dynamique selon label.
+- Labels above the fields, `medium` `sm` (14px), `text`.
+- Fields: stretched width in the container (`setSizePolicy(Expanding, Fixed)`), dynamic height (vertical padding `spacing-2` = 8px).
+- Spacing between fields: `spacing-4` = 16px.
+- Field in error: 2px `danger-600` border + `danger-600` message below the field, `xs` (12px).
+- Form actions: aligned right — Cancel (secondary) + Confirm (primary), dynamic width per label.
 
-### Arborescence (QTreeView)
+### Tree view (QTreeView)
 
-- Indentation par niveau : `spacing-4` = 16px.
-- Icône expand/collapse : chevron, `icon-sm` = 16px, `text-muted`.
-- Item hauteur : dynamique (padding vertical `spacing-1` = 4px).
-- Item sélectionné : fond `primary-50` / `primary-900` (sombre).
+- Indentation per level: `spacing-4` = 16px.
+- Expand/collapse icon: chevron, `icon-sm` = 16px, `text-muted`.
+- Item height: dynamic (vertical padding `spacing-1` = 4px).
+- Selected item: `primary-50` / `primary-900` (dark) bg.
 
-### Graphiques / Visualisation
+### Charts / Visualization
 
-- Fond : transparent (hérite du contenu principal).
-- Palette : `chart-primary`, `chart-success`, `chart-warning`, `chart-danger`, `chart-info`.
-- Légende : `normal` `sm` (14px), `text-subtle`.
-- Aucune ombre (flat design).
+- Background: transparent (inherits the main content).
+- Palette: `chart-primary`, `chart-success`, `chart-warning`, `chart-danger`, `chart-info`.
+- Legend: `normal` `sm` (14px), `text-subtle`.
+- No shadow (flat design).
 
-### Modale (QDialog)
+### Modal (QDialog)
 
 ```
 ┌─────────────────────────────────────┐
-│  Titre de la modale             [×] │
+│  Modal title                    [×] │
 ├─────────────────────────────────────┤
 │                                     │
-│  Contenu (formulaire, texte…)       │
+│  Content (form, text…)              │
 │                                     │
 ├─────────────────────────────────────┤
-│              [ Annuler ] [ Valider ]│
+│              [ Cancel ] [ Confirm ] │
 └─────────────────────────────────────┘
 ```
 
-| Token            | Valeur                             |
+| Token            | Value                              |
 | ---------------- | ---------------------------------- |
-| largeur          | dynamique selon contenu, min 480px |
-| fond mode clair  | `bg` = #FFFFFF                     |
-| fond mode sombre | `bg` = #111827                     |
-| bordure          | 1px `border`                       |
+| width            | dynamic per content, min 480px     |
+| light mode bg    | `bg` = #FFFFFF                     |
+| dark mode bg     | `bg` = #111827                     |
+| border           | 1px `border`                       |
 | padding          | `spacing-6` = 24px                 |
-| overlay fond     | `text` opacité 40%                 |
+| overlay bg       | `text` 40% opacity                 |
 
-- Ouverte par action explicite uniquement.
-- Fermeture : bouton ×, Annuler, touche Échap, ou clic overlay.
-- En-tête : titre `semibold` `lg` (18px) + bouton × aligné à droite, bordure bas 1px `border-subtle`.
-- Pied : actions alignées à droite — Annuler (secondaire) + Valider (primaire), bordure haut 1px `border-subtle`.
-- Contenu : scrollable verticalement si dépassement.
-- Zéro `QMessageBox` natif — utiliser `QDialog` stylé.
+- Opened by explicit action only.
+- Close: × button, Cancel, Escape key, or click overlay.
+- Header: `semibold` `lg` (18px) title + × button aligned right, 1px `border-subtle` bottom border.
+- Footer: actions aligned right — Cancel (secondary) + Confirm (primary), 1px `border-subtle` top border.
+- Content: vertically scrollable on overflow.
+- Zero native `QMessageBox` — use a styled `QDialog`.
 
 ### Pagination
 
-Affichée sous un `QTableView` contenant plus de 50 lignes.
+Shown below a `QTableView` containing more than 50 rows.
 
 ```
 [ ← ]  [ 1 ]  [ 2 ]  [ 3 ]  ···  [ 12 ]  [ → ]
                   Page 2 sur 12
 ```
 
-| Token                   | Valeur                                                                                            |
+| Token                   | Value                                                                                             |
 | ----------------------- | ------------------------------------------------------------------------------------------------- |
-| position                | sous le tableau, alignée à droite                                                                 |
-| espacement avec tableau | `spacing-4` = 16px                                                                                |
-| bouton page             | dynamique selon numéro, padding `spacing-2` horizontal                                            |
-| bouton actif            | fond `primary-50`, texte `primary-600` (clair) / fond `primary-900`, texte `primary-400` (sombre) |
-| bouton inactif          | transparent, texte `text-subtle`                                                                  |
-| bouton hover            | fond `bg-muted`                                                                                   |
-| boutons ← →             | icônes `icon-sm` (16px), désactivés en première/dernière page                                     |
-| label page              | `normal` `xs` (12px), `text-muted`, centré sous les boutons                                       |
-| pages max visibles      | 5 numéros — ellipse `···` au-delà                                                                 |
+| position                | below the table, aligned right                                                                    |
+| spacing from table      | `spacing-4` = 16px                                                                                |
+| page button             | dynamic per number, padding `spacing-2` horizontal                                                |
+| active button           | `primary-50` bg, `primary-600` text (light) / `primary-900` bg, `primary-400` text (dark)         |
+| inactive button         | transparent, `text-subtle` text                                                                   |
+| button hover            | `bg-muted` bg                                                                                      |
+| ← → buttons             | `icon-sm` (16px) icons, disabled on first/last page                                               |
+| page label              | `normal` `xs` (12px), `text-muted`, centered below the buttons                                    |
+| max visible pages       | 5 numbers — `···` ellipsis beyond                                                                 |
 
 ---
 
-## 9. NAVIGATION CLAVIER GLOBALE
+## 9. GLOBAL KEYBOARD NAVIGATION
 
-| Raccourci           | Action                                 |
+| Shortcut            | Action                                 |
 | ------------------- | -------------------------------------- |
-| `Tab` / `Shift+Tab` | Navigation entre éléments interactifs  |
-| `Enter` / `Espace`  | Activation bouton / item focusé        |
-| `Échap`             | Ferme drawer / modale / dropdown actif |
-| `Alt+1…9`           | Navigation directe vers onglet N       |
-| `Ctrl+,`            | Ouvre Paramètres                       |
+| `Tab` / `Shift+Tab` | Navigate between interactive elements  |
+| `Enter` / `Space`   | Activate focused button / item         |
+| `Escape`            | Close active drawer / modal / dropdown |
+| `Alt+1…9`           | Direct navigation to tab N             |
+| `Ctrl+,`            | Open Settings                          |
 
 ---
 
-## 10. PRÉFÉRENCES PERSISTÉES
+## 10. PERSISTED PREFERENCES
 
-Fichier `preferences.json` à la racine du projet (gitignoré).
-En mode packaging `.exe` : `%APPDATA%/[NomApp]/preferences.json` (voir `@rules/config.md`).
+`preferences.json` file at the project root (gitignored).
+In `.exe` packaging mode: `%APPDATA%/[AppName]/preferences.json` (see `@rules/config.md`).
 
-| Préférence         | Valeur par défaut |
+| Preference         | Default value     |
 | ------------------ | ----------------- |
-| thème              | système OS        |
-| fenêtre taille     | 1280×800          |
-| fenêtre position   | centrée           |
-| drawer état        | fermé             |
-| langue (si i18n)   | fr                |
-| position toasts    | top-right         |
+| theme              | OS system         |
+| window size        | 1280×800          |
+| window position    | centered          |
+| drawer state       | closed            |
+| language (if i18n) | fr                |
+| toast position     | top-right         |
 
-Lecture/écriture via `utils/helpers.py` — `load_preferences()` / `save_preferences(data)`.
+Read/write via `utils/helpers.py` — `load_preferences()` / `save_preferences(data)`.
 
 ---
 
-## 11. RÉFÉRENCE CROISÉE DESIGN SYSTEM
+## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-Ce fichier ne redéfinit pas les tokens — il les consomme. Toute valeur visuelle est tracée vers `design-system.md v1.0`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.1`.
 
-| Besoin                     | Token                                          |
+| Need                       | Token                                          |
 | -------------------------- | ---------------------------------------------- |
-| Fond principal             | `bg`                                           |
-| Fond zones secondaires     | `bg-subtle`                                    |
-| Fond drawer                | `bg-elevated`                                  |
-| Texte principal            | `text`                                         |
-| Texte secondaire           | `text-subtle`                                  |
-| Bordures                   | `border` / `border-subtle` / `border-strong`   |
-| Couleur active / sélection | `primary-600` (clair) / `primary-400` (sombre) |
+| Main background            | `bg`                                           |
+| Secondary areas background | `bg-subtle`                                    |
+| Drawer background          | `bg-elevated`                                  |
+| Primary text               | `text`                                         |
+| Secondary text             | `text-subtle`                                  |
+| Borders                    | `border` / `border-subtle` / `border-strong`   |
+| Active / selection color   | `primary-600` (light) / `primary-400` (dark)   |
 | Focus                      | `focus-ring` 2px offset 2px                    |
-| Transitions panels         | `transition-slow` = 250ms                      |
-| Transitions états          | `transition-default` = 150ms                   |
-| Forme                      | `radius` = 0px (flat design)                   |
-| Ombres                     | aucune (flat design)                           |
+| Panel transitions          | `transition-slow` = 250ms                      |
+| State transitions          | `transition-default` = 150ms                   |
+| Shape                      | `radius` = 0px (flat design)                   |
+| Shadows                    | none (flat design)                             |
+```

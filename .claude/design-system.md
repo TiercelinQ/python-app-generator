@@ -1,96 +1,96 @@
 # Design System — v1.1
 
-> Référence contraignante pour toutes les applications Python/PyQt6.
-> Usage : applications desktop Windows, usage personnel et professionnel.
-> Indissociable de `layout.md`.
+> Binding reference for all Python/PyQt6 applications.
+> Use: Windows desktop applications, personal and professional use.
+> Inseparable from `layout.md`.
 
 ## Changelog
 
-| Version | Date       | Changement principal                                          |
+| Version | Date       | Main change                                                   |
 | ------- | ---------- | ------------------------------------------------------------- |
-| v1.1    | 2026-06-12 | QSS 2 fichiers obligatoires · règle dérivation primary-* HSL  |
-| v1.0    | initial    | Typographie, couleurs, espacements, composants, états         |
+| v1.1    | 2026-06-12 | QSS 2 mandatory files · primary-* HSL derivation rule         |
+| v1.0    | initial    | Typography, colors, spacing, components, states               |
 
-Toute application générée référence la version active dans son `README.md`.
+Every generated application references the active version in its `README.md`.
 
 ---
 
-## 1. TYPOGRAPHIE
+## 1. TYPOGRAPHY
 
-| Token         | Valeur   | Usage                         |
+| Token         | Value    | Usage                         |
 | ------------- | -------- | ----------------------------- |
-| `font-family` | Segoe UI | Toutes les applications       |
-| `xs`          | 12px     | Statusbar, labels secondaires |
-| `sm`          | 14px     | Labels, sous-titres, corps    |
-| `base`        | 16px     | Texte principal, navigation   |
-| `lg`          | 18px     | Titres de section secondaires |
-| `2xl`         | 24px     | Titres de section principaux  |
-| `normal`      | 400      | Corps, descriptions           |
-| `medium`      | 500      | Labels, items navigation      |
-| `semibold`    | 600      | Titres, en-têtes              |
-| `bold`        | 700      | Titres principaux             |
+| `font-family` | Segoe UI | All applications              |
+| `xs`          | 12px     | Statusbar, secondary labels   |
+| `sm`          | 14px     | Labels, subtitles, body       |
+| `base`        | 16px     | Primary text, navigation      |
+| `lg`          | 18px     | Secondary section titles      |
+| `2xl`         | 24px     | Primary section titles        |
+| `normal`      | 400      | Body, descriptions            |
+| `medium`      | 500      | Labels, navigation items      |
+| `semibold`    | 600      | Titles, headers               |
+| `bold`        | 700      | Primary titles                |
 
 ---
 
-## 2. COULEURS
+## 2. COLORS
 
-### Mode clair
+### Light mode
 
-| Token           | Valeur  | Usage                          |
+| Token           | Value   | Usage                          |
 | --------------- | ------- | ------------------------------ |
-| `bg`            | #FFFFFF | Fond principal, topbar         |
-| `bg-subtle`     | #F9FAFB | Fond topbar, zones secondaires |
-| `bg-muted`      | #F3F4F6 | Statusbar, hover, alternance   |
-| `bg-elevated`   | #FFFFFF | Drawer, modales                |
-| `text`          | #111827 | Texte principal                |
-| `text-subtle`   | #6B7280 | Texte secondaire, sous-titres  |
-| `text-muted`    | #9CA3AF | Texte désactivé, statusbar     |
-| `border`        | #E5E7EB | Bordures standard              |
-| `border-subtle` | #F3F4F6 | Séparateurs discrets           |
-| `border-strong` | #D1D5DB | En-têtes tableau               |
+| `bg`            | #FFFFFF | Main background, topbar        |
+| `bg-subtle`     | #F9FAFB | Topbar background, secondary areas |
+| `bg-muted`      | #F3F4F6 | Statusbar, hover, alternation  |
+| `bg-elevated`   | #FFFFFF | Drawer, modals                 |
+| `text`          | #111827 | Primary text                   |
+| `text-subtle`   | #6B7280 | Secondary text, subtitles      |
+| `text-muted`    | #9CA3AF | Disabled text, statusbar       |
+| `border`        | #E5E7EB | Standard borders               |
+| `border-subtle` | #F3F4F6 | Discreet separators            |
+| `border-strong` | #D1D5DB | Table headers                  |
 
-### Mode sombre
+### Dark mode
 
-| Token           | Valeur  | Usage                  |
+| Token           | Value   | Usage                  |
 | --------------- | ------- | ---------------------- |
-| `bg`            | #111827 | Fond principal, topbar |
-| `bg-subtle`     | #1F2937 | Zones secondaires      |
+| `bg`            | #111827 | Main background, topbar |
+| `bg-subtle`     | #1F2937 | Secondary areas        |
 | `bg-muted`      | #1F2937 | Statusbar, hover       |
-| `bg-elevated`   | #374151 | Drawer, modales        |
-| `text`          | #F9FAFB | Texte principal        |
-| `text-subtle`   | #9CA3AF | Texte secondaire       |
-| `text-muted`    | #6B7280 | Texte désactivé        |
-| `border`        | #374151 | Bordures standard      |
-| `border-subtle` | #1F2937 | Séparateurs discrets   |
-| `border-strong` | #4B5563 | En-têtes tableau       |
+| `bg-elevated`   | #374151 | Drawer, modals         |
+| `text`          | #F9FAFB | Primary text           |
+| `text-subtle`   | #9CA3AF | Secondary text         |
+| `text-muted`    | #6B7280 | Disabled text          |
+| `border`        | #374151 | Standard borders       |
+| `border-subtle` | #1F2937 | Discreet separators    |
+| `border-strong` | #4B5563 | Table headers          |
 
-### Couleur primaire — Slate Blue
+### Primary color — Slate Blue
 
-| Token         | Clair   | Sombre  |
+| Token         | Light   | Dark    |
 | ------------- | ------- | ------- |
 | `primary-50`  | #EEF2FF | —       |
 | `primary-400` | —       | #818CF8 |
 | `primary-600` | #4F46E5 | —       |
 | `primary-900` | —       | #312E81 |
 
-> Modification : remplacer ces 4 valeurs suffit à changer la couleur primaire sur toute l'application.
+> Modification: replacing these 4 values is enough to change the primary color across the whole application.
 
-### Couleurs sémantiques
+### Semantic colors
 
-| Token         | Clair   | Sombre  | Usage                  |
+| Token         | Light   | Dark    | Usage                  |
 | ------------- | ------- | ------- | ---------------------- |
-| `success-50`  | #F0FDF4 | —       | Fond toast succès      |
-| `success-600` | #16A34A | #4ADE80 | Bordure, icône succès  |
-| `warning-50`  | #FFFBEB | —       | Fond toast warning     |
-| `warning-600` | #D97706 | #FCD34D | Bordure, icône warning |
-| `danger-50`   | #FFF1F2 | —       | Fond toast danger      |
-| `danger-600`  | #DC2626 | #F87171 | Bordure, icône danger  |
-| `info-50`     | #EFF6FF | —       | Fond toast info        |
-| `info-600`    | #2563EB | #60A5FA | Bordure, icône info    |
+| `success-50`  | #F0FDF4 | —       | Success toast bg       |
+| `success-600` | #16A34A | #4ADE80 | Success border, icon   |
+| `warning-50`  | #FFFBEB | —       | Warning toast bg       |
+| `warning-600` | #D97706 | #FCD34D | Warning border, icon   |
+| `danger-50`   | #FFF1F2 | —       | Danger toast bg        |
+| `danger-600`  | #DC2626 | #F87171 | Danger border, icon    |
+| `info-50`     | #EFF6FF | —       | Info toast bg          |
+| `info-600`    | #2563EB | #60A5FA | Info border, icon      |
 
-### Palette graphiques / visualisation
+### Charts / visualization palette
 
-| Token           | Valeur        |
+| Token           | Value         |
 | --------------- | ------------- |
 | `chart-primary` | `primary-600` |
 | `chart-success` | `success-600` |
@@ -100,121 +100,121 @@ Toute application générée référence la version active dans son `README.md`.
 
 ---
 
-## 3. ESPACEMENTS
+## 3. SPACING
 
-| Token       | Valeur | Usage                     |
-| ----------- | ------ | ------------------------- |
-| `spacing-1` | 4px    | Micro-espacement          |
-| `spacing-2` | 8px    | Padding interne compact   |
-| `spacing-3` | 12px   | Padding standard          |
-| `spacing-4` | 16px   | Espacement entre éléments |
-| `spacing-6` | 24px   | Padding contenu principal |
-| `spacing-8` | 32px   | Séparations majeures      |
+| Token       | Value | Usage                     |
+| ----------- | ----- | ------------------------- |
+| `spacing-1` | 4px   | Micro-spacing             |
+| `spacing-2` | 8px   | Compact inner padding     |
+| `spacing-3` | 12px  | Standard padding          |
+| `spacing-4` | 16px  | Inter-element spacing     |
+| `spacing-6` | 24px  | Main content padding      |
+| `spacing-8` | 32px  | Major separation          |
 
 ---
 
-## 4. TAILLES COMPOSANTS
+## 4. COMPONENT SIZES
 
-### Tailles fixes (ancrages visuels globaux)
+### Fixed sizes (global visual anchors)
 
-| Token              | Valeur | Usage                      |
+| Token              | Value  | Usage                      |
 | ------------------ | ------ | -------------------------- |
-| `topbar-height`    | 48px   | Hauteur topbar             |
-| `statusbar-height` | 28px   | Hauteur statusbar          |
-| `drawer-width`     | 320px  | Largeur drawer droit       |
-| `content-xl`       | 1024px | Largeur max contenu centré |
-| `icon-sm`          | 16px   | Icône petite               |
-| `icon-md`          | 20px   | Icône standard             |
-| `icon-lg`          | 24px   | Icône navigation / topbar  |
+| `topbar-height`    | 48px   | Topbar height              |
+| `statusbar-height` | 28px   | Statusbar height           |
+| `drawer-width`     | 320px  | Right drawer width         |
+| `content-xl`       | 1024px | Max centered content width |
+| `icon-sm`          | 16px   | Small icon                 |
+| `icon-md`          | 20px   | Standard icon              |
+| `icon-lg`          | 24px   | Navigation / topbar icon   |
 
-### Tailles dynamiques — principe général
+### Dynamic sizes — general principle
 
-**Règle** : aucun composant n'a de hauteur ou largeur fixe sauf exception documentée ci-dessus. Les dimensions résultent du contenu + padding.
+**Rule**: no component has a fixed height or width except the documented exceptions above. Dimensions result from content + padding.
 
-| Composant         | Largeur                                    | Hauteur                    | Exception                                     |
+| Component         | Width                                      | Height                     | Exception                                     |
 | ----------------- | ------------------------------------------ | -------------------------- | --------------------------------------------- |
-| Bouton            | contenu + padding horizontal               | contenu + padding vertical | groupe aligné : uniformisée sur le plus large |
-| Champ de saisie   | étire dans son conteneur (`setSizePolicy`) | contenu + padding vertical | —                                             |
-| Colonne tableau   | contenu (`resizeColumnsToContents`)        | —                          | colonne actions : fixe                        |
-| Onglet topbar     | label + padding horizontal                 | `topbar-height`            | —                                             |
-| Label             | contenu, wrap si contrainte                | contenu                    | —                                             |
-| Menu déroulant    | item le plus long                          | contenu                    | —                                             |
-| Dialogue / modale | contenu                                    | contenu                    | min-width conseillée par contexte             |
-| Item QTreeView    | contenu + indentation                      | padding vertical           | —                                             |
-| Toast             | —                                          | contenu multi-ligne        | largeur fixe 320px                            |
+| Button            | content + horizontal padding               | content + vertical padding | aligned group: unified on the widest          |
+| Input field       | stretches in its container (`setSizePolicy`) | content + vertical padding | —                                           |
+| Table column      | content (`resizeColumnsToContents`)        | —                          | actions column: fixed                         |
+| Topbar tab        | label + horizontal padding                 | `topbar-height`            | —                                             |
+| Label             | content, wrap if constrained               | content                    | —                                             |
+| Dropdown menu     | longest item                               | content                    | —                                             |
+| Dialog / modal    | content                                    | content                    | min-width advised per context                 |
+| QTreeView item    | content + indentation                      | vertical padding           | —                                             |
+| Toast             | —                                          | multi-line content         | fixed width 320px                             |
 
 ---
 
-## 5. FORME & OMBRES
+## 5. SHAPE & SHADOWS
 
-| Token    | Valeur                      |
+| Token    | Value                       |
 | -------- | --------------------------- |
-| `radius` | 0px — flat design strict    |
-| `shadow` | aucune — flat design strict |
+| `radius` | 0px — strict flat design    |
+| `shadow` | none — strict flat design   |
 
 ---
 
 ## 6. TRANSITIONS
 
-| Token                | Valeur     | Usage                   |
+| Token                | Value      | Usage                   |
 | -------------------- | ---------- | ----------------------- |
-| `transition-default` | 150ms ease | États hover, focus      |
-| `transition-slow`    | 250ms ease | Panels, drawer, onglets |
+| `transition-default` | 150ms ease | hover, focus states     |
+| `transition-slow`    | 250ms ease | Panels, drawer, tabs     |
 
 ---
 
 ## 7. FOCUS
 
-| Token        | Valeur                              |
+| Token        | Value                               |
 | ------------ | ----------------------------------- |
 | `focus-ring` | 2px solid `primary-600`, offset 2px |
 
 ---
 
-## 8. ÉTATS DES COMPOSANTS INTERACTIFS
+## 8. INTERACTIVE COMPONENT STATES
 
-Applicable à tous les boutons, onglets, items cliquables :
+Applies to all buttons, tabs, clickable items:
 
-| État                   | Règle                                                                                             |
+| State                  | Rule                                                                                              |
 | ---------------------- | ------------------------------------------------------------------------------------------------- |
-| `default`              | Style de base défini par le composant                                                             |
-| `hover`                | Fond `bg-muted`, transition `transition-default`                                                  |
-| `active` / sélectionné | Fond `primary-50`, texte `primary-600` (clair) / fond `primary-900`, texte `primary-400` (sombre) |
-| `disabled`             | Opacité 40%, non interactif                                                                       |
+| `default`              | Base style defined by the component                                                               |
+| `hover`                | `bg-muted` background, `transition-default` transition                                            |
+| `active` / selected    | `primary-50` bg, `primary-600` text (light) / `primary-900` bg, `primary-400` text (dark)         |
+| `disabled`             | 40% opacity, non-interactive                                                                      |
 | `focus`                | `focus-ring` visible                                                                              |
 
 ---
 
-## 9. BOUTONS
+## 9. BUTTONS
 
-| Variante   | Fond          | Texte         | Bordure      |
+| Variant    | Background    | Text          | Border       |
 | ---------- | ------------- | ------------- | ------------ |
-| Primaire   | `primary-600` | #FFFFFF       | aucune       |
-| Secondaire | transparent   | `text`        | 1px `border` |
-| Danger     | `danger-600`  | #FFFFFF       | aucune       |
-| Ghost      | transparent   | `text-subtle` | aucune       |
+| Primary    | `primary-600` | #FFFFFF       | none         |
+| Secondary  | transparent   | `text`        | 1px `border` |
+| Danger     | `danger-600`  | #FFFFFF       | none         |
+| Ghost      | transparent   | `text-subtle` | none         |
 
-**Dimensionnement dynamique** — la taille résulte du contenu + padding :
+**Dynamic sizing** — the size results from content + padding:
 
-| Taille        | Padding vertical   | Padding horizontal | Police                 |
+| Size          | Vertical padding   | Horizontal padding | Font                   |
 | ------------- | ------------------ | ------------------ | ---------------------- |
 | `sm`          | `spacing-1` (4px)  | `spacing-3` (12px) | `medium` `xs` (12px)   |
-| `md` (défaut) | `spacing-2` (8px)  | `spacing-4` (16px) | `medium` `sm` (14px)   |
+| `md` (default)| `spacing-2` (8px)  | `spacing-4` (16px) | `medium` `sm` (14px)   |
 | `lg`          | `spacing-3` (12px) | `spacing-6` (24px) | `medium` `base` (16px) |
 
-**Groupe de boutons alignés** : largeur uniformisée sur le bouton le plus large (`setMinimumWidth` sur tous).
+**Aligned button group**: width unified on the widest button (`setMinimumWidth` on all).
 
 ---
 
-## 10. ICÔNES — qtawesome
+## 10. ICONS — qtawesome
 
-Bibliothèque : `qtawesome` (wrapping Font Awesome).
-Les icônes sont des widgets Python colorés dynamiquement — elles ne passent pas par QSS.
+Library: `qtawesome` (Font Awesome wrapper).
+Icons are Python widgets colored dynamically — they do NOT go through QSS.
 
-**Règle** : toutes les couleurs d'icônes sont définies dans `config.py`, jamais en dur dans les views ou controllers.
+**Rule**: all icon colors are defined in `config.py`, never hardcoded in views or controllers.
 
 ```python
-# config.py — exemple
+# config.py — example
 ICON_COLORS = {
     "light": {
         "default":  "#6B7280",   # text-subtle
@@ -233,27 +233,27 @@ ICON_COLORS = {
 }
 ```
 
-**Tailles** : utiliser les tokens `icon-sm` (16px), `icon-md` (20px), `icon-lg` (24px).
+**Sizes**: use the tokens `icon-sm` (16px), `icon-md` (20px), `icon-lg` (24px).
 
 ```python
-# Utilisation dans une view
+# Usage in a view
 import qtawesome as qta
 icon = qta.icon("fa6s.house", color=ICON_COLORS[theme]["default"], scale_factor=1.0)
 ```
 
-**Changement de thème** : les icônes sont recréées lors du basculement thème — pas de mise à jour dynamique de couleur sur instance existante.
+**Theme change**: icons are recreated on theme toggle — no dynamic color update on an existing instance.
 
 ---
 
-## 11. RÈGLES D'APPLICATION QSS
+## 11. QSS APPLICATION RULES
 
-1. **Zéro valeur visuelle en dur dans le code Python.** Toute couleur, taille, police est dans `styles_light.qss` / `styles_dark.qss`.
-2. **Chaque widget stylé a un `objectName`** correspondant à une règle QSS nommée.
-3. **Le mode sombre est géré par remplacement complet** de la feuille QSS (`styles_light.qss` → `styles_dark.qss`), pas par surcharge partielle.
-4. **Toute valeur QSS est tracée vers un token de ce fichier.** Un commentaire `/* token : [nom] */` indique le token source.
+1. **Zero hardcoded visual value in Python code.** Every color, size, font is in `styles_light.qss` / `styles_dark.qss`.
+2. **Every styled widget has an `objectName`** matching a named QSS rule.
+3. **Dark mode is handled by complete sheet replacement** (`styles_light.qss` → `styles_dark.qss`), not by partial override.
+4. **Every QSS value is traced to a token in this file.** A `/* token : [name] */` comment indicates the source token.
 
 ```qss
-/* Exemple — token : bg / text */
+/* Example — token : bg / text */
 QMainWindow {
     background-color: #FFFFFF;
     color: #111827;

@@ -1,192 +1,103 @@
 ---
-description: Phase 5 du cycle de développement — livraison du code par lots.
-             Invoquer après validation du contrat architectural (Phase 4).
-             Aussi invoquer pour chaque lot suivant dès la fin du lot précédent.
-model: claude-sonnet-4-6
+name: phase5-developpement
+description: Phase 5 of the development cycle — batch code delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
+model: sonnet
 ---
 
-## Instructions — Phase 5 : Développement par lots
+# /phase5-developpement — Batch development
 
-Référence livraison : `@rules/mvc.md` (section "Livraison par lots") — tables conditionnelles
-selon la réponse à Q5 (tests activés ou non).
+## Role
+Senior PyQt6 developer — build the contracted app to a clean, runnable state.
 
-### Répertoire cible
+## Goal
+Deliver the application in batches, each one ruff/mypy-clean and contract-compliant, ending with install instructions and a README.
 
-Au début de la Phase 5, demander à l'utilisateur le répertoire racine du projet cible :
+## Deliverable
+The full project source on disk + `README.md` + verified build.
+
+---
+
+## Code rules
+
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-contrat.md` — it is the locked contract this build follows.
+
+Critical reminders:
+- PEP 8 · type hints · docstrings · ruff + mypy clean.
+- Error handling on all critical operations; `sys.excepthook` installed.
+- Zero hardcoded visual value in Python — everything in `styles_*.qss` / `config.py`.
+- Every styled widget has an `objectName` matching a QSS rule.
+- No library that was not validated in Phase 1.
+
+## Target directory
+
+At the start of Phase 5, ask for the target project root directory:
 
 ```
 Répertoire de destination pour les fichiers ? (ex: C:\projets\MonApp)
 ```
 
-Stocker ce chemin. Tous les fichiers sont écrits à cet emplacement via l'outil `Write`.
-Créer les sous-dossiers nécessaires avant d'écrire les fichiers qu'ils contiennent.
+Store this path. Write all files there via `Write`. Create the needed subfolders before writing the files they contain.
 
-### Avant chaque lot
+## Anti-patterns — what NOT to do
 
-Annoncer : `📦 Lot N/[total] — [contenu]`
+- **Do not** deviate from `docs/specs/04-contrat.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
+- **Do not** use `QMessageBox` for business errors, `print()` for diagnostics, or hardcoded colors in Python.
+- **Do not** write SQL outside `models/` or build a query by concatenation.
+- **Do not** leave a `# TODO`, an unjustified `pass`, or a placeholder. Each batch is complete and self-contained.
+- **Do not** introduce a library not validated in Phase 1.
+- **Do not** mark the work done while `rules/verification.md §A` is failing.
 
-Pour chaque fichier du lot : écrire le fichier directement sur disque via l'outil `Write`
-à `[répertoire_cible]/[chemin_relatif_du_fichier]`. Contenu complet et autonome.
+## Delivery
 
-### Après chaque lot (sauf le dernier)
+- Announcement (French): `Lot N/[total] — [content]`
+- Each file delivered as a complete, self-contained block via `Write`.
+- Automatic chaining between batches without confirmation.
+- Batch split: tables in `rules/mvc.md` (conditional on Phase 1 Q5 — tests or not, frozen in Phase 2).
 
-Enchaîner immédiatement sur le lot suivant sans attendre de confirmation.
+## Verification
 
-### Lot tests — uniquement si Phase 1 Q5 = Oui
+Apply `rules/verification.md` — both the executable commands (§A, blocking when the env is available) and the static integrity checks (§B, including the per-domain ones). Silent — reported only on a discrepancy. Cross-file checks run on the last batch.
 
-Annoncer : `📦 Lot [final]/[total] — tests/ + requirements-dev.txt`
+## Last batch — mandatory deliverables
 
-Livrer dans cet ordre :
-1. `tests/__init__.py`
-2. `tests/conftest.py` (fixtures partagées projet, qapp auto via pytest-qt)
-3. `tests/test_helpers.py`
-4. `tests/models/__init__.py` + `tests/models/test_exceptions.py` + un `tests/models/test_*.py` par modèle
-5. `tests/controllers/__init__.py` + un `tests/controllers/test_*.py` par controller (model mocké)
-6. `tests/views/__init__.py` + un `tests/views/test_*.py` par view (smoke uniquement)
-7. `requirements-dev.txt`
+- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `install_translator(app)` (if i18n) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `app.exec()`.
+- **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
+- **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), primary color.
+- **`CLAUDE.md`** written at the generated project root (in French), recording the app's identity for future sessions:
 
-Respect strict de `@rules/tests.md` :
-- Pattern controller mocké avec `unittest.mock.Mock`, vérification `view.show_toast.assert_called_*`.
-- Pattern smoke view avec fixture `qtbot`, vérification `objectName` et widgets clés via `findChild`.
-- Aucun `time.sleep`, aucun `assert True`, aucun accès réseau/DB de production.
+  ```markdown
+  # [nom-app]
 
-Après livraison, ajouter aux instructions d'installation :
+  ## Origine
+  Framework : python v1.0.0
 
-```
-# 5. Installer les dépendances de test
-pip install -r requirements-dev.txt
+  ## Contexte métier
+  [Ce que fait l'app — synthèse issue de docs/specs/02-analyse.md : objectif + fonctionnalités clés]
 
-# 6. Lancer les tests
-pytest
+  ## Écarts par rapport au framework
+  - Aucun
+  ```
+  `[nom-app]` = `APP_NAME`. The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Écarts` list with every deviation validated via the Phase 4/5 deviation protocol (`- [écart] — raison : [justification]`); if none, keep `- Aucun`.
+- **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
-# 7. Cibler une couche
-pytest tests/models/
-```
+  ```json
+  {
+    "permissions": {
+      "allow": ["Bash(python:*)", "Bash(pip:*)", "Bash(pytest:*)", "Bash(ruff:*)", "Bash(mypy:*)", "Read", "Write", "Edit"],
+      "deny": ["Read(**/.env)", "Write(**/.env)", "Write(**/.env.*)", "Edit(**/.env)", "Edit(**/.env.*)", "Write(**/secrets/**)", "Write(**/.venv/**)", "Write(**/__pycache__/**)", "Write(**/build/**)", "Write(**/dist/**)"]
+    },
+    "hooks": {
+      "Stop": [{ "hooks": [{ "type": "command", "command": "ruff check ." }] }]
+    }
+  }
+  ```
+  The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it.
 
-### Dernier lot — fichiers obligatoires
+## Test batch — only if Phase 1 Q5 = Yes
 
-**0. main.py — initialisations obligatoires (ordre strict) :**
+Announce `Lot [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests/` mirroring the source structure (`@rules/tests.md`: mocked-controller pattern, qtbot smoke views, no `time.sleep`/`assert True`/network/prod-DB) + `requirements-dev.txt`, then append the pytest instructions to the README.
 
-```python
-from utils.logger import setup_logging
-from models.migrations import run_migrations   # si DB ≠ aucune
-import logging
-import sys
-from PyQt6.QtWidgets import QApplication
+## Post-delivery adjustments
 
-from views.main_window import MainWindow
-from views.main_window import install_excepthook   # défini dans main_window.py
-
-setup_logging()                                    # @rules/logging.md
-logger = logging.getLogger(__name__)
-logger.info("Démarrage application")
-
-run_migrations()                                   # @rules/db.md (si applicable)
-
-app = QApplication(sys.argv)
-# install_translator(app)                          # @rules/i18n.md (si i18n activée)
-
-window = MainWindow()
-install_excepthook(window)                         # @rules/errors.md
-window.show()
-
-sys.exit(app.exec())
-```
-
-**1. Instructions d'installation** — inclure après `requirements.txt` :
-
-```
-## Installation
-
-# 1. Créer l'environnement virtuel
-python -m venv .venv
-
-# 2. Activer (Windows)
-.venv\Scripts\activate
-
-# 3. Installer les dépendances
-pip install -r requirements.txt
-
-# 4. Lancer l'application
-python main.py
-```
-
-**2. README.md** — générer à la racine du projet :
-
-```markdown
-# [NOM_APP] — v[VERSION]
-
-## Objectif
-[Description synthétique issue de la Phase 2]
-
-## Fonctionnalités
-- [Liste des fonctionnalités retenues — Phase 2]
-
-## Hors périmètre
-- [Liste — Phase 2]
-
-## Stack technique
-- OS : Windows
-- Framework : PyQt6
-- Python : 3.10+
-- Icônes : qtawesome
-- DB : [valeur]
-- i18n : [Oui/Non]
-- Tests : [Oui/Non — pytest + pytest-qt si Oui]
-
-## Architecture
-[Arborescence du contrat — Phase 4 avec rôle de chaque fichier]
-
-## Installation
-[Reprendre les instructions ci-dessus]
-
-## Tests
-[Section incluse uniquement si tests activés en Phase 1]
-
-pip install -r requirements-dev.txt
-pytest
-
-## Couleur primaire
-[Nom + hex clair + hex sombre]
-```
-
----
-
-## Vérification d'intégrité (silencieuse — signalée si écart)
-
-**Chaque lot :**
-1. Syntaxe Python valide.
-2. Imports : tous utilisés, aucun manquant, séparation MVC respectée.
-3. Responsabilités MVC respectées.
-4. Zéro `# TODO`, zéro `pass` injustifié.
-5. Python 3.10+ · PyQt6 stable · zéro API PyQt5.
-6. Conformité `design-system.md` et `layout.md`.
-
-**Dernier lot uniquement — cross-fichiers :**
-7. Tous imports inter-couches résolus.
-8. Signaux/slots cohérents.
-9. Contrat architectural respecté.
-10. Zéro valeur visuelle en dur dans Python.
-11. README.md généré et complet.
-
-**Lot tests uniquement (si activé) :**
-12. Chaque module source a son fichier test correspondant (voir mapping Phase 4).
-13. `pytest` exit code 0 — tous les tests passent.
-
----
-
-## Ajustements post-livraison
-
-Correction isolée sur le fichier concerné + ses dépendances directes.
-Réécriture du fichier complet via `Write` (jamais de diff partiel).
-
-## Résolution d'anomalie
-
-Dès que la solution définitive est identifiée et livrée, produire :
-
-```
-Anomalie résolue. Éléments à retirer des tentatives précédentes :
-
-Fichier [nom] :
-- [ligne / bloc / import / objectName à supprimer]
-```
+Isolated fix on the affected file + direct dependencies. Full rewrite via `Write` (never a partial diff).
+After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /memoriser`.
