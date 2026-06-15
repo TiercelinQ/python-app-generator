@@ -1,10 +1,10 @@
 ---
-name: session
+name: save-session
 description: Generate the session save file to resume the project later, referencing the specs. Invoke at the end of a session.
 model: haiku
 ---
 
-# /session — Session save
+# /save-session — Session save
 
 ## Role
 Session archivist.
@@ -69,7 +69,7 @@ Fichier écrit : docs/sessions/SESSION_[nom_app]_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.
 
 ## Resume from a SESSION file
 

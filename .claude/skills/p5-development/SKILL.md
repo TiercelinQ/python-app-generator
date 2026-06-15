@@ -110,4 +110,4 @@ Announce `Lot [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Full rewrite via `Write` (never a partial diff).
-After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /memoriser`.
+After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /save-memory`.

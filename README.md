@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready PyQt6 deskt
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/feature-add` (incremental work via a contract diff), `/analyze` (trace behavior), `/fix` (root-cause debugging with a decision tree), `/refactor` (validated, behavior-preserving), `/test` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/add-feature` (incremental work via a contract diff), `/trace-feature` (trace behavior), `/fix-issue` (root-cause debugging with a decision tree), `/refactor-code` (validated, behavior-preserving), `/run-tests` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict MVC architecture.
 
@@ -80,17 +80,17 @@ Then in Claude Code:
 | `/p3-designing`        | Designing - layout proposal + customization        |
 | `/p4-architect`       | Architect - locked architecture contract           |
 | `/p5-development` | Auto-chained batch delivery                        |
-| `/feature-add`          | Add a feature to a shipped project (diff first)    |
-| `/analyze`              | Trace a feature across the MVC layers              |
-| `/fix`                  | Fix a bug - decision tree, root cause              |
-| `/refactor`             | Refactor under explicit validation only            |
-| `/test`                 | Executable verification (ruff, mypy, pytest)       |
+| `/add-feature`          | Add a feature to a shipped project (diff first)    |
+| `/trace-feature`              | Trace a feature across the MVC layers              |
+| `/fix-issue`                  | Fix a bug - decision tree, root cause              |
+| `/refactor-code`             | Refactor under explicit validation only            |
+| `/run-tests`                 | Executable verification (ruff, mypy, pytest)       |
 | `/load-project`       | Load an existing project from its specs/README     |
 | `/generate-readme`      | Generate README.md for an existing project         |
-| `/session`              | Save current session state                         |
+| `/save-session`              | Save current session state                         |
 | `/show-state`               | Current project status                             |
 | `/show-contract`              | Display locked architecture contract               |
-| `/memoriser`            | Persist a note in Claude Code native memory        |
+| `/save-memory`            | Persist a note in Claude Code native memory        |
 
 ---
 

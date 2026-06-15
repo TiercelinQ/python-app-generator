@@ -1,10 +1,10 @@
 ---
-name: feature-add
+name: add-feature
 description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /load-project or on an already-loaded project.
 model: sonnet
 ---
 
-# /feature-add — Add a feature to a delivered project
+# /add-feature — Add a feature to a delivered project
 
 ## Role
 Senior PyQt6 developer working on an existing, contracted codebase.
@@ -89,7 +89,7 @@ Deliver each created/modified file as a complete block. If tests requested: deli
 
 ## Step 5 — Anomaly
 
-If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup protocol then offer `/memoriser`.
+If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup protocol then offer `/save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** write anything not listed in the validated diff, or improve adjacent code.

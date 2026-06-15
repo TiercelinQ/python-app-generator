@@ -29,17 +29,17 @@ claude-python-framework/
 │   ├── p3-designing/        # Proposition layout + personnalisation → docs/specs/03-designing.md
 │   ├── p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
 │   ├── p5-development/ # Livraison par lots (enchaînement auto)
-│   ├── feature-add/          # Ajouter une feature à un projet livré (diff de contrat)
-│   ├── analyze/              # Tracer une fonctionnalité à travers les couches
-│   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
-│   ├── refactor/             # Restructurer sous validation explicite uniquement
-│   ├── test/                 # Vérification exécutable (ruff, mypy, pytest, smoke)
+│   ├── add-feature/          # Ajouter une feature à un projet livré (diff de contrat)
+│   ├── trace-feature/              # Tracer une fonctionnalité à travers les couches
+│   ├── fix-issue/                  # Corriger un bug — arbre de décision, cause racine
+│   ├── refactor-code/             # Restructurer sous validation explicite uniquement
+│   ├── run-tests/                 # Vérification exécutable (ruff, mypy, pytest, smoke)
 │   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
-│   ├── session/              # Sauvegarde de session
+│   ├── save-session/              # Sauvegarde de session
 │   ├── show-state/               # État courant du projet
 │   ├── show-contract/              # Arborescence du contrat validé
-│   └── memoriser/            # Persiste dans la mémoire native Claude Code
+│   └── save-memory/            # Persiste dans la mémoire native Claude Code
 ├── settings.json             # Permissions d'exécution (python, pip, pytest, ruff, mypy)
 ├── GUIDE.md                  # Ce fichier
 └── README.md                 # Présentation du repo GitHub (EN)
@@ -55,10 +55,10 @@ claude-python-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/feature-add`, `/refactor`. |
-| **Skills de maintenance**     | `analyze`, `fix`, `refactor`, `test` (+ `feature-add`) avec arbres de décision et anti-patterns. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/add-feature`, `/refactor-code`. |
+| **Skills de maintenance**     | `trace-feature`, `fix-issue`, `refactor-code`, `run-tests` (+ `add-feature`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
-| **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
+| **Mémoire native**            | `/save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
 ---
 
@@ -83,7 +83,7 @@ python --version      # Python 3.10+ (pour exécuter les apps générées)
 /config → Memory → Enable auto memory → On
 ```
 
-Sans cette activation, `/memoriser` formule les notes mais ne les persiste pas entre sessions.
+Sans cette activation, `/save-memory` formule les notes mais ne les persiste pas entre sessions.
 
 ---
 
@@ -127,7 +127,7 @@ Claude crée les dossiers et écrit les fichiers directement sur le disque. Anno
 ## Reprendre une session
 
 ```
-/session            # sauvegarder en fin de session (docs/sessions/)
+/save-session            # sauvegarder en fin de session (docs/sessions/)
 /python-app → 2     # reprendre : fournir le chemin du fichier SESSION
 ```
 
@@ -145,11 +145,11 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 
 | Besoin                          | Commande      |
 | ------------------------------- | ------------- |
-| Ajouter une fonctionnalité      | `/feature-add` |
-| Comprendre / tracer le code     | `/analyze`     |
-| Corriger un bug                 | `/fix`         |
-| Restructurer (sous validation)  | `/refactor`    |
-| Vérifier le build / lancer les checks | `/test`  |
+| Ajouter une fonctionnalité      | `/add-feature` |
+| Comprendre / tracer le code     | `/trace-feature`     |
+| Corriger un bug                 | `/fix-issue`         |
+| Restructurer (sous validation)  | `/refactor-code`    |
+| Vérifier le build / lancer les checks | `/run-tests`  |
 
 ---
 
@@ -167,15 +167,15 @@ pytest                                 # si tests activés uniquement
 python main.py                         # smoke launch
 ```
 
-`/test` exécute cette échelle ; `/fix` y renvoie pour confirmer une correction.
+`/run-tests` exécute cette échelle ; `/fix-issue` y renvoie pour confirmer une correction.
 
 ---
 
 ## Gestion des anomalies et mémoire
 
-Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (éléments des tentatives infructueuses à retirer) puis propose `Veux-tu mémoriser ce point ? /memoriser`.
+Après correction (`/fix-issue` ou Phase 5), Claude produit un bilan de nettoyage (éléments des tentatives infructueuses à retirer) puis propose `Veux-tu mémoriser ce point ? /save-memory`.
 
-`/memoriser` catégorise (erreur / décision / préférence / autre) et écrit dans la **mémoire native Claude Code** (+ pointeur dans `MEMORY.md`), disponible dans les sessions suivantes.
+`/save-memory` catégorise (erreur / décision / préférence / autre) et écrit dans la **mémoire native Claude Code** (+ pointeur dans `MEMORY.md`), disponible dans les sessions suivantes.
 
 ---
 
@@ -189,17 +189,17 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (él
 | `/p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/p4-architect`       | Sonnet | Contrat architectural verrouillé                     |
 | `/p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
-| `/feature-add`          | Sonnet | Ajouter une feature à un projet livré (diff)         |
-| `/analyze`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
-| `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
-| `/refactor`             | Sonnet | Restructurer sous validation                         |
-| `/test`                 | Sonnet | Vérification exécutable                               |
+| `/add-feature`          | Sonnet | Ajouter une feature à un projet livré (diff)         |
+| `/trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
+| `/fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
+| `/refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/load-project`       | Haiku  | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
-| `/session`              | Haiku  | Sauvegarder la session                               |
+| `/save-session`              | Haiku  | Sauvegarder la session                               |
 | `/show-state`               | Haiku  | État courant                                         |
 | `/show-contract`              | Haiku  | Contrat architectural validé                         |
-| `/memoriser`            | Haiku  | Persister dans la mémoire native                     |
+| `/save-memory`            | Haiku  | Persister dans la mémoire native                     |
 
 ---
 
@@ -231,7 +231,7 @@ requirements-dev.txt
 
 - `design-system.md` (v1.1) et `layout.md` (v2.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
-- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
-- `/load-project`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/add-feature` ou le protocole de déclaration d'écart.
+- `/load-project`, `/generate-readme`, `/add-feature`, `/trace-feature`, `/fix-issue`, `/refactor-code`, `/run-tests` s'invoquent depuis la racine du projet cible.
 - `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q6 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.

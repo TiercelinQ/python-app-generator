@@ -125,7 +125,7 @@ Fichier [nom] :
 - [line / block / import / objectName to delete]
 ```
 
-Cover all affected files. Then offer: "Veux-tu mémoriser ce point ? `/memoriser`"
+Cover all affected files. Then offer: "Veux-tu mémoriser ce point ? `/save-memory`"
 
 ## Post-delivery adjustments
 

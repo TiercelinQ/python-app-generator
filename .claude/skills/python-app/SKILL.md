@@ -42,7 +42,7 @@ Routing:
   Indique le chemin vers ton fichier SESSION :
   (ex: C:\projets\mon-app\docs\sessions\SESSION_MonApp_S1.md)
   ```
-  Read the file via the native `Read` tool (never `cat` — Windows-compatible). The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it before resuming, then invoke `/session` for the resume.
+  Read the file via the native `Read` tool (never `cat` — Windows-compatible). The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it before resuming, then invoke `/save-session` for the resume.
 - `3` → ask for the project root to load, then invoke `/load-project` (`.claude/` present at that root):
   ```
   Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
@@ -51,10 +51,10 @@ Routing:
   ```
   Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
   ```
-  - add a feature → `/feature-add`
-  - understand / trace how something works → `/analyze`
-  - fix a bug → `/fix`
-  - restructure existing code → `/refactor`
-  - verify the build / run checks → `/test`
+  - add a feature → `/add-feature`
+  - understand / trace how something works → `/trace-feature`
+  - fix a bug → `/fix-issue`
+  - restructure existing code → `/refactor-code`
+  - verify the build / run checks → `/run-tests`
 
 If typed mid-project: show the menu only, without resetting the context.

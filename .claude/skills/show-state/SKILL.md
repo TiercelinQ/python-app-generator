@@ -27,4 +27,4 @@ Points ouverts : [liste ou "aucun"]
 
 If no project is active: "Aucun projet actif. Taper /python-app pour démarrer."
 
-Do not append the `/session · /show-state · /show-contract` reminder after this reply.
+Do not append the `/save-session · /show-state · /show-contract` reminder after this reply.

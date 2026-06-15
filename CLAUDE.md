@@ -12,8 +12,8 @@
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis except the batch marker. No filler.
-- Append at the end of every reply (except after `/session`, `/show-state`, `/show-contract`):
-  `/session · /show-state · /show-contract`
+- Append at the end of every reply (except after `/save-session`, `/show-state`, `/show-contract`):
+  `/save-session · /show-state · /show-contract`
 
 ---
 
@@ -45,13 +45,13 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | 3 - Designing  | `docs/specs/03-designing.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/show-contract`, `/feature-add`, and `/refactor`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/show-contract`, `/add-feature`, and `/refactor-code`.
 
 ---
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/p3-designing`, `/p4-architect`, `/p5-development`, `/feature-add`, `/fix`, `/refactor`, `/analyze`) read them on demand before producing or altering any UI.
+`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/p3-designing`, `/p4-architect`, `/p5-development`, `/add-feature`, `/fix-issue`, `/refactor-code`, `/trace-feature`) read them on demand before producing or altering any UI.
 
 ---
 
@@ -87,7 +87,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see @rules/logging.md and @rules/errors.md
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see @rules/security.md
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/p5-development`.
-- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/memoriser`"
+- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/save-memory`"
 - Never read and write `settings.json`. Only read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
 @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md · @rules/security.md ·
@@ -114,11 +114,11 @@ All commands below are Claude Code skills invocable with `/`:
 
 | Command         | Skill                  | Action                                                  |
 | --------------- | ---------------------- | ------------------------------------------------------- |
-| `/feature-add`  | `skills/feature-add/`  | Add a feature to a delivered project (contract diff)    |
-| `/analyze`      | `skills/analyze/`      | Trace a feature across the MVC layers, report           |
-| `/fix`          | `skills/fix/`          | Fix a bug - decision tree, root cause                   |
-| `/refactor`     | `skills/refactor/`     | Refactor under explicit validation only                 |
-| `/test`         | `skills/test/`         | Run executable verification (ruff, mypy, pytest)        |
+| `/add-feature`  | `skills/add-feature/`  | Add a feature to a delivered project (contract diff)    |
+| `/trace-feature`      | `skills/trace-feature/`      | Trace a feature across the MVC layers, report           |
+| `/fix-issue`          | `skills/fix-issue/`          | Fix a bug - decision tree, root cause                   |
+| `/refactor-code`     | `skills/refactor-code/`     | Refactor under explicit validation only                 |
+| `/run-tests`         | `skills/run-tests/`         | Run executable verification (ruff, mypy, pytest)        |
 
 ### State / utilities
 
@@ -126,10 +126,10 @@ All commands below are Claude Code skills invocable with `/`:
 | ------------------ | ------------------------- | ----------------------------------------------- |
 | `/load-project`  | `skills/load-project/`  | Load an existing delivered project              |
 | `/generate-readme` | `skills/generate-readme/` | Generate the README.md of an existing project   |
-| `/session`         | `skills/session/`         | Generate the session save file                  |
+| `/save-session`         | `skills/save-session/`         | Generate the session save file                  |
 | `/show-state`          | `skills/show-state/`          | Current project state                           |
 | `/show-contract`         | `skills/show-contract/`         | Validated contract tree                         |
-| `/memoriser`       | `skills/memoriser/`       | Memorize an error, decision, or preference      |
+| `/save-memory`       | `skills/save-memory/`       | Memorize an error, decision, or preference      |
 
 ---
 
