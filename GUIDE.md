@@ -34,7 +34,7 @@ claude-python-framework/
 │   ├── fix/                  # Corriger un bug — arbre de décision, cause racine
 │   ├── refactor/             # Restructurer sous validation explicite uniquement
 │   ├── test/                 # Vérification exécutable (ruff, mypy, pytest, smoke)
-│   ├── charger-projet/       # Chargement d'un projet existant
+│   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
 │   ├── session/              # Sauvegarde de session
 │   ├── statut/               # État courant du projet
@@ -55,7 +55,7 @@ claude-python-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/charger-projet`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/contrat`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `fix`, `refactor`, `test` (+ `feature-add`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -136,7 +136,7 @@ Claude crée les dossiers et écrit les fichiers directement sur le disque. Anno
 ## Travailler sur un projet livré
 
 ```
-/python-app → 3       # ou directement /charger-projet depuis la racine du projet
+/python-app → 3       # ou directement /load-project depuis la racine du projet
 ```
 
 Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/generate-readme`.
@@ -194,7 +194,7 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (él
 | `/fix`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/refactor`             | Sonnet | Restructurer sous validation                         |
 | `/test`                 | Sonnet | Vérification exécutable                               |
-| `/charger-projet`       | Haiku  | Charger un projet existant                           |
+| `/load-project`       | Haiku  | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
 | `/session`              | Haiku  | Sauvegarder la session                               |
 | `/statut`               | Haiku  | État courant                                         |
@@ -232,6 +232,6 @@ requirements-dev.txt
 - `design-system.md` (v1.1) et `layout.md` (v2.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/feature-add` ou le protocole de déclaration d'écart.
-- `/charger-projet`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
+- `/load-project`, `/generate-readme`, `/feature-add`, `/analyze`, `/fix`, `/refactor`, `/test` s'invoquent depuis la racine du projet cible.
 - `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q6 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.

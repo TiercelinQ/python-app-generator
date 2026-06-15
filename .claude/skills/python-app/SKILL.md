@@ -43,11 +43,11 @@ Routing:
   (ex: C:\projets\mon-app\docs\sessions\SESSION_MonApp_S1.md)
   ```
   Read the file via the native `Read` tool (never `cat` — Windows-compatible). The project root is the folder containing `docs/` (two levels up from the SESSION file); confirm it before resuming, then invoke `/session` for the resume.
-- `3` → ask for the project root to load, then invoke `/charger-projet` (`.claude/` present at that root):
+- `3` → ask for the project root to load, then invoke `/load-project` (`.claude/` present at that root):
   ```
   Racine du projet à charger ? (chemin du dossier, ex: C:\projets\MonApp)
   ```
-- `4` → ask for the project root, ensure the project is loaded (`/charger-projet` if not already), then route by intent:
+- `4` → ask for the project root, ensure the project is loaded (`/load-project` if not already), then route by intent:
   ```
   Racine du projet à maintenir ? (chemin du dossier, ex: C:\projets\MonApp)
   ```

@@ -1,6 +1,6 @@
 ---
 name: feature-add
-description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /charger-projet or on an already-loaded project.
+description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /load-project or on an already-loaded project.
 model: sonnet
 ---
 
@@ -19,11 +19,11 @@ The created/modified files on disk (one batch) + an updated `docs/specs/04-archi
 
 ## Prerequisite
 
-The project must be loaded (`/charger-projet` run at session start, OR `docs/specs/04-architect.md` / README.md present and read).
+The project must be loaded (`/load-project` run at session start, OR `docs/specs/04-architect.md` / README.md present and read).
 
 If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
 
-If no contract is known: stop and ask for `/charger-projet`.
+If no contract is known: stop and ask for `/load-project`.
 
 ## Step 1 — Light feature scoping
 

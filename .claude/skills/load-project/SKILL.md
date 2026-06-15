@@ -1,10 +1,10 @@
 ---
-name: charger-projet
+name: load-project
 description: Load an existing Python/PyQt6 project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root before any intervention.
 model: haiku
 ---
 
-# /charger-projet — Load an existing project
+# /load-project — Load an existing project
 
 ## Role
 Onboarding analyst — take charge of a delivered codebase under the generator rules.

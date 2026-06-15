@@ -94,6 +94,6 @@ End with:
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/charger-projet`, `/contrat`, `/feature-add`, and `/refactor`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/p5-development`, `/load-project`, `/contrat`, `/feature-add`, and `/refactor`.
 
 Chain to `/p5-development` after validation.
