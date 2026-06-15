@@ -37,8 +37,8 @@ claude-python-framework/
 │   ├── load-project/       # Chargement d'un projet existant
 │   ├── generate-readme/      # Génération README.md projet existant
 │   ├── session/              # Sauvegarde de session
-│   ├── statut/               # État courant du projet
-│   ├── contrat/              # Arborescence du contrat validé
+│   ├── show-state/               # État courant du projet
+│   ├── show-contract/              # Arborescence du contrat validé
 │   └── memoriser/            # Persiste dans la mémoire native Claude Code
 ├── settings.json             # Permissions d'exécution (python, pip, pytest, ruff, mypy)
 ├── GUIDE.md                  # Ce fichier
@@ -55,7 +55,7 @@ claude-python-framework/
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (en français). |
-| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/contrat`, `/feature-add`, `/refactor`. |
+| **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/load-project`, `/show-contract`, `/feature-add`, `/refactor`. |
 | **Skills de maintenance**     | `analyze`, `fix`, `refactor`, `test` (+ `feature-add`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/memoriser` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
@@ -197,8 +197,8 @@ Après correction (`/fix` ou Phase 5), Claude produit un bilan de nettoyage (él
 | `/load-project`       | Haiku  | Charger un projet existant                           |
 | `/generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
 | `/session`              | Haiku  | Sauvegarder la session                               |
-| `/statut`               | Haiku  | État courant                                         |
-| `/contrat`              | Haiku  | Contrat architectural validé                         |
+| `/show-state`               | Haiku  | État courant                                         |
+| `/show-contract`              | Haiku  | Contrat architectural validé                         |
 | `/memoriser`            | Haiku  | Persister dans la mémoire native                     |
 
 ---

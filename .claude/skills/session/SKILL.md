@@ -69,7 +69,7 @@ Fichier écrit : docs/sessions/SESSION_[nom_app]_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Do not append the `/session · /statut · /contrat` reminder after this reply.
+Do not append the `/session · /show-state · /show-contract` reminder after this reply.
 
 ## Resume from a SESSION file
 
