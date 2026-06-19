@@ -15,7 +15,7 @@
 /* ============================================================
    styles_[light|dark].qss — [APP_NAME] v[VERSION]
    Theme: [light | dark]
-   Reference: design-system.md v1.3
+   Reference: design-system.md v1.4 (project palette)
    ============================================================ */
 
 /* --- BASE -------------------------------------------------- */
@@ -123,7 +123,7 @@ QLineEdit, QTextEdit, QPlainTextEdit {
 >
 > Dark buttons: `btn_primary` base stays `#4682B4` (primary-600, identical in both sheets), hover `#396A93` / pressed `#2F5879`. `btn_danger` base becomes `#C04A4A` (danger-600 **dark**), hover `#B91C1C` / pressed `#991B1B` (danger-700/800, mode-agnostic). White text keeps AA on both (`#4682B4` 4.11:1, `#C04A4A` 4.86:1).
 
-## Reference tokens (design-system.md v1.3)
+## Reference tokens (design-system.md v1.4 — default palette)
 
 ### Light mode
 
@@ -174,9 +174,9 @@ QLineEdit, QTextEdit, QPlainTextEdit {
 - `outline-offset` is not reliable in QSS. Show focus with a 2px border in the focus color, compensating padding so the layout does not shift (see the input-field example: 1px/8-12px default → 2px/7-11px on `:focus`).
 - Light: `primary-600`. Dark: `primary-400`. Never remove the focus indicator.
 
-## Per-project primary color
+## Per-project palette
 
-If a color was chosen in Phase 1 (≠ Steel Blue): only the 6 `primary-50/400/600/700/800/900` values change in the project's `styles_*.qss` and `config.py`. The global `design-system.md` stays unchanged.
+In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fond principal → `bg`, fond secondaire → `bg-subtle`, accent → `primary-600`, texte → `text`, détails → `border`. Claude derives the supporting neutrals, the accent stops, and the **whole dark theme** (`design-system.md §2`), then writes the resolved hex into **both** `styles_light.qss` and `styles_dark.qss` (+ accent stops and `ICON_COLORS`/`ON_PRIMARY` in `config.py`). The neutral values below are the **default palette** — a custom palette replaces them throughout both sheets. The global `design-system.md` stays unchanged (it documents the rule, not the per-project values). Semantic colors stay fixed across palettes.
 
 ## Anti-patterns — what NOT to do
 

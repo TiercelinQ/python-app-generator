@@ -36,7 +36,7 @@ Lot suivant : [X+1/total] (si Phase 5)
 
 - OS : Windows · Framework : PyQt6
 - DB : [valeur] · Préférences : [Oui/Non] · i18n : [Oui/Non] · Tests : [Oui/Non] · Packaging : [Oui/Non]
-- Couleur primaire : [choix + hex]
+- Palette : [nom ou custom ; 5 rôles clair + dérivés]
 - Calibrage : [N] lots (dont 1 lot tests si activé)
 - Fonctionnalités retenues : [liste]
 - Hors périmètre : [liste]

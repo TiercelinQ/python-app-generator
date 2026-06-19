@@ -55,8 +55,8 @@ python main.py
 pip install -r requirements-dev.txt
 pytest
 
-## Couleur primaire
-[Déduite de PRIMARY_600 / PRIMARY_400 dans config.py — sinon "Steel Blue #4682B4 / #5A9FD4"]
+## Palette
+[Nom ou custom ; 5 rôles (fond principal, fond secondaire, accent, texte, détails) déduits des sheets QSS + PRIMARY_* / ICON_COLORS dans config.py — sinon palette "Acier" par défaut (Steel Blue)]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).

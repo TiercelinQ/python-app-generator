@@ -27,13 +27,15 @@ LOG_BACKUP_COUNT: int = 5
 # Toast position — see @layout.md
 TOAST_POSITION: str = "top-right"
 
-# Primary colors — replace these values to change the primary color
+# Accent stops — derived from the palette accent (primary-600). Neutrals (bg/text/border)
+# live in the QSS sheets, not here. See @rules/config.md "Deriving the full palette".
 PRIMARY_50:  str = "#EDF3F8"   # light selection bg
 PRIMARY_400: str = "#5A9FD4"   # dark active text
 PRIMARY_600: str = "#4682B4"   # light active text/border, primary button bg
 PRIMARY_700: str = "#396A93"   # primary button hover (both modes)
 PRIMARY_800: str = "#2F5879"   # primary button pressed (both modes)
 PRIMARY_900: str = "#2A4F72"   # dark selection bg
+ON_PRIMARY:  str = "#FFFFFF"   # text on accent/danger buttons (near-black if accent is light)
 
 # qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
 ICON_COLORS: dict = {
@@ -62,9 +64,15 @@ Any constant reused in more than one file goes into `config.py`.
 
 ---
 
-## Deriving the primary tokens from `primary-600`
+## Deriving the full palette
 
-The user provides **only** `primary-600` in Phase 1. Claude derives the other 5 by a deterministic HSL-based rule — same hue (`H`), same saturation (`S`), only lightness (`L`) changes.
+In Phase 1 the user picks a **named palette** or enters a **custom palette** = 5 **light** roles (fond principal → `bg`, fond secondaire → `bg-subtle`, accent → `primary-600`, texte → `text`, détails → `border`). Claude derives everything else — supporting light tokens, the 5 accent stops, the **whole dark theme**, and `onPrimary` — and writes literal hex into `styles_light.qss` / `styles_dark.qss` and `config.py`. Role→token mapping, neutral sRGB mixes, and dark lightness targets: `design-system.md §2`. After deriving, Claude runs the WCAG AA check (`§12` below) and reports any failure without blocking.
+
+> The neutral tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`) live **in the QSS sheets**, not in `config.py`; only the accent stops and `ICON_COLORS` live in `config.py`. The derivation populates both.
+
+### Accent stops — HSL rule from `primary-600`
+
+The accent provides `primary-600`; Claude derives the other 5 by a deterministic HSL-based rule — same hue (`H`), same saturation (`S`), only lightness (`L`) changes.
 
 | Token         | HSL formula                                | Visual role               |
 | ------------- | ------------------------------------------ | ------------------------- |
@@ -77,18 +85,21 @@ The user provides **only** `primary-600` in Phase 1. Claude derives the other 5 
 
 Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen. Steel Blue is a special case: its `primary-600` sits near L 49%, so its `-700`/`-800` are set darker than the generic L 50/42 stops to keep the hover/pressed darken visible.
 
-### Default proposed colors correspondence table
+### Accent-stop reference (Steel Blue, default accent)
 
 | Name        | primary-600 | primary-50 | primary-400 | primary-700 | primary-800 | primary-900 |
 | ----------- | ----------- | ---------- | ----------- | ----------- | ----------- | ----------- |
 | Steel Blue  | #4682B4     | #EDF3F8    | #5A9FD4     | #396A93     | #2F5879     | #2A4F72     |
-| Royal Blue  | #2563EB     | #EFF6FF    | #60A5FA     | #1D4ED8     | #1E40AF     | #1E3A8A     |
-| Emerald     | #059669     | #ECFDF5    | #34D399     | #047857     | #065F46     | #064E3B     |
-| Crimson     | #DC2626     | #FEF2F2    | #F87171     | #B91C1C     | #991B1B     | #7F1D1D     |
-| Amber       | #D97706     | #FFFBEB    | #FBBF24     | #B45309     | #92400E     | #78350F     |
-| Violet      | #7C3AED     | #F5F3FF    | #A78BFA     | #6D28D9     | #5B21B6     | #4C1D95     |
 
-For any custom value (option E in Phase 1), Claude computes the 5 derived values and announces them explicitly before writing them to `config.py`.
+> Steel Blue is the default palette's accent; its `primary-600` sits near L 49 %, so `primary-700/800` are darkened past the generic L 50/42 stops to keep the hover/pressed darken visible (preset values win over the rule). For any other accent (named palette or custom), Claude computes the 5 stops by the rule above and announces them before writing.
+
+### `onPrimary` — text on the accent
+
+`onPrimary` is `#FFFFFF` if the accent's relative luminance keeps white text ≥ 4.5:1 (≥ 3:1 acceptable for large/UI), otherwise a near-black (`#111827`). Used in `QPushButton#btn_primary` text. Announced with the rest of the palette.
+
+### Named palettes & custom input
+
+The 5 named palettes (each = 5 light roles) and the custom-palette flow live in `design-system.md §2` and are presented by `p1-scoping`. For any custom palette Claude computes **all** derived tokens (light supporting + full dark theme + accent stops + `onPrimary`) and announces the resolved values before writing them to the QSS sheets and `config.py`.
 
 ---
 

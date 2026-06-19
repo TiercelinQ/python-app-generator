@@ -62,7 +62,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 - **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `install_translator(app)` (if i18n) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `app.exec()`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
-- **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), primary color.
+- **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
 - **`CLAUDE.md`** written at the generated project root (in French), recording the app's identity for future sessions:
 
   ```markdown

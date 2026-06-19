@@ -1,4 +1,4 @@
-# Design System — v1.3
+# Design System — v1.4
 
 > Binding reference for all Python/PyQt6 applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -8,6 +8,7 @@
 
 | Version | Date       | Main change                                                                                  |
 | ------- | ---------- | ------------------------------------------------------------------------------------------- |
+| v1.4    | 2026-06-19 | full **palette** model (5 roles/theme: fond principal, fond secondaire, accent, texte, détails) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/charts kept fixed · WCAG AA check (warn) |
 | v1.3    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/charts/selection · Steel Blue primary (both modes) |
 | v1.2    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · WCAG AA target · layering scale · dark surface ramp fix · dark charts · focus dark · selection · opacity/border-width tokens |
 | v1.1    | 2026-06-12 | Dark mode tokens · semantic palette                                                          |
@@ -49,7 +50,49 @@ Every generated application references the active version in its `README.md`.
 
 ## 2. COLORS
 
-### Light mode
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutrals + Steel Blue), so a project that keeps the default renders exactly as before.
+
+### Palette roles → tokens
+
+| Role (palette)   | Drives          | Also derives                                                                                  |
+| ---------------- | --------------- | --------------------------------------------------------------------------------------------- |
+| Fond principal   | `bg`            | `bg-elevated` (= `bg` in light)                                                                |
+| Fond secondaire  | `bg-subtle`     | `bg-muted` (`bg-subtle` darkened ~3 % L)                                                       |
+| Accent           | `primary-600`   | `primary-50/400/700/800/900`, `primary`, `primary-bg`, `selection-bg`, `focus-ring`, `ICON_COLORS.active`, `onPrimary` |
+| Texte            | `text`          | `text-subtle` (mix text→bg ~45 %), `text-muted` (mix text→bg ~62 %), `ICON_COLORS.default/muted` |
+| Détails          | `border`        | `border-subtle` (mix border→bg ~50 %), `border-strong` (mix border→text ~12 %)                |
+
+The **semantic colors** (success/warning/danger/info) and the **chart palette** are **fixed** — independent of the palette, they carry meaning (see below).
+
+### Derivation rules (computed by Claude in Phase 1, written as literal hex)
+
+- **Supporting light tokens**: the sRGB mixes in the role table above (small deltas).
+- **Accent stops** (HSL rule from the accent, same H/S, lightness varies): `primary-50` L≈95 %, `primary-400` L≈70 %, `primary-700` L≈50 %, `primary-800` L≈42 %, `primary-900` L≈25 %. Usage tokens: `primary` = `primary-600` (light) / `primary-400` (dark); `primary-bg` = `primary-50` (light) / `primary-900` (dark). Method (`colorsys`): `rules/config.md`. `onPrimary` (button text on the accent) = `#FFFFFF` or near-black, whichever wins contrast on the accent.
+- **Dark theme** (from the light palette, keeping each role's hue/saturation, re-targeting lightness):
+
+| Token         | Dark L | Token             | Dark L          |
+| ------------- | ------ | ----------------- | --------------- |
+| `bg`          | ≈10 %  | `text`            | ≈83 %           |
+| `bg-subtle`   | ≈14 %  | `text-subtle`     | ≈66 %           |
+| `bg-elevated` | ≈18 %  | `text-muted`      | ≈40 %           |
+| `bg-muted`    | ≈22 % (lightest) | `border` / `border-subtle` / `border-strong` | ≈26 % / ≈20 % / ≈33 % |
+| accent        | `primary-400` (L≈60-70 %) | semantic / charts | fixed |
+
+> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending (`bg` < `bg-subtle` < `bg-elevated` < `bg-muted`). The **default palette** ships explicit values for both themes (the tables below) — like Steel Blue today, the preset's explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive the dark theme by the rule.
+
+### Named palettes (Phase 1 catalog)
+
+`p1-scoping` presents these; each lists its 5 **light** roles (dark derived). The user can also enter a **custom palette** (5 light hex). Phase 1 then checks WCAG AA (text/bg, text-subtle/bg, accent/bg, onPrimary/accent) and reports failures without blocking (`§12`, `rules/config.md`).
+
+| Name             | Fond principal | Fond secondaire | Accent  | Texte   | Détails |
+| ---------------- | -------------- | --------------- | ------- | ------- | ------- |
+| Acier (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Forêt            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
+| Ardoise          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
+| Ambre            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
+| Rubis            | #FFFFFF        | #FAF7F7         | #BE123C | #1A1212 | #EAE0E1 |
+
+### Light mode — default palette
 
 | Token           | Value   | Usage                          |
 | --------------- | ------- | ------------------------------ |
@@ -64,7 +107,7 @@ Every generated application references the active version in its `README.md`.
 | `border-subtle` | #F3F4F6 | Discreet separators            |
 | `border-strong` | #D1D5DB | Table headers                  |
 
-### Dark mode
+### Dark mode — default palette (derived)
 
 | Token           | Value   | Usage                  |
 | --------------- | ------- | ---------------------- |
@@ -81,7 +124,7 @@ Every generated application references the active version in its `README.md`.
 
 > Dark surface ramp: `bg` #1A1A1F < `bg-subtle` #22222A < `bg-elevated` #2A2A35 < `bg-muted` #313140. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
-### Primary color — Steel Blue
+### Accent — Steel Blue (default palette)
 
 | Token         | Light   | Dark    | Usage                              |
 | ------------- | ------- | ------- | ---------------------------------- |
@@ -92,9 +135,9 @@ Every generated application references the active version in its `README.md`.
 | `primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
 | `primary-900` | —       | #2A4F72 | Selection / active bg (dark)       |
 
-> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the primary color across the whole application. `primary-700`/`primary-800` share one value across modes (button hover/pressed). For a custom color they derive from `primary-600` by the HSL rule (see `rules/config.md`); Steel Blue is a preset whose explicit values win over that rule (its `primary-600` already sits near L 49%, so `primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
+> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the **accent** across the whole application. `primary-700`/`primary-800` share one value across modes (button hover/pressed). For a custom color they derive from `primary-600` by the HSL rule (see `rules/config.md`); Steel Blue is a preset whose explicit values win over that rule (its `primary-600` already sits near L 49%, so `primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
 
-### Semantic colors
+### Semantic colors (fixed — outside the palette)
 
 | Token         | Light   | Dark    | Usage                       |
 | ------------- | ------- | ------- | --------------------------- |
@@ -342,7 +385,7 @@ Target: **WCAG 2.1 level AA**.
 | Focus visibility       | `focus-ring` always visible on keyboard focus (§7), never removed                              |
 | Reduced motion         | Respect the OS "show animations" setting; when off, disable `transition-default` / `transition-slow` |
 
-> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a new primary color.
+> Contrast figures are computed estimates, not tool-measured. Re-check with a contrast checker before shipping a custom palette (Phase 1 runs the AA check; see `rules/config.md`).
 
 ---
 

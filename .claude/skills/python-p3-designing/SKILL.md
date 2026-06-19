@@ -27,7 +27,6 @@ Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propo
 
 Produce (in French):
 
-```
 ## Layout proposé — [NOM_APP]
 
 **Structure**
@@ -40,13 +39,11 @@ Produce (in French):
 
 **Composants récurrents**
 - [Tableau / Formulaire / Arborescence / Graphiques — selon les fonctionnalités]
-```
 
 ### Step 2 — Customization questions (single block)
 
 For each question, mark the option you recommend with `(recommandé)`, chosen from the validated feature context.
 
-```
 Quelques choix à confirmer :
 
 1. Position des onglets dans la topbar :
@@ -82,19 +79,16 @@ Quelques choix à confirmer :
    D. Bas-droit
    E. Bas-gauche
    F. Bas-centre
-```
 
 Show only the relevant questions for the feature context. If the project clearly needs no drawer or modal, skip questions 3/4 and note the absence of a secondary panel. Question 5 (toasts) is always asked.
 
 If the user picks D on question 4: ask 3 questions in a single block to help define the layout:
 
-```
 Pour t'aider à choisir la disposition :
 
 a. Quel est l'objectif principal de cette modale ?
 b. Y a-t-il des actions à effectuer depuis cette modale ? Oui / Non
 c. Le contenu est-il homogène (un seul bloc) ou hétérogène (plusieurs sections) ?
-```
 
 Based on the answers, propose 2 suited layouts with a justified recommendation, then confirm before the synthesis.
 
@@ -102,10 +96,8 @@ Based on the answers, propose 2 suited layouts with a justified recommendation, 
 
 Produce the complete synthesis (in French): topbar, tabs, secondary panel, recurring components, toast position, applied constraints.
 
-```
 → Validation requise avant Phase 4.
   Confirmer ou lister les ajustements.
-```
 
 **Blocking rule**: do not move to Phase 4 until validation is explicit.
 

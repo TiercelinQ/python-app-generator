@@ -21,7 +21,6 @@ Produce a structured requirements sheet, freeze the calibration, and get explici
 
 Produce a structured sheet (in French), based on `docs/specs/01-scoping.md`:
 
-```
 ## Analyse des besoins — [NOM_APP]
 
 **Objectif**
@@ -42,24 +41,21 @@ Produce a structured sheet (in French), based on `docs/specs/01-scoping.md`:
 - i18n : [Oui/Non]
 - Tests : [Oui/Non] — pytest + pytest-qt
 - Packaging .exe : [Oui/Non] — PyInstaller
-- Couleur primaire : [choix Phase 1 + hex primary-600]
+- Palette : [choix Phase 1 : nom ou custom, 5 rôles]
 
 **Calibrage (figé après cette phase)**
 - Fonctionnalités comptées : [N]
 - Fichiers estimés : [N]
 - Taille retenue : [Petit | Moyen / Grand]
 - Lots : [N] (dont 1 lot tests si activé)
-```
 
 Apply the CALIBRATION table in `CLAUDE.md` (canonical source). **The calibration is confirmed here, from the real feature count.**
 
 End with:
 
-```
 → Validation requise avant Phase 3.
   Le calibrage est verrouillé dès validation.
   Confirmer ou lister les ajustements.
-```
 
 **Blocking rule**: do not move to Phase 3 until validation is explicit. If partial validation: list the open points, block until full resolution.
 

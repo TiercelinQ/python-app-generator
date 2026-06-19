@@ -104,7 +104,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
-| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 6 questions + primary color        |
+| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 6 questions + color palette        |
 | `/python-p2-featuring`       | `skills/python-p2-featuring/`       | Requirements sheet + locked sizing           |
 | `/python-p3-designing`        | `skills/python-p3-designing/`        | Layout proposal                              |
 | `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |

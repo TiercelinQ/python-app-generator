@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready PyQt6 desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 6 questions (objective, DB, prefs, i18n, tests, packaging) + primary color (HSL derivation from a single hex)
+1. **Scoping** - 6 questions (objective, DB, prefs, i18n, tests, packaging) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - navigation, drawer/modal, toast position (6 positions)
 4. **Architect** - full file tree, QSS token table, source→test mapping - locked before any code is written
@@ -75,7 +75,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/python-app`           | Start menu (4 entry points incl. maintenance)      |
-| `/python-p1-scoping`       | Scoping - 6 questions + primary color (HSL derive) |
+| `/python-p1-scoping`       | Scoping - 6 questions + color palette              |
 | `/python-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/python-p3-designing`        | Designing - layout proposal + customization        |
 | `/python-p4-architect`       | Architect - locked architecture contract           |
@@ -138,7 +138,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **Segoe UI** typography (Windows native)
-- **Steel Blue** primary color recommended by default (+ 4 contextual proposals) - change a single `primary-600` hex, the others are HSL-derived
+- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---
