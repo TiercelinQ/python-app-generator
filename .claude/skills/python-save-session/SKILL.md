@@ -61,7 +61,7 @@ Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 
 4. Confirm:
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💾 SAUVEGARDE SESSION
+SAUVEGARDE SESSION
 Fichier écrit : docs/sessions/SESSION_[nom_app]_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -71,5 +71,5 @@ Do not append the `/python-save-session · /python-show-state · /python-show-co
 
 If the message contains a SESSION block (or the user gives a path):
 1. **Read** the file via `Read`.
-2. Reply: `📋 Reprise [NOM_APP] — [Phase suivante] | Lot [X/total] | Points ouverts : [liste ou "aucun"]`
+2. Reply: `Reprise [NOM_APP] — [Phase suivante] | Lot [X/total] | Points ouverts : [liste ou "aucun"]`
 3. Chain immediately without re-asking resolved questions; invoke the skill for the next phase.
