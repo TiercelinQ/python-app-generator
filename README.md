@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready PyQt6 deskt
 
 Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/add-feature` (incremental work via a contract diff), `/trace-feature` (trace behavior), `/fix-issue` (root-cause debugging with a decision tree), `/refactor-code` (validated, behavior-preserving), `/run-tests` (executable verification). Plus `/load-project` and `/generate-readme` to load/document existing apps.
+**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict MVC architecture.
 
@@ -75,22 +75,22 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/python-app`           | Start menu (4 entry points incl. maintenance)      |
-| `/p1-scoping`       | Scoping - 6 questions + primary color (HSL derive) |
-| `/p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/p3-designing`        | Designing - layout proposal + customization        |
-| `/p4-architect`       | Architect - locked architecture contract           |
-| `/p5-development` | Auto-chained batch delivery                        |
-| `/add-feature`          | Add a feature to a shipped project (diff first)    |
-| `/trace-feature`              | Trace a feature across the MVC layers              |
-| `/fix-issue`                  | Fix a bug - decision tree, root cause              |
-| `/refactor-code`             | Refactor under explicit validation only            |
-| `/run-tests`                 | Executable verification (ruff, mypy, pytest)       |
-| `/load-project`       | Load an existing project from its specs/README     |
-| `/generate-readme`      | Generate README.md for an existing project         |
-| `/save-session`              | Save current session state                         |
-| `/show-state`               | Current project status                             |
-| `/show-contract`              | Display locked architecture contract               |
-| `/save-memory`            | Persist a note in Claude Code native memory        |
+| `/python-p1-scoping`       | Scoping - 6 questions + primary color (HSL derive) |
+| `/python-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
+| `/python-p3-designing`        | Designing - layout proposal + customization        |
+| `/python-p4-architect`       | Architect - locked architecture contract           |
+| `/python-p5-development` | Auto-chained batch delivery                        |
+| `/python-add-feature`          | Add a feature to a shipped project (diff first)    |
+| `/python-trace-feature`              | Trace a feature across the MVC layers              |
+| `/python-fix-issue`                  | Fix a bug - decision tree, root cause              |
+| `/python-refactor-code`             | Refactor under explicit validation only            |
+| `/python-run-tests`                 | Executable verification (ruff, mypy, pytest)       |
+| `/python-load-project`       | Load an existing project from its specs/README     |
+| `/python-generate-readme`      | Generate README.md for an existing project         |
+| `/python-save-session`              | Save current session state                         |
+| `/python-show-state`               | Current project status                             |
+| `/python-show-contract`              | Display locked architecture contract               |
+| `/python-save-memory`            | Persist a note in Claude Code native memory        |
 
 ---
 

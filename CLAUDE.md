@@ -12,8 +12,8 @@
 - Dense, direct answers. Lists over prose. Grouped questions in a single block. Short confirmations.
 - Whenever you ask a question, propose options, or propose a solution and await the user's reply, always include a recommended answer marked `(recommandé)`, chosen as the most pertinent for the context.
 - No unsolicited recap. No emojis except the batch marker. No filler.
-- Append at the end of every reply (except after `/save-session`, `/show-state`, `/show-contract`):
-  `/save-session · /show-state · /show-contract`
+- Append at the end of every reply (except after `/python-save-session`, `/python-show-state`, `/python-show-contract`):
+  `/python-save-session · /python-show-state · /python-show-contract`
 
 ---
 
@@ -45,13 +45,13 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | 3 - Designing  | `docs/specs/03-designing.md`    |
 | 4 - Architect  | `docs/specs/04-architect.md` (locked architectural contract) |
 
-`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/load-project`, `/show-contract`, `/add-feature`, and `/refactor-code`.
+`docs/specs/04-architect.md` is the **source of truth** for the project structure - re-read by `/python-load-project`, `/python-show-contract`, `/python-add-feature`, and `/python-refactor-code`.
 
 ---
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/p3-designing`, `/p4-architect`, `/p5-development`, `/add-feature`, `/fix-issue`, `/refactor-code`, `/trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-designing`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
 
 ---
 
@@ -86,8 +86,8 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If packaging enabled in Phase 1 (Q6): `build.spec` + `scripts/build.ps1` delivered, see @rules/config.md
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see @rules/logging.md and @rules/errors.md
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see @rules/security.md
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/p5-development`.
-- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/save-memory`"
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/python-p5-development`.
+- After resolving an anomaly, offer: "Veux-tu mémoriser ce point ? `/python-save-memory`"
 - Never read and write `settings.json`. Only read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
 @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md · @rules/security.md ·
@@ -104,32 +104,32 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
-| `/p1-scoping`       | `skills/p1-scoping/`       | Scoping - 6 questions + primary color        |
-| `/p2-featuring`       | `skills/p2-featuring/`       | Requirements sheet + locked sizing           |
-| `/p3-designing`        | `skills/p3-designing/`        | Layout proposal                              |
-| `/p4-architect`       | `skills/p4-architect/`       | Locked architectural contract                |
-| `/p5-development` | `skills/p5-development/` | Batch delivery                               |
+| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 6 questions + primary color        |
+| `/python-p2-featuring`       | `skills/python-p2-featuring/`       | Requirements sheet + locked sizing           |
+| `/python-p3-designing`        | `skills/python-p3-designing/`        | Layout proposal                              |
+| `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |
+| `/python-p5-development` | `skills/python-p5-development/` | Batch delivery                               |
 
 ### Post-delivery maintenance
 
 | Command         | Skill                  | Action                                                  |
 | --------------- | ---------------------- | ------------------------------------------------------- |
-| `/add-feature`  | `skills/add-feature/`  | Add a feature to a delivered project (contract diff)    |
-| `/trace-feature`      | `skills/trace-feature/`      | Trace a feature across the MVC layers, report           |
-| `/fix-issue`          | `skills/fix-issue/`          | Fix a bug - decision tree, root cause                   |
-| `/refactor-code`     | `skills/refactor-code/`     | Refactor under explicit validation only                 |
-| `/run-tests`         | `skills/run-tests/`         | Run executable verification (ruff, mypy, pytest)        |
+| `/python-add-feature`  | `skills/python-add-feature/`  | Add a feature to a delivered project (contract diff)    |
+| `/python-trace-feature`      | `skills/python-trace-feature/`      | Trace a feature across the MVC layers, report           |
+| `/python-fix-issue`          | `skills/python-fix-issue/`          | Fix a bug - decision tree, root cause                   |
+| `/python-refactor-code`     | `skills/python-refactor-code/`     | Refactor under explicit validation only                 |
+| `/python-run-tests`         | `skills/python-run-tests/`         | Run executable verification (ruff, mypy, pytest)        |
 
 ### State / utilities
 
 | Command            | Skill                     | Action                                          |
 | ------------------ | ------------------------- | ----------------------------------------------- |
-| `/load-project`  | `skills/load-project/`  | Load an existing delivered project              |
-| `/generate-readme` | `skills/generate-readme/` | Generate the README.md of an existing project   |
-| `/save-session`         | `skills/save-session/`         | Generate the session save file                  |
-| `/show-state`          | `skills/show-state/`          | Current project state                           |
-| `/show-contract`         | `skills/show-contract/`         | Validated contract tree                         |
-| `/save-memory`       | `skills/save-memory/`       | Memorize an error, decision, or preference      |
+| `/python-load-project`  | `skills/python-load-project/`  | Load an existing delivered project              |
+| `/python-generate-readme` | `skills/python-generate-readme/` | Generate the README.md of an existing project   |
+| `/python-save-session`         | `skills/python-save-session/`         | Generate the session save file                  |
+| `/python-show-state`          | `skills/python-show-state/`          | Current project state                           |
+| `/python-show-contract`         | `skills/python-show-contract/`         | Validated contract tree                         |
+| `/python-save-memory`       | `skills/python-save-memory/`       | Memorize an error, decision, or preference      |
 
 ---
 

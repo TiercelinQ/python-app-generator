@@ -166,7 +166,7 @@ pytest --tb=short                   # Short traceback
 - **Do not** redefine the `qapp` fixture — pytest-qt provides it.
 - **Do not** test a controller without mocking its model.
 - **Do not** go beyond smoke for views (instantiation + `objectName` + key widgets via `findChild`).
-- **Do not** create a test suite when Phase 1 Q5 = No (and `/run-tests` never scaffolds one unasked).
+- **Do not** create a test suite when Phase 1 Q5 = No (and `/python-run-tests` never scaffolds one unasked).
 
 ## Integrity verification (test batch)
 
