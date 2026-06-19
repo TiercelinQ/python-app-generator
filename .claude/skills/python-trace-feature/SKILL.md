@@ -13,11 +13,11 @@ Analyst — trace and explain how something works, without changing it.
 Give the user an accurate, layered understanding of a feature or behavior, with exact code references.
 
 ## Deliverable
-A structured report (French) with `file:line` references. Optionally `docs/specs/analyse-[topic].md` if the user wants it persisted.
+A structured report (in the user's language) with `file:line` references. Optionally `docs/specs/analyse-[topic].md` if the user wants it persisted.
 
 ---
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+> If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 ## Steps
 
@@ -38,7 +38,7 @@ A structured report (French) with `file:line` references. Optionally `docs/specs
 
 4. **Trace the flow** following the MVC path: View emits a signal → Controller slot (`try/except`) → Model (logic, data). For errors: Model raises a named exception → Controller intercepts → `view.show_toast(...)`. For theming: token → `styles_*.qss` via `objectName` (icons via `config.ICON_COLORS`). For DB: model → `models/db.py` `get_connection()`. Verify signals/slots are consistently connected.
 
-5. **Report** (in French):
+5. **Report** (in the user's language):
    - What the code does (behavior).
    - How it connects across layers (signals/slots, data flow).
    - Any inconsistency vs the contract or the rules (`rules/*`), with the rule named.

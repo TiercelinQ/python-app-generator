@@ -32,9 +32,7 @@ Critical reminders:
 
 Use the project root chosen at the start of the flow (via `/python-app` or `/python-p1-scoping`). If it was not set in this flow, ask for it once:
 
-```
-Répertoire de destination pour les fichiers ? (ex: C:\projets\MonApp)
-```
+Destination folder for the files? (e.g. C:\projects\MyApp)
 
 Write all files there via `Write`. Create the needed subfolders before writing the files they contain.
 
@@ -49,7 +47,7 @@ Write all files there via `Write`. Create the needed subfolders before writing t
 
 ## Delivery
 
-- Announcement (French): `Lot N/[total] — [content]`
+- Announcement (in the user's language): `Batch N/[total] — [content]`
 - Each file delivered as a complete, self-contained block via `Write`.
 - Automatic chaining between batches without confirmation.
 - Batch split: tables in `rules/mvc.md` (conditional on Phase 1 Q5 — tests or not, frozen in Phase 2).
@@ -63,21 +61,21 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 - **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `install_translator(app)` (if i18n) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `app.exec()`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
 - **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
-- **`CLAUDE.md`** written at the generated project root (in French), recording the app's identity for future sessions:
+- **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
   ```markdown
   # [nom-app]
 
-  ## Origine
-  Framework : python v1.0.0
+  ## Origin
+  Framework: python v1.0.0
 
-  ## Contexte métier
-  [Ce que fait l'app — synthèse issue de docs/specs/02-featuring.md : objectif + fonctionnalités clés]
+  ## Business context
+  [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
 
-  ## Écarts par rapport au framework
-  - Aucun
+  ## Deviations from the framework
+  - None
   ```
-  `[nom-app]` = `APP_NAME`. The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Écarts` list with every deviation validated via the Phase 4/5 deviation protocol (`- [écart] — raison : [justification]`); if none, keep `- Aucun`.
+  `[nom-app]` = `APP_NAME`. The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -97,17 +95,17 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 If a database was selected, deliver a standalone seed script `scripts/seed.py` that inserts a coherent demo dataset:
 - Uses `models/db.py` (`get_connection()`) and the business models — never raw SQL outside `models/`.
-- Coherent, FK-respecting data (~5-15 rows per entity), realistic French values, parents before children.
+- Coherent, FK-respecting data (~5-15 rows per entity), realistic values in the user's language, parents before children.
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
 - Run instruction added to the README: `python scripts/seed.py`. Never called from `main.py`.
 
-Announce `Lot [final]/[total] — scripts/seed.py` (before the tests batch if both apply). See `@rules/db.md`.
+Announce `Batch [final]/[total] — scripts/seed.py` (before the tests batch if both apply). See `@rules/db.md`.
 
 ## Test batch — only if Phase 1 Q5 = Yes
 
-Announce `Lot [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests/` mirroring the source structure (`@rules/tests.md`: mocked-controller pattern, qtbot smoke views, no `time.sleep`/`assert True`/network/prod-DB) + `requirements-dev.txt`, then append the pytest instructions to the README.
+Announce `Batch [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests/` mirroring the source structure (`@rules/tests.md`: mocked-controller pattern, qtbot smoke views, no `time.sleep`/`assert True`/network/prod-DB) + `requirements-dev.txt`, then append the pytest instructions to the README.
 
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Full rewrite via `Write` (never a partial diff).
-After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Veux-tu mémoriser ce point ? /python-save-memory`.
+After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Do you want to remember this point? /python-save-memory`.

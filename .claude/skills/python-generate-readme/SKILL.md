@@ -29,20 +29,20 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 ```markdown
 # [NOM_APP] — v[VERSION]
 
-## Objectif
-[Déduit de docs/specs, config.py, main.py et de la structure]
+## Objective
+[Inferred from docs/specs, config.py, main.py and the structure]
 
-## Fonctionnalités
-- [Déduites des views/ et controllers/ présents]
+## Features
+- [Inferred from the present views/ and controllers/]
 
-## Stack technique
-- OS : Windows · Framework : PyQt6 · Python : 3.10+ · Icônes : qtawesome
-- DB : [déduit de config.py ou models/]
-- i18n : [Oui/Non — déduit de resources/i18n/ ou config.py]
-- Tests : [Oui (pytest + pytest-qt) | Non — déduit de la présence de tests/]
+## Technical stack
+- OS: Windows · Framework: PyQt6 · Python: 3.10+ · Icons: qtawesome
+- DB: [inferred from config.py or models/]
+- i18n: [Yes/No — inferred from resources/i18n/ or config.py]
+- Tests: [Yes (pytest + pytest-qt) | No — inferred from the presence of tests/]
 
 ## Architecture
-[Arborescence réelle avec rôle de chaque fichier]
+[Actual file tree with the role of each file]
 
 ## Installation
 python -m venv .venv
@@ -51,15 +51,15 @@ pip install -r requirements.txt
 python main.py
 
 ## Tests
-[Section incluse uniquement si tests/ détecté]
+[Section included only if tests/ detected]
 pip install -r requirements-dev.txt
 pytest
 
 ## Palette
-[Nom ou custom ; 5 rôles (fond principal, fond secondaire, accent, texte, détails) déduits des sheets QSS + PRIMARY_* / ICON_COLORS dans config.py — sinon palette "Acier" par défaut (Steel Blue)]
+[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — otherwise default "Steel" palette (Steel Blue)]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).
-4. If anything is undeterminable from specs + code: ask grouped questions (single block, French) before writing.
+4. If anything is undeterminable from specs + code: ask grouped questions (single block, in the user's language) before writing.
 
-Confirm with: `README.md généré à la racine du projet.`
+Confirm with: `README.md generated at the project root.`

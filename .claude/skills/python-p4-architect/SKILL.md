@@ -13,64 +13,64 @@ Software architect — design the locked structure the whole build will follow.
 Produce a complete, unambiguous architectural contract that freezes the file tree, QSS mapping, and (if tests) the source→test mapping.
 
 ## Deliverable
-`docs/specs/04-architect.md` (written in French) — the locked source of truth + on-screen contract.
+`docs/specs/04-architect.md` (written in the user's language) — the locked source of truth + on-screen contract.
 
 ---
 
 At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
-Present the complete project tree with the role of each file, then the QSS token table. Output format (in French):
+Present the complete project tree with the role of each file, then the QSS token table. Output format (in the user's language):
 
 ```
-## Contrat architectural — [NOM_APP]
+## Architectural contract — [NOM_APP]
 
-### Arborescence
+### File tree
 
 [nom_app]/
-├── main.py                        # Point d'entrée — QApplication, MainWindow, logger, migrations, excepthook
-├── config.py                      # Constantes globales, ICON_COLORS, PRIMARY_*
+├── main.py                        # Entry point — QApplication, MainWindow, logger, migrations, excepthook
+├── config.py                      # Global constants, ICON_COLORS, PRIMARY_*
 ├── requirements.txt
-├── pyproject.toml                 # Config ruff, mypy, pytest
-├── docs/specs/                    # Specs de génération (FR) : 01-scoping … 04-architect
-├── preferences.json               # Racine projet — généré au 1er lancement (si Q3=Oui)
-├── logs/                          # Créé automatiquement par utils/logger.py
+├── pyproject.toml                 # ruff, mypy, pytest config
+├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
+├── preferences.json               # Project root — generated on first launch (if Q3=Yes)
+├── logs/                          # Created automatically by utils/logger.py
 ├── models/
 │   ├── __init__.py
-│   ├── exceptions.py              # Exceptions métier nommées
-│   ├── db.py                      # Point d'accès DB unique (si DB ≠ aucune)
-│   ├── migrations.py              # Migrations versionnées (si DB ≠ aucune)
-│   └── [entite]_model.py          # [rôle]
+│   ├── exceptions.py              # Named business exceptions
+│   ├── db.py                      # Single DB access point (if DB ≠ none)
+│   ├── migrations.py              # Versioned migrations (if DB ≠ none)
+│   └── [entite]_model.py          # [role]
 ├── views/
 │   ├── __init__.py
-│   ├── main_window.py             # Fenêtre principale, topbar, layout global, install_excepthook
-│   ├── toast_manager.py           # Toasts (position, animation, file)
-│   └── [entite]_view.py           # [rôle]
+│   ├── main_window.py             # Main window, topbar, global layout, install_excepthook
+│   ├── toast_manager.py           # Toasts (position, animation, queue)
+│   └── [entite]_view.py           # [role]
 ├── controllers/
 │   ├── __init__.py
-│   └── [entite]_controller.py     # [rôle]
+│   └── [entite]_controller.py     # [role]
 ├── utils/
-│   ├── helpers.py                 # Fonctions pures (formatage, JSON, validation)
+│   ├── helpers.py                 # Pure functions (formatting, JSON, validation)
 │   └── logger.py                  # Configuration logging (@rules/logging.md)
 └── resources/
-    ├── styles_light.qss           # Thème clair — tous tokens design-system.md
-    ├── styles_dark.qss            # Thème sombre — tous tokens design-system.md
-    └── i18n/                      # Si i18n activée (@rules/i18n.md) : app_{fr,en}.{ts,qm}
+    ├── styles_light.qss           # Light theme — all design-system.md tokens
+    ├── styles_dark.qss            # Dark theme — all design-system.md tokens
+    └── i18n/                      # If i18n enabled (@rules/i18n.md): app_{fr,en}.{ts,qm}
 
-# Si tests activés en Phase 1 :
+# If tests enabled in Phase 1:
 tests/                             # Miroir de la structure source (@rules/tests.md)
 requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 
-### Tableau tokens → règles QSS
+### Tokens → QSS rules table
 
-| Token design-system.md | Valeur clair | Valeur sombre | Règle QSS cible |
+| design-system.md token | Light value | Dark value | Target QSS rule |
 | ----------------------- | ------------ | ------------- | --------------- |
 | bg                      | #FFFFFF      | #1A1A1F       | QMainWindow, #main_content, #topbar |
 | primary-600             | #4682B4      | —             | QTabBar::tab:selected, #btn_primary |
 | …                       | …            | …             | …               |
 
-### Mapping sources → tests (si tests activés)
+### Source → test mapping (if tests enabled)
 
-| Module source                        | Fichier test                                  |
+| Source module                        | Test file                                     |
 | ------------------------------------ | --------------------------------------------- |
 | `models/[entite]_model.py`           | `tests/models/test_[entite]_model.py`         |
 | `controllers/[entite]_controller.py` | `tests/controllers/test_[entite]_controller.py` |
@@ -80,18 +80,18 @@ requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 
 End with:
 
-→ Ce contrat est verrouillé après validation.
-  Tout écart ultérieur (fusion, scission, renommage, ajout, suppression) impose :
-  1. Arrêt.
-  2. Déclaration de l'écart + justification.
-  3. Validation avant reprise.
+→ This contract is locked after validation.
+  Any later deviation (merge, split, rename, addition, removal) requires:
+  1. Stop.
+  2. Declare the deviation + justification.
+  3. Validation before resuming.
 
-  Confirmer pour démarrer la Phase 5.
+  Confirm to start Phase 5.
 
 **Blocking rule**: do not deliver Batch 1 until validation is explicit.
 
 ## Write the spec
 
-Once validated, write the full contract to `docs/specs/04-architect.md` (in French). This file is the **locked source of truth** re-read by `/python-p5-development`, `/python-load-project`, `/python-show-contract`, `/python-add-feature`, and `/python-refactor-code`.
+Once validated, write the full contract to `docs/specs/04-architect.md` (in the user's language). This file is the **locked source of truth** re-read by `/python-p5-development`, `/python-load-project`, `/python-show-contract`, `/python-add-feature`, and `/python-refactor-code`.
 
 Chain to `/python-p5-development` after validation.

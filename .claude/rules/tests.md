@@ -47,7 +47,7 @@ tests/
 ## Conventions
 
 - File naming: `test_[module].py` to test `[module].py`.
-- Function naming: `test_[behavior]` in explicit French.
+- Function naming: `test_[behavior]` in explicit French — always French, independent of the user's interface language.
   Example: `test_validation_email_invalide_leve_validation_error`.
 - One `Test[Class]` class per tested class, otherwise flat functions.
 - `@pytest.mark.parametrize` only for ≥ 3 similar cases.

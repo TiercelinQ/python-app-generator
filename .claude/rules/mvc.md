@@ -95,7 +95,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 
 ### Format
 
-Announcement format: `Lot N/[total] — [content]`
+Announcement format: `Batch N/[total] — [content]`
 Each file delivered as a complete, self-contained block.
 **Automatic chaining** between batches — no confirmation requested.
 The user can interrupt at any time.
@@ -119,13 +119,13 @@ Per-batch and cross-file integrity checks (Python syntax, used/unidirectional im
 As soon as the definitive solution is identified and delivered:
 
 ```
-Anomalie résolue. Éléments à retirer des tentatives précédentes :
+Anomaly resolved. Elements to remove from the previous attempts:
 
-Fichier [nom] :
+File [name]:
 - [line / block / import / objectName to delete]
 ```
 
-Cover all affected files. Then offer: "Veux-tu mémoriser ce point ? `/python-save-memory`"
+Cover all affected files. Then offer: "Do you want to remember this point? `/python-save-memory`"
 
 ## Post-delivery adjustments
 

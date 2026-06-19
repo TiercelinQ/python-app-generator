@@ -13,11 +13,11 @@ Onboarding analyst — take charge of a delivered codebase under the generator r
 Understand the project's structure and confirm the rules apply to any later change.
 
 ## Deliverable
-A one-block confirmation (French) of the loaded project.
+A one-block confirmation (in the user's language) of the loaded project.
 
 ---
 
-> If the project root has not been provided in this flow, first ask: `Racine du projet à charger ? (chemin du dossier)`. Read everything below relative to that root.
+> If the project root has not been provided in this flow, first ask: `Project root to load? (folder path)`. Read everything below relative to that root.
 
 Use the native Claude Code tools (Windows-compatible):
 
@@ -28,17 +28,17 @@ Use the native Claude Code tools (Windows-compatible):
 2. **Detect `tests/`** via `Glob` with the pattern `tests/**/*.py` → count the files for `[N]`.
 3. Read `config.py` + walk the source to confirm the MVC structure.
 
-Confirm take-over with this exact format (in French):
+Confirm take-over with this exact format (in the user's language):
 
-Projet [NOM_APP] v[VERSION] chargé.
+Project [NOM_APP] v[VERSION] loaded.
 
-Stack    : [résumé une ligne]
-DB       : [valeur]
-Fonctionnalités : [N] — [liste courte]
-Architecture    : [N] fichiers — MVC PyQt6
-Tests    : [présents ([N] fichiers) | absents]
-Specs    : [docs/specs présent : oui/non]
+Stack    : [one-line summary]
+DB       : [value]
+Features : [N] — [short list]
+Architecture    : [N] files — MVC PyQt6
+Tests    : [present ([N] files) | absent]
+Specs    : [docs/specs present: yes/no]
 
-Prêt pour : développement · corrections · améliorations · ajustements.
+Ready for: development · fixes · improvements · adjustments.
 
 Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).

@@ -21,44 +21,44 @@ The created/modified files on disk (one batch) + an updated `docs/specs/04-archi
 
 The project must be loaded (`/python-load-project` run at session start, OR `docs/specs/04-architect.md` / README.md present and read).
 
-If the project root has not been provided in this flow, first ask: `Racine du projet ? (chemin du dossier)`.
+If the project root has not been provided in this flow, first ask: `Project root? (folder path)`.
 
 If no contract is known: stop and ask for `/python-load-project`.
 
 ## Step 1 — Light feature scoping
 
-Ask in a single block (in French):
+Ask in a single block (in the user's language):
 
-Nouvelle fonctionnalité — quelques questions :
+New feature — a few questions:
 
-1. Description courte (1 phrase)
-2. Entité métier impactée : [existante : liste] | nouvelle (à nommer)
-3. Type de modification :
-   A. Nouvelle entité (model + view + controller)
-   B. Extension d'une entité existante
-   C. Nouvelle vue partagée (sans nouveau model)
-   D. Modification UI seule (QSS ou layout)
-4. Tests à générer pour cette feature ? Oui / Non (recommandé : aligné sur la stack projet)
+1. Short description (1 sentence)
+2. Business entity affected: [existing: list] | new (to name)
+3. Type of change:
+   A. New entity (model + view + controller)
+   B. Extension of an existing entity
+   C. New shared view (no new model)
+   D. UI-only change (QSS or layout)
+4. Generate tests for this feature? Yes / No (recommended: aligned with the project stack)
 
-Mark a `(recommandé)` option for each closed question, inferred from the existing project.
+Mark a `(recommended)` option for each closed question, inferred from the existing project.
 
 ## Step 2 — Architectural contract diff
 
-Produce (in French):
+Produce (in the user's language):
 
-## Diff contrat — ajout : [nom feature]
+## Contract diff — addition: [feature name]
 
-### Fichiers créés
-[liste]
+### Created files
+[list]
 
-### Fichiers modifiés
-[liste avec nature : ajout méthode, ajout widget, ajout signal…]
+### Modified files
+[list with nature: added method, added widget, added signal…]
 
-### Fichiers tests créés (si Q4 = Oui)
-[liste miroir]
+### Created test files (if Q4 = Yes)
+[mirror list]
 
-### Impact sur design-system / layout
-[aucun | nouveau composant à respecter dans les tokens existants]
+### Impact on design-system / layout
+[none | new component to respect within existing tokens]
 
 → Validation required before writing. Update `docs/specs/04-architect.md` once the diff is applied.
 
@@ -71,13 +71,13 @@ Produce (in French):
 - DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `models/migrations.py`.
 - UI string added and i18n enabled → update the `.ts` (remind the user to run `scripts/i18n_update.ps1`).
 - New styled widget → add a QSS rule in `styles_light.qss` AND `styles_dark.qss`.
-- If the validated diff introduces a deviation from the contract, record it in the app's `CLAUDE.md` (`## Écarts par rapport au framework`).
+- If the validated diff introduces a deviation from the contract, record it in the app's `CLAUDE.md` (`## Deviations from the framework`).
 
 ## Step 4 — Delivery
 
 Single batch for the feature:
 
-Feature [nom] — [N fichiers]
+Feature [name] — [N files]
 
 Deliver each created/modified file as a complete block. If tests requested: deliver in the same batch, at the end.
 

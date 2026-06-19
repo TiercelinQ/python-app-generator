@@ -13,54 +13,54 @@ Requirements analyst — turn the scope into an unambiguous feature list and loc
 Produce a structured requirements sheet, freeze the calibration, and get explicit sign-off before any layout work.
 
 ## Deliverable
-`docs/specs/02-featuring.md` (written in French) + on-screen sheet.
+`docs/specs/02-featuring.md` (written in the user's language) + on-screen sheet.
 
 ---
 
 ## Instructions — Phase 2: Requirements analysis
 
-Produce a structured sheet (in French), based on `docs/specs/01-scoping.md`:
+Produce a structured sheet (in the user's language), based on `docs/specs/01-scoping.md`:
 
-## Analyse des besoins — [NOM_APP]
+## Requirements analysis — [NOM_APP]
 
-**Objectif**
-[Description synthétique de l'application]
+**Objective**
+[Concise description of the application]
 
-**Fonctionnalités retenues**
-- [Fonctionnalité 1]
-- [Fonctionnalité 2]
+**Selected features**
+- [Feature 1]
+- [Feature 2]
 - …
 
-**Hors périmètre**
-- [Ce qui est explicitement exclu]
+**Out of scope**
+- [What is explicitly excluded]
 
-**Contraintes techniques**
-- OS : Windows · PyQt6 · Python 3.10+
-- DB : [valeur choisie en Phase 1]
-- Préférences : [Oui/Non]
-- i18n : [Oui/Non]
-- Tests : [Oui/Non] — pytest + pytest-qt
-- Packaging .exe : [Oui/Non] — PyInstaller
-- Palette : [choix Phase 1 : nom ou custom, 5 rôles]
+**Technical constraints**
+- OS: Windows · PyQt6 · Python 3.10+
+- DB: [value chosen in Phase 1]
+- Preferences: [Yes/No]
+- i18n: [Yes/No]
+- Tests: [Yes/No] — pytest + pytest-qt
+- .exe packaging: [Yes/No] — PyInstaller
+- Palette: [Phase 1 choice: name or custom, 5 roles]
 
-**Calibrage (figé après cette phase)**
-- Fonctionnalités comptées : [N]
-- Fichiers estimés : [N]
-- Taille retenue : [Petit | Moyen / Grand]
-- Lots : [N] (dont 1 lot tests si activé)
+**Calibration (frozen after this phase)**
+- Counted features: [N]
+- Estimated files: [N]
+- Chosen size: [Small | Medium / Large]
+- Batches: [N] (incl. 1 test batch if enabled)
 
 Apply the CALIBRATION table in `CLAUDE.md` (canonical source). **The calibration is confirmed here, from the real feature count.**
 
 End with:
 
-→ Validation requise avant Phase 3.
-  Le calibrage est verrouillé dès validation.
-  Confirmer ou lister les ajustements.
+→ Validation required before Phase 3.
+  The calibration is locked upon validation.
+  Confirm or list the adjustments.
 
 **Blocking rule**: do not move to Phase 3 until validation is explicit. If partial validation: list the open points, block until full resolution.
 
 ## Write the spec
 
-Once validated, write the sheet to `docs/specs/02-featuring.md` (in French).
+Once validated, write the sheet to `docs/specs/02-featuring.md` (in the user's language).
 
 Chain to `/python-p3-designing` after validation.

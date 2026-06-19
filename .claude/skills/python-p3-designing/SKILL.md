@@ -13,7 +13,7 @@ UI designer — map the validated features onto the binding layout system.
 Define the concrete layout (tabs, drawer/modal, toast position) within `layout.md` constraints.
 
 ## Deliverable
-`docs/specs/03-designing.md` (written in French) + on-screen synthesis.
+`docs/specs/03-designing.md` (written in the user's language) + on-screen synthesis.
 
 ---
 
@@ -25,84 +25,84 @@ Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propo
 
 ### Step 1 — Initial proposal
 
-Produce (in French):
+Produce (in the user's language):
 
-## Layout proposé — [NOM_APP]
+## Proposed layout — [NOM_APP]
 
 **Structure**
-[Description : topbar, onglets, contenu principal, statusbar]
+[Description: topbar, tabs, main content, statusbar]
 
-**Onglets**
-| Onglet | Contenu |
+**Tabs**
+| Tab | Content |
 | ------ | ------- |
 | …      | …       |
 
-**Composants récurrents**
-- [Tableau / Formulaire / Arborescence / Graphiques — selon les fonctionnalités]
+**Recurring components**
+- [Table / Form / Tree / Charts — depending on the features]
 
 ### Step 2 — Customization questions (single block)
 
-For each question, mark the option you recommend with `(recommandé)`, chosen from the validated feature context.
+For each question, mark the option you recommend with `(recommended)`, chosen from the validated feature context.
 
-Quelques choix à confirmer :
+A few choices to confirm:
 
-1. Position des onglets dans la topbar :
-   A. Après le logo et le nom (alignés à gauche)
-   B. Centrés
+1. Tab position in the topbar:
+   A. After the logo and name (left-aligned)
+   B. Centered
 
-2. Panneau secondaire : drawer ou modale ?
-   A. Drawer (panneau latéral persistant)
-   B. Modale (fenêtre superposée)
-   C. Aucun
+2. Secondary panel: drawer or modal?
+   A. Drawer (persistent side panel)
+   B. Modal (overlay window)
+   C. None
 
-[Si A — Drawer :]
-3. Largeur du drawer :
-   A. Fixe 320px (défaut design-system.md)
-   B. Fixe personnalisée — préciser la valeur
-   C. Dynamique (s'adapte au contenu)
+[If A — Drawer:]
+3. Drawer width:
+   A. Fixed 320px (design-system.md default)
+   B. Fixed custom — specify the value
+   C. Dynamic (adapts to content)
 
-[Si B — Modale :]
-3. Taille de la modale :
-   A. Fixe — préciser largeur × hauteur
-   B. Dynamique (s'adapte au contenu)
+[If B — Modal:]
+3. Modal size:
+   A. Fixed — specify width × height
+   B. Dynamic (adapts to content)
 
-4. Disposition interne de la modale :
-   A. Header + contenu principal + footer
-   B. Header + 2 colonnes (contenu principal) + footer
-   C. Header + contenu principal (sans footer)
-   D. Autre — je ne sais pas, aide-moi à choisir
+4. Modal internal layout:
+   A. Header + main content + footer
+   B. Header + 2 columns (main content) + footer
+   C. Header + main content (no footer)
+   D. Other — I'm not sure, help me choose
 
-5. Emplacement des toasts :
-   A. Haut-droit (défaut)
-   B. Haut-gauche
-   C. Haut-centre
-   D. Bas-droit
-   E. Bas-gauche
-   F. Bas-centre
+5. Toast position:
+   A. Top-right (default)
+   B. Top-left
+   C. Top-center
+   D. Bottom-right
+   E. Bottom-left
+   F. Bottom-center
 
 Show only the relevant questions for the feature context. If the project clearly needs no drawer or modal, skip questions 3/4 and note the absence of a secondary panel. Question 5 (toasts) is always asked.
 
 If the user picks D on question 4: ask 3 questions in a single block to help define the layout:
 
-Pour t'aider à choisir la disposition :
+To help you choose the layout:
 
-a. Quel est l'objectif principal de cette modale ?
-b. Y a-t-il des actions à effectuer depuis cette modale ? Oui / Non
-c. Le contenu est-il homogène (un seul bloc) ou hétérogène (plusieurs sections) ?
+a. What is the main purpose of this modal?
+b. Are there actions to perform from this modal? Yes / No
+c. Is the content homogeneous (single block) or heterogeneous (several sections)?
 
 Based on the answers, propose 2 suited layouts with a justified recommendation, then confirm before the synthesis.
 
 ### Step 3 — Final synthesis
 
-Produce the complete synthesis (in French): topbar, tabs, secondary panel, recurring components, toast position, applied constraints.
+Produce the complete synthesis (in the user's language): topbar, tabs, secondary panel, recurring components, toast position, applied constraints.
 
-→ Validation requise avant Phase 4.
-  Confirmer ou lister les ajustements.
+→ Validation required before Phase 4.
+  Confirm or list the adjustments.
 
 **Blocking rule**: do not move to Phase 4 until validation is explicit.
 
 ## Write the spec
 
-Once validated, write the synthesis to `docs/specs/03-designing.md` (in French).
+Once validated, write the synthesis to `docs/specs/03-designing.md` (in the user's language).
 
 Chain to `/python-p4-architect` after validation.

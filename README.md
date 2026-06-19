@@ -18,7 +18,7 @@ A structured prompt system that generates complete, production-ready PyQt6 deskt
 4. **Architect** - full file tree, QSS token table, source→test mapping - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used, dedicated test batch if opted-in
 
-Each phase writes a French spec to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
+Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
 **Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
@@ -104,7 +104,7 @@ my_app/
 ├── README.md
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
-├── docs/specs/                    # Generation specs (FR): 01-scoping … 04-architect
+├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
 ├── models/
 │   ├── exceptions.py              # Named business exceptions
 │   ├── db.py                      # Single DB access point (if DB ≠ none)
@@ -138,7 +138,7 @@ All generated apps share the same visual system, defined in `design-system.md`:
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **Segoe UI** typography (Windows native)
-- **Color palette** - 5 roles (fond principal, fond secondaire, accent, texte, détails) chosen for the light theme; dark theme and all supporting tokens derived. Default "Acier" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
+- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel" (Steel Blue) + 4 named palettes + custom palette; semantic colors stay fixed
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---
