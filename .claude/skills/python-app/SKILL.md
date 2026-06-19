@@ -17,16 +17,13 @@ The menu, then a handoff to the selected skill.
 
 ---
 
-Show exactly this menu (in the user's language):
+Present the start menu with the `AskUserQuestion` tool (single question, 4 clickable options — do not make the user type a number):
+- New application
+- Resume a session (SESSION file)
+- Load an existing project (Phase 5 complete)
+- Maintain a delivered project (add / fix / analyze)
 
-What do you want to do?
-
-1. New application
-2. Resume a session (SESSION file)
-3. Load an existing project (Phase 5 complete)
-4. Maintain a delivered project (add / fix / analyze)
-
-→ Answer 1, 2, 3 or 4.
+Map the chosen option to the routing below. The folder/SESSION-path prompts stay free-form text.
 
 Routing:
 

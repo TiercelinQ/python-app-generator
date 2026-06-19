@@ -60,6 +60,6 @@ pytest
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).
-4. If anything is undeterminable from specs + code: ask grouped questions (single block, in the user's language) before writing.
+4. If anything is undeterminable from specs + code: ask the closed questions with `AskUserQuestion` (clickable options) before writing.
 
 Confirm with: `README.md generated at the project root.`

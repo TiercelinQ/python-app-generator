@@ -21,34 +21,25 @@ Lock the project parameters (DB, prefs, i18n, tests, packaging, palette) before 
 
 > If invoked directly (not routed from `/python-app`) without a destination folder set for this flow, first ask: `Where to create the application? (destination folder path)`.
 
-Ask the following 6 questions in **a single block** (in the user's language). Each closed question carries a `(recommended)` answer:
+Ask Q1 (objective) as free-form text, then the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first / marked `(recommended)`). The tool caps at **4 questions per call**, so split the closed parameters into **two calls**.
 
-1. Application objective — free description.
-2. Database: SQLite / PostgreSQL / JSON / CSV / none? (recommended: SQLite if structured data, otherwise none)
-3. Persistent preferences between sessions (theme, window…)? Yes / No (recommended: Yes)
-4. FR/EN internationalization for this project? Yes / No — FR by default (recommended: No unless a real EN need)
-5. Automated tests (pytest + pytest-qt)? Yes / No (recommended: Yes for professional use)
-6. .exe packaging (PyInstaller — build.spec + PowerShell script)? Yes / No (recommended: No unless distributing)
+1. **Objective** — free-form text: "Application objective? (free description)".
+2. **`AskUserQuestion` — call 1** (4 questions, each with a recommended option):
+   - **Database**: `SQLite` (recommended, if structured data) · `JSON` · `CSV` · `none`. PostgreSQL via the **Other** option.
+   - **Persistent preferences** (theme, window…): `Yes` (recommended) · `No`.
+   - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
+   - **Automated tests** (pytest + pytest-qt): `Yes` (recommended, pro use) · `No`.
+3. **`AskUserQuestion` — call 2** (1 question):
+   - **.exe packaging** (PyInstaller — build.spec + PowerShell script): `No` (recommended, unless distributing) · `Yes`.
 
-After receiving the answers, propose the **color palette**. A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
+After the answers, propose the **color palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
-Color palette for this project (5 roles, light theme — dark is derived):
-
-A. Steel (default) — bg #FFFFFF · 2nd #F9FAFB · accent #4682B4 · text #111827 · details #E5E7EB — professional, tech, understated (recommended)
-B. Forest — bg #FFFFFF · 2nd #F6F8F6 · accent #059669 · text #14201A · details #DCE5DF — natural, calm, fresh
-C. Slate — bg #FFFFFF · 2nd #F8FAFC · accent #4F46E5 · text #1E293B · details #E2E8F0 — modern, crisp, indigo
-D. Amber — bg #FFFDFB · 2nd #FBF6EF · accent #B45309 · text #1C1917 · details #ECE3D8 — warm, artisanal
-E. Ruby — bg #FFFFFF · 2nd #FAF7F7 · accent #BE123C · text #1A1212 · details #EAE0E1 — bold, elegant
-
-F. Custom palette — provide 5 light hex values: main background, secondary background, accent, text, details.
-
-Palette rules (see `@rules/config.md` "Deriving the full palette" + `design-system.md §2`):
-
-- Acier (default) is option A and the recommended default; the 4 other named palettes (B-E) and the custom option (F) are full palettes. The catalog values are canonical — do not improvise the named ones.
+- **Palette — `AskUserQuestion`**, options (≤ 4): `Steel` (default, recommended) · `Forest` · `Slate` · `Amber`. The **Other** option covers `Ruby` and a **custom palette**. If the user picks a custom palette, ask the 5 light hex values as free-form text (main background, secondary background, accent, text, details). Catalog + hex values: `design-system.md §2`.
+- Steel is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette (values already known).
 - From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bg-muted`, `bg-elevated`, `text-subtle`, `text-muted`, `border-subtle`, `border-strong`), the 5 accent stops (`primary-50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (lightness targets in `design-system.md §2`).
 - Written to `styles_light.qss` + `styles_dark.qss` (neutrals) and `config.py` (`PRIMARY_*`, `ON_PRIMARY`, `ICON_COLORS`). Semantic colors stay fixed.
-- **Contrast check (WCAG AA, non-blocking)**: compute text/bg, text-subtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`couleur — ratio — cible`) and ask the user to confirm or adjust before continuing.
-- The global `design-system.md` stays unchanged. If A or no answer: default palette (values already known).
+- **Contrast check (WCAG AA, non-blocking)**: compute text/bg, text-subtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
+- The global `design-system.md` stays unchanged.
 
 Then announce the **provisional** calibration:
 

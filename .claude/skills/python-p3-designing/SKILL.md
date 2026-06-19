@@ -21,7 +21,7 @@ Define the concrete layout (tabs, drawer/modal, toast position) within `layout.m
 
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
-Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout drawn from `layout.md`, then ask the customization questions in **a single block**.
+Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout drawn from `layout.md`, then ask the closed customization questions with `AskUserQuestion` (clickable options, recommended first; ≤ 4 options each, **Other** for the rest; split into ≤ 4-question calls).
 
 ### Step 1 — Initial proposal
 
@@ -40,7 +40,7 @@ Produce (in the user's language):
 **Recurring components**
 - [Table / Form / Tree / Charts — depending on the features]
 
-### Step 2 — Customization questions (single block)
+### Step 2 — Customization questions (`AskUserQuestion`)
 
 For each question, mark the option you recommend with `(recommended)`, chosen from the validated feature context.
 
@@ -82,7 +82,7 @@ A few choices to confirm:
 
 Show only the relevant questions for the feature context. If the project clearly needs no drawer or modal, skip questions 3/4 and note the absence of a secondary panel. Question 5 (toasts) is always asked.
 
-If the user picks D on question 4: ask 3 questions in a single block to help define the layout:
+If the user picks D on question 4: ask 3 questions with `AskUserQuestion` to help define the layout:
 
 To help you choose the layout:
 

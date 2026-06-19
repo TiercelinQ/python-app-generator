@@ -27,7 +27,7 @@ If no contract is known: stop and ask for `/python-load-project`.
 
 ## Step 1 — Light feature scoping
 
-Ask in a single block (in the user's language):
+Ask the closed parameters with `AskUserQuestion` (clickable options, recommended first); the short description (Q1) stays free-form text:
 
 New feature — a few questions:
 
