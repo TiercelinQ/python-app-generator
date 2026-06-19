@@ -23,7 +23,6 @@ Use the native Claude Code tools (Windows-compatible):
 2. Determine `[N]`: list `docs/sessions/SESSION_*_S*.md` via `Glob`, extract the integers (`S(\d+)\.md$`), `[N] = max + 1` (or `1` if none). `[app_name]` = exact `APP_NAME` from `config.py` (no spaces).
 3. **Write** `docs/sessions/SESSION_[app_name]_S[N].md` via `Write`:
 
-```markdown
 # SESSION_S[N] — [NOM_APP] · [Phase terminée]
 
 ## Statut
@@ -56,18 +55,15 @@ Référence : docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 
 ## Points ouverts
 
 [liste ou "aucun"]
-```
 
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree. Only summarize the locked decisions here.
 
 4. Confirm:
 
-```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💾 SAUVEGARDE SESSION
 Fichier écrit : docs/sessions/SESSION_[nom_app]_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```
 
 Do not append the `/python-save-session · /python-show-state · /python-show-contract` reminder after this reply.
 

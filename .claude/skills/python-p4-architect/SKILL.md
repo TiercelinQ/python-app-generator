@@ -80,7 +80,6 @@ requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 
 End with:
 
-```
 → Ce contrat est verrouillé après validation.
   Tout écart ultérieur (fusion, scission, renommage, ajout, suppression) impose :
   1. Arrêt.
@@ -88,7 +87,6 @@ End with:
   3. Validation avant reprise.
 
   Confirmer pour démarrer la Phase 5.
-```
 
 **Blocking rule**: do not deliver Batch 1 until validation is explicit.
 

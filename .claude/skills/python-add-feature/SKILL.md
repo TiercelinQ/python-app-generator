@@ -29,7 +29,6 @@ If no contract is known: stop and ask for `/python-load-project`.
 
 Ask in a single block (in French):
 
-```
 Nouvelle fonctionnalité — quelques questions :
 
 1. Description courte (1 phrase)
@@ -40,7 +39,6 @@ Nouvelle fonctionnalité — quelques questions :
    C. Nouvelle vue partagée (sans nouveau model)
    D. Modification UI seule (QSS ou layout)
 4. Tests à générer pour cette feature ? Oui / Non (recommandé : aligné sur la stack projet)
-```
 
 Mark a `(recommandé)` option for each closed question, inferred from the existing project.
 
@@ -48,7 +46,6 @@ Mark a `(recommandé)` option for each closed question, inferred from the existi
 
 Produce (in French):
 
-```
 ## Diff contrat — ajout : [nom feature]
 
 ### Fichiers créés
@@ -62,7 +59,6 @@ Produce (in French):
 
 ### Impact sur design-system / layout
 [aucun | nouveau composant à respecter dans les tokens existants]
-```
 
 → Validation required before writing. Update `docs/specs/04-architect.md` once the diff is applied.
 
@@ -81,9 +77,7 @@ Produce (in French):
 
 Single batch for the feature:
 
-```
 Feature [nom] — [N fichiers]
-```
 
 Deliver each created/modified file as a complete block. If tests requested: deliver in the same batch, at the end.
 
