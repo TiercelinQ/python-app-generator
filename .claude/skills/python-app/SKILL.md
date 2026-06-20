@@ -27,9 +27,7 @@ Map the chosen option to the routing below. The folder/SESSION-path prompts stay
 
 Routing:
 
-- `1` → ask for the destination folder, then chain to `/python-p1-scoping`:
-  Where to create the application? (destination folder path, e.g. C:\projects\MyApp)
-  Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
+- `1` → chain directly to `/python-p1-scoping`, which handles the project folder name, location, and creation (the project root is established there).
 - `2` → ask for the SESSION file path:
   Provide the path to your SESSION file:
   (e.g. C:\projects\my-app\docs\sessions\SESSION_MyApp_S1.md)
