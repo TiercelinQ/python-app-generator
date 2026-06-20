@@ -29,13 +29,13 @@ TOAST_POSITION: str = "top-right"
 
 # Accent stops — derived from the palette accent (primary-600). Neutrals (bg/text/border)
 # live in the QSS sheets, not here. See @rules/config.md "Deriving the full palette".
-PRIMARY_50:  str = "#EDF3F8"   # light selection bg
-PRIMARY_400: str = "#B3B3B3"   # dark active text (default palette: neutral grey accent)
-PRIMARY_600: str = "#4682B4"   # light active text/border, light primary button bg
-PRIMARY_700: str = "#396A93"   # light primary button hover
-PRIMARY_800: str = "#2F5879"   # light primary button pressed
-PRIMARY_900: str = "#404040"   # dark selection bg
-ON_PRIMARY:  str = "#FFFFFF"   # text on light accent + danger buttons; dark primary button uses near-black (styles_dark.qss)
+PRIMARY_50:  str = "#F0FDFA"   # light selection bg
+PRIMARY_400: str = "#2DD4BF"   # dark foreground accent (active text/border/icon)
+PRIMARY_600: str = "#0D9488"   # accent: light active text/border, primary button bg (both themes)
+PRIMARY_700: str = "#0F766E"   # primary button hover
+PRIMARY_800: str = "#115E59"   # primary button pressed
+PRIMARY_900: str = "#134E4A"   # dark selection bg
+ON_PRIMARY:  str = "#FFFFFF"   # text on the teal accent + danger buttons (white, both themes)
 
 # qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
 ICON_COLORS: dict = {
@@ -70,7 +70,7 @@ In Phase 1 the user picks a **named palette** or enters a **custom palette** = 5
 
 > The neutral tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`) live **in the QSS sheets**, not in `config.py`; only the accent stops and `ICON_COLORS` live in `config.py`. The derivation populates both.
 >
-> Default-palette exception: its dark accent is a **neutral grey** (`#9E9E9E`), so the dark primary button (fill `#9E9E9E` / hover `#808080` / pressed `#6B6B6B`, near-black text) diverges from the light Steel Blue ramp. Those dark grey button values are written as literals in `styles_dark.qss` (like the dark neutrals); `config.py PRIMARY_600/700/800` keep the light ramp, while `PRIMARY_400`/`PRIMARY_900` (dark-only stops) already hold the grey active/selection values. For a custom palette the accent is a single hue and the `PRIMARY_*` stops stay consistent across both sheets.
+> The default palette (Teal) and every named/custom palette share **one chromatic accent ramp** across both themes: the same `PRIMARY_*` values drive light and dark, only the usage flips (`primary-600` for the button fill and light foreground; `primary-400` for the dark foreground; `primary-50`/`900` for light/dark selection). Only the **surfaces** are achromatic in the default dark theme (neutral greys, written as literals in `styles_dark.qss` like the dark neutrals).
 
 ### Accent stops — HSL rule from `primary-600`
 
@@ -85,19 +85,20 @@ The accent provides `primary-600`; Claude derives the other 5 by a deterministic
 | `primary-800` | `H` unchanged · `S` unchanged · `L` = 42%  | Primary button pressed    |
 | `primary-900` | `H` unchanged · `S` unchanged · `L` = 25%  | Selection bg (dark)       |
 
-Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen. Steel Blue is a special case: its `primary-600` sits near L 49%, so its `-700`/`-800` are set darker than the generic L 50/42 stops to keep the hover/pressed darken visible.
+Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, convert back to hex. No external dependency — use `colorsys` (stdlib) on Claude's side. The derived `-700`/`-800` may differ by a few units from the reference values below (rounding); the reference values win when a preset name is chosen. Teal (default) is a preset whose explicit stops win over the generic rule (its `primary-600 #0D9488` sits near L 32%).
 
-### Accent-stop reference (Steel Blue, default accent)
+### Accent-stop reference (Teal, default accent)
 
 | Name        | primary-600 | primary-50 | primary-400 | primary-700 | primary-800 | primary-900 |
 | ----------- | ----------- | ---------- | ----------- | ----------- | ----------- | ----------- |
+| Teal (def.) | #0D9488     | #F0FDFA    | #2DD4BF     | #0F766E     | #115E59     | #134E4A     |
 | Steel Blue  | #4682B4     | #EDF3F8    | #5A9FD4     | #396A93     | #2F5879     | #2A4F72     |
 
-> This is the HSL ramp of Steel Blue `#4682B4`, the default palette's **light** accent; its `primary-600` sits near L 49 %, so `primary-700/800` are darkened past the generic L 50/42 stops to keep the hover/pressed darken visible (preset values win over the rule). The default palette's **dark** theme uses a separate **neutral grey** accent (`primary-400` `#B3B3B3`, `primary-600` `#9E9E9E`, `primary-700` `#808080`, `primary-800` `#6B6B6B`, `primary-900` `#404040`), not this Steel Blue ramp — see `design-system.md` / `rules/qss.md` dark stops. For any other accent (named palette or custom), Claude computes the 5 stops by the rule above (one hue, both themes) and announces them before writing.
+> Teal (default) is a single chromatic ramp used in **both** themes (preset values win over the rule). Surfaces stay neutral grey in dark; the accent does not. Steel Blue is now a selectable **named palette** (light accent `#4682B4`); as a named palette it derives a chromatic dark accent by the rule — note its dark `primary-600 ≈ #4682B4` overlaps the `info` dark colour (`#4682B4`), a minor hue overlap for that palette only. For any accent (named palette or custom), Claude computes the 5 stops by the rule above (one hue, both themes) and announces them before writing.
 
 ### `onPrimary` — text on the accent
 
-`onPrimary` is `#FFFFFF` if the accent's relative luminance keeps white text ≥ 4.5:1 (≥ 3:1 acceptable for large/UI), otherwise a near-black (`#111827`). Used in `QPushButton#btn_primary` text. Announced with the rest of the palette. When the light and dark accents differ (default palette: Steel Blue light, grey `#9E9E9E` dark), `onPrimary` is computed per theme: `#FFFFFF` in `styles_light.qss`, near-black (`#1C1C1C`) in `styles_dark.qss`.
+`onPrimary` is `#FFFFFF` if the accent's relative luminance keeps white text ≥ 4.5:1 (≥ 3:1 acceptable for large/UI), otherwise a near-black (`#111827`). Used in `QPushButton#btn_primary` text. Announced with the rest of the palette. With a single chromatic accent (default Teal and every named/custom palette) `onPrimary` is one value across both themes — `#FFFFFF` for Teal (white on `#0D9488` 3.9:1, AA UI/large).
 
 ### Named palettes & custom input
 

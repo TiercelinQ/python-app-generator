@@ -1,4 +1,4 @@
-# Design System — v1.4
+# Design System — v1.5
 
 > Binding reference for all Python/PyQt6 applications.
 > Use: Windows desktop applications, personal and professional use.
@@ -8,6 +8,7 @@
 
 | Version | Date       | Main change                                                                                  |
 | ------- | ---------- | ------------------------------------------------------------------------------------------- |
+| v1.5    | 2026-06-20 | default accent → **Teal** `#0D9488` (chromatic in both themes, derived like the named palettes) · dark **surfaces** stay neutral grey · grey-accent dark special-case removed · `onPrimary` back to a single white value for the default · Steel Blue kept as a named palette |
 | v1.4    | 2026-06-19 | full **palette** model (5 roles/theme: main background, secondary background, accent, text, details) replaces the primary-only choice · light theme chosen, dark + supporting tokens derived · named palette catalog + custom palette · semantic/charts kept fixed · WCAG AA check (warn) |
 | v1.3    | 2026-06-14 | dark theme re-skin (theme-dark.md palette): 4-step dark surface ramp · dark neutrals/borders/semantic/icons/charts/selection · Steel Blue primary (both modes) |
 | v1.2    | 2026-06-14 | line-height · dark semantic backgrounds · primary/danger hover-pressed stops · WCAG AA target · layering scale · dark surface ramp fix · dark charts · focus dark · selection · opacity/border-width tokens |
@@ -50,7 +51,7 @@ Every generated application references the active version in its `README.md`.
 
 ## 2. COLORS
 
-A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutrals + Steel Blue), so a project that keeps the default renders exactly as before.
+A project's colors come from a **palette**: 5 roles chosen per project, **light theme only** — the dark theme and every supporting token are **derived**. The default palette is the set of values in the tables below (neutral surfaces + the Teal accent).
 
 ### Palette roles → tokens
 
@@ -78,7 +79,7 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 | `bg-muted`    | ≈22 % (lightest) | `border` / `border-subtle` / `border-strong` | ≈26 % / ≈20 % / ≈33 % |
 | accent        | `primary-400` (L≈60-70 %) | semantic / charts | fixed |
 
-> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships an explicit **neutral grey** dark theme (achromatic surfaces and accent — the tables below), and its explicit values win over the rule. The dark surface ramp stays ascending in every case (`bg` < `bg-subtle` < `bg-elevated` < `bg-muted`). Named presets and custom palettes derive the dark theme by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships neutral grey dark **surfaces** (achromatic — the tables below) with a chromatic Teal accent, and its explicit surface values win over the rule. The dark surface ramp stays ascending in every case (`bg` < `bg-subtle` < `bg-elevated` < `bg-muted`). Named presets and custom palettes derive the dark theme by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -86,7 +87,8 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 | Name             | Main background | Secondary background | Accent  | Text   | Details |
 | ---------------- | -------------- | --------------- | ------- | ------- | ------- |
-| Steel (default)  | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
+| Teal (default)   | #FFFFFF        | #F9FAFB         | #0D9488 | #111827 | #E5E7EB |
+| Steel Blue        | #FFFFFF        | #F9FAFB         | #4682B4 | #111827 | #E5E7EB |
 | Forest            | #FFFFFF        | #F6F8F6         | #059669 | #14201A | #DCE5DF |
 | Slate          | #FFFFFF        | #F8FAFC         | #4F46E5 | #1E293B | #E2E8F0 |
 | Amber            | #FFFDFB        | #FBF6EF         | #B45309 | #1C1917 | #ECE3D8 |
@@ -124,20 +126,22 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 > Dark surface ramp: `bg` #1C1C1C < `bg-subtle` #2B2B2B < `bg-elevated` #353535 < `bg-muted` #3F3F3F. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
-### Accent — Steel Blue (default palette)
+### Accent — Teal (default palette)
 
-| Token         | Light   | Dark    | Usage                              |
-| ------------- | ------- | ------- | ---------------------------------- |
-| `primary-50`  | #EDF3F8 | —       | Selection / active bg (light)      |
-| `primary-400` | —       | #B3B3B3 | Active text/border (dark)          |
-| `primary-600` | #4682B4 | #9E9E9E | Primary button fill; active text/border (light) |
-| `primary-700` | #396A93 | #808080 | Primary button hover               |
-| `primary-800` | #2F5879 | #6B6B6B | Primary button pressed             |
-| `primary-900` | —       | #404040 | Selection / active bg (dark)       |
+A single chromatic ramp, used in **both** themes (like every named palette): the dark theme reuses these stops, only the usage tokens flip (`primary` = `primary-600` light / `primary-400` dark; `primary-bg` = `primary-50` light / `primary-900` dark). No grey special-case.
 
-> `onPrimary` (primary-button text): #FFFFFF in light (on Steel Blue), #1C1C1C in dark (white fails AA on the #9E9E9E grey accent, 2.7:1; near-black = 6.4:1).
+| Token         | Value   | Usage                                                         |
+| ------------- | ------- | ------------------------------------------------------------- |
+| `primary-50`  | #F0FDFA | Selection / active bg (light)                                 |
+| `primary-400` | #2DD4BF | Active text/border (dark) — bright, reads ~9:1 on `#1C1C1C`   |
+| `primary-600` | #0D9488 | Primary button fill (both themes); active text/border (light) |
+| `primary-700` | #0F766E | Primary button hover                                          |
+| `primary-800` | #115E59 | Primary button pressed                                        |
+| `primary-900` | #134E4A | Selection / active bg (dark)                                  |
+
+> `onPrimary` (primary-button text): `#FFFFFF` in **both** themes — white on the teal `#0D9488` fill is 3.9:1 (AA for UI / large text; reported by the Phase 1 WCAG check). The dark foreground accent is the brighter `primary-400 #2DD4BF`, not the button fill.
 >
-> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the **accent** across the whole application. For a custom color the stops derive from `primary-600` by the HSL rule (see `rules/config.md`). Default-palette specifics: Steel Blue (light) is a preset whose explicit values win over the rule (its `primary-600` sits near L 49%, so `primary-700/800` are darkened past the generic stops); the dark accent is a **neutral grey** (achromatic `#9E9E9E`), so the dark stops are pure greys and `primary-600/700/800` no longer share a value with light.
+> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the **accent** across the whole application. For a custom color the stops derive from `primary-600` by the HSL rule (see `rules/config.md`). Teal (default) is a preset whose explicit values win over the rule (its `primary-600 #0D9488` sits near L 32%). The dark **surfaces** stay neutral grey (tables above); only the accent is chromatic.
 
 ### Semantic colors (fixed — outside the palette)
 
@@ -160,7 +164,7 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 | Token           | Light (value)         | Dark (value)          |
 | --------------- | --------------------- | --------------------- |
-| `chart-primary` | `primary-600` #4682B4 | `primary-400` #B3B3B3 |
+| `chart-primary` | `primary-600` #0D9488 | `primary-400` #2DD4BF |
 | `chart-success` | `success-600` #16A34A | #4A9E6A               |
 | `chart-warning` | `warning-600` #D97706 | #CCA840               |
 | `chart-danger`  | `danger-600` #DC2626  | #C04A4A               |
@@ -172,7 +176,7 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 | Token              | Light       | Dark        | Usage                         |
 | ------------------ | ----------- | ----------- | ----------------------------- |
-| `selection-bg`     | `primary-50` #EDF3F8 | `primary-900` #404040 | Selected text background |
+| `selection-bg`     | `primary-50` #F0FDFA | `primary-900` #134E4A | Selected text background |
 | `selection-text`   | `text` #111827       | `text` #F5F5F5        | Selected text color      |
 
 ---
@@ -326,7 +330,7 @@ Icons are Python widgets colored dynamically — they do NOT go through QSS.
 ICON_COLORS = {
     "light": {
         "default":  "#6B7280",   # text-subtle
-        "active":   "#4682B4",   # primary-600
+        "active":   "#0D9488",   # primary-600
         "success":  "#16A34A",   # success-600
         "warning":  "#D97706",   # warning-600
         "danger":   "#DC2626",   # danger-600
@@ -335,7 +339,7 @@ ICON_COLORS = {
     },
     "dark": {
         "default":  "#939393",   # text-subtle
-        "active":   "#B3B3B3",   # primary-400
+        "active":   "#2DD4BF",   # primary-400
         "success":  "#4A9E6A",   # success-600 dark
         "warning":  "#CCA840",   # warning-600 dark
         "danger":   "#C04A4A",   # danger-600 dark
