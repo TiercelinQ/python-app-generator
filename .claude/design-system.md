@@ -78,7 +78,7 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 | `bg-muted`    | ≈22 % (lightest) | `border` / `border-subtle` / `border-strong` | ≈26 % / ≈20 % / ≈33 % |
 | accent        | `primary-400` (L≈60-70 %) | semantic / charts | fixed |
 
-> Harmony: dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth, not a flat grey. The dark surface ramp stays ascending (`bg` < `bg-subtle` < `bg-elevated` < `bg-muted`). The **default palette** ships explicit values for both themes (the tables below) — like Steel Blue today, the preset's explicit values win over the rule and guarantee the current rendering. Named presets and custom palettes derive the dark theme by the rule.
+> Harmony: for named presets and custom palettes, dark surfaces carry a low saturation (≈8-12 %) of the accent hue for depth. The **default palette** ships an explicit **neutral grey** dark theme (achromatic surfaces and accent — the tables below), and its explicit values win over the rule. The dark surface ramp stays ascending in every case (`bg` < `bg-subtle` < `bg-elevated` < `bg-muted`). Named presets and custom palettes derive the dark theme by the rule.
 
 ### Named palettes (Phase 1 catalog)
 
@@ -111,31 +111,33 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 | Token           | Value   | Usage                  |
 | --------------- | ------- | ---------------------- |
-| `bg`            | #1A1A1F | Main background, topbar |
-| `bg-subtle`     | #22222A | Secondary areas        |
-| `bg-elevated`   | #2A2A35 | Drawer, modals         |
-| `bg-muted`      | #313140 | Statusbar, hover       |
-| `text`          | #D4D4D4 | Primary text           |
-| `text-subtle`   | #9A9AB0 | Secondary text         |
-| `text-muted`    | #5A5A72 | Disabled text          |
-| `border`        | #3A3A4A | Standard borders       |
-| `border-subtle` | #2E2E3A | Discreet separators    |
-| `border-strong` | #4A4A5E | Table headers          |
+| `bg`            | #1C1C1C | Main background, topbar |
+| `bg-subtle`     | #2B2B2B | Secondary areas        |
+| `bg-elevated`   | #353535 | Drawer, modals         |
+| `bg-muted`      | #3F3F3F | Statusbar, hover       |
+| `text`          | #F5F5F5 | Primary text           |
+| `text-subtle`   | #939393 | Secondary text         |
+| `text-muted`    | #6E6E6E | Disabled text          |
+| `border`        | #525252 | Standard borders       |
+| `border-subtle` | #373737 | Discreet separators    |
+| `border-strong` | #666666 | Table headers          |
 
-> Dark surface ramp: `bg` #1A1A1F < `bg-subtle` #22222A < `bg-elevated` #2A2A35 < `bg-muted` #313140. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
+> Dark surface ramp: `bg` #1C1C1C < `bg-subtle` #2B2B2B < `bg-elevated` #353535 < `bg-muted` #3F3F3F. `bg-muted` is the lightest so that hover stays visible on every surface, including inside drawers and modals.
 
 ### Accent — Steel Blue (default palette)
 
 | Token         | Light   | Dark    | Usage                              |
 | ------------- | ------- | ------- | ---------------------------------- |
 | `primary-50`  | #EDF3F8 | —       | Selection / active bg (light)      |
-| `primary-400` | —       | #5A9FD4 | Active text/border (dark)          |
-| `primary-600` | #4682B4 | #4682B4 | Primary button fill (both modes); active text/border (light) |
-| `primary-700` | #396A93 | #396A93 | Primary button hover (both modes)  |
-| `primary-800` | #2F5879 | #2F5879 | Primary button pressed (both modes) |
-| `primary-900` | —       | #2A4F72 | Selection / active bg (dark)       |
+| `primary-400` | —       | #B3B3B3 | Active text/border (dark)          |
+| `primary-600` | #4682B4 | #9E9E9E | Primary button fill; active text/border (light) |
+| `primary-700` | #396A93 | #808080 | Primary button hover               |
+| `primary-800` | #2F5879 | #6B6B6B | Primary button pressed             |
+| `primary-900` | —       | #404040 | Selection / active bg (dark)       |
 
-> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the **accent** across the whole application. `primary-700`/`primary-800` share one value across modes (button hover/pressed). For a custom color they derive from `primary-600` by the HSL rule (see `rules/config.md`); Steel Blue is a preset whose explicit values win over that rule (its `primary-600` already sits near L 49%, so `primary-700/800` are darkened past the generic stops to keep the hover/pressed darken visible).
+> `onPrimary` (primary-button text): #FFFFFF in light (on Steel Blue), #1C1C1C in dark (white fails AA on the #9E9E9E grey accent, 2.7:1; near-black = 6.4:1).
+>
+> Modification: replacing `primary-50/400/600/700/800/900` is enough to change the **accent** across the whole application. For a custom color the stops derive from `primary-600` by the HSL rule (see `rules/config.md`). Default-palette specifics: Steel Blue (light) is a preset whose explicit values win over the rule (its `primary-600` sits near L 49%, so `primary-700/800` are darkened past the generic stops); the dark accent is a **neutral grey** (achromatic `#9E9E9E`), so the dark stops are pure greys and `primary-600/700/800` no longer share a value with light.
 
 ### Semantic colors (fixed — outside the palette)
 
@@ -152,13 +154,13 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 | `info-50`     | #EFF6FF | #1A3042 | Info toast bg               |
 | `info-600`    | #2563EB | #4682B4 | Info border, icon           |
 
-> Naming note: the `*-50` token is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, so toasts stay readable in both themes (message text uses `text`, border/icon use `*-600`). On a `*-50` dark background the `text` color (#D4D4D4) and the `*-600` dark accent both keep WCAG AA contrast.
+> Naming note: the `*-50` token is a **role** ("semantic surface / toast background"), not a fixed luminance level. Light = pale tint, Dark = deep tint of the same hue, so toasts stay readable in both themes (message text uses `text`, border/icon use `*-600`). On a `*-50` dark background the `text` color (#F5F5F5) and the `*-600` dark accent both keep WCAG AA contrast.
 
 ### Charts / visualization palette
 
 | Token           | Light (value)         | Dark (value)          |
 | --------------- | --------------------- | --------------------- |
-| `chart-primary` | `primary-600` #4682B4 | `primary-400` #5A9FD4 |
+| `chart-primary` | `primary-600` #4682B4 | `primary-400` #B3B3B3 |
 | `chart-success` | `success-600` #16A34A | #4A9E6A               |
 | `chart-warning` | `warning-600` #D97706 | #CCA840               |
 | `chart-danger`  | `danger-600` #DC2626  | #C04A4A               |
@@ -170,8 +172,8 @@ The **semantic colors** (success/warning/danger/info) and the **chart palette** 
 
 | Token              | Light       | Dark        | Usage                         |
 | ------------------ | ----------- | ----------- | ----------------------------- |
-| `selection-bg`     | `primary-50` #EDF3F8 | `primary-900` #2A4F72 | Selected text background |
-| `selection-text`   | `text` #111827       | `text` #D4D4D4        | Selected text color      |
+| `selection-bg`     | `primary-50` #EDF3F8 | `primary-900` #404040 | Selected text background |
+| `selection-text`   | `text` #111827       | `text` #F5F5F5        | Selected text color      |
 
 ---
 
@@ -332,13 +334,13 @@ ICON_COLORS = {
         "muted":    "#9CA3AF",   # text-muted
     },
     "dark": {
-        "default":  "#9A9AB0",   # text-subtle
-        "active":   "#5A9FD4",   # primary-400
+        "default":  "#939393",   # text-subtle
+        "active":   "#B3B3B3",   # primary-400
         "success":  "#4A9E6A",   # success-600 dark
         "warning":  "#CCA840",   # warning-600 dark
         "danger":   "#C04A4A",   # danger-600 dark
         "info":     "#4682B4",   # info-600 dark
-        "muted":    "#5A5A72",   # text-muted dark
+        "muted":    "#6E6E6E",   # text-muted dark
     }
 }
 ```

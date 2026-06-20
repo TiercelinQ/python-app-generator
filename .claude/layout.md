@@ -80,7 +80,7 @@ Every generated application references the active version in its `README.md`.
 | ------------------ | ---------------------- |
 | height             | `topbar-height` = 48px |
 | light mode bg      | `bg` = #FFFFFF         |
-| dark mode bg       | `bg` = #1A1A1F         |
+| dark mode bg       | `bg` = #1C1C1C         |
 | bottom border      | 1px `border`           |
 | horizontal padding | `spacing-4` = 16px     |
 
@@ -128,7 +128,7 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 | Token               | Value                          |
 | ------------------- | ------------------------------ |
 | light mode bg       | `bg` = #FFFFFF                 |
-| dark mode bg        | `bg` = #1A1A1F                 |
+| dark mode bg        | `bg` = #1C1C1C                 |
 | inner padding       | `spacing-6` = 24px             |
 | scroll              | vertical — `QScrollArea`       |
 | max content width   | `content-xl` = 1024px (centered) |
@@ -227,7 +227,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | width            | `drawer-width` = 320px                                 |
 | animation        | slide from the right, `transition-slow` = 250ms        |
 | light mode bg    | `bg-elevated` = #FFFFFF                                |
-| dark mode bg     | `bg-elevated` = #2A2A35                                |
+| dark mode bg     | `bg-elevated` = #353535                                |
 | left border      | 1px `border`                                           |
 | padding          | `spacing-6` = 24px                                     |
 | overlay bg       | `text` 40% opacity                                     |
@@ -245,7 +245,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | ------------------ | ------------------------- |
 | height             | `statusbar-height` = 28px |
 | light mode bg      | `bg-muted` = #F3F4F6      |
-| dark mode bg       | `bg-muted` = #313140      |
+| dark mode bg       | `bg-muted` = #3F3F3F      |
 | top border         | 1px `border`              |
 | horizontal padding | `spacing-4` = 16px        |
 | font               | `normal` `xs` (12px)      |
@@ -320,7 +320,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 | ---------------- | ---------------------------------- |
 | width            | dynamic per content, min 480px     |
 | light mode bg    | `bg` = #FFFFFF                     |
-| dark mode bg     | `bg` = #1A1A1F                     |
+| dark mode bg     | `bg` = #1C1C1C                     |
 | border           | 1px `border`                       |
 | padding          | `spacing-6` = 24px                 |
 | overlay bg       | `text` 40% opacity                 |

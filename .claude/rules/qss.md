@@ -117,11 +117,11 @@ QLineEdit, QTextEdit, QPlainTextEdit {
 }
 ```
 
-> Dark sheet equivalents: scrollbar handle `#313140` (bg-muted), hover `#4A4A5E` (border-strong); tooltip bg `#313140` (bg-muted), color `#D4D4D4`, border `#4A4A5E` (border-strong); selection bg `#2A4F72` (primary-900), color `#D4D4D4`; disabled `rgba(212, 212, 212, 0.4)`.
+> Dark sheet equivalents: scrollbar handle `#3F3F3F` (bg-muted), hover `#666666` (border-strong); tooltip bg `#3F3F3F` (bg-muted), color `#F5F5F5`, border `#666666` (border-strong); selection bg `#404040` (primary-900), color `#F5F5F5`; disabled `rgba(245, 245, 245, 0.4)`.
 >
-> Dark toast backgrounds (`*-50` dark role tint): `toast_success` `#1D3F2A`, `toast_warning` `#483B13`, `toast_danger` `#441818`, `toast_info` `#1A3042`; left borders use the `*-600` dark accents (`#4A9E6A` / `#CCA840` / `#C04A4A` / `#4682B4`). Toast message text uses `text` (`#D4D4D4` dark).
+> Dark toast backgrounds (`*-50` dark role tint): `toast_success` `#1D3F2A`, `toast_warning` `#483B13`, `toast_danger` `#441818`, `toast_info` `#1A3042`; left borders use the `*-600` dark accents (`#4A9E6A` / `#CCA840` / `#C04A4A` / `#4682B4`). Toast message text uses `text` (`#F5F5F5` dark).
 >
-> Dark buttons: `btn_primary` base stays `#4682B4` (primary-600, identical in both sheets), hover `#396A93` / pressed `#2F5879`. `btn_danger` base becomes `#C04A4A` (danger-600 **dark**), hover `#B91C1C` / pressed `#991B1B` (danger-700/800, mode-agnostic). White text keeps AA on both (`#4682B4` 4.11:1, `#C04A4A` 4.86:1).
+> Dark buttons: `btn_primary` base becomes `#9E9E9E` (primary-600 **dark**, neutral grey accent) with **near-black text** `#1C1C1C` (white fails AA on `#9E9E9E`, 2.7:1; near-black = 6.4:1), hover `#808080` / pressed `#6B6B6B`. `btn_danger` base becomes `#C04A4A` (danger-600 **dark**), hover `#B91C1C` / pressed `#991B1B` (danger-700/800, mode-agnostic), white text (`#C04A4A` 4.86:1). The dark accent stops (`#9E9E9E` / `#808080` / `#6B6B6B` / `#B3B3B3` / `#404040`) are written as literals in `styles_dark.qss` like the dark neutrals; `config.py PRIMARY_*` keeps the light Steel Blue ramp.
 
 ## Reference tokens (design-system.md v1.4 — default palette)
 
@@ -148,20 +148,22 @@ QLineEdit, QTextEdit, QPlainTextEdit {
 
 | Token           | Value   |
 | --------------- | ------- |
-| `bg`            | #1A1A1F |
-| `bg-subtle`     | #22222A |
-| `bg-elevated`   | #2A2A35 |
-| `bg-muted`      | #313140 |
-| `text`          | #D4D4D4 |
-| `text-subtle`   | #9A9AB0 |
-| `text-muted`    | #5A5A72 |
-| `border`        | #3A3A4A |
-| `border-subtle` | #2E2E3A |
-| `border-strong` | #4A4A5E |
-| `primary-400`   | #5A9FD4 |
-| `primary-700`   | #396A93 |
-| `primary-800`   | #2F5879 |
-| `primary-900`   | #2A4F72 |
+| `bg`            | #1C1C1C |
+| `bg-subtle`     | #2B2B2B |
+| `bg-elevated`   | #353535 |
+| `bg-muted`      | #3F3F3F |
+| `text`          | #F5F5F5 |
+| `text-subtle`   | #939393 |
+| `text-muted`    | #6E6E6E |
+| `border`        | #525252 |
+| `border-subtle` | #373737 |
+| `border-strong` | #666666 |
+| `primary-400`   | #B3B3B3 |
+| `primary-600`   | #9E9E9E |
+| `primary-700`   | #808080 |
+| `primary-800`   | #6B6B6B |
+| `primary-900`   | #404040 |
+| `onPrimary`     | #1C1C1C |
 
 ### Flat design (non-negotiable)
 
