@@ -106,7 +106,7 @@ All commands below are Claude Code skills invocable with `/`:
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
 | `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 6 questions + color palette        |
-| `/python-p2-featuring`       | `skills/python-p2-featuring/`       | Requirements sheet + locked sizing           |
+| `/python-p2-featuring`       | `skills/python-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/python-p3-designing`        | `skills/python-p3-designing/`        | Layout proposal                              |
 | `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |
 | `/python-p5-development` | `skills/python-p5-development/` | Batch delivery                               |
@@ -134,7 +134,7 @@ All commands below are Claude Code skills invocable with `/`:
 
 ---
 
-## CALIBRATION (FROZEN AFTER PHASE 1)
+## CALIBRATION (FROZEN AFTER PHASE 2)
 
 Canonical source of the calibration. Skills refer to it - do not duplicate this table elsewhere.
 
