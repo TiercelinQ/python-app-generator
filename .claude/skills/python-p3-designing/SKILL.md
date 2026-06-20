@@ -19,6 +19,8 @@ Define the concrete layout (tabs, drawer/modal, toast position) within `layout.m
 
 ## Instructions — Phase 3: Layout proposal
 
+**Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 3/5 — Design; (2) progress line: Scoping ✓ · Features ✓ · ▶ Design · Architecture · Development; (3) intent in italics: Map the validated features onto the layout. See `## PIPELINE` in `CLAUDE.md`.
+
 **Read `design-system.md` and `layout.md` first** (no longer auto-imported).
 
 Based on the features validated in Phase 2 (`docs/specs/02-featuring.md`), propose a layout drawn from `layout.md`, then ask the closed customization questions with `AskUserQuestion` (clickable options, recommended first; ≤ 4 options each, **Other** for the rest; split into ≤ 4-question calls).
