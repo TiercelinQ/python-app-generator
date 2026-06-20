@@ -124,6 +124,9 @@ my_app/
     ├── styles_dark.qss            # Dark theme - all design-system.md tokens
     └── i18n/                      # If i18n enabled - app_{fr,en}.{ts,qm}
 
+# Generated only if a database is selected in Phase 1:
+scripts/seed.py                    # Idempotent demo-data seed (run manually)
+
 # Generated only if tests opted-in during Phase 1:
 tests/                             # Mirrors the source structure
 requirements-dev.txt               # pytest, pytest-qt
@@ -133,7 +136,7 @@ requirements-dev.txt               # pytest, pytest-qt
 
 ## Design system
 
-All generated apps share the same visual system, defined in `design-system.md`:
+All generated apps share the same visual system, defined in `.claude/design-system.md`:
 
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
@@ -146,9 +149,9 @@ All generated apps share the same visual system, defined in `design-system.md`:
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
-- `design-system.md` (v1.1) - visual token reference + changelog
-- `layout.md` (v2.1) - layout reference + 6 toast positions
-- `rules/` - domain rules:
+- `.claude/design-system.md` (v1.4) - visual token reference + changelog
+- `.claude/layout.md` (v2.2) - layout reference + 6 toast positions
+- `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
   - `tests.md` · `logging.md` · `i18n.md` · `db.md`
   - `verification.md` - single source of truth for executable + static checks

@@ -9,43 +9,46 @@
 ```
 claude-python-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
-├── design-system.md          # Référence visuelle contraignante (v1.1) — source de vérité unique
-├── layout.md                 # Référence layout contraignante (v2.1) — 6 positions de toasts
-├── rules/
-│   ├── mvc.md                # Séparation MVC, livraison par lots, nettoyage anomalies
-│   ├── qss.md                # Règles QSS, tokens light/dark, flat design
-│   ├── errors.md             # Protocole erreurs, toasts, sys.excepthook
-│   ├── config.md             # config.py, requirements, packaging, dérivation couleurs HSL
-│   ├── security.md           # Validation entrées, SQL paramétré, secrets keyring, anti-injection
-│   ├── tests.md              # pytest + pytest-qt, couverture par couche
-│   ├── logging.md            # logging stdlib + RotatingFileHandler
-│   ├── i18n.md               # Workflow .ts/.qm, pylupdate6 / lrelease
-│   ├── db.md                 # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
-│   └── verification.md       # Vérification EXÉCUTABLE centralisée + intégrité statique
-├── skills/
-│   ├── python-app/           # Menu démarrage / reprise / maintenance (4 options)
-│   ├── python-p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
-│   ├── python-p2-featuring/       # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
-│   ├── python-p3-designing/        # Proposition layout + personnalisation → docs/specs/03-designing.md
-│   ├── python-p4-architect/       # Contrat architectural verrouillé → docs/specs/04-architect.md
-│   ├── python-p5-development/ # Livraison par lots (enchaînement auto)
-│   ├── python-add-feature/          # Ajouter une feature à un projet livré (diff de contrat)
-│   ├── python-trace-feature/              # Tracer une fonctionnalité à travers les couches
-│   ├── python-fix-issue/                  # Corriger un bug — arbre de décision, cause racine
-│   ├── python-refactor-code/             # Restructurer sous validation explicite uniquement
-│   ├── python-run-tests/                 # Vérification exécutable (ruff, mypy, pytest, smoke)
-│   ├── python-load-project/       # Chargement d'un projet existant
-│   ├── python-generate-readme/      # Génération README.md projet existant
-│   ├── python-save-session/              # Sauvegarde de session
-│   ├── python-show-state/               # État courant du projet
-│   ├── python-show-contract/              # Arborescence du contrat validé
-│   └── python-save-memory/            # Persiste dans la mémoire native Claude Code
-├── settings.json             # Permissions d'exécution (python, pip, pytest, ruff, mypy)
 ├── GUIDE.md                  # Ce fichier
-└── README.md                 # Présentation du repo GitHub (EN)
+├── README.md                 # Présentation du repo GitHub (EN)
+├── LICENSE.txt
+└── .claude/
+    ├── design-system.md      # Référence visuelle contraignante (v1.4) — source de vérité unique
+    ├── layout.md             # Référence layout contraignante (v2.2) — 6 positions de toasts
+    ├── rules/
+    │   ├── mvc.md            # Séparation MVC, livraison par lots, nettoyage anomalies
+    │   ├── qss.md            # Règles QSS, tokens light/dark, flat design
+    │   ├── errors.md         # Protocole erreurs, toasts, sys.excepthook
+    │   ├── config.md         # config.py, requirements, packaging, dérivation couleurs HSL
+    │   ├── security.md       # Validation entrées, SQL paramétré, secrets keyring, anti-injection
+    │   ├── tests.md          # pytest + pytest-qt, couverture par couche
+    │   ├── logging.md        # logging stdlib + RotatingFileHandler
+    │   ├── i18n.md           # Workflow .ts/.qm, pylupdate6 / lrelease
+    │   ├── db.md             # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
+    │   └── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    ├── skills/
+    │   ├── python-app/              # Menu démarrage / reprise / maintenance (4 options)
+    │   ├── python-p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+    │   ├── python-p2-featuring/     # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
+    │   ├── python-p3-designing/     # Proposition layout + personnalisation → docs/specs/03-designing.md
+    │   ├── python-p4-architect/     # Contrat architectural verrouillé → docs/specs/04-architect.md
+    │   ├── python-p5-development/   # Livraison par lots (enchaînement auto)
+    │   ├── python-add-feature/      # Ajouter une feature à un projet livré (diff de contrat)
+    │   ├── python-trace-feature/    # Tracer une fonctionnalité à travers les couches
+    │   ├── python-fix-issue/        # Corriger un bug — arbre de décision, cause racine
+    │   ├── python-refactor-code/    # Restructurer sous validation explicite uniquement
+    │   ├── python-run-tests/        # Vérification exécutable (ruff, mypy, pytest, smoke)
+    │   ├── python-load-project/     # Chargement d'un projet existant
+    │   ├── python-generate-readme/  # Génération README.md projet existant
+    │   ├── python-save-session/     # Sauvegarde de session
+    │   ├── python-show-state/       # État courant du projet
+    │   ├── python-show-contract/    # Arborescence du contrat validé
+    │   └── python-save-memory/      # Persiste dans la mémoire native Claude Code
+    ├── settings.json         # Permissions d'exécution (python, pip, pytest, ruff, mypy) + garde-fous deny (.env, secrets, build/dist)
+    └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Structure **plate** : un seul `design-system.md` et un seul `layout.md` (source de vérité unique — plus de duplicats racine/`.claude`). `CLAUDE.md` les importe via `@`.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (plus de duplicats racine/`.claude`). `CLAUDE.md` les importe via `@`.
 
 ---
 
@@ -213,7 +216,7 @@ mon-app/
 ├── README.md                      # Généré en fin de Phase 5
 ├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
 ├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
-├── docs/specs/                    # Specs de génération (FR)
+├── docs/specs/                    # Specs de génération (langue utilisateur)
 ├── models/                        # exceptions.py, db.py + migrations.py (si DB), [entite]_model.py
 ├── views/                         # main_window.py, toast_manager.py, [entite]_view.py
 ├── controllers/                   # [entite]_controller.py
@@ -229,7 +232,7 @@ requirements-dev.txt
 
 ## Points de vigilance
 
-- `design-system.md` (v1.1) et `layout.md` (v2.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
+- `.claude/design-system.md` (v1.4) et `.claude/layout.md` (v2.2) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
 - `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
