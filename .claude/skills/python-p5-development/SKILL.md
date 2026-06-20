@@ -107,6 +107,25 @@ Announce `Batch [final]/[total] — scripts/seed.py` (before the tests batch if 
 
 Announce `Batch [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests/` mirroring the source structure (`@rules/tests.md`: mocked-controller pattern, qtbot smoke views, no `time.sleep`/`assert True`/network/prod-DB) + `requirements-dev.txt`, then append the pytest instructions to the README.
 
+## Final delivery summary
+
+Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). List:
+
+- **Project folder** — the project root (clickable).
+- **README.md** — how to run, stack, tree, conventions (clickable).
+- **Generated `CLAUDE.md`** — the app identity for future sessions (clickable).
+- **Documentation — phase specs** — one clickable link each: `docs/specs/01-scoping.md`, `docs/specs/02-featuring.md`, `docs/specs/03-designing.md`, `docs/specs/04-architect.md` (and the latest `docs/sessions/SESSION_*.md` if one exists).
+- **How to run** — the key commands (also in the README):
+
+  ```
+  python -m venv .venv ; .venv\Scripts\activate
+  pip install -r requirements.txt        # + -r requirements-dev.txt if tests
+  python main.py
+  ```
+  (+ `python scripts/seed.py` if a DB was selected; `pytest` if tests enabled.)
+
+The summary points to the documents; it does not restate them.
+
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Full rewrite via `Write` (never a partial diff).
