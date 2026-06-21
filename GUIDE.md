@@ -25,7 +25,8 @@ claude-python-framework/
     │   ├── logging.md        # logging stdlib + RotatingFileHandler
     │   ├── i18n.md           # Workflow .ts/.qm, pylupdate6 / lrelease
     │   ├── db.md             # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
-    │   └── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
+    │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── python-app/              # Menu démarrage / reprise / maintenance (4 options)
     │   ├── python-p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md

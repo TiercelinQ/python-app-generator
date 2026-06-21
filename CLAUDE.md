@@ -120,7 +120,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Never read and write `settings.json`. Only read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
 @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md · @rules/security.md ·
-@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/verification.md
+@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/verification.md · @rules/readme.md
 
 ---
 

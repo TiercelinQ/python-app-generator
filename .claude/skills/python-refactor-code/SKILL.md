@@ -37,7 +37,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 5. **Apply** only after validation. Minimum diff. Respect the MVC layers, the contract, and the QSS rules.
 
-6. **Verify**: `rules/verification.md §A` — behavior unchanged, ruff/mypy clean, `pytest` still green if tests exist. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md`.
+6. **Verify**: `rules/verification.md §A` — behavior unchanged, ruff/mypy clean, `pytest` still green if tests exist. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md` and regenerate the README (`rules/readme.md`).
 
 ## Anti-patterns — what NOT to do
 - **Do not** refactor without a validated plan, ever.

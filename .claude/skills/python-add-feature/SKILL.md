@@ -65,7 +65,7 @@ Produce (in the user's language):
 ## Step 3 — Application — strict rules
 
 - Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change.
-- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/verification.md`.
+- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/verification.md`, `@rules/readme.md`.
 - No modification not listed in the validated diff.
 - No opportunistic improvement of adjacent code.
 - DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `models/migrations.py`.
@@ -93,4 +93,4 @@ If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup
 
 ## Verification
 
-Apply `rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project; update `README.md` if the feature changes the stack or adds a dependency.
+Apply `rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project. Then apply `rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
