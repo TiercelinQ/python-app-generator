@@ -7,12 +7,15 @@ model: haiku
 # /python-show-contract — Validated architectural contract
 
 ## Role
+
 Contract reporter.
 
 ## Goal
+
 Display the locked contract from the source of truth.
 
 ## Deliverable
+
 The contract on screen (in the user's language).
 
 ---
@@ -21,4 +24,4 @@ Read `docs/specs/04-architect.md` (the locked source of truth) and display the c
 
 If `docs/specs/04-architect.md` does not exist and no contract has been validated in session yet: "No validated contract — Phase 4 not reached."
 
-Do not append the `/python-save-session · /python-show-state · /python-show-contract` reminder after this reply.
+Do not append the `/python-save-session` · `/python-show-state` · `/python-show-contract` reminder after this reply.

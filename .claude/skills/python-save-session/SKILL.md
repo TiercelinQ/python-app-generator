@@ -7,12 +7,15 @@ model: haiku
 # /python-save-session — Session save
 
 ## Role
+
 Session archivist.
 
 ## Goal
+
 Persist enough state to resume the project exactly where it stopped.
 
 ## Deliverable
+
 `docs/sessions/SESSION_[app_name]_S[N].md` (in the user's language).
 
 ---
@@ -62,14 +65,15 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 SESSION SAVE
-File written: docs/sessions/SESSION_[app_name]_S[N].md
+File written: docs/sessions/SESSION\_[app_name]\_S[N].md
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Do not append the `/python-save-session · /python-show-state · /python-show-contract` reminder after this reply.
+Do not append the `/python-save-session` · `/python-show-state` · `/python-show-contract` reminder after this reply.
 
 ## Resume from a SESSION file
 
 If the message contains a SESSION block (or the user gives a path):
+
 1. **Read** the file via `Read`.
 2. Reply: `Resuming [NOM_APP] — [next phase] | Batch [X/total] | Open points: [list or "none"]`
 3. Chain immediately without re-asking resolved questions; invoke the skill for the next phase.
