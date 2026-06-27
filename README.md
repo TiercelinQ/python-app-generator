@@ -141,7 +141,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - **Flat design** - zero border-radius, zero shadows, zero gradients
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **Segoe UI** typography (Windows native)
-- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Teal" + Steel Blue, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
+- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---

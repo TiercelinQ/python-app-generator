@@ -1,7 +1,7 @@
 # Layout System — v2.2
 
 > Binding reference for all Python/PyQt6 applications.
-> Built on `design-system.md v1.5`. The two files are inseparable.
+> Built on `design-system.md v1.6`. The two files are inseparable.
 
 ## Changelog
 
@@ -387,7 +387,7 @@ Read/write via `utils/helpers.py` — `load_preferences()` / `save_preferences(d
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.5`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.6`.
 
 | Need                       | Token                                          |
 | -------------------------- | ---------------------------------------------- |

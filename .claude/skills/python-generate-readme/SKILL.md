@@ -56,7 +56,7 @@ pip install -r requirements-dev.txt
 pytest
 
 ## Palette
-[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — otherwise default "Teal" palette]
+[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — otherwise default "Steel Blue" palette]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).
