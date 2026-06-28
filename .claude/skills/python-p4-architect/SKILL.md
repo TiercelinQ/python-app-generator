@@ -19,7 +19,7 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 **Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, exceptions, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
 Present the complete project tree with the role of each file, then the QSS token table. Output format (in the user's language):
 
@@ -38,17 +38,20 @@ Present the complete project tree with the role of each file, then the QSS token
 ├── logs/                          # Created automatically by utils/logger.py
 ├── models/
 │   ├── __init__.py
-│   ├── exceptions.py              # Named business exceptions
+│   ├── exceptions.py              # Named business exceptions (+ SfCliNotFoundError/SfCommandError if sf)
 │   ├── db.py                      # Single DB access point (if DB ≠ none)
 │   ├── migrations.py              # Versioned migrations (if DB ≠ none)
+│   ├── sf_cli.py                  # sf runner + typed helpers (if Salesforce CLI) — @rules/sf-cli.md
 │   └── [entite]_model.py          # [role]
 ├── views/
 │   ├── __init__.py
 │   ├── main_window.py             # Main window, topbar, global layout, install_excepthook
 │   ├── toast_manager.py           # Toasts (position, animation, queue)
+│   ├── org_manager_view.py        # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
 │   └── [entite]_view.py           # [role]
 ├── controllers/
 │   ├── __init__.py
+│   ├── org_manager_controller.py  # Org Manager wiring + auth orchestration (if Salesforce CLI) — @rules/sf-cli.md
 │   └── [entite]_controller.py     # [role]
 ├── utils/
 │   ├── helpers.py                 # Pure functions (formatting, JSON, validation)
@@ -75,10 +78,14 @@ requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 | Source module                        | Test file                                     |
 | ------------------------------------ | --------------------------------------------- |
 | `models/[entite]_model.py`           | `tests/models/test_[entite]_model.py`         |
+| `models/sf_cli.py` (if sf)           | `tests/models/test_sf_cli.py` (subprocess mocked) |
 | `controllers/[entite]_controller.py` | `tests/controllers/test_[entite]_controller.py` |
+| `controllers/org_manager_controller.py` (if sf) | `tests/controllers/test_org_manager_controller.py` |
 | `views/[entite]_view.py`             | `tests/views/test_[entite]_view.py` (smoke)   |
 | `utils/helpers.py`                   | `tests/test_helpers.py`                       |
 ```
+
+If the Salesforce CLI integration is on, include the `sf:org:*`-equivalent surface in the contract: the `models/sf_cli.py` runner/helpers, the Org Manager view/controller, and the documented `sf` runtime prerequisite (`SF_CLI_PATH`). See @rules/sf-cli.md.
 
 End with:
 

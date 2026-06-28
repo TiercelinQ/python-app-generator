@@ -36,9 +36,10 @@ Stack    : [one-line summary]
 DB       : [value]
 Features : [N] — [short list]
 Architecture    : [N] files — MVC PyQt6
+Salesforce CLI : [enabled (sf v2 runner) | disabled]
 Tests    : [present ([N] files) | absent]
 Specs    : [docs/specs present: yes/no]
 
 Ready for: development · fixes · improvements · adjustments.
 
-Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).
+Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present, `sf-cli.md` if the Salesforce integration is on. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).

@@ -31,6 +31,7 @@ A short report in the user's language stating what passed, with command output a
    pytest                                 # ONLY if tests/ exists — exit code 0
    python main.py                         # smoke launch (manual — no startup crash)
    ```
+   - If the Salesforce CLI integration is on, the static read-through (`rules/verification.md §B`) confirms every `sf` call goes through `models/sf_cli.py` via `subprocess.run` (args list, no `shell=True`). Tests never spawn the real `sf` — `subprocess.run` is mocked (`@rules/tests.md`).
 2. **Capture output**. A non-zero exit or any reported error is a failure — quote the relevant lines.
 3. **Report** (in the user's language): which commands passed, with proof. On failure: name the command, the `file:line`, and hand off to `/python-fix-issue` for the root cause (do not patch here unless the user asks).
 4. If the **Python/venv environment is not available**: say so plainly, do the static read-through (`rules/verification.md §B`), and list the exact commands the user must run themselves. Never claim a clean type-check you could not execute.

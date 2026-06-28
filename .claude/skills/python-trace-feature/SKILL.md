@@ -29,14 +29,14 @@ A structured report (in the user's language) with `file:line` references. Option
    - Contract & specs: `docs/specs/04-architect.md` (structure of truth), other `docs/specs/*`.
    - Entry / init: `main.py` (setup_logging, run_migrations, install_excepthook, install_translator).
    - Config: `config.py` (PRIMARY_*, ICON_COLORS, DB/LOG/TOAST constants).
-   - Models: `models/[entity]_model.py`, `models/exceptions.py`, `models/db.py`, `models/migrations.py`.
+   - Models: `models/[entity]_model.py`, `models/exceptions.py`, `models/db.py`, `models/migrations.py`, `models/sf_cli.py` (if the Salesforce integration is on: runner + typed helpers; `sf-cli-reference/INDEX.md` is the command/flag reference, consulted on demand).
    - Controllers: `controllers/[entity]_controller.py`.
    - Views: `views/main_window.py`, `views/[entity]_view.py`, `views/toast_manager.py`.
    - Utils: `utils/helpers.py`, `utils/logger.py`.
    - Styles: `resources/styles_light.qss`, `resources/styles_dark.qss`.
    - Binding refs (read on demand, not auto-imported): `design-system.md`, `layout.md` — for design-system/layout deviations.
 
-4. **Trace the flow** following the MVC path: View emits a signal → Controller slot (`try/except`) → Model (logic, data). For errors: Model raises a named exception → Controller intercepts → `view.show_toast(...)`. For theming: token → `styles_*.qss` via `objectName` (icons via `config.ICON_COLORS`). For DB: model → `models/db.py` `get_connection()`. Verify signals/slots are consistently connected.
+4. **Trace the flow** following the MVC path: View emits a signal → Controller slot (`try/except`) → Model (logic, data). For an `sf` feature: `org_manager_view` signal → `org_manager_controller` slot → `SfCli.*` (`models/sf_cli.py`) → `subprocess.run([sf, ...])` → parsed `--json` envelope. For errors: Model raises a named exception (incl. `SfCliNotFoundError`/`SfCommandError`) → Controller intercepts → `view.show_toast(...)`. For theming: token → `styles_*.qss` via `objectName` (icons via `config.ICON_COLORS`). For DB: model → `models/db.py` `get_connection()`. Verify signals/slots are consistently connected.
 
 5. **Report** (in the user's language):
    - What the code does (behavior).

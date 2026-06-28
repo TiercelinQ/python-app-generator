@@ -4,7 +4,7 @@
 
 ## What the README documents
 
-objective · stack & dependencies · file tree · MVC modules (models/views/controllers) · DB schema · conventions · build & run. Exact sections: `/python-generate-readme`.
+objective · stack & dependencies · file tree · MVC modules (models/views/controllers) · DB schema · prerequisites (incl. the `sf` CLI + `SF_CLI_PATH` if the Salesforce integration is on) · conventions · build & run. Exact sections: `/python-generate-readme`.
 
 ## When to refresh (trigger)
 
@@ -12,6 +12,7 @@ Regenerate the README **iff** the change touched a documented aspect above:
 - a dependency added/removed (`requirements.txt`), or a stack change,
 - the file tree changed (a model/view/controller/module added, renamed, moved, or deleted),
 - the DB schema changed (table, column, `DB_SCHEMA_VERSION`/migration),
+- a prerequisite changed (e.g. the `sf` integration toggled),
 - build or run steps changed (packaging, scripts).
 
 A purely internal change (a private method, the body of an existing controller, a QSS token value, a bug fix with no structural impact) does **not** trigger a refresh.

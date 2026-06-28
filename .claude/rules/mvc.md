@@ -13,17 +13,20 @@
 ```
 models/
 ├── __init__.py
-├── exceptions.py          # Named business exceptions
+├── exceptions.py          # Named business exceptions (+ SfCliNotFoundError/SfCommandError if sf)
+├── sf_cli.py              # sf runner + typed helpers (if Salesforce CLI) — @rules/sf-cli.md
 └── [entity]_model.py      # One file per entity
 
 views/
 ├── __init__.py
 ├── main_window.py         # Main window (topbar, global layout)
 ├── toast_manager.py       # Toast system
+├── org_manager_view.py    # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
 └── [entity]_view.py       # One file per view
 
 controllers/
 ├── __init__.py
+├── org_manager_controller.py  # Org Manager wiring (if Salesforce CLI) — @rules/sf-cli.md
 └── [entity]_controller.py # One file per entity
 
 utils/
@@ -86,6 +89,8 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | 3     | `controllers/`                                                                   |
 | 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
 | 5     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
+
+> **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf_cli.py` (runner + helpers) ships in **Batch 1** with `config.py` + `models/`; `org_manager_view.py` ships with the views batch; `org_manager_controller.py` ships with the controllers batch. It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
 
 ### Content of the `utils/` folder
 

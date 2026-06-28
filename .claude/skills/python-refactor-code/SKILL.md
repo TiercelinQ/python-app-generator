@@ -46,6 +46,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 - **Do not** change behavior under the cover of a refactor — if behavior must change, that is `/python-add-feature`, declared separately.
 - **Do not** introduce an MVC violation while "simplifying" (e.g. a model importing a view, business logic moved into a widget).
 - **Do not** move a value out of `config.py`/`styles_*.qss` into a local constant — refactors keep the centralization.
+- **Do not** move an `sf` call out of `models/sf_cli.py` into a view/controller, or change a command/flag while refactoring — centralization is the injection guard (@rules/sf-cli.md; consult `sf-cli-reference/` by section to keep every command intact).
 - **Do not** touch pre-existing dead code unless the user asked to remove it.
 
 ## When the user asks something adjacent

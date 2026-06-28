@@ -1,6 +1,6 @@
 ---
 name: python-p1-scoping
-description: Phase 1 of the development cycle — scoping a new application (6 questions + full color palette choice), provisional calibration, and writing of the scoping spec.
+description: Phase 1 of the development cycle — scoping a new application (7 questions incl. Salesforce CLI opt-in + full color palette choice), provisional calibration, and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -35,13 +35,16 @@ Start with the objective, then establish the project root (folder name → locat
 
 ### Closed parameters
 
+> **Salesforce detection (before call 1)** — scan the objective text for the Salesforce cluster: `Salesforce`, `sf`/`sf CLI`, `org`, `scratch org`, `sandbox`, `Apex`, `SOQL`/`SOSL`, `sObject`, `metadata`/`deploy`/`retrieve`, `package`/`2GP`, `permission set`, `Dev Hub`, `Agentforce`. If any term is present, the **Salesforce CLI integration** question below switches its recommended default to `Yes` with a one-line rationale ("the objective mentions Salesforce"). The user still confirms — they may keep `No`. The single resolved Yes/No governs both @rules/sf-cli.md and the `sf-cli-reference/` catalog.
+
 2. **`AskUserQuestion` — call 1** (4 questions, each with a recommended option):
    - **Database**: `SQLite` (recommended, if structured data) · `JSON` · `CSV` · `none`. PostgreSQL via the **Other** option.
    - **Persistent preferences** (theme, window…): `Yes` (recommended) · `No`.
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Automated tests** (pytest + pytest-qt): `Yes` (recommended, pro use) · `No`.
-3. **`AskUserQuestion` — call 2** (1 question):
+3. **`AskUserQuestion` — call 2** (2 questions):
    - **.exe packaging** (PyInstaller — build.spec + PowerShell script): `No` (recommended, unless distributing) · `Yes`.
+   - **Salesforce CLI integration** (`sf` v2): default `No` (general-purpose app) — but **flip the recommended option to `Yes` when the Salesforce detection above matched** (state the rationale). If `Yes`, @rules/sf-cli.md applies (it routes to the `sf-cli-reference/` command catalog) and the default scaffold adds the `sf` runner + typed helpers + a starter Org Manager (orgs list view). `sf` becomes a runtime prerequisite (detected); the official Salesforce tooling stays an optional recommendation, not a hard dependency.
 
 After the answers, propose the **color palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
@@ -57,10 +60,10 @@ Then announce the **provisional** calibration:
 Provisional calibration: [Small | Medium/Large] — [N] batches (incl. 1 test batch if enabled)
 (Confirmed at the end of Phase 2, after counting the real features.)
 
-Apply the CALIBRATION table in `CLAUDE.md` (canonical source).
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source). The Salesforce CLI integration adds files (`models/sf_cli.py` + the Org Manager view/controller) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
 
 ## Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB, preferences, i18n, tests, packaging, the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration. If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB, preferences, i18n, tests, packaging, Salesforce CLI integration (Yes/No), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration. If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
 
 Chain immediately to Phase 2 (`/python-p2-featuring`).

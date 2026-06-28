@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - PEP 8 · type hints · docstrings · ruff + mypy clean.
@@ -91,7 +91,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
     }
   }
   ```
-  The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it.
+  The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
 
 ## Seed batch — only if DB ≠ none (Phase 1 Q2)
 

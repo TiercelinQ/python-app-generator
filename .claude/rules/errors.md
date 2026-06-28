@@ -24,6 +24,16 @@ class FileError(Exception):
     """Erreur lecture/écriture fichier."""
 ```
 
+If the Salesforce CLI integration is on (Phase 1), `models/exceptions.py` also defines (raised by `models/sf_cli.py`, see `@rules/sf-cli.md`):
+
+```python
+class SfCliNotFoundError(Exception):
+    """sf CLI introuvable ou non exécutable (PATH/SF_CLI_PATH, shim .cmd Windows)."""
+
+class SfCommandError(Exception):
+    """sf a retourné status != 0, expiré, ou une réponse illisible."""
+```
+
 Never a generic `raise Exception("message")` in the models.
 
 ---
@@ -84,6 +94,8 @@ def show_toast(self, type: str, message: str, description: str | None = None) ->
 | `RecordNotFoundError`    | danger     | —                                  |
 | `DatabaseError`          | danger     | `str(e)` (technical)               |
 | `FileError`              | danger     | File path                          |
+| `SfCliNotFoundError`     | danger     | install / `SF_CLI_PATH` hint       |
+| `SfCommandError`         | danger     | `str(e)` (sf message)              |
 | Business success         | success    | —                                  |
 | Non-blocking information  | info       | —                                  |
 

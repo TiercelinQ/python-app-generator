@@ -27,6 +27,10 @@ LOG_BACKUP_COUNT: int = 5
 # Toast position — see @layout.md
 TOAST_POSITION: str = "top-right"
 
+# Salesforce CLI (if enabled in Phase 1) — see @rules/sf-cli.md
+SF_CLI_PATH: str = ""                          # empty = resolve "sf" from PATH (shutil.which); set = absolute path (e.g. sf.exe)
+SF_CLI_TIMEOUT: int = 60                        # seconds per sf invocation
+
 # Accent stops — derived from the palette accent (primary-600). Neutrals (bg/text/border)
 # live in the QSS sheets, not here. See @rules/config.md "Deriving the full palette".
 PRIMARY_50:  str = "#EDF3F8"   # light selection bg
@@ -139,6 +143,7 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 | DB = PostgreSQL                      | `psycopg[binary]>=3.2.0`                |
 | DB = JSON or CSV                     | none                                    |
 | i18n = Yes                           | none (PyQt6.QtCore.QTranslator native)  |
+| Salesforce CLI = Yes                 | none (`subprocess` + `shutil` stdlib — @rules/sf-cli.md) |
 
 > **Version maintenance**: these versions reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minimum versions (`pip index versions`, PyPI). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
 

@@ -39,10 +39,14 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 - OS: Windows · Framework: PyQt6 · Python: 3.10+ · Icons: qtawesome
 - DB: [inferred from config.py or models/]
 - i18n: [Yes/No — inferred from resources/i18n/ or config.py]
+- Salesforce CLI: [Yes/No — inferred from models/sf_cli.py + SF_CLI_PATH in config.py]
 - Tests: [Yes (pytest + pytest-qt) | No — inferred from the presence of tests/]
 
 ## Architecture
 [Actual file tree with the role of each file]
+
+## Prerequisites
+<!-- Only if models/sf_cli.py is present: the `sf` v2 CLI must be installed and on the PATH (or set `SF_CLI_PATH` in config.py). The standalone installer ships a real `sf.exe` and avoids the Windows npm `.cmd` shim limitation. The Salesforce DX tooling is an optional recommendation, not required. -->
 
 ## Installation
 python -m venv .venv

@@ -49,6 +49,7 @@ Rules:
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`rules/db.md`): `models/db.py` + `models/migrations.py` present and called in `main.py` before the MainWindow; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS.keys())`; no `connect` outside `db.py`; SQL 100% parameterized.
+- **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `models/sf_cli.py` `subprocess.run` with an args list (no `shell=True`, no spawn in a view/controller); `sf` resolved via `shutil.which`/`config.SF_CLI_PATH`; `SfCliNotFoundError` + `SfCommandError` defined in `models/exceptions.py` and mapped to a danger toast by the controller; no token stored/logged; Org Manager controller validates input and refreshes the view.
 - **i18n** (`rules/i18n.md`): `resources/i18n/app_{fr,en}.{ts,qm}` present; no hardcoded French string in `views/`; `QTranslator` installed before the MainWindow.
 - **logging** (`rules/logging.md`): `utils/logger.py` conforming; `setup_logging()` first line of `main.py`; no `print(` in source folders; non-re-raising `except` calls `logger.exception(...)`.
 - **tests** (`rules/tests.md`): each source module has its matching test file (Phase 4 mapping); `pytest` exit 0; `requirements-dev.txt` present.

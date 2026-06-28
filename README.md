@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready PyQt6 desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 6 questions (objective, DB, prefs, i18n, tests, packaging) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 7 questions (objective, DB, prefs, i18n, tests, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Designing** - navigation, drawer/modal, toast position (6 positions)
 4. **Architect** - full file tree, QSS token table, source→test mapping - locked before any code is written
@@ -39,6 +39,7 @@ Every generated app enforces the same visual design system and strict MVC archit
 | Tests          | pytest + pytest-qt (opt-in)                                 |
 | Logging        | stdlib `logging` + RotatingFileHandler                      |
 | DB             | sqlite3 / psycopg / json / csv - versioned migrations       |
+| Salesforce CLI | `sf` v2 wrapper via subprocess + starter Org Manager (opt-in) |
 | Packaging      | PyInstaller (opt-in)                                        |
 | Tooling        | ruff + mypy via `pyproject.toml`                            |
 | Quality        | PEP 8 · type hints · docstrings · `sys.excepthook` + toast  |
@@ -75,7 +76,7 @@ Then in Claude Code:
 | Command                 | Action                                             |
 | ----------------------- | -------------------------------------------------- |
 | `/python-app`           | Start menu (4 entry points incl. maintenance)      |
-| `/python-p1-scoping`       | Scoping - 6 questions + color palette              |
+| `/python-p1-scoping`       | Scoping - 7 questions + color palette              |
 | `/python-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
 | `/python-p3-designing`        | Designing - layout proposal + customization        |
 | `/python-p4-architect`       | Architect - locked architecture contract           |
@@ -153,8 +154,9 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - `.claude/layout.md` (v2.2) - layout reference + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
-  - `tests.md` · `logging.md` · `i18n.md` · `db.md`
+  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in)
   - `verification.md` - single source of truth for executable + static checks
+- `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)
 
 ---
 

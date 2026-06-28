@@ -29,6 +29,7 @@ Applied to 100% of generated applications. Any deviation requires the contract d
 - No `eval`, `exec`, or `pickle.load` on untrusted input.
 - Subprocesses: `subprocess.run([...], shell=False)` with an argument list — never `shell=True` with an interpolated string. Same rule for `QProcess` (pass program + args separately).
 - No dynamic import of a module name coming from user input.
+- **Salesforce CLI (if enabled)**: every `sf` call goes through `models/sf_cli.py` via `subprocess.run([sf, *args, "--json"], shell=False)` — user values (alias, SOQL, paths) as separate list elements, never spliced into a string. Binary resolved by `shutil.which` / `config.SF_CLI_PATH`; not found / not launchable → `SfCliNotFoundError` → danger toast (never a fallback to `shell=True`). See `@rules/sf-cli.md`.
 
 ## 6. Dependencies
 

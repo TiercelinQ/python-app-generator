@@ -82,6 +82,8 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 `design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-designing`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
 
+`sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of @rules/sf-cli.md) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). @rules/sf-cli.md is the hub that routes every sf-aware skill to it.
+
 ---
 
 ## STACK (NON-NEGOTIABLE)
@@ -94,6 +96,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Style                | Centralized QSS - `resources/styles_light.qss` + `resources/styles_dark.qss` |
 | Icons                | qtawesome (Font Awesome)                             |
 | Internationalization | FR/EN - FR default - `PyQt6.QtCore.QTranslator`      |
+| Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see @rules/sf-cli.md + `sf-cli-reference/INDEX.md` |
 | Python               | 3.10+                                                |
 
 ---
@@ -112,6 +115,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see @rules/tests.md
 - If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see @rules/i18n.md
 - If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see @rules/db.md
+- If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see @rules/sf-cli.md
 - If packaging enabled in Phase 1 (Q6): `build.spec` + `scripts/build.ps1` delivered, see @rules/config.md
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see @rules/logging.md and @rules/errors.md
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see @rules/security.md
@@ -120,7 +124,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Never read and write `settings.json`. Only read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
 @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md · @rules/security.md ·
-@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/verification.md · @rules/readme.md
+@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/sf-cli.md · @rules/verification.md · @rules/readme.md
 
 ---
 
@@ -133,7 +137,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
-| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 6 questions + color palette        |
+| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 7 questions + color palette        |
 | `/python-p2-featuring`       | `skills/python-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/python-p3-designing`        | `skills/python-p3-designing/`        | Layout proposal                              |
 | `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |

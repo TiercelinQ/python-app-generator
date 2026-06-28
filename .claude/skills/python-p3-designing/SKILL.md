@@ -42,6 +42,8 @@ Produce (in the user's language):
 **Recurring components**
 - [Table / Form / Tree / Charts — depending on the features]
 
+> If the Salesforce CLI integration is on (Phase 1), present the **Org Manager** surface as a baseline: a tree/list of orgs (connected/disconnected state via `ICON_COLORS`, default org marked) with add / remove / reconnect / set-default / refresh actions, typically its own tab. Confirm its placement. See @rules/sf-cli.md.
+
 ### Step 2 — Customization questions (`AskUserQuestion`)
 
 For each question, mark the option you recommend with `(recommended)`, chosen from the validated feature context.

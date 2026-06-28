@@ -38,6 +38,7 @@ Next batch: [X+1/total] (if Phase 5)
 
 - OS: Windows · Framework: PyQt6
 - DB: [value] · Preferences: [Yes/No] · i18n: [Yes/No] · Tests: [Yes/No] · Packaging: [Yes/No]
+- Salesforce CLI: [Yes/No]
 - Palette: [name or custom; 5 light roles + derived]
 - Calibration: [N] batches (incl. 1 test batch if enabled)
 - Selected features: [list]

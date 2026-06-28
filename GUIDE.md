@@ -15,6 +15,7 @@ claude-python-framework/
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.4) — source de vérité unique
     ├── layout.md             # Référence layout contraignante (v2.2) — 6 positions de toasts
+    ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # Séparation MVC, livraison par lots, nettoyage anomalies
     │   ├── qss.md            # Règles QSS, tokens light/dark, flat design
@@ -25,11 +26,12 @@ claude-python-framework/
     │   ├── logging.md        # logging stdlib + RotatingFileHandler
     │   ├── i18n.md           # Workflow .ts/.qm, pylupdate6 / lrelease
     │   ├── db.md             # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
+    │   ├── sf-cli.md         # Intégration Salesforce CLI opt-in (runner subprocess, Org Manager)
     │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── python-app/              # Menu démarrage / reprise / maintenance (4 options)
-    │   ├── python-p1-scoping/       # Scoping — 6 questions + couleur → docs/specs/01-scoping.md
+    │   ├── python-p1-scoping/       # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
     │   ├── python-p2-featuring/     # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
     │   ├── python-p3-designing/     # Proposition layout + personnalisation → docs/specs/03-designing.md
     │   ├── python-p4-architect/     # Contrat architectural verrouillé → docs/specs/04-architect.md
@@ -99,7 +101,7 @@ Sans cette activation, `/python-save-memory` formule les notes mais ne les persi
 
 ### Phase 1 — Scoping
 
-6 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
+7 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 
@@ -188,7 +190,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/python-app`           | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/python-p1-scoping`       | Sonnet | Scoping — 6 questions + couleur (HSL)                |
+| `/python-p1-scoping`       | Sonnet | Scoping — 7 questions + couleur (HSL)                |
 | `/python-p2-featuring`       | Sonnet | Fiche besoins + calibrage figé                       |
 | `/python-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/python-p4-architect`       | Sonnet | Contrat architectural verrouillé                     |

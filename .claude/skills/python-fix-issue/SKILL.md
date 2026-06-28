@@ -37,6 +37,11 @@ Read the actual error before touching code. Classify, then act in this order:
 - Business path: ensure the model raises a **named** exception and the controller maps it to a `show_toast` of the right type.
 - Fix at the layer that owns the cause, not where the symptom surfaces.
 
+### 3b. Salesforce CLI failure (if the integration is on)
+- `SfCliNotFoundError` → `sf` not found or not launchable. On Windows, a `sf.cmd` shim (`npm i -g`) is not launchable by `subprocess` shell=False — point to the standalone `sf.exe` installer or set `SF_CLI_PATH`.
+- `SfCommandError` "réponse sf illisible" → CLI version drift or a command run without `--json`; verify the flags against the matching `sf-cli-reference/` section (`sf <cmd> --help`).
+- `SfCommandError` with a `status != 0` message → read it, surface via `show_toast("danger", ...)`; ensure the call goes through `models/sf_cli.py` with an args list (never `shell=True`). See @rules/sf-cli.md.
+
 ### 4. DB / migration issue
 - `DatabaseError` "base en version X, code attend Y" → schema ahead of code; check `config.DB_SCHEMA_VERSION` vs `MIGRATIONS`.
 - New column/table missing → add a `MIGRATIONS[n]` entry and bump `DB_SCHEMA_VERSION` (up-only). Never an automatic `down`.
