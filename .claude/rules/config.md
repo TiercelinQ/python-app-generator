@@ -31,6 +31,13 @@ TOAST_POSITION: str = "top-right"
 SF_CLI_PATH: str = ""                          # empty = resolve "sf" from PATH (shutil.which); set = absolute path (e.g. sf.exe)
 SF_CLI_TIMEOUT: int = 60                        # seconds per sf invocation
 
+# Splash (if enabled in Phase 3) — painted programmatically, not QSS-stylable (documented exception, like ICON_COLORS). See @rules/splash.md
+SPLASH_MIN_DURATION_MS: int = 1200             # minimum on-screen time before dismissal
+SPLASH_COLORS: dict = {
+    "light": {"bg": "#FFFFFF", "text": "#111827"},   # bg / text (light neutrals)
+    "dark":  {"bg": "#1C1C1C", "text": "#F5F5F5"},   # bg / text (dark neutrals)
+}
+
 # Accent stops — derived from the palette accent (primary-600). Neutrals (bg/text/border)
 # live in the QSS sheets, not here. See @rules/config.md "Deriving the full palette".
 PRIMARY_50:  str = "#EDF3F8"   # light selection bg
@@ -72,7 +79,7 @@ Any constant reused in more than one file goes into `config.py`.
 
 In Phase 1 the user picks a **named palette** or enters a **custom palette** = 5 **light** roles (fond principal → `bg`, fond secondaire → `bg-subtle`, accent → `primary-600`, texte → `text`, détails → `border`). Claude derives everything else — supporting light tokens, the 5 accent stops, the **whole dark theme**, and `onPrimary` — and writes literal hex into `styles_light.qss` / `styles_dark.qss` and `config.py`. Role→token mapping, neutral sRGB mixes, and dark lightness targets: `design-system.md §2`. After deriving, Claude runs the WCAG AA check (`§12` below) and reports any failure without blocking.
 
-> The neutral tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`) live **in the QSS sheets**, not in `config.py`; only the accent stops and `ICON_COLORS` live in `config.py`. The derivation populates both.
+> The neutral tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`) live **in the QSS sheets**, not in `config.py`; only the accent stops, `ICON_COLORS`, and — if the splash screen is on (Phase 3) — `SPLASH_COLORS` live in `config.py`. `SPLASH_COLORS` mirrors the `bg`/`text` neutrals per theme because a `QSplashScreen` is painted programmatically and cannot be styled via QSS (`@rules/splash.md`); keep it in sync with the sheets. The derivation populates both.
 >
 > The default palette (Steel Blue) and every named/custom palette share **one chromatic accent ramp** across both themes: the same `PRIMARY_*` values drive light and dark, only the usage flips (`primary-600` for the button fill and light foreground; `primary-400` for the dark foreground; `primary-50`/`900` for light/dark selection). Only the **surfaces** are achromatic in the default dark theme (neutral greys, written as literals in `styles_dark.qss` like the dark neutrals).
 

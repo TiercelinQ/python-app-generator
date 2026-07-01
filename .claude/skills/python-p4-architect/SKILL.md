@@ -30,7 +30,7 @@ Present the complete project tree with the role of each file, then the QSS token
 
 [nom_app]/
 ├── main.py                        # Entry point — QApplication, MainWindow, logger, migrations, excepthook
-├── config.py                      # Global constants, ICON_COLORS, PRIMARY_*
+├── config.py                      # Global constants, ICON_COLORS, PRIMARY_* (+ SPLASH_* if splash)
 ├── requirements.txt
 ├── pyproject.toml                 # ruff, mypy, pytest config
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
@@ -47,6 +47,7 @@ Present the complete project tree with the role of each file, then the QSS token
 │   ├── __init__.py
 │   ├── main_window.py             # Main window, topbar, global layout, install_excepthook
 │   ├── toast_manager.py           # Toasts (position, animation, queue)
+│   ├── splash_screen.py           # QSplashScreen factory (if splash enabled) — @rules/splash.md
 │   ├── org_manager_view.py        # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
 │   └── [entite]_view.py           # [role]
 ├── controllers/
@@ -86,6 +87,8 @@ requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
 ```
 
 If the Salesforce CLI integration is on, include the `sf:org:*`-equivalent surface in the contract: the `models/sf_cli.py` runner/helpers, the Org Manager view/controller, and the documented `sf` runtime prerequisite (`SF_CLI_PATH`). See @rules/sf-cli.md.
+
+If the splash screen is on (Phase 3), include it in the contract: `views/splash_screen.py`, the `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` constants in `config.py`, the `main.py` orchestration (`create_splash` before `MainWindow`, `splash.finish(window)` after the min duration), and the icon source (provided path, packaging icon reused, or text-only). See @rules/splash.md.
 
 End with:
 

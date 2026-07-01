@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - PEP 8 · type hints · docstrings · ruff + mypy clean.
@@ -60,7 +60,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 ## Last batch — mandatory deliverables
 
-- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `install_translator(app)` (if i18n) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `app.exec()`.
+- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
 - **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
@@ -92,6 +92,10 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   }
   ```
   The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
+
+## Splash screen — only if enabled in Phase 3
+
+No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py` (**Batch 1**), `views/splash_screen.py` (views batch), and the `main.py` orchestration (last batch — `create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). Splash colors are a documented `config.py` exception (like `ICON_COLORS`), painted programmatically. If a splash icon path was provided in Phase 3, save it as `resources/icon.ico`. It counts toward the size, not a separate batch.
 
 ## Seed batch — only if DB ≠ none (Phase 1 Q2)
 

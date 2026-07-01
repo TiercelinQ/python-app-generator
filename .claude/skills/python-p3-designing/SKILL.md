@@ -96,9 +96,12 @@ c. Is the content homogeneous (single block) or heterogeneous (several sections)
 
 Based on the answers, propose 2 suited layouts with a justified recommendation, then confirm before the synthesis.
 
+6. **Splash screen** (`AskUserQuestion`): `Yes` (recommended) · `No`. A `QSplashScreen` shown at launch until the main window is ready, following the design system (flat, palette, dark mode). See @rules/splash.md.
+   - **If `Yes`**: Python has no standalone application icon in Phase 1. Ask, as free-form text, for an **optional** icon path (`.ico`/`.png`) to show on the splash — "Icon to display on the splash? (path, or leave empty for text-only)". A provided image is saved as `resources/icon.ico`; empty → text-only splash (app name). If `.exe` packaging is on, the splash reuses the packaging `resources/icon.ico` (offer to reuse it or provide another).
+
 ### Step 3 — Final synthesis
 
-Produce the complete synthesis (in the user's language): topbar, tabs, secondary panel, recurring components, toast position, applied constraints.
+Produce the complete synthesis (in the user's language): topbar, tabs, secondary panel, recurring components, toast position, splash screen on/off + icon source, applied constraints.
 
 → Validation required before Phase 4.
   Confirm or list the adjustments.

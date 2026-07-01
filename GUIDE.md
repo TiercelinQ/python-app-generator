@@ -27,6 +27,7 @@ claude-python-framework/
     │   ├── i18n.md           # Workflow .ts/.qm, pylupdate6 / lrelease
     │   ├── db.md             # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
     │   ├── sf-cli.md         # Intégration Salesforce CLI opt-in (runner subprocess, Org Manager)
+    │   ├── splash.md         # Splash screen opt-in (QSplashScreen, icône, thème)
     │   ├── verification.md   # Vérification EXÉCUTABLE centralisée + intégrité statique
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
@@ -118,7 +119,9 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 ### Phase 3 — Designing
 
-Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+
+> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Python n'ayant pas d'icône d'app en Phase 1, un chemin d'icône optionnel est demandé en Phase 3 (à défaut le splash montre le nom de l'app ; l'icône de packaging est réutilisée si présente). Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
 ### Phase 4 — Architect
 

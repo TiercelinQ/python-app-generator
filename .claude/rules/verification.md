@@ -52,6 +52,7 @@ Rules:
 - **sf-cli** (`rules/sf-cli.md`): if enabled, all `sf` calls via `models/sf_cli.py` `subprocess.run` with an args list (no `shell=True`, no spawn in a view/controller); `sf` resolved via `shutil.which`/`config.SF_CLI_PATH`; `SfCliNotFoundError` + `SfCommandError` defined in `models/exceptions.py` and mapped to a danger toast by the controller; no token stored/logged; Org Manager controller validates input and refreshes the view.
 - **i18n** (`rules/i18n.md`): `resources/i18n/app_{fr,en}.{ts,qm}` present; no hardcoded French string in `views/`; `QTranslator` installed before the MainWindow.
 - **logging** (`rules/logging.md`): `utils/logger.py` conforming; `setup_logging()` first line of `main.py`; no `print(` in source folders; non-re-raising `except` calls `logger.exception(...)`.
+- **splash** (`rules/splash.md`): if enabled, `views/splash_screen.py` present (PyQt6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; splash colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.
 - **tests** (`rules/tests.md`): each source module has its matching test file (Phase 4 mapping); `pytest` exit 0; `requirements-dev.txt` present.
 
 ---

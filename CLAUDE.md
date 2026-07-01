@@ -116,6 +116,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see @rules/i18n.md
 - If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see @rules/db.md
 - If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see @rules/sf-cli.md
+- If a splash screen is enabled in Phase 3: a `QSplashScreen` shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see @rules/splash.md. Splash colors live in `config.py` (`SPLASH_COLORS`) - a second documented QSS exception, like `ICON_COLORS` (QSplashScreen is painted programmatically, not QSS-stylable).
 - If packaging enabled in Phase 1 (Q6): `build.spec` + `scripts/build.ps1` delivered, see @rules/config.md
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see @rules/logging.md and @rules/errors.md
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see @rules/security.md
@@ -124,7 +125,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Never read and write `settings.json`. Only read and write in `settings.local.json`
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
 @rules/mvc.md · @rules/qss.md · @rules/errors.md · @rules/config.md · @rules/security.md ·
-@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/sf-cli.md · @rules/verification.md · @rules/readme.md
+@rules/tests.md · @rules/logging.md · @rules/i18n.md · @rules/db.md · @rules/sf-cli.md · @rules/splash.md · @rules/verification.md · @rules/readme.md
 
 ---
 

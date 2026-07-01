@@ -21,6 +21,7 @@ views/
 ├── __init__.py
 ├── main_window.py         # Main window (topbar, global layout)
 ├── toast_manager.py       # Toast system
+├── splash_screen.py       # QSplashScreen factory (if splash enabled) — @rules/splash.md
 ├── org_manager_view.py    # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
 └── [entity]_view.py       # One file per view
 
@@ -91,6 +92,8 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | 5     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
 
 > **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf_cli.py` (runner + helpers) ships in **Batch 1** with `config.py` + `models/`; `org_manager_view.py` ships with the views batch; `org_manager_controller.py` ships with the controllers batch. It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
+
+> **Splash screen (if Phase 3 = Yes)** — no dedicated batch. `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` ship in `config.py` (**Batch 1**); `views/splash_screen.py` ships with the views batch; the `main.py` orchestration ships in the last batch. It counts toward the size. See `@rules/splash.md`.
 
 ### Content of the `utils/` folder
 
