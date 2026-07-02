@@ -36,7 +36,7 @@ Rules:
 2. Imports: all used, none missing, MVC separation respected (Controller → Model + View; never Model → View).
 3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `rules/mvc.md` anti-patterns.
 4. Zero `# TODO`, zero unjustified `pass`, zero unjustified `any`/untyped public API.
-5. Python 3.10+ · PyQt6 stable · zero PyQt5 API.
+5. Python 3.12+ · PyQt6 stable · zero PyQt5 API.
 6. `design-system.md` and `layout.md` compliance — zero hardcoded visual value in Python, every styled widget has an `objectName`. See `rules/qss.md` anti-patterns.
 7. Errors: business exceptions raised in models, caught in controllers, surfaced via `show_toast`; no `QMessageBox`/inline banner; `sys.excepthook` installed. See `rules/errors.md`.
 8. Security: no hardcoded secret; SQL 100% parameterized; user paths resolved + bounded; no `shell=True`/`eval`/`exec` on untrusted input. See `rules/security.md`.

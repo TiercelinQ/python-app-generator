@@ -1,6 +1,6 @@
 ---
 name: python-save-session
-description: Generate the session save file to resume the project later, referencing the specs. Invoke at the end of a session.
+description: Save the full state of the generation session into docs/sessions/SESSION_AppName_SN.md — phase, batches, locked decisions, open points, referencing the specs. Invoke at the end of a session.
 model: haiku
 ---
 
@@ -22,7 +22,7 @@ Persist enough state to resume the project exactly where it stopped.
 
 Use the native Claude Code tools (Windows-compatible):
 
-1. **Create** the `docs/sessions/` folder if it does not exist (PowerShell: `New-Item -ItemType Directory -Force -Path docs/sessions | Out-Null`).
+1. **Create** the `docs/sessions/` folder at the project root if it does not exist.
 2. Determine `[N]`: list `docs/sessions/SESSION_*_S*.md` via `Glob`, extract the integers (`S(\d+)\.md$`), `[N] = max + 1` (or `1` if none). `[app_name]` = exact `APP_NAME` from `config.py` (no spaces).
 3. **Write** `docs/sessions/SESSION_[app_name]_S[N].md` via `Write`:
 
@@ -36,14 +36,16 @@ Next batch: [X+1/total] (if Phase 5)
 
 ## Locked decisions
 
-- OS: Windows · Framework: PyQt6
-- DB: [value] · Preferences: [Yes/No] · i18n: [Yes/No] · Tests: [Yes/No] · Packaging: [Yes/No]
-- Salesforce CLI: [Yes/No]
+- OS: Windows · Stack: Python + PyQt6
+- DB: [value]
+- Persistent preferences: [Yes/No] · i18n: [Yes/No] · Tests: [Yes/No]
+- Icon: [provided/default] · Packaging: [Yes/No] · Salesforce CLI: [Yes/No]
 - Palette: [name or custom; 5 light roles + derived]
-- Calibration: [N] batches (incl. 1 test batch if enabled)
+- Calibration: [Small 3 batches / Medium-Large 4 batches] (+1 test batch if tests enabled)
 - Selected features: [list]
 - Out of scope: [list]
-- Chosen layout: [description]
+- Chosen layout: [description · toast position · splash screen Yes/No + icon source]
+- Validated libraries: [list]
 
 ## Specs
 
@@ -52,8 +54,8 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 
 ## Delivered batches
 
-- [x] Batch 1 — [content]
-- [ ] Batch 2 — [content]
+- [x] Batch 1/[total] — [content]
+- [ ] Batch 2/[total] — [content]
 - ...
 
 ## Open points
@@ -62,19 +64,7 @@ Reference: docs/specs/01-scoping.md · 02-featuring.md · 03-designing.md · 04-
 
 > If `docs/specs/04-architect.md` exists, reference it instead of duplicating the full tree. Only summarize the locked decisions here.
 
-4. Confirm:
+4. Confirm: `Session saved: docs/sessions/SESSION_[app_name]_S[N].md`
+5. Do not append the `/python-save-session` · `/python-show-state` · `/python-show-contract` reminder after this reply.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SESSION SAVE
-File written: docs/sessions/SESSION\_[app_name]\_S[N].md
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Do not append the `/python-save-session` · `/python-show-state` · `/python-show-contract` reminder after this reply.
-
-## Resume from a SESSION file
-
-If the message contains a SESSION block (or the user gives a path):
-
-1. **Read** the file via `Read`.
-2. Reply: `Resuming [NOM_APP] — [next phase] | Batch [X/total] | Open points: [list or "none"]`
-3. Chain immediately without re-asking resolved questions; invoke the skill for the next phase.
+> Resuming from a SESSION file is handled by `/python-app` (option 2 or a pasted SESSION block) — not by this skill.

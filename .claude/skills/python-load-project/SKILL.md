@@ -1,7 +1,7 @@
 ---
 name: python-load-project
 description: Load an existing Python/PyQt6 project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root before any intervention.
-model: haiku
+model: sonnet
 ---
 
 # /python-load-project — Load an existing project
@@ -25,21 +25,20 @@ Use the native Claude Code tools (Windows-compatible):
    - `docs/specs/04-architect.md` (locked contract — most reliable). If present, it is authoritative for the structure.
    - Other `docs/specs/*` for the scoping/analysis/layout decisions.
    - `README.md` at the root. If both specs and README are absent: offer `/python-generate-readme` and stop.
-2. **Detect `tests/`** via `Glob` with the pattern `tests/**/*.py` → count the files for `[N]`.
-3. Read `config.py` + walk the source to confirm the MVC structure.
+2. **Detect `tests/`** via `Glob` with the pattern `tests/**/*.py` → count the files for the Tests line.
+3. Read `config.py` + walk the source to confirm the MVC structure (models / views / controllers / utils).
+4. Confirm take-over with this exact format (in the user's language):
 
-Confirm take-over with this exact format (in the user's language):
+Project loaded: [APP_NAME] v[VERSION]
 
-Project [NOM_APP] v[VERSION] loaded.
+Stack : Python [v] · PyQt6
+DB : [value]
+Entities detected: [list]
+Tests : [present ([N] files) | absent]
+Salesforce CLI: [enabled (sf v2 runner) | disabled]
+Specs: [docs/specs present: yes/no]
 
-Stack    : [one-line summary]
-DB       : [value]
-Features : [N] — [short list]
-Architecture    : [N] files — MVC PyQt6
-Salesforce CLI : [enabled (sf v2 runner) | disabled]
-Tests    : [present ([N] files) | absent]
-Specs    : [docs/specs present: yes/no]
+Generator rules applied. Ready for: development · fixes · improvements · adjustments.
 
-Ready for: development · fixes · improvements · adjustments.
-
-Immediately apply all the `CLAUDE.md` rules to any intervention on this project: strict MVC, QSS only, toasts, `design-system.md`, `layout.md`, `tests.md` if tests present, `sf-cli.md` if the Salesforce integration is on. The `rules/*` are not auto-imported: read them before any code change. Any structural deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).
+5. Read and apply all rules (`CLAUDE.md`, `rules/mvc.md` · `rules/qss.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` · `rules/logging.md` · `rules/tests.md` (if tests present) · `rules/sf-cli.md` (if the project has the Salesforce integration) · `rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
+6. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).

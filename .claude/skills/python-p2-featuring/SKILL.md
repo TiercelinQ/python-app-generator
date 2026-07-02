@@ -1,6 +1,6 @@
 ---
 name: python-p2-featuring
-description: Phase 2 of the development cycle — feature elicitation, MoSCoW prioritization, v1.0 scope, calibration confirmed here, blocking validation before the layout, written to the analysis spec.
+description: Phase 2 of the Python app generation cycle — feature elicitation, MoSCoW prioritization, v1.0 scope, calibration confirmed here, blocking validation before Phase 3, written to the analysis spec.
 model: sonnet
 ---
 
@@ -67,13 +67,15 @@ Produce the sheet (in the user's language):
 - Dropped — Won't (out of scope, deliberate): [list]
 
 **Technical constraints**
-- OS: Windows · PyQt6 · Python 3.10+
+- Runtime: Python 3.12+ · PyQt6 (Windows)
 - DB: [value chosen in Phase 1]
 - Preferences: [Yes/No]
 - i18n: [Yes/No]
 - Tests: [Yes/No] — pytest + pytest-qt
-- .exe packaging: [Yes/No] — PyInstaller
+- Icon: [Yes/No]
+- Packaging: [Yes/No] — PyInstaller
 - Salesforce CLI: [Yes/No] — `sf` v2 runner + starter Org Manager (if Yes)
+- Validated libraries: [Phase 1 list]
 - Palette: [Phase 1 choice: name or custom, 5 roles]
 
 **Calibration (confirmed here, from the v1.0 feature count)**

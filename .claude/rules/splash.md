@@ -6,8 +6,8 @@ The splash follows the design system (flat, palette, dark mode) like the rest of
 
 ## Icon source
 
-- Python has no standalone application-icon question in Phase 1 (only the packaging icon, if `.exe` packaging is on). So when the splash is enabled and no icon is available, Phase 3 offers an **optional icon path** (free-form). A provided image is saved as `resources/icon.ico`.
-- If `.exe` packaging is on, the splash reuses the packaging `resources/icon.ico`.
+- The splash reuses the **application icon** captured in Phase 1 (Q6, `resources/icon.ico`).
+- If no icon was defined in Phase 1 and the splash is enabled, Phase 3 offers an **optional icon path** (free-form). A provided image is saved as `resources/icon.ico` and becomes the app icon everywhere (window/taskbar via `app.setWindowIcon`, packaging via `build.spec`) — not a splash-only asset.
 - No icon at all → the splash shows the application name only. Never a placeholder image.
 
 ## Colors — documented exception in `config.py`

@@ -136,8 +136,8 @@ Read/write via `utils/helpers.py` (pure functions, see `@rules/mvc.md`).
 ## requirements.txt — loose versioning
 
 ```
-PyQt6>=6.7.0
-qtawesome>=1.3.0
+PyQt6>=6.8.0
+qtawesome>=1.4.0
 ```
 
 Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
@@ -151,6 +151,8 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 | DB = JSON or CSV                     | none                                    |
 | i18n = Yes                           | none (PyQt6.QtCore.QTranslator native)  |
 | Salesforce CLI = Yes                 | none (`subprocess` + `shutil` stdlib — @rules/sf-cli.md) |
+| Secrets to store (validated Phase 1) | `keyring>=25.0` (@rules/security.md §3) |
+| Packaging = Yes (Q7)                 | `pyinstaller>=6.15.0` (requirements-dev.txt) |
 
 > **Version maintenance**: these versions reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minimum versions (`pip index versions`, PyPI). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
 
@@ -161,9 +163,11 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 ```
 pytest>=8.0.0
 pytest-qt>=4.4.0
-ruff>=0.6.0
-mypy>=1.11.0
+ruff>=0.15.0
+mypy>=2.0.0
 ```
+
+> pytest is kept on the 8.x floor until pytest-qt documents pytest 9 compatibility (no pytest-qt release since 4.5.0, 2025-07). mypy 2.x enables `--strict-bytes` and `--local-partial-types` by default — generated code must pass with those.
 
 Local install:
 
@@ -182,14 +186,14 @@ Delivered in the last application batch:
 ```toml
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM"]
 ignore = []
 
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.12"
 strict = true
 ignore_missing_imports = true
 exclude = ["tests/"]
@@ -242,9 +246,9 @@ Summary — detail in `@rules/errors.md`.
 
 ---
 
-## Windows packaging (.exe) — opt-in via Phase 1 Q6
+## Windows packaging (.exe) — opt-in via Phase 1 Q7
 
-If Q6 = Yes, a final mini-batch delivers `build.spec` + a `build.ps1` script.
+If Q7 = Yes, a final mini-batch delivers `build.spec` + a `build.ps1` script. Tool: `pyinstaller>=6.15.0` (added to `requirements-dev.txt`).
 
 ```bash
 pyinstaller --onefile --windowed --name [AppName] main.py ^
@@ -257,3 +261,11 @@ Details:
 - `preferences.json` and `logs/` moved to `%APPDATA%/[AppName]/` in bundled mode.
 - `build.spec` is **committed** (cf. updated `.gitignore`).
 - `.exe` signing: out of the generator's scope (done separately with `signtool`).
+
+### Application icon
+
+- File: `resources/icon.ico`, multi-resolution (16→256px, 256 mandatory).
+- Window (taskbar): `app.setWindowIcon(QIcon(helpers.resource_path("resources/icon.ico")))` in `main.py`.
+- Executable: `--icon resources/icon.ico` in `build.spec` (if packaging, Phase 1 Q7).
+- If the user provides no icon in Phase 1 (Q6 = No): OS default icon, noted in the generated README.
+- **Splash icon (if the splash screen is on, Phase 3)**: the splash reuses this `resources/icon.ico`. If no icon was set in Phase 1 and the user provides a splash icon path in Phase 3, save it as `resources/icon.ico` — it then serves the window/taskbar and packaging too. No icon at all → text-only splash. See `@rules/splash.md`.

@@ -1,6 +1,6 @@
 ---
 name: python-p4-architect
-description: Phase 4 of the development cycle — architectural contract (full tree, role of each file, tokens → QSS table, source→test mapping), written to the contract spec and locked after validation.
+description: Phase 4 of the Python app generation cycle — complete architectural contract (tree, role of each file, tokens → QSS table, source→test mapping), written to the contract spec and locked after validation.
 model: sonnet
 ---
 
@@ -19,86 +19,33 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 **Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Design ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches) and `rules/qss.md` (tokens → QSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, exceptions, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/qss.md` (tokens → QSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, exceptions, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-designing.md` for the validated decisions.
 
-Present the complete project tree with the role of each file, then the QSS token table. Output format (in the user's language):
+Present (in the user's language, as plain Markdown — never inside a code block):
 
-```
-## Architectural contract — [NOM_APP]
+1. **Complete project tree** (model: `rules/mvc.md`) with the role of each file.
 
-### File tree
+   **If the Salesforce CLI integration is on (Phase 1)**: add the runner + Org Manager files to the tree (`models/sf_cli.py`, `views/org_manager_view.py`, `controllers/org_manager_controller.py`). The `sf` runtime prerequisite and the `SF_CLI_PATH` setting are part of the contract. See @rules/sf-cli.md.
 
-[nom_app]/
-├── main.py                        # Entry point — QApplication, MainWindow, logger, migrations, excepthook
-├── config.py                      # Global constants, ICON_COLORS, PRIMARY_* (+ SPLASH_* if splash)
-├── requirements.txt
-├── pyproject.toml                 # ruff, mypy, pytest config
-├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
-├── preferences.json               # Project root — generated on first launch (if Q3=Yes)
-├── logs/                          # Created automatically by utils/logger.py
-├── models/
-│   ├── __init__.py
-│   ├── exceptions.py              # Named business exceptions (+ SfCliNotFoundError/SfCommandError if sf)
-│   ├── db.py                      # Single DB access point (if DB ≠ none)
-│   ├── migrations.py              # Versioned migrations (if DB ≠ none)
-│   ├── sf_cli.py                  # sf runner + typed helpers (if Salesforce CLI) — @rules/sf-cli.md
-│   └── [entite]_model.py          # [role]
-├── views/
-│   ├── __init__.py
-│   ├── main_window.py             # Main window, topbar, global layout, install_excepthook
-│   ├── toast_manager.py           # Toasts (position, animation, queue)
-│   ├── splash_screen.py           # QSplashScreen factory (if splash enabled) — @rules/splash.md
-│   ├── org_manager_view.py        # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
-│   └── [entite]_view.py           # [role]
-├── controllers/
-│   ├── __init__.py
-│   ├── org_manager_controller.py  # Org Manager wiring + auth orchestration (if Salesforce CLI) — @rules/sf-cli.md
-│   └── [entite]_controller.py     # [role]
-├── utils/
-│   ├── helpers.py                 # Pure functions (formatting, JSON, validation)
-│   └── logger.py                  # Configuration logging (@rules/logging.md)
-└── resources/
-    ├── styles_light.qss           # Light theme — all design-system.md tokens
-    ├── styles_dark.qss            # Dark theme — all design-system.md tokens
-    └── i18n/                      # If i18n enabled (@rules/i18n.md): app_{fr,en}.{ts,qm}
-
-# If tests enabled in Phase 1:
-tests/                             # Miroir de la structure source (@rules/tests.md)
-requirements-dev.txt               # pytest>=8.0.0, pytest-qt>=4.4.0
-
-### Tokens → QSS rules table
+2. **Tokens → planned QSS rules table** (`styles_light.qss` + `styles_dark.qss` selectors and the tokens they consume):
 
 | design-system.md token | Light value | Dark value | Target QSS rule |
-| ----------------------- | ------------ | ------------- | --------------- |
-| bg                      | #FFFFFF      | #1C1C1C       | QMainWindow, #main_content, #topbar |
-| primary-600             | #4682B4      | #4682B4       | QTabBar::tab:selected, #btn_primary |
-| …                       | …            | …             | …               |
+| ---------------------- | ----------- | ---------- | --------------- |
+| `bg`                   | #FFFFFF     | #1C1C1C    | QMainWindow, #main_content, #topbar |
+| `primary-600`          | #4682B4     | #4682B4    | QTabBar::tab:selected, #btn_primary |
+| …                      | …           | …          | …               |
 
-### Source → test mapping (if tests enabled)
+   **If the splash screen is on (Phase 3)**: add `views/splash_screen.py` to the tree, note the `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` constants in `config.py`, and the `main.py` orchestration (`create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). The icon source (Phase 1 icon reused, path provided in Phase 3, or text-only) is part of the contract. See @rules/splash.md.
 
-| Source module                        | Test file                                     |
-| ------------------------------------ | --------------------------------------------- |
-| `models/[entite]_model.py`           | `tests/models/test_[entite]_model.py`         |
-| `models/sf_cli.py` (if sf)           | `tests/models/test_sf_cli.py` (subprocess mocked) |
-| `controllers/[entite]_controller.py` | `tests/controllers/test_[entite]_controller.py` |
-| `controllers/org_manager_controller.py` (if sf) | `tests/controllers/test_org_manager_controller.py` |
-| `views/[entite]_view.py`             | `tests/views/test_[entite]_view.py` (smoke)   |
-| `utils/helpers.py`                   | `tests/test_helpers.py`                       |
-```
+3. **Source → test mapping** (only if tests enabled in Phase 1 Q5): each source module → its `test_*.py` file (incl. `models/sf_cli.py` / `controllers/org_manager_controller.py` if the Salesforce integration is on). See `rules/tests.md`.
 
-If the Salesforce CLI integration is on, include the `sf:org:*`-equivalent surface in the contract: the `models/sf_cli.py` runner/helpers, the Org Manager view/controller, and the documented `sf` runtime prerequisite (`SF_CLI_PATH`). See @rules/sf-cli.md.
+**→ Validation required. This contract is locked.**
 
-If the splash screen is on (Phase 3), include it in the contract: `views/splash_screen.py`, the `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` constants in `config.py`, the `main.py` orchestration (`create_splash` before `MainWindow`, `splash.finish(window)` after the min duration), and the icon source (provided path, packaging icon reused, or text-only). See @rules/splash.md.
+Any deviation (merge, split, rename, addition, removal of a file or library) requires:
 
-End with:
-
-→ This contract is locked after validation.
-  Any later deviation (merge, split, rename, addition, removal) requires:
-  1. Stop.
-  2. Declare the deviation + justification.
-  3. Validation before resuming.
-
-  Confirm to start Phase 5.
+1. Stop.
+2. Declare the deviation + justification.
+3. Validation before resuming.
 
 **Blocking rule**: do not deliver Batch 1 until validation is explicit.
 
@@ -106,4 +53,4 @@ End with:
 
 Once validated, write the full contract to `docs/specs/04-architect.md` (in the user's language). This file is the **locked source of truth** re-read by `/python-p5-development`, `/python-load-project`, `/python-show-contract`, `/python-add-feature`, and `/python-refactor-code`.
 
-Chain to `/python-p5-development` after validation.
+→ Chain to `/python-p5-development` after validation.

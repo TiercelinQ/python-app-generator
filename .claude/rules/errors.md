@@ -150,14 +150,9 @@ window.show()
 
 ---
 
-## Toasts — durations (layout.md)
+## Toasts — durations and anatomy
 
-| Type      | Duration   | Manual dismiss      |
-| --------- | ---------- | ------------------- |
-| `success` | 4s         | No                  |
-| `info`    | 4s         | No                  |
-| `warning` | 6s         | Yes (×)             |
-| `danger`  | persistent | Yes (×) mandatory   |
+Types, durations, position, and anatomy: `layout.md §5` (single source — not duplicated here).
 
 ---
 

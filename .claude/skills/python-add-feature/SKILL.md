@@ -40,7 +40,7 @@ New feature — a few questions:
    D. UI-only change (QSS or layout)
 4. Generate tests for this feature? Yes / No (recommended: aligned with the project stack)
 
-Mark a `(recommended)` option for each closed question, inferred from the existing project.
+Mark a `(recommended)` option for each closed question, inferred from the existing project. If the request stays ambiguous (business rule, edge case), state assumptions explicitly and ask before the diff.
 
 ## Step 2 — Architectural contract diff
 
@@ -94,3 +94,8 @@ If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup
 ## Verification
 
 Apply `rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project. Then apply `rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
+
+## When the user asks something adjacent
+- **"Just make it work, never mind the architecture"** → push back: the MVC split and the security rules are what keep the app safe and maintainable. Implement within them.
+- **"Add a whole new screen/entity"** → that is a contract extension. Declare the new files/model in the diff, validate, then build.
+- **"Fix this bug while you're here"** → if outside the current request scope, flag it and switch to `/python-fix-issue` rather than bundling an unrelated change.

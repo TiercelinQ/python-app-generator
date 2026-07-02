@@ -1,6 +1,6 @@
 ---
 name: python-generate-readme
-description: Generate or regenerate the README.md of an existing Python/PyQt6 project from its specs and source code. Invoke from the target project root.
+description: Analyze the specs and source of an existing Python/PyQt6 project and generate its README.md (objective, features, stack, tree, conventions, installation). Invoke from the target project root.
 model: sonnet
 ---
 
@@ -36,7 +36,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 - [Inferred from the present views/ and controllers/]
 
 ## Technical stack
-- OS: Windows · Framework: PyQt6 · Python: 3.10+ · Icons: qtawesome
+- OS: Windows · Framework: PyQt6 · Python: 3.12+ · Icons: qtawesome
 - DB: [inferred from config.py or models/]
 - i18n: [Yes/No — inferred from resources/i18n/ or config.py]
 - Salesforce CLI: [Yes/No — inferred from models/sf_cli.py + SF_CLI_PATH in config.py]
@@ -44,6 +44,9 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 
 ## Architecture
 [Actual file tree with the role of each file]
+
+## Conventions
+[MVC, QSS tokens, toasts, security — pointer to the rules]
 
 ## Prerequisites
 <!-- Only if models/sf_cli.py is present: the `sf` v2 CLI must be installed and on the PATH (or set `SF_CLI_PATH` in config.py). The standalone installer ships a real `sf.exe` and avoids the Windows npm `.cmd` shim limitation. The Salesforce DX tooling is an optional recommendation, not required. -->

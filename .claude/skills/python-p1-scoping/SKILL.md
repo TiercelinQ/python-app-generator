@@ -1,6 +1,6 @@
 ---
 name: python-p1-scoping
-description: Phase 1 of the development cycle — scoping a new application (7 questions incl. Salesforce CLI opt-in + full color palette choice), provisional calibration, and writing of the scoping spec.
+description: Phase 1 of the Python app generation cycle — scoping in 8 questions (incl. application icon, packaging, Salesforce CLI opt-in), full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: sonnet
 ---
 
@@ -10,18 +10,18 @@ model: sonnet
 Project scoper — turn a vague idea into a bounded, validated scope.
 
 ## Goal
-Lock the project parameters (DB, prefs, i18n, tests, packaging, palette) before any analysis.
+Lock the project parameters (DB, preferences, i18n, tests, icon, packaging, palette) before any analysis.
 
 ## Deliverable
 `docs/specs/01-scoping.md` (written in the user's language) + on-screen summary.
 
 ---
 
-## Instructions — Phase 1: Scoping
+## 1. Questions
 
 **Phase banner (show first)** — on a new app, first list the 5 phases once (overview in `## PIPELINE` of `CLAUDE.md`). Then output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 1/5 — Scoping; (2) progress line: ▶ Scoping · Features · Design · Architecture · Development; (3) intent in italics: Destination folder, project parameters, palette.
 
-Start with the objective, then establish the project root (folder name → location → creation), then ask the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first / marked `(recommended)`). The tool caps at **4 questions per call**, so split the closed parameters into **two calls**.
+Start with the objective, then establish the project root (folder name → location → creation), then ask the closed parameters with the `AskUserQuestion` tool (clickable options, the recommended one first). Cap = **4 questions per call** → **two calls**.
 
 1. **Objective** — plain text, **not** `AskUserQuestion` (free-form, non-enumerable): "Application objective? (free description)".
 
@@ -38,32 +38,42 @@ Start with the objective, then establish the project root (folder name → locat
 > **Salesforce detection (before call 1)** — scan the objective text for the Salesforce cluster: `Salesforce`, `sf`/`sf CLI`, `org`, `scratch org`, `sandbox`, `Apex`, `SOQL`/`SOSL`, `sObject`, `metadata`/`deploy`/`retrieve`, `package`/`2GP`, `permission set`, `Dev Hub`, `Agentforce`. If any term is present, the **Salesforce CLI integration** question below switches its recommended default to `Yes` with a one-line rationale ("the objective mentions Salesforce"). The user still confirms — they may keep `No`. The single resolved Yes/No governs both @rules/sf-cli.md and the `sf-cli-reference/` catalog.
 
 2. **`AskUserQuestion` — call 1** (4 questions, each with a recommended option):
-   - **Database**: `SQLite` (recommended, if structured data) · `JSON` · `CSV` · `none`. PostgreSQL via the **Other** option.
+   - **Database**: `SQLite` (recommended for structured data — sqlite3 stdlib) · `JSON` · `CSV` · `none`. PostgreSQL via the **Other** option.
    - **Persistent preferences** (theme, window…): `Yes` (recommended) · `No`.
    - **FR/EN i18n** (FR by default): `No` (recommended, unless a real EN need) · `Yes`.
    - **Automated tests** (pytest + pytest-qt): `Yes` (recommended, pro use) · `No`.
-3. **`AskUserQuestion` — call 2** (2 questions):
+3. **`AskUserQuestion` — call 2** (3 questions):
+   - **Application icon**: `No` (recommended — OS default, can be added later) · `Yes`. If `Yes`, ask the `.ico` path as free-form text (saved as `resources/icon.ico` — window/taskbar via `app.setWindowIcon`, packaging, and splash all reuse it).
    - **.exe packaging** (PyInstaller — build.spec + PowerShell script): `No` (recommended, unless distributing) · `Yes`.
    - **Salesforce CLI integration** (`sf` v2): default `No` (general-purpose app) — but **flip the recommended option to `Yes` when the Salesforce detection above matched** (state the rationale). If `Yes`, @rules/sf-cli.md applies (it routes to the `sf-cli-reference/` command catalog) and the default scaffold adds the `sf` runner + typed helpers + a starter Org Manager (orgs list view). `sf` becomes a runtime prerequisite (detected); the official Salesforce tooling stays an optional recommendation, not a hard dependency.
 
-After the answers, propose the **color palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
+## 2. Color palette
+
+After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = 5 **light** roles (main background, secondary background, accent, text, details); the dark theme and all supporting tokens are derived (`design-system.md §2`).
 
 - **Palette — `AskUserQuestion`**, options (≤ 4): `Steel Blue` (default, recommended) · `Teal` · `Forest` · `Slate`. The **Other** option covers `Amber`, `Ruby` and a **custom palette**. If the user picks a custom palette, ask the 5 light hex values as free-form text (main background, secondary background, accent, text, details). Catalog + hex values: `design-system.md §2`.
-- Steel Blue is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette (values already known).
-- From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bg-muted`, `bg-elevated`, `text-subtle`, `text-muted`, `border-subtle`, `border-strong`), the 5 accent stops (`primary-50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (lightness targets in `design-system.md §2`).
-- Written to `styles_light.qss` + `styles_dark.qss` (neutrals) and `config.py` (`PRIMARY_*`, `ON_PRIMARY`, `ICON_COLORS`). Semantic colors stay fixed.
+- Steel Blue is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette.
+- From the 5 light roles, Claude **derives** and announces: supporting light tokens (`bg-muted`, `bg-elevated`, `text-subtle`, `text-muted`, `border-subtle`, `border-strong`), the 5 accent stops (`primary-50/400/700/800/900`), `onPrimary`, and the **whole dark theme** (lightness targets in `design-system.md §2`). Written to `styles_light.qss` + `styles_dark.qss` (neutrals) and `config.py` (`PRIMARY_*`, `ON_PRIMARY`, `ICON_COLORS`). Semantic colors stay fixed.
 - **Contrast check (WCAG AA, non-blocking)**: compute text/bg, text-subtle/bg, accent/bg, onPrimary/accent; if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
 - The global `design-system.md` stays unchanged.
 
-Then announce the **provisional** calibration:
+## 3. Provisional calibration — announced at the end of Phase 1
+
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source): Small (< 10 files and ≤ 5 features) → 3 batches; Medium/Large (≥ 10 or > 5) → 4 batches; divergent criteria → the highest wins. **+1 batch if tests are enabled (Q5)** — Small 4 / Medium-Large 5. The Salesforce CLI integration adds files (`models/sf_cli.py` + the Org Manager view/controller) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
+
+Announce it as **provisional** (template, rendered in the user's language):
 
 Provisional calibration: [Small | Medium/Large] — [N] batches (incl. 1 test batch if enabled)
 (Confirmed at the end of Phase 2, after counting the real features.)
 
-Apply the CALIBRATION table in `CLAUDE.md` (canonical source). The Salesforce CLI integration adds files (`models/sf_cli.py` + the Org Manager view/controller) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
+The real feature count is not known yet (features are elicited in Phase 2). The calibration is **confirmed and locked at the end of Phase 2**, on the v1.0 feature count.
 
-## Write the spec
+## 4. Libraries
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB, preferences, i18n, tests, packaging, Salesforce CLI integration (Yes/No), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration. If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+Any library outside the stack (charts, keyring…) is proposed and validated here — none can be added later without a declaration protocol.
 
-Chain immediately to Phase 2 (`/python-p2-featuring`).
+## 5. Write the spec
+
+Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, tests (Q5), icon, packaging, Salesforce CLI integration (Yes/No), the **palette** (name or custom; the 5 light roles + the derived dark theme + accent stops + onPrimary; semantic kept fixed) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+
+→ Chain to `/python-p2-featuring` after validation.

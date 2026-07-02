@@ -31,13 +31,12 @@ Every generated application references the active version in its `README.md`.
 | `sm`          | 14px                           | Labels, subtitles, body       |
 | `base`        | 16px                           | Primary text, navigation      |
 | `lg`          | 18px                           | Secondary section titles      |
+| `xl`          | 20px                           | Intermediate titles           |
 | `2xl`         | 24px                           | Primary section titles        |
 | `normal`      | 400                            | Body, descriptions            |
 | `medium`      | 500                            | Labels, navigation items      |
 | `semibold`    | 600                            | Titles, headers               |
 | `bold`        | 700                            | Primary titles                |
-
-> Scale note: the step from `lg` (18px) to `2xl` (24px) is wider than the lower steps. No `xl` (20px) token is defined because no current usage needs it; do not add one speculatively.
 
 ### Line-height
 
@@ -190,6 +189,7 @@ A single chromatic ramp, used in **both** themes (like every named palette): the
 | `spacing-2` | 8px   | Compact inner padding     |
 | `spacing-3` | 12px  | Standard padding          |
 | `spacing-4` | 16px  | Inter-element spacing     |
+| `spacing-5` | 20px  | Intermediate spacing      |
 | `spacing-6` | 24px  | Main content padding      |
 | `spacing-8` | 32px  | Major separation          |
 

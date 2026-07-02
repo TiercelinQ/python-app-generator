@@ -1,6 +1,6 @@
 ---
 name: python-p5-development
-description: Phase 5 of the development cycle — batch code delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
+description: Phase 5 of the Python app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
 model: sonnet
 ---
 
@@ -60,7 +60,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
 
 ## Last batch — mandatory deliverables
 
-- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
+- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
 - **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:

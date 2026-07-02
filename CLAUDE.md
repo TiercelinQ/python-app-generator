@@ -96,8 +96,11 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Style                | Centralized QSS - `resources/styles_light.qss` + `resources/styles_dark.qss` |
 | Icons                | qtawesome (Font Awesome)                             |
 | Internationalization | FR/EN - FR default - `PyQt6.QtCore.QTranslator`      |
+| Database             | SQLite (stdlib) / PostgreSQL (`psycopg`) / JSON / CSV (if selected in Phase 1) - see @rules/db.md |
 | Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see @rules/sf-cli.md + `sf-cli-reference/INDEX.md` |
-| Python               | 3.10+                                                |
+| Packaging            | PyInstaller `.exe` (if selected in Phase 1) - see @rules/config.md |
+| Quality              | ruff + mypy · PEP 8 · type hints · docstrings        |
+| Python               | 3.12+                                                |
 
 ---
 
@@ -110,14 +113,14 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Zero `QMessageBox` for business errors - toasts only.
 - Zero inline banner - toasts only.
 - Zero `# TODO`, zero unjustified `pass`. PEP 8 · type hints · docstrings.
-- Python 3.10+ · PyQt6 stable · zero PyQt5 API.
+- Python 3.12+ · PyQt6 stable · zero PyQt5 API.
 - No library that was not validated in Phase 1.
 - If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see @rules/tests.md
 - If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see @rules/i18n.md
 - If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see @rules/db.md
 - If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see @rules/sf-cli.md
 - If a splash screen is enabled in Phase 3: a `QSplashScreen` shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see @rules/splash.md. Splash colors live in `config.py` (`SPLASH_COLORS`) - a second documented QSS exception, like `ICON_COLORS` (QSplashScreen is painted programmatically, not QSS-stylable).
-- If packaging enabled in Phase 1 (Q6): `build.spec` + `scripts/build.ps1` delivered, see @rules/config.md
+- If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see @rules/config.md
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see @rules/logging.md and @rules/errors.md
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see @rules/security.md
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/python-p5-development`.
@@ -138,7 +141,7 @@ All commands below are Claude Code skills invocable with `/`:
 | Command                 | Skill                          | Action                                       |
 | ----------------------- | ------------------------------ | -------------------------------------------- |
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
-| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 7 questions + color palette        |
+| `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 8 questions + color palette        |
 | `/python-p2-featuring`       | `skills/python-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
 | `/python-p3-designing`        | `skills/python-p3-designing/`        | Layout proposal                              |
 | `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |

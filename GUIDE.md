@@ -13,7 +13,7 @@ claude-python-framework/
 ├── README.md                 # Présentation du repo GitHub (EN)
 ├── LICENSE.txt
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (v1.4) — source de vérité unique
+    ├── design-system.md      # Référence visuelle contraignante (v1.6) — source de vérité unique
     ├── layout.md             # Référence layout contraignante (v2.2) — 6 positions de toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
@@ -32,7 +32,7 @@ claude-python-framework/
     │   └── readme.md         # Synchro README post-livraison (régénération auto)
     ├── skills/
     │   ├── python-app/              # Menu démarrage / reprise / maintenance (4 options)
-    │   ├── python-p1-scoping/       # Scoping — 7 questions + couleur → docs/specs/01-scoping.md
+    │   ├── python-p1-scoping/       # Scoping — 8 questions + couleur → docs/specs/01-scoping.md
     │   ├── python-p2-featuring/     # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
     │   ├── python-p3-designing/     # Proposition layout + personnalisation → docs/specs/03-designing.md
     │   ├── python-p4-architect/     # Contrat architectural verrouillé → docs/specs/04-architect.md
@@ -81,7 +81,7 @@ claude
 
 ```bash
 claude --version      # Claude Code CLI installé et connecté
-python --version      # Python 3.10+ (pour exécuter les apps générées)
+python --version      # Python 3.12+ (pour exécuter les apps générées)
 ```
 
 ### Activer la mémoire (une seule fois, par machine)
@@ -102,7 +102,7 @@ Sans cette activation, `/python-save-memory` formule les notes mais ne les persi
 
 ### Phase 1 — Scoping
 
-7 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · packaging .exe (PyInstaller) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
+8 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · icône `.ico` · packaging .exe (PyInstaller) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 
@@ -121,7 +121,7 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-designing.md`.
 
-> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Python n'ayant pas d'icône d'app en Phase 1, un chemin d'icône optionnel est demandé en Phase 3 (à défaut le splash montre le nom de l'app ; l'icône de packaging est réutilisée si présente). Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
+> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Il affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
 ### Phase 4 — Architect
 
@@ -193,7 +193,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | Commande                | Modèle | Action                                               |
 | ----------------------- | ------ | ---------------------------------------------------- |
 | `/python-app`           | Haiku  | Menu démarrage / reprise / maintenance               |
-| `/python-p1-scoping`       | Sonnet | Scoping — 7 questions + couleur (HSL)                |
+| `/python-p1-scoping`       | Sonnet | Scoping — 8 questions + couleur (HSL)                |
 | `/python-p2-featuring`       | Sonnet | Fiche besoins + calibrage figé                       |
 | `/python-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
 | `/python-p4-architect`       | Sonnet | Contrat architectural verrouillé                     |
@@ -238,9 +238,9 @@ requirements-dev.txt
 
 ## Points de vigilance
 
-- `.claude/design-system.md` (v1.4) et `.claude/layout.md` (v2.2) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
+- `.claude/design-system.md` (v1.6) et `.claude/layout.md` (v2.2) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
 - `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
-- `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q6 = Oui.
+- `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q7 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.
