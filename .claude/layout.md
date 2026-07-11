@@ -210,12 +210,12 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 | Type      | Bg           | Border        | Icon           |
 | --------- | ------------ | ------------- | -------------- |
-| `success` | `success-50` | `success-600` | check-circle   |
-| `warning` | `warning-50` | `warning-600` | alert-triangle |
-| `danger`  | `danger-50`  | `danger-600`  | x-circle       |
-| `info`    | `info-50`    | `info-600`    | info           |
+| `success` | `success-50` | `success-600` | circle-check         |
+| `warning` | `warning-50` | `warning-600` | triangle-exclamation |
+| `danger`  | `danger-50`  | `danger-600`  | circle-xmark         |
+| `info`    | `info-50`    | `info-600`    | circle-info          |
 
-> `*-50` is the toast surface role: pale tint in light, deep tint in dark (see `design-system.md §2`). Both keep AA contrast with `text` and the `*-600` accent. Toast icons use the matching `ICON_COLORS` entry (`config.py`), per mode.
+> `*-50` is the toast surface role: pale tint in light, deep tint in dark (see `design-system.md §2`). Both keep AA contrast with `text` and the `*-600` accent. Toast icons use the matching `ICON_COLORS` entry (`config.py`), per mode. Icon names are Font Awesome 6 glyphs (`qta.icon("fa6s.circle-check", …)`, `design-system.md §10`), **not** Feather/Lucide names (`check-circle`/`alert-triangle`/`x-circle`/`info` do not exist in qtawesome).
 > Layering: toasts sit above modals (`z-toast` = 400, see `design-system.md §13`) so a persistent `danger` toast is never hidden.
 
 ---

@@ -42,10 +42,10 @@ Rules:
 8. Security: no hardcoded secret; SQL 100% parameterized; user paths resolved + bounded; no `shell=True`/`eval`/`exec` on untrusted input. See `rules/security.md`.
 
 ### Last batch only — cross-file
-8. All inter-layer imports resolved.
-9. Signals/slots consistent (every connected signal has a slot, every slot is connected).
-10. Architectural contract (`docs/specs/04-architect.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
-11. Zero hardcoded visual value in Python; `README.md` generated and complete.
+9. All inter-layer imports resolved.
+10. Signals/slots consistent (every connected signal has a slot, every slot is connected).
+11. Architectural contract (`docs/specs/04-architect.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
+12. Zero hardcoded visual value in Python; `README.md` generated and complete.
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`rules/db.md`): `models/db.py` + `models/migrations.py` present and called in `main.py` before the MainWindow; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS.keys())`; no `connect` outside `db.py`; SQL 100% parameterized.

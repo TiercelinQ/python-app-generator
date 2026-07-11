@@ -11,7 +11,7 @@ claude-python-framework/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
-├── LICENSE.txt
+├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.6) — source de vérité unique
     ├── layout.md             # Référence layout contraignante (v2.2) — 6 positions de toasts
@@ -203,7 +203,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | `/python-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/python-refactor-code`             | Sonnet | Restructurer sous validation                         |
 | `/python-run-tests`                 | Sonnet | Vérification exécutable                               |
-| `/python-load-project`       | Haiku  | Charger un projet existant                           |
+| `/python-load-project`       | Sonnet | Charger un projet existant                           |
 | `/python-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
 | `/python-save-session`              | Haiku  | Sauvegarder la session                               |
 | `/python-show-state`               | Haiku  | État courant                                         |

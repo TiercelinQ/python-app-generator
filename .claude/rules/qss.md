@@ -1,4 +1,12 @@
-# QSS and styles rules
+# QSS and styles rules — v1.0
+
+> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v2.2` (versions tracked per file — `design-system.md §1`).
+
+## Changelog
+
+| Version | Date       | Main change                                                                    |
+| ------- | ---------- | ------------------------------------------------------------------------------ |
+| 1.0     | 2026-07-11 | Initial versioned QSS ruleset: tokens, light/dark sheets, flat design, `Fusion` requirement, statusbar `text-subtle`. |
 
 ## Principles
 

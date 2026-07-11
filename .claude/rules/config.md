@@ -154,20 +154,20 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 | Secrets to store (validated Phase 1) | `keyring>=25.0` (@rules/security.md §3) |
 | Packaging = Yes (Q7)                 | `pyinstaller>=6.15.0` (requirements-dev.txt) |
 
-> **Version maintenance**: these versions reflect the state validated at the time of writing. Before pinning in a new project, re-confirm the current minimum versions (`pip index versions`, PyPI). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
+> **Version maintenance**: these versions reflect the state validated at the time of writing and **age quickly** — treat every version number above as *indicative*, not authoritative. Before pinning, re-confirm each floor against PyPI (`pip index versions <pkg>`) and **verify the pinned floor is an actually released version** (a `>=X.0` floor for a not-yet-released major would make `pip install` fail). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
 
 ---
 
 ## requirements-dev.txt — if tests enabled OR for pro use
 
 ```
-pytest>=8.0.0
+pytest>=8.0.0,<9.0.0
 pytest-qt>=4.4.0
 ruff>=0.15.0
 mypy>=2.0.0
 ```
 
-> pytest is kept on the 8.x floor until pytest-qt documents pytest 9 compatibility (no pytest-qt release since 4.5.0, 2025-07). mypy 2.x enables `--strict-bytes` and `--local-partial-types` by default — generated code must pass with those.
+> pytest is **capped `<9.0.0`**: pytest 9.x has shipped (9.1.x), but pytest-qt's latest is still 4.5.0, which does not yet document pytest 9 support — the cap is load-bearing, lift it once pytest-qt confirms pytest 9. mypy 2.x enables `--strict-bytes` and `--local-partial-types` by default — generated code must pass with those.
 
 Local install:
 
