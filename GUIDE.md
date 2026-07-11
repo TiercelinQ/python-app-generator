@@ -34,7 +34,7 @@ claude-python-framework/
     │   ├── python-app/              # Menu démarrage / reprise / maintenance (4 options)
     │   ├── python-p1-scoping/       # Scoping — 8 questions + couleur → docs/specs/01-scoping.md
     │   ├── python-p2-featuring/     # Fiche besoins + calibrage figé → docs/specs/02-featuring.md
-    │   ├── python-p3-designing/     # Proposition layout + personnalisation → docs/specs/03-designing.md
+    │   ├── python-p3-surfaces/     # Proposition layout + personnalisation → docs/specs/03-surfaces.md
     │   ├── python-p4-architect/     # Contrat architectural verrouillé → docs/specs/04-architect.md
     │   ├── python-p5-development/   # Livraison par lots (enchaînement auto)
     │   ├── python-add-feature/      # Ajouter une feature à un projet livré (diff de contrat)
@@ -52,7 +52,7 @@ claude-python-framework/
     └── settings.local.json   # Overrides locaux (non versionné)
 ```
 
-> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (plus de duplicats racine/`.claude`). `CLAUDE.md` les importe via `@`.
+> Source de vérité **unique** : un seul `design-system.md` et un seul `layout.md`, sous `.claude/` (plus de duplicats racine/`.claude`, lus à la demande par les skills UI, non auto-importés — voir `CLAUDE.md` § BINDING REFERENCES).
 
 ---
 
@@ -117,9 +117,9 @@ Calibrage **provisoire** annoncé (figé après Phase 2) :
 
 Fiche structurée + calibrage **confirmé** à partir du compte réel. Validation bloquante avant Phase 3. Écrit `docs/specs/02-featuring.md`.
 
-### Phase 3 — Designing
+### Phase 3 — Surfaces
 
-Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-designing.md`.
+Proposition issue de `layout.md` + personnalisation (onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 > **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Il affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
@@ -195,7 +195,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | `/python-app`           | Haiku  | Menu démarrage / reprise / maintenance               |
 | `/python-p1-scoping`       | Sonnet | Scoping — 8 questions + couleur (HSL)                |
 | `/python-p2-featuring`       | Sonnet | Fiche besoins + calibrage figé                       |
-| `/python-p3-designing`        | Sonnet | Proposition layout + personnalisation                |
+| `/python-p3-surfaces`        | Sonnet | Proposition layout + personnalisation                |
 | `/python-p4-architect`       | Sonnet | Contrat architectural verrouillé                     |
 | `/python-p5-development` | Sonnet | Livraison par lots — enchaînement automatique        |
 | `/python-add-feature`          | Sonnet | Ajouter une feature à un projet livré (diff)         |

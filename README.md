@@ -14,7 +14,7 @@ A structured prompt system that generates complete, production-ready PyQt6 deskt
 
 1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
-3. **Designing** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
+3. **Surfaces** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
 4. **Architect** - full file tree, QSS token table, source→test mapping - locked before any code is written
 5. **Development** - auto-chained batch delivery, seed script if a DB is used, dedicated test batch if opted-in
 
@@ -78,7 +78,7 @@ Then in Claude Code:
 | `/python-app`           | Start menu (4 entry points incl. maintenance)      |
 | `/python-p1-scoping`       | Scoping - 8 questions + color palette              |
 | `/python-p2-featuring`       | Featuring - requirements sheet + locked sizing     |
-| `/python-p3-designing`        | Designing - layout proposal + customization        |
+| `/python-p3-surfaces`        | Surfaces - layout proposal + customization        |
 | `/python-p4-architect`       | Architect - locked architecture contract           |
 | `/python-p5-development` | Auto-chained batch delivery                        |
 | `/python-add-feature`          | Add a feature to a shipped project (diff first)    |

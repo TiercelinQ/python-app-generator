@@ -81,10 +81,11 @@ QTableView::item:selected { background-color: #EDF3F8; color: #4682B4; }   /* pr
 QTableView::item:hover { background-color: #F3F4F6; }
 
 /* --- STATUSBAR --------------------------------------------- */
-/* token : bg-muted / border / text-muted / statusbar-height / xs */
+/* token : bg-muted / border / text-subtle / statusbar-height / xs */
+/* Statusbar text = text-subtle (NOT text-muted) — design-system.md §12 (WCAG), layout.md §7. */
 QStatusBar { background-color: #F3F4F6; border-top: 1px solid #E5E7EB;
              min-height: 28px; max-height: 28px; padding: 0 16px;
-             font-size: 12px; color: #9CA3AF; }
+             font-size: 12px; color: #6B7280; }
 
 /* --- DRAWER ------------------------------------------------ */
 /* token : bg-elevated / border / spacing-6 */
