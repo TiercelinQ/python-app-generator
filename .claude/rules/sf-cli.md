@@ -1,4 +1,4 @@
-# Salesforce CLI integration rules — Python/PyQt6 app
+# Salesforce CLI integration rules — Python/PySide6 app
 
 > Conditional — only when Phase 1 "Salesforce CLI" = `Yes`. When enabled, the default scaffold is **runner + typed helpers + a starter Org Manager** (`@rules/mvc.md`). Targets the **`sf` v2 CLI** only. The app never handles OAuth tokens — `sf` owns the auth flow and the OS keychain.
 
@@ -121,7 +121,7 @@ run_apex(self, file: str, org=None) -> dict            # sf apex run --file <fil
 One entity = `model + view + controller` (`@rules/mvc.md`). The Org Manager is that entity for the `sf` integration:
 
 - **Model** (`models/sf_cli.py`): the runner + typed helpers above.
-- **View** (`views/org_manager_view.py`): a `QTreeView`/`QTreeWidget` listing orgs from `list_orgs()`, connected vs disconnected state and the default org marked, with buttons add / remove / reconnect / set-default / refresh. PyQt6 only, no business logic; `objectName` set, styling via QSS. **State icons use `config.ICON_COLORS`** (`success` for connected, `danger` for expired/disconnected) — the one documented QSS exception (qtawesome).
+- **View** (`views/org_manager_view.py`): a `QTreeView`/`QTreeWidget` listing orgs from `list_orgs()`, connected vs disconnected state and the default org marked, with buttons add / remove / reconnect / set-default / refresh. PySide6 only, no business logic; `objectName` set, styling via QSS. **State icons use `config.ICON_COLORS`** (`success` for connected, `danger` for expired/disconnected) — the one documented QSS exception (qtawesome).
 - **Controller** (`controllers/org_manager_controller.py`): connects the view's signals to the runner helpers, validates input (alias non-empty) before calling, `try/except` around each call → `view.show_toast(...)`, and refreshes the list after any mutating action. A destructive action (remove/logout) is confirmed in the view before the controller runs it.
 
 ## Anti-patterns — what NOT to do

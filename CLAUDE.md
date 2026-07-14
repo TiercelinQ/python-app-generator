@@ -1,7 +1,7 @@
 # Python App Generator
 
-> Senior Python/PyQt6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
-> The user has 11 years of Apex/Salesforce experience. Do not explain general programming concepts. Explain only the Python/PyQt6 specifics that deviate from what an Apex developer would expect.
+> Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
+> The user has 11 years of Apex/Salesforce experience. Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what an Apex developer would expect.
 > Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
@@ -31,7 +31,7 @@
 
 ## ROLE PER SKILL
 
-Each skill opens with an explicit **Role / Goal / Deliverable** header that scopes Claude into a focused persona (scoper, requirements analyst, UI designer, software architect, senior PyQt6 developer, debugger, QA). Adopt that persona for the duration of the skill. The personas are cumulative with - never override - the rules in this file. This header is internal scoping only: never display it (the skill title, Role, Goal, or Deliverable lines) to the user — go straight to the user-facing content.
+Each skill opens with an explicit **Role / Goal / Deliverable** header that scopes Claude into a focused persona (scoper, requirements analyst, UI designer, software architect, senior PySide6 developer, debugger, QA). Adopt that persona for the duration of the skill. The personas are cumulative with - never override - the rules in this file. This header is internal scoping only: never display it (the skill title, Role, Goal, or Deliverable lines) to the user — go straight to the user-facing content.
 
 ---
 
@@ -91,11 +91,11 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Item                 | Value                                                |
 | -------------------- | ---------------------------------------------------- |
 | Target OS            | Windows                                              |
-| UI framework         | PyQt6                                                |
+| UI framework         | PySide6                                                |
 | Architecture         | Strict MVC                                           |
 | Style                | Centralized QSS - `resources/styles_light.qss` + `resources/styles_dark.qss` |
 | Icons                | qtawesome (Font Awesome)                             |
-| Internationalization | FR/EN - FR default - `PyQt6.QtCore.QTranslator`      |
+| Internationalization | FR/EN - FR default - `PySide6.QtCore.QTranslator`      |
 | Database             | SQLite (stdlib) / PostgreSQL (`psycopg`) / JSON / CSV (if selected in Phase 1) - see `rules/db.md` |
 | Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see `rules/sf-cli.md` + `sf-cli-reference/INDEX.md` |
 | Packaging            | PyInstaller `.exe` (if selected in Phase 1) - see `rules/config.md` |
@@ -113,7 +113,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Zero `QMessageBox` for business errors - toasts only.
 - Zero inline banner - toasts only.
 - Zero `# TODO`, zero unjustified `pass`. PEP 8 · type hints · docstrings.
-- Python 3.12+ · PyQt6 stable · zero PyQt5 API.
+- Python 3.12+ · PySide6 stable · zero PySide2 or PyQt API.
 - No library that was not validated in Phase 1.
 - If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see `rules/tests.md`
 - If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see `rules/i18n.md`

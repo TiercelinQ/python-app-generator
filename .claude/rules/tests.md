@@ -107,7 +107,7 @@ def test_save_database_error_emet_toast_danger():
 
 ```python
 import pytest
-from PyQt6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QPushButton
 from views.client_view import ClientView
 
 

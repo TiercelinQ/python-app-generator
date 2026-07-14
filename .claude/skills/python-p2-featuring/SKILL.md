@@ -67,7 +67,7 @@ Produce the sheet (in the user's language):
 - Dropped — Won't (out of scope, deliberate): [list]
 
 **Technical constraints**
-- Runtime: Python 3.12+ · PyQt6 (Windows)
+- Runtime: Python 3.12+ · PySide6 (Windows)
 - DB: [value chosen in Phase 1]
 - Preferences: [Yes/No]
 - i18n: [Yes/No]

@@ -36,7 +36,7 @@ Rules:
 2. Imports: all used, none missing, MVC separation respected (Controller → Model + View; never Model → View).
 3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `@rules/mvc.md` anti-patterns.
 4. Zero `# TODO`, zero unjustified `pass`, zero unjustified `any`/untyped public API.
-5. Python 3.12+ · PyQt6 stable · zero PyQt5 API.
+5. Python 3.12+ · PySide6 stable · zero PySide2 or PyQt API.
 6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in Python, every styled widget has an `objectName`. See `@rules/qss.md` anti-patterns.
 7. Errors: business exceptions raised in models, caught in controllers, surfaced via `show_toast`; no `QMessageBox`/inline banner; `sys.excepthook` installed. See `@rules/errors.md`.
 8. Security: no hardcoded secret; SQL 100% parameterized; user paths resolved + bounded; no `shell=True`/`eval`/`exec` on untrusted input. See `@rules/security.md`.
@@ -52,7 +52,7 @@ Rules:
 - **sf-cli** (`@rules/sf-cli.md`): if enabled, all `sf` calls via `models/sf_cli.py` `subprocess.run` with an args list (no `shell=True`, no spawn in a view/controller); `sf` resolved via `shutil.which`/`config.SF_CLI_PATH`; `SfCliNotFoundError` + `SfCommandError` defined in `models/exceptions.py` and mapped to a danger toast by the controller; no token stored/logged; Org Manager controller validates input and refreshes the view.
 - **i18n** (`@rules/i18n.md`): `resources/i18n/app_{fr,en}.{ts,qm}` present; no hardcoded French string in `views/`; `QTranslator` installed before the MainWindow.
 - **logging** (`@rules/logging.md`): `utils/logger.py` conforming; `setup_logging()` first line of `main.py`; no `print(` in source folders; non-re-raising `except` calls `logger.exception(...)`.
-- **splash** (`@rules/splash.md`): if enabled, `views/splash_screen.py` present (PyQt6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; splash colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.
+- **splash** (`@rules/splash.md`): if enabled, `views/splash_screen.py` present (PySide6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; splash colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.
 - **tests** (`@rules/tests.md`): each source module has its matching test file (Phase 4 mapping); `pytest` exit 0; `requirements-dev.txt` present.
 
 ---

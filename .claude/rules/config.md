@@ -136,7 +136,7 @@ Read/write via `utils/helpers.py` (pure functions, see `@rules/mvc.md`).
 ## requirements.txt — loose versioning
 
 ```
-PyQt6>=6.8.0
+PySide6>=6.8.0
 qtawesome>=1.4.0
 ```
 
@@ -149,7 +149,7 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
 | DB = SQLite                          | none (sqlite3 stdlib)                   |
 | DB = PostgreSQL                      | `psycopg[binary]>=3.2.0`                |
 | DB = JSON or CSV                     | none                                    |
-| i18n = Yes                           | none (PyQt6.QtCore.QTranslator native)  |
+| i18n = Yes                           | none (PySide6.QtCore.QTranslator native)  |
 | Salesforce CLI = Yes                 | none (`subprocess` + `shutil` stdlib — @rules/sf-cli.md) |
 | Secrets to store (validated Phase 1) | `keyring>=25.0` (@rules/security.md §3) |
 | Packaging = Yes (Q7)                 | `pyinstaller>=6.15.0` (requirements-dev.txt) |
@@ -200,7 +200,7 @@ exclude = ["tests/"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-qt_api = "pyqt6"
+qt_api = "pyside6"
 ```
 
 Developer commands:

@@ -7,7 +7,7 @@ model: sonnet
 # /python-add-feature — Add a feature to a delivered project
 
 ## Role
-Senior PyQt6 developer working on an existing, contracted codebase.
+Senior PySide6 developer working on an existing, contracted codebase.
 
 ## Goal
 Add the requested feature end-to-end, contract-compliant, after an explicit contract-diff validation, without scope creep.

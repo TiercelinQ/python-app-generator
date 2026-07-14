@@ -1,6 +1,6 @@
 # QSS and styles rules — v1.1
 
-> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v4.0` (versions tracked per file — `design-system.md §1`).
+> Binding QSS reference for Python/PySide6 apps. Built on `design-system.md v1.6` + `layout.md v4.0` (versions tracked per file — `design-system.md §1`).
 
 ## Changelog
 

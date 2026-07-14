@@ -1,6 +1,6 @@
 # Python App Generator - Unified
 
-> Claude Code generator for **Windows desktop apps** - Python · PyQt6 · QSS · MVC.
+> Claude Code generator for **Windows desktop apps** - Python · PySide6 · QSS · MVC.
 
 Part of a family of Claude Code generators. See also [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator), [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator), [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator), and [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator).
 
@@ -10,7 +10,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 ## What it does
 
-A structured prompt system that generates complete, production-ready PyQt6 desktop applications through a 5-phase cycle, then maintains them:
+A structured prompt system that generates complete, production-ready PySide6 desktop applications through a 5-phase cycle, then maintains them:
 
 1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
@@ -31,11 +31,11 @@ Every generated app enforces the same visual design system and strict MVC archit
 | Element        | Value                                                       |
 | -------------- | ----------------------------------------------------------- |
 | Language       | Python 3.12+                                                |
-| Framework      | PyQt6                                                       |
+| Framework      | PySide6                                                       |
 | Architecture   | MVC strict                                                  |
 | Styling        | Centralized QSS - `styles_light.qss` + `styles_dark.qss`    |
 | Icons          | qtawesome (Font Awesome)                                    |
-| i18n           | PyQt6.QtCore.QTranslator FR/EN (opt-in)                     |
+| i18n           | PySide6.QtCore.QTranslator FR/EN (opt-in)                     |
 | Tests          | pytest + pytest-qt (opt-in)                                 |
 | Logging        | stdlib `logging` + RotatingFileHandler                      |
 | DB             | sqlite3 / psycopg / json / csv - versioned migrations       |
@@ -164,7 +164,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 
 | Generator | Stack | Target |
 | --------- | ----- | ------ |
-| [python-app-generator](https://github.com/TiercelinQ/python-app-generator) | Python · PyQt6 · QSS | Windows desktop |
+| [python-app-generator](https://github.com/TiercelinQ/python-app-generator) | Python · PySide6 · QSS | Windows desktop |
 | [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator) | Node.js · Electron · React · TS | Windows desktop |
 | [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator) | Flutter · Dart · Riverpod | Android |
 | [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator) | Node.js · TypeScript · Salesforce CLI | Headless CLI |

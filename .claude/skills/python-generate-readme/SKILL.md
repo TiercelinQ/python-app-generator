@@ -1,6 +1,6 @@
 ---
 name: python-generate-readme
-description: Analyze the specs and source of an existing Python/PyQt6 project and generate its README.md (objective, features, stack, tree, conventions, installation). Invoke from the target project root.
+description: Analyze the specs and source of an existing Python/PySide6 project and generate its README.md (objective, features, stack, tree, conventions, installation). Invoke from the target project root.
 model: sonnet
 ---
 
@@ -36,7 +36,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 - [Inferred from the present views/ and controllers/]
 
 ## Technical stack
-- OS: Windows · Framework: PyQt6 · Python: 3.12+ · Icons: qtawesome
+- OS: Windows · Framework: PySide6 · Python: 3.12+ · Icons: qtawesome
 - DB: [inferred from config.py or models/]
 - i18n: [Yes/No — inferred from resources/i18n/ or config.py]
 - Salesforce CLI: [Yes/No — inferred from models/sf_cli.py + SF_CLI_PATH in config.py]

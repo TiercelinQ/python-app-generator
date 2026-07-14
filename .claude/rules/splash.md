@@ -1,4 +1,4 @@
-# Splash screen rules — Python/PyQt6 app
+# Splash screen rules — Python/PySide6 app
 
 > Conditional — only when Phase 3 "Splash screen" = `Yes`. A splash is a short launch window (`QSplashScreen`) shown while the main window boots, then dismissed. Opt-in, decided in Phase 3, locked in the Phase 4 contract, implemented in Phase 5. When disabled: no splash file, no config constant, the main window shows normally.
 
@@ -27,16 +27,16 @@ Keep these in sync with the `bg`/`text` neutrals of `styles_light.qss` / `styles
 
 ## View — `views/splash_screen.py`
 
-A small factory (PyQt6 only, no business logic) that builds the `QSplashScreen`:
+A small factory (PySide6 only, no business logic) that builds the `QSplashScreen`:
 
 ```python
 """Splash screen — launch window shown until the main window is ready."""
 
 from pathlib import Path
 
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QColor, QFont, QPainter, QPixmap
-from PyQt6.QtWidgets import QSplashScreen
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor, QFont, QPainter, QPixmap
+from PySide6.QtWidgets import QSplashScreen
 
 import config
 
@@ -83,7 +83,7 @@ def create_splash(theme: str) -> QSplashScreen:
 Insert the splash into the strict init order, before the `MainWindow`, and dismiss it after the window is shown (respecting the min duration):
 
 ```python
-from PyQt6.QtCore import QTimer
+from PySide6.QtCore import QTimer
 
 setup_logging()
 run_migrations()                          # if DB
@@ -119,4 +119,4 @@ sys.exit(app.exec())
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points (if splash enabled): `views/splash_screen.py` present (PyQt6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.
+Detailed in `@rules/verification.md`. Key points (if splash enabled): `views/splash_screen.py` present (PySide6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.

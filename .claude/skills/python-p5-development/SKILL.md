@@ -7,7 +7,7 @@ model: sonnet
 # /python-p5-development — Batch development
 
 ## Role
-Senior PyQt6 developer — build the contracted app to a clean, runnable state.
+Senior PySide6 developer — build the contracted app to a clean, runnable state.
 
 ## Goal
 Deliver the application in batches, each one ruff/mypy-clean and contract-compliant, ending with install instructions and a README.

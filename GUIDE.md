@@ -24,7 +24,7 @@ python-app-generator/
     │   ├── security.md       # Validation entrées, SQL paramétré, secrets keyring, anti-injection
     │   ├── tests.md          # pytest + pytest-qt, couverture par couche
     │   ├── logging.md        # logging stdlib + RotatingFileHandler
-    │   ├── i18n.md           # Workflow .ts/.qm, pylupdate6 / lrelease
+    │   ├── i18n.md           # Workflow .ts/.qm, pyside6-lupdate / pyside6-lrelease
     │   ├── db.md             # Migrations versionnées SQLite/PostgreSQL/JSON/CSV
     │   ├── sf-cli.md         # Intégration Salesforce CLI opt-in (runner subprocess, Org Manager)
     │   ├── splash.md         # Splash screen opt-in (QSplashScreen, icône, thème)

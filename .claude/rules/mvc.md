@@ -2,8 +2,8 @@
 
 ## Separation of responsibilities
 
-- `models/`: business logic, data access. Never PyQt6 except `QObject`/`pyqtSignal`.
-- `views/`: PyQt6 widgets only. No business logic. Emit signals.
+- `models/`: business logic, data access. Never PySide6 except `QObject`/`Signal`.
+- `views/`: PySide6 widgets only. No business logic. Emit signals.
 - `controllers/`: connect View signals → Model. No layout.
 - Unidirectional imports: Controller → Model + View. Never Model → View.
 - One entity = one file. Constants in `config.py`.
@@ -31,7 +31,7 @@ controllers/
 └── [entity]_controller.py # One file per entity
 
 utils/
-└── helpers.py             # Pure functions only — zero PyQt6, zero business logic
+└── helpers.py             # Pure functions only — zero PySide6, zero business logic
 
 tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 ├── __init__.py
@@ -111,10 +111,10 @@ If the user reports an anomaly after a batch: free invocation of any correction 
 
 ## Anti-patterns — what NOT to do (MVC)
 
-- **Do not** import a View from a Model, or call `show_toast` / touch a widget from a Model. Models are PyQt6-free except `QObject`/`pyqtSignal`.
+- **Do not** import a View from a Model, or call `show_toast` / touch a widget from a Model. Models are PySide6-free except `QObject`/`Signal`.
 - **Do not** put business logic or data access in a View or a Controller. Views render and emit signals; controllers wire and intercept; logic lives in models.
 - **Do not** propagate a business exception out of the controller — intercept it and call `view.show_toast(...)` (see `@rules/errors.md`).
-- **Do not** put PyQt6, business logic, or data access in `utils/helpers.py` — pure functions only.
+- **Do not** put PySide6, business logic, or data access in `utils/helpers.py` — pure functions only.
 - **Do not** spread one entity across more files than `model + view + controller`. If it grows, that is a contract change → declare the deviation (Phase 4 protocol).
 - **Do not** hardcode a shared constant in one layer — promote it to `config.py`.
 
@@ -137,4 +137,4 @@ Isolated fix on the affected file + its direct dependencies. Deliver the complet
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic or data access in a view/controller, zero PyQt6 widget in a model beyond `QObject`/`pyqtSignal`); imports unidirectional (Controller → Model + View, never Model → View); signals/slots consistent (every connected signal has a slot, every slot is connected); `utils/helpers.py` limited to pure functions; shared constants promoted to `config.py`; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.
+Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic or data access in a view/controller, zero PySide6 widget in a model beyond `QObject`/`Signal`); imports unidirectional (Controller → Model + View, never Model → View); signals/slots consistent (every connected signal has a slot, every slot is connected); `utils/helpers.py` limited to pure functions; shared constants promoted to `config.py`; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.

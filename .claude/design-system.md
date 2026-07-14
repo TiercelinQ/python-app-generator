@@ -1,6 +1,6 @@
 # Design System — v1.6
 
-> Binding reference for all Python/PyQt6 applications.
+> Binding reference for all Python/PySide6 applications.
 > Use: Windows desktop applications, personal and professional use.
 > Inseparable from `layout.md`.
 

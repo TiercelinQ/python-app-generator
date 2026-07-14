@@ -36,7 +36,7 @@ Next batch: [X+1/total] (if Phase 5)
 
 ## Locked decisions
 
-- OS: Windows · Stack: Python + PyQt6
+- OS: Windows · Stack: Python + PySide6
 - DB: [value]
 - Persistent preferences: [Yes/No] · i18n: [Yes/No] · Tests: [Yes/No]
 - Icon: [provided/default] · Packaging: [Yes/No] · Salesforce CLI: [Yes/No]

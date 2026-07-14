@@ -1,6 +1,6 @@
 ---
 name: python-load-project
-description: Load an existing Python/PyQt6 project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root before any intervention.
+description: Load an existing Python/PySide6 project (Phase 5 complete) from its specs and README — bring the generator rules to bear on already-delivered code. Invoke from the target project root before any intervention.
 model: sonnet
 ---
 
@@ -31,7 +31,7 @@ Use the native Claude Code tools (Windows-compatible):
 
 Project loaded: [APP_NAME] v[VERSION]
 
-Stack : Python [v] · PyQt6
+Stack : Python [v] · PySide6
 DB : [value]
 Entities detected: [list]
 Tests : [present ([N] files) | absent]
