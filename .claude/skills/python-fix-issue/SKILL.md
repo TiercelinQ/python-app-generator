@@ -10,7 +10,7 @@ model: sonnet
 Debugger — find the root cause and fix it cleanly, never paper over it.
 
 ## Goal
-Resolve the failure so the relevant `rules/verification.md` checks pass, with the minimum correct change.
+Resolve the failure so the relevant `@rules/verification.md` checks pass, with the minimum correct change.
 
 ## Deliverable
 The corrected file(s) on disk (full rewrite via `Write`) + a passing verification + (after a multi-attempt anomaly) a cleanup report.
@@ -49,7 +49,7 @@ Read the actual error before touching code. Classify, then act in this order:
 
 ### 5. QSS / design deviation (visual bug)
 - Hardcoded color/size in Python, missing `objectName`, partial dark-mode override, `border-radius`/shadow/gradient, `QMessageBox` for a business message.
-- Route the value through `styles_*.qss` (or `config.ICON_COLORS` for icons), add the missing `objectName`, replace `QMessageBox` with a toast / styled `QDialog`. See `rules/qss.md` / `rules/errors.md`.
+- Route the value through `styles_*.qss` (or `config.ICON_COLORS` for icons), add the missing `objectName`, replace `QMessageBox` with a toast / styled `QDialog`. See `@rules/qss.md` / `@rules/errors.md`.
 
 ## Steps
 
@@ -59,8 +59,8 @@ Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer
 2. Classify with the tree above; read both the failing site and the declaration it depends on.
 3. **Ask: "knowing what I know now, what is the clean fix?"** Implement that, not the quickest patch. If the clean fix is larger than expected, say so before applying.
 4. Apply the minimum correct change. Respect the layers, the contract (`docs/specs/04-architect.md`), and the rules.
-5. **Verify**: re-run `rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
-6. If it took several attempts: produce the **cleanup report** (`rules/mvc.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /python-save-memory`.
+5. **Verify**: re-run `@rules/verification.md §A` for the affected area; confirm the targeted failure is gone and nothing else broke. Then apply `@rules/readme.md` — if the fix changed a README-documented aspect (DB schema/migration, dependency, structure), regenerate the README.
+6. If it took several attempts: produce the **cleanup report** (`@rules/mvc.md` — list every dead element added during failed attempts), then offer `Do you want to remember this point? /python-save-memory`.
 
 ## Anti-patterns — what NOT to do
 - **Do not** silence a ruff/mypy finding with `# noqa` / `# type: ignore` / `Any` instead of fixing the cause.

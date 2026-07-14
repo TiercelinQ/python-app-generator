@@ -1,12 +1,18 @@
-# Layout System — v2.2
+# Layout System — v3.0
 
-> Binding reference for all Python/PyQt6 applications.
+> Companion layout reference — not a constraint. This file provides: (1) a **proposed default
+> composition** that Claude submits in Phase 3 and that the user may amend or replace freely;
+> (2) the **feedback spec** (toasts, modals) serving the error contract; (3) **defaults and
+> technical recommendations** (dimensions, behaviors) — never a composition restriction.
+> The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
+> `docs/specs/04-architect.md`.
 > Built on `design-system.md v1.6`. The two files are inseparable.
 
 ## Changelog
 
 | Version | Date       | Main change                                                                       |
 | ------- | ---------- | --------------------------------------------------------------------------------- |
+| v3.0    | 2026-07-13 | Non-binding composition: mandatory skeleton becomes the proposed default; caps become defaults/recommendations |
 | v2.2    | 2026-06-14 | statusbar text `text-subtle` (WCAG) · dark toast tints · layering reference        |
 | v2.1    | 2026-06-12 | 6 toast positions specified · neutral tabs · preferences clarified                 |
 | v2.0    | initial    | Global structure, topbar, drawer, statusbar, recurring components                  |
@@ -16,6 +22,8 @@ Every generated application references the active version in its `README.md`.
 ---
 
 ## 1. GLOBAL STRUCTURE
+
+Proposed default composition — submitted in Phase 3, amendable or replaceable by the user.
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -64,7 +72,9 @@ Every generated application references the active version in its `README.md`.
 
 ## 2. WINDOW
 
-| Token               | Value                        |
+Default values — customizable in Phase 3.
+
+| Token               | Default                      |
 | ------------------- | ---------------------------- |
 | `min-width`         | 1024px                       |
 | `min-height`        | 768px                        |
@@ -76,7 +86,7 @@ Every generated application references the active version in its `README.md`.
 
 ## 3. TOPBAR
 
-| Token              | Value                  |
+| Token              | Default                |
 | ------------------ | ---------------------- |
 | height             | `topbar-height` = 48px |
 | light mode bg      | `bg` = #FFFFFF         |
@@ -107,7 +117,7 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 ### Navigation tabs (QTabBar)
 
 - Embedded in the topbar, alignment defined in Phase 3 (left-after-logo or centered).
-- Maximum 5 visible tabs. Beyond → `···` dropdown menu.
+- 5 visible tabs recommended at most; beyond, a `···` dropdown menu keeps the topbar readable.
 - Active tab: `primary-600` text (light) / `primary-400` (dark), 2px `primary-600` / `primary-400` bottom border.
 - Inactive tab: `text-subtle` text, transparent background.
 - Hover: `bg-muted` background, `transition-default` transition.
@@ -125,7 +135,7 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 
 ## 4. MAIN CONTENT AREA
 
-| Token               | Value                          |
+| Token               | Default                        |
 | ------------------- | ------------------------------ |
 | light mode bg       | `bg` = #FFFFFF                 |
 | dark mode bg        | `bg` = #1C1C1C                 |
@@ -222,7 +232,9 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 ## 6. RIGHT DRAWER
 
-| Token            | Value                                                  |
+Optional component. Default values below.
+
+| Token            | Default                                                |
 | ---------------- | ------------------------------------------------------ |
 | width            | `drawer-width` = 320px                                 |
 | animation        | slide from the right, `transition-slow` = 250ms        |
@@ -241,7 +253,9 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 ## 7. STATUSBAR
 
-| Token              | Value                     |
+Default values below.
+
+| Token              | Default                   |
 | ------------------ | ------------------------- |
 | height             | `statusbar-height` = 28px |
 | light mode bg      | `bg-muted` = #F3F4F6      |
@@ -278,7 +292,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 - Selected row: `primary-50` / `primary-900` (dark) bg.
 - Row hover: `bg-muted` bg.
 - Row alternation: disabled (flat design).
-- Pagination below the table if > 50 rows.
+- Pagination below the table recommended beyond ~50 rows.
 
 ### Input form
 
@@ -316,7 +330,7 @@ Fully replaces the inline banner. No inline banner in the applications.
 └─────────────────────────────────────┘
 ```
 
-| Token            | Value                              |
+| Token            | Default                            |
 | ---------------- | ---------------------------------- |
 | width            | dynamic per content, min 480px     |
 | light mode bg    | `bg` = #FFFFFF                     |
@@ -334,14 +348,14 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 ### Pagination
 
-Shown below a `QTableView` containing more than 50 rows.
+Shown below a `QTableView` when it grows long — beyond ~50 rows by default.
 
 ```
 [ ← ]  [ 1 ]  [ 2 ]  [ 3 ]  ···  [ 12 ]  [ → ]
                   Page 2 sur 12
 ```
 
-| Token                   | Value                                                                                             |
+| Token                   | Default                                                                                           |
 | ----------------------- | ------------------------------------------------------------------------------------------------- |
 | position                | below the table, aligned right                                                                    |
 | spacing from table      | `spacing-4` = 16px                                                                                |
@@ -351,11 +365,13 @@ Shown below a `QTableView` containing more than 50 rows.
 | button hover            | `bg-muted` bg                                                                                      |
 | ← → buttons             | `icon-sm` (16px) icons, disabled on first/last page                                               |
 | page label              | `normal` `xs` (12px), `text-muted`, centered below the buttons                                    |
-| max visible pages       | 5 numbers — `···` ellipsis beyond                                                                 |
+| visible pages           | 5 numbers by default — `···` ellipsis beyond                                                      |
 
 ---
 
 ## 9. GLOBAL KEYBOARD NAVIGATION
+
+Default shortcuts — customizable in Phase 3.
 
 | Shortcut            | Action                                 |
 | ------------------- | -------------------------------------- |

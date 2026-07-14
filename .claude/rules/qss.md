@@ -1,6 +1,6 @@
 # QSS and styles rules — v1.0
 
-> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v2.2` (versions tracked per file — `design-system.md §1`).
+> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v3.0` (versions tracked per file — `design-system.md §1`).
 
 ## Changelog
 
@@ -199,3 +199,7 @@ In Phase 1 the project picks a **palette** (named or custom) = 5 light roles: fo
 - **Do not** style a `QTabBar` only via `::tab` — also set the `QTabBar` widget background to `transparent`, add `outline: none` on `::tab`, and `setDrawBase(False)` on the widget. Selected tab: `border: none` + `border-bottom` only. **Root cause of persistent left/right/top borders on Windows: the native `windowsvista` style** — none of the QSS above works until `app.setStyle("Fusion")` is set in `main.py`. Verify in both themes on a real Windows machine (the offscreen platform does not use `windowsvista`).
 - **Do not** put icon colors in QSS — qtawesome colors live in `config.py` (`ICON_COLORS`), a documented exception.
 - **Do not** put splash colors in QSS — a `QSplashScreen` is painted programmatically, so its `bg`/`text` live in `config.py` (`SPLASH_COLORS`), the second documented exception (only when the splash screen is on, Phase 3). See `@rules/splash.md`.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: zero hardcoded visual value in Python (no inline `setStyleSheet`, no themed `QColor`) — the two documented exceptions are `ICON_COLORS` and, if the splash is on, `SPLASH_COLORS` in `config.py`; both sheets `resources/styles_light.qss` + `resources/styles_dark.qss` present, dark mode = full sheet replacement (no partial override); every styled widget carries an `objectName` matching a named rule, and every QSS rule carries its `/* token : … */` comment; `app.setStyle("Fusion")` set in `main.py` right after `QApplication(sys.argv)`; flat design held (no `border-radius`, no shadow, no gradient); statusbar text = `text-subtle`.

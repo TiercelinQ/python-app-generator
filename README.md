@@ -151,7 +151,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
 - `.claude/design-system.md` (v1.6) - visual token reference + changelog
-- `.claude/layout.md` (v2.2) - layout reference + 6 toast positions
+- `.claude/layout.md` (v3.0) - layout companion (proposed default composition) + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
   - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in)

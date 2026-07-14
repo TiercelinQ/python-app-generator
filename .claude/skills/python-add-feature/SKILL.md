@@ -93,7 +93,7 @@ If the user reports an anomaly after delivery, apply the `@rules/mvc.md` cleanup
 
 ## Verification
 
-Apply `rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project. Then apply `rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
+Apply `@rules/verification.md`. Key points: all created/modified files match the validated diff; no import regression (existing files stay functional); if tests, `pytest` exit 0 on the **whole** project. Then apply `@rules/readme.md` — regenerate the README if the change touched a README-documented aspect.
 
 ## When the user asks something adjacent
 - **"Just make it work, never mind the architecture"** → push back: the MVC split and the security rules are what keep the app safe and maintainable. Implement within them.

@@ -19,11 +19,11 @@ Produce a complete, unambiguous architectural contract that freezes the file tre
 
 **Phase banner (show first)** — before anything else, output the phase banner as plain Markdown in the user's language, **never inside a code block or fenced block**. Three blocks, each on its own line: (1) H2 heading: Phase 4/5 — Architecture; (2) progress line: Scoping ✓ · Features ✓ · Surfaces ✓ · ▶ Architecture · Development; (3) intent in italics: Lock the file/structure contract. See `## PIPELINE` in `CLAUDE.md`.
 
-At start: read `design-system.md`, `layout.md` (no longer auto-imported), `rules/mvc.md` (tree, batches, MVC conventions) and `rules/qss.md` (tokens → QSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, exceptions, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-surfaces.md` for the validated decisions.
+At start: read `design-system.md`, `layout.md` (no longer auto-imported), `@rules/mvc.md` (tree, batches, MVC conventions) and `@rules/qss.md` (tokens → QSS). **If the Salesforce CLI integration is on (Phase 1), also read @rules/sf-cli.md** (runner, exceptions, Org Manager scaffold). Read `docs/specs/01-scoping.md` through `03-surfaces.md` for the validated decisions.
 
 Present (in the user's language, as plain Markdown — never inside a code block):
 
-1. **Complete project tree** (model: `rules/mvc.md`) with the role of each file.
+1. **Complete project tree** (model: `@rules/mvc.md`) with the role of each file.
 
    **If the Salesforce CLI integration is on (Phase 1)**: add the runner + Org Manager files to the tree (`models/sf_cli.py`, `views/org_manager_view.py`, `controllers/org_manager_controller.py`). The `sf` runtime prerequisite and the `SF_CLI_PATH` setting are part of the contract. See @rules/sf-cli.md.
 
@@ -37,7 +37,7 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
    **If the splash screen is on (Phase 3)**: add `views/splash_screen.py` to the tree, note the `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` constants in `config.py`, and the `main.py` orchestration (`create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). The icon source (Phase 1 icon reused, path provided in Phase 3, or text-only) is part of the contract. See @rules/splash.md.
 
-3. **Source → test mapping** (only if tests enabled in Phase 1 Q5): each source module → its `test_*.py` file (incl. `models/sf_cli.py` / `controllers/org_manager_controller.py` if the Salesforce integration is on). See `rules/tests.md`.
+3. **Source → test mapping** (only if tests enabled in Phase 1 Q5): each source module → its `test_*.py` file (incl. `models/sf_cli.py` / `controllers/org_manager_controller.py` if the Salesforce integration is on). See `@rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

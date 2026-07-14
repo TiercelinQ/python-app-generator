@@ -80,9 +80,9 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` and `layout.md` are binding references for every generated interface. They are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (proposed default composition + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
 
-`sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of rules/sf-cli.md) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). rules/sf-cli.md is the hub that routes every sf-aware skill to it.
+`sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of `rules/sf-cli.md`) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). `rules/sf-cli.md` is the hub that routes every sf-aware skill to it.
 
 ---
 
@@ -96,9 +96,9 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | Style                | Centralized QSS - `resources/styles_light.qss` + `resources/styles_dark.qss` |
 | Icons                | qtawesome (Font Awesome)                             |
 | Internationalization | FR/EN - FR default - `PyQt6.QtCore.QTranslator`      |
-| Database             | SQLite (stdlib) / PostgreSQL (`psycopg`) / JSON / CSV (if selected in Phase 1) - see rules/db.md |
-| Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see rules/sf-cli.md + `sf-cli-reference/INDEX.md` |
-| Packaging            | PyInstaller `.exe` (if selected in Phase 1) - see rules/config.md |
+| Database             | SQLite (stdlib) / PostgreSQL (`psycopg`) / JSON / CSV (if selected in Phase 1) - see `rules/db.md` |
+| Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see `rules/sf-cli.md` + `sf-cli-reference/INDEX.md` |
+| Packaging            | PyInstaller `.exe` (if selected in Phase 1) - see `rules/config.md` |
 | Quality              | ruff + mypy · PEP 8 · type hints · docstrings        |
 | Python               | 3.12+                                                |
 
@@ -115,20 +115,20 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Zero `# TODO`, zero unjustified `pass`. PEP 8 · type hints · docstrings.
 - Python 3.12+ · PyQt6 stable · zero PyQt5 API.
 - No library that was not validated in Phase 1.
-- If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see rules/tests.md
-- If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see rules/i18n.md
-- If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see rules/db.md
-- If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see rules/sf-cli.md
-- If a splash screen is enabled in Phase 3: a `QSplashScreen` shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see rules/splash.md. Splash colors live in `config.py` (`SPLASH_COLORS`) - a second documented QSS exception, like `ICON_COLORS` (QSplashScreen is painted programmatically, not QSS-stylable).
-- If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see rules/config.md
-- `utils/logger.py` and `sys.excepthook` mandatory in every app - see rules/logging.md and rules/errors.md
-- Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see rules/security.md
+- If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see `rules/tests.md`
+- If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see `rules/i18n.md`
+- If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see `rules/db.md`
+- If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see `rules/sf-cli.md`
+- If a splash screen is enabled in Phase 3: a `QSplashScreen` shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`. Splash colors live in `config.py` (`SPLASH_COLORS`) - a second documented QSS exception, like `ICON_COLORS` (QSplashScreen is painted programmatically, not QSS-stylable).
+- If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see `rules/config.md`
+- `utils/logger.py` and `sys.excepthook` mandatory in every app - see `rules/logging.md` and `rules/errors.md`
+- Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see `rules/security.md`
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/python-p5-development`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/python-save-memory`"
 - Never read and write the generator's own `.claude/settings.json` — only read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
 Per-domain rule detail (loaded on demand by the skills - not auto-imported):
-rules/mvc.md · rules/qss.md · rules/errors.md · rules/config.md · rules/security.md ·
-rules/tests.md · rules/logging.md · rules/i18n.md · rules/db.md · rules/sf-cli.md · rules/splash.md · rules/verification.md · rules/readme.md
+`rules/mvc.md` · `rules/qss.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` ·
+`rules/tests.md` · `rules/logging.md` · `rules/i18n.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -196,4 +196,4 @@ Canonical source of the calibration. Skills refer to it - do not duplicate this 
 | Small         | < 10     | ≤ 5             | 3                  | 4                    |
 | Medium / Large| ≥ 10     | > 5             | 4                  | 5                    |
 
-The extra batch corresponds to `tests/` + `requirements-dev.txt` (see rules/tests.md). Divergent criteria (e.g. < 10 files but > 5 features): the highest wins → Medium/Large.
+The extra batch corresponds to `tests/` + `requirements-dev.txt` (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest wins → Medium/Large.

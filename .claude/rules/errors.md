@@ -165,3 +165,7 @@ Types, durations, position, and anatomy: `layout.md §5` (single source — not 
 - **Do not** `print(traceback)` — use `logger.exception(...)`.
 - **Do not** `raise Exception("...")` generic in a model — define a named exception in `models/exceptions.py`.
 - **Do not** build the user-facing message in the model — the controller decides the toast wording.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: named business exceptions defined in `models/exceptions.py` (never a generic `raise Exception(...)`) and raised by the models; caught in the controller via `try/except`, never propagated to the view; surfaced through `view.show_toast(type, message, description=None)` — no `QMessageBox`, no inline banner; `sys.excepthook` installed in `main.py` (logs the stacktrace then shows a danger toast, nothing on stdout/stderr in `--windowed` mode); no `except Exception` swallowing without re-raise outside the excepthook, and no `print(traceback)` (use `logger.exception(...)`).

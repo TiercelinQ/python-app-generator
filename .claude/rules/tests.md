@@ -168,6 +168,6 @@ pytest --tb=short                   # Short traceback
 - **Do not** go beyond smoke for views (instantiation + `objectName` + key widgets via `findChild`).
 - **Do not** create a test suite when Phase 1 Q5 = No (and `/python-run-tests` never scaffolds one unasked).
 
-## Integrity verification (test batch)
+## Integrity verification
 
 Detailed in `@rules/verification.md`. Key points: each source module has its matching test file (Phase 4 mapping); `pytest` exit code 0; `requirements-dev.txt` present.

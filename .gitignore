@@ -1,14 +1,12 @@
-# Settings locaux Claude Code — personnels, jamais commités
+# Local Claude Code settings - personal, never committed
 .claude/settings.local.json
 
-# Mémoire auto Claude Code — personnelle, jamais commitée
+# Claude Code auto memory - personal, never committed
 .claude/agent-memory/
 
-# Environnements virtuels des apps générées
+# Generated app artifacts - a test app scaffolded here during generation testing
 .venv/
 venv/
-
-# Données applicatives générées
 *.db
 preferences.json
 *.log
@@ -25,7 +23,7 @@ __pycache__/
 dist/
 build/
 *.exe
-# Note : *.spec NON ignoré — build.spec doit être versionné si packaging activé (Phase 1 Q7)
+# Note: *.spec NOT ignored - build.spec must be versioned when packaging is enabled (Phase 1 Q7)
 
 # OS
 .DS_Store

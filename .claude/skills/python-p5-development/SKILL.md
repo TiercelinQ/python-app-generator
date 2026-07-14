@@ -40,23 +40,23 @@ Write all files there via `Write`. Create the needed subfolders before writing t
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `rules/mvc.md`.
+- **Do not** deviate from `docs/specs/04-architect.md` silently — any structural change triggers the deviation protocol (stop, declare, validate) from `@rules/mvc.md`.
 - **Do not** use `QMessageBox` for business errors, `print()` for diagnostics, or hardcoded colors in Python.
 - **Do not** write SQL outside `models/` or build a query by concatenation.
 - **Do not** leave a `# TODO`, an unjustified `pass`, or a placeholder. Each batch is complete and self-contained.
 - **Do not** introduce a library not validated in Phase 1.
-- **Do not** mark the work done while `rules/verification.md §A` is failing.
+- **Do not** mark the work done while `@rules/verification.md §A` is failing.
 
 ## Delivery
 
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Each file delivered as a complete, self-contained block via `Write`.
 - Automatic chaining between batches without confirmation.
-- Batch split: tables in `rules/mvc.md` (conditional on Phase 1 Q5 — tests or not, frozen in Phase 2).
+- Batch split: tables in `@rules/mvc.md` (conditional on Phase 1 Q5 — tests or not, frozen in Phase 2).
 
 ## Verification
 
-Apply `rules/verification.md` — both the executable commands (§A, blocking when the env is available) and the static integrity checks (§B, including the per-domain ones). Silent — reported only on a discrepancy. Cross-file checks run on the last batch.
+Apply `@rules/verification.md` — both the executable commands (§A, blocking when the env is available) and the static integrity checks (§B, including the per-domain ones). Silent — reported only on a discrepancy. Cross-file checks run on the last batch.
 
 ## Last batch — mandatory deliverables
 
@@ -84,7 +84,7 @@ Apply `rules/verification.md` — both the executable commands (§A, blocking wh
   {
     "permissions": {
       "allow": ["Bash(python:*)", "Bash(pip:*)", "Bash(pytest:*)", "Bash(ruff:*)", "Bash(mypy:*)", "Read", "Write", "Edit"],
-      "deny": ["Read(**/.env)", "Write(**/.env)", "Write(**/.env.*)", "Edit(**/.env)", "Edit(**/.env.*)", "Write(**/secrets/**)", "Write(**/.venv/**)", "Write(**/__pycache__/**)", "Write(**/build/**)", "Write(**/dist/**)"]
+      "deny": ["Read(**/.env)", "Read(**/.env.*)", "Read(**/secrets/**)", "Write(**/.env)", "Write(**/.env.*)", "Write(**/secrets/**)", "Edit(**/.env)", "Edit(**/.env.*)", "Edit(**/secrets/**)", "Write(**/.venv/**)", "Write(**/__pycache__/**)", "Write(**/build/**)", "Write(**/dist/**)"]
     },
     "hooks": {
       "Stop": [{ "hooks": [{ "type": "command", "command": "ruff check ." }] }]
@@ -133,4 +133,4 @@ The summary points to the documents; it does not restate them.
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + direct dependencies. Full rewrite via `Write` (never a partial diff).
-After resolving an anomaly: cleanup report (`rules/mvc.md`) then offer `Do you want to remember this point? /python-save-memory`.
+After resolving an anomaly: cleanup report (`@rules/mvc.md`) then offer `Do you want to remember this point? /python-save-memory`.

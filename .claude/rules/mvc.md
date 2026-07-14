@@ -109,10 +109,6 @@ Each file delivered as a complete, self-contained block.
 The user can interrupt at any time.
 If the user reports an anomaly after a batch: free invocation of any correction command.
 
-## Integrity verification
-
-Per-batch and cross-file integrity checks (Python syntax, used/unidirectional imports, MVC responsibilities, signals/slots, zero hardcoded visual value, source↔test mapping) live in **`rules/verification.md`** — the single source of truth for verification. Run them silently every batch; report only on a discrepancy. Cross-file checks run on the last batch.
-
 ## Anti-patterns — what NOT to do (MVC)
 
 - **Do not** import a View from a Model, or call `show_toast` / touch a widget from a Model. Models are PyQt6-free except `QObject`/`pyqtSignal`.
@@ -138,3 +134,7 @@ Cover all affected files. Then offer: "Do you want to remember this point? `/pyt
 ## Post-delivery adjustments
 
 Isolated fix on the affected file + its direct dependencies. Deliver the complete fixed file (full rewrite via `Write`, never a partial diff).
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic or data access in a view/controller, zero PyQt6 widget in a model beyond `QObject`/`pyqtSignal`); imports unidirectional (Controller → Model + View, never Model → View); signals/slots consistent (every connected signal has a slot, every slot is connected); `utils/helpers.py` limited to pure functions; shared constants promoted to `config.py`; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.

@@ -24,7 +24,7 @@ LOG_LEVEL: str = "INFO"
 LOG_MAX_BYTES: int = 1_000_000                # 1 MB per file
 LOG_BACKUP_COUNT: int = 5
 
-# Toast position — see @layout.md
+# Toast position — see `layout.md`
 TOAST_POSITION: str = "top-right"
 
 # Salesforce CLI (if enabled in Phase 1) — see @rules/sf-cli.md
@@ -269,3 +269,7 @@ Details:
 - Executable: `--icon resources/icon.ico` in `build.spec` (if packaging, Phase 1 Q7).
 - If the user provides no icon in Phase 1 (Q6 = No): OS default icon, noted in the generated README.
 - **Splash icon (if the splash screen is on, Phase 3)**: the splash reuses this `resources/icon.ico`. If no icon was set in Phase 1 and the user provides a splash icon path in Phase 3, save it as `resources/icon.ico` — it then serves the window/taskbar and packaging too. No icon at all → text-only splash. See `@rules/splash.md`.
+
+## Integrity verification
+
+Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `config.py`; the only colors there are the accent stops, `ICON_COLORS` and — if the splash is on — `SPLASH_COLORS` (the neutrals stay in the QSS sheets, and the derived values must match them); `requirements.txt` / `requirements-dev.txt` list only Phase 1-validated dependencies, with floors re-confirmed against PyPI as actually released versions; `pyproject.toml` delivered with the ruff / mypy / pytest configuration; `build.spec` + `scripts/build.ps1` delivered and `build.spec` committed only when packaging is enabled (Phase 1 Q7).
