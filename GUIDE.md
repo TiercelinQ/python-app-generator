@@ -14,7 +14,7 @@ python-app-generator/
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v1.6) — source de vérité unique
-    ├── layout.md             # Cadre layout d'accompagnement (v3.0) — composition par défaut + 6 positions de toasts
+    ├── layout.md             # Cadre layout d'accompagnement (v4.0) — catalogue de patterns + composition par défaut + 6 positions de toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # Séparation MVC, livraison par lots, nettoyage anomalies
@@ -119,7 +119,7 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 ### Phase 3 — Surfaces
 
-Proposition issue de `layout.md`, composition librement amendable + personnalisation (onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
+Co-conception guidée. Questionnaire structurant (navigation horizontale ou verticale, organisation du contenu, formulaires et actions) appuyé sur le catalogue de patterns de `layout.md` §12 : topbar + onglets (défaut), sidebar verticale, barre de menus (`QMenuBar`), master-detail (`QSplitter`). Puis proposition sur mesure, composition librement amendable, et questions de détail (position des onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
 > **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Il affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
@@ -238,7 +238,7 @@ requirements-dev.txt
 
 ## Points de vigilance
 
-- `.claude/design-system.md` (v1.6) et `.claude/layout.md` (v3.0) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
+- `.claude/design-system.md` (v1.6) et `.claude/layout.md` (v4.0) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
 - Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
 - `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-run-tests` s'invoquent depuis la racine du projet cible.

@@ -80,7 +80,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (proposed default composition + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
 
 `sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of `rules/sf-cli.md`) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). `rules/sf-cli.md` is the hub that routes every sf-aware skill to it.
 
@@ -143,7 +143,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/python-app`           | `skills/python-app/`           | Start / resume / maintenance menu            |
 | `/python-p1-scoping`       | `skills/python-p1-scoping/`       | Scoping - 8 questions + color palette        |
 | `/python-p2-featuring`       | `skills/python-p2-featuring/`       | App name + features (MoSCoW) + v1.0 scope + locked sizing |
-| `/python-p3-surfaces`        | `skills/python-p3-surfaces/`        | Layout proposal                              |
+| `/python-p3-surfaces`        | `skills/python-p3-surfaces/`        | Layout co-design                             |
 | `/python-p4-architect`       | `skills/python-p4-architect/`       | Locked architectural contract                |
 | `/python-p5-development` | `skills/python-p5-development/` | Batch delivery                               |
 

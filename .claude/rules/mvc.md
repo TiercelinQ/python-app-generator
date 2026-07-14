@@ -19,7 +19,7 @@ models/
 
 views/
 ├── __init__.py
-├── main_window.py         # Main window (topbar, global layout)
+├── main_window.py         # Main window (topbar, global layout) (default pattern — layout.md §12)
 ├── toast_manager.py       # Toast system
 ├── splash_screen.py       # QSplashScreen factory (if splash enabled) — @rules/splash.md
 ├── org_manager_view.py    # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md

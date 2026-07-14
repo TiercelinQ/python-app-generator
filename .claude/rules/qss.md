@@ -1,11 +1,12 @@
-# QSS and styles rules — v1.0
+# QSS and styles rules — v1.1
 
-> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v3.0` (versions tracked per file — `design-system.md §1`).
+> Binding QSS reference for Python/PyQt6 apps. Built on `design-system.md v1.6` + `layout.md v4.0` (versions tracked per file — `design-system.md §1`).
 
 ## Changelog
 
 | Version | Date       | Main change                                                                    |
 | ------- | ---------- | ------------------------------------------------------------------------------ |
+| 1.1     | 2026-07-14 | Pattern-aware anchors note + layout.md v4.0 reference                           |
 | 1.0     | 2026-07-11 | Initial versioned QSS ruleset: tokens, light/dark sheets, flat design, `Fusion` requirement, statusbar `text-subtle`. |
 
 ## Principles
@@ -31,6 +32,7 @@
 QMainWindow { background-color: #FFFFFF; color: #111827; }
 
 /* --- TOPBAR ------------------------------------------------ */
+/* sections mirror the retained composition (layout.md §12) */
 /* token : bg / border / topbar-height */
 QWidget#topbar { background-color: #FFFFFF; border-bottom: 1px solid #E5E7EB;
                  min-height: 48px; max-height: 48px; padding: 0 16px; }
