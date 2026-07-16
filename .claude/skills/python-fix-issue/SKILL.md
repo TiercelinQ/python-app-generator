@@ -48,12 +48,14 @@ Read the actual error before touching code. Classify, then act in this order:
 - Connection error → must go through `models/db.py` `get_connection()`; no `connect` elsewhere.
 
 ### 5. QSS / design deviation (visual bug)
-- Hardcoded color/size in Python, missing `objectName`, partial dark-mode override, `border-radius`/shadow/gradient, `QMessageBox` for a business message.
+- Hardcoded color/size in Python, missing `objectName`, partial dark-mode override, shadow/gradient, a radius other than the 5px/3px tokens, `QMessageBox` for a business message.
 - Route the value through `styles_*.qss` (or `config.ICON_COLORS` for icons), add the missing `objectName`, replace `QMessageBox` with a toast / styled `QDialog`. See `@rules/qss.md` / `@rules/errors.md`.
 
 ## Steps
 
 Read `design-system.md` / `layout.md` on demand if the fix touches UI (no longer auto-imported).
+
+> **Legacy design system**: if the app is on design system v1.x (README reference — see `/python-load-project` step 5), fix within the app's own v1.x conventions; do not introduce v2.0 visuals into a v1.x app. The upgrade path is `/python-migrate-design`, on request.
 
 1. Get the real error (command output, `logs/`, traceback, or the user's repro). If you cannot reproduce, ask for the exact message — do not guess.
 2. Classify with the tree above; read both the failing site and the declaration it depends on.

@@ -93,6 +93,10 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   ```
   The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
 
+## Icons — always
+
+No dedicated batch. Per `design-system.md §10`: vendor the Lucide SVGs actually used into `resources/icons/` (source: the npm `lucide-static` package or the official Lucide repository — verify each icon name exists at the source, never invent one; ship with the resources batch, alongside `styles_*.qss`), deliver `utils/icons.py` with the `utils/` batch, and `views/sliding_underline.py` with the views batch when the retained composition has tabs / horizontal navigation. Icon colors and sizes come from `config.py` (`ICON_COLORS` derived values, `ICON_SM/MD/LG`, `ICON_STROKE` — Batch 1). No icon dependency in `requirements.txt` (`QtSvg` ships with PySide6).
+
 ## Splash screen — only if enabled in Phase 3
 
 No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py` (**Batch 1**), `views/splash_screen.py` (views batch), and the `main.py` orchestration (last batch — `create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). Splash colors are a documented `config.py` exception (like `ICON_COLORS`), painted programmatically. If a splash icon path was provided in Phase 3, save it as `resources/icon.ico`. It counts toward the size, not a separate batch.

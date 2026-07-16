@@ -21,6 +21,7 @@ views/
 ├── __init__.py
 ├── main_window.py         # Main window (topbar, global layout) (default pattern — layout.md §12)
 ├── toast_manager.py       # Toast system
+├── sliding_underline.py   # Signature underline widget (if the composition has tabs/horizontal nav) — design-system.md §8
 ├── splash_screen.py       # QSplashScreen factory (if splash enabled) — @rules/splash.md
 ├── org_manager_view.py    # Org Manager QTreeView (if Salesforce CLI) — @rules/sf-cli.md
 └── [entity]_view.py       # One file per view
@@ -99,7 +100,10 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 
 - `utils/helpers.py` — pure functions (formatting, validation, JSON)
 - `utils/logger.py` — logging configuration (see `@rules/logging.md`)
+- `utils/icons.py` — Lucide SVG → themed `QIcon` helper (`design-system.md §10`)
 - `utils/resource_path.py` — PyInstaller `sys._MEIPASS` helper (if packaging opt-in)
+
+> **Icons (always)** — `utils/icons.py` ships with the `utils/` batch and the vendored Lucide SVGs (`resources/icons/*.svg`, only the icons the app uses) ship with the resources batch (alongside `styles_*.qss`); `views/sliding_underline.py` ships with the views batch when the retained composition has tabs / horizontal navigation.
 
 ### Format
 

@@ -31,8 +31,8 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
 | design-system.md token | Light value | Dark value | Target QSS rule |
 | ---------------------- | ----------- | ---------- | --------------- |
-| `bg`                   | #FFFFFF     | #1C1C1C    | QMainWindow, #main_content, #topbar |
-| `primary-600`          | #4682B4     | #4682B4    | QTabBar::tab:selected, #btn_primary |
+| `bg`                   | #FDFEFF     | #181C20    | QMainWindow, #main_content, #topbar |
+| `primary-600`          | #4682B4     | #4682B4    | #btn_primary; QTabBar::tab:selected color + SlidingUnderline (light) |
 | …                      | …           | …          | …               |
 
    The example rows use the **default composition** (topbar + tabs). The `objectName` anchors and QSS targets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own widgets and anchors (`#sidebar`, `#menu_bar`, `#master_list`/`#detail_pane`).

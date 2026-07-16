@@ -121,7 +121,7 @@ run_apex(self, file: str, org=None) -> dict            # sf apex run --file <fil
 One entity = `model + view + controller` (`@rules/mvc.md`). The Org Manager is that entity for the `sf` integration:
 
 - **Model** (`models/sf_cli.py`): the runner + typed helpers above.
-- **View** (`views/org_manager_view.py`): a `QTreeView`/`QTreeWidget` listing orgs from `list_orgs()`, connected vs disconnected state and the default org marked, with buttons add / remove / reconnect / set-default / refresh. PySide6 only, no business logic; `objectName` set, styling via QSS. **State icons use `config.ICON_COLORS`** (`success` for connected, `danger` for expired/disconnected) — the one documented QSS exception (qtawesome).
+- **View** (`views/org_manager_view.py`): a `QTreeView`/`QTreeWidget` listing orgs from `list_orgs()`, connected vs disconnected state and the default org marked, with buttons add / remove / reconnect / set-default / refresh. PySide6 only, no business logic; `objectName` set, styling via QSS. **State icons** are Lucide via `utils/icons.py` (`circle-check` colored `success` for connected, `circle-x` colored `danger` for expired/disconnected) — colors from `config.ICON_COLORS`, the documented QSS exception.
 - **Controller** (`controllers/org_manager_controller.py`): connects the view's signals to the runner helpers, validates input (alias non-empty) before calling, `try/except` around each call → `view.show_toast(...)`, and refreshes the list after any mutating action. A destructive action (remove/logout) is confirmed in the view before the controller runs it.
 
 ## Anti-patterns — what NOT to do

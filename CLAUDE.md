@@ -83,7 +83,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 
 ## BINDING REFERENCES
 
-`design-system.md` is the binding reference for every generated interface (skin: tokens, flat design). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
+`design-system.md` is the binding reference for every generated interface (skin: tokens, depth by stroke). `layout.md` is a **companion layout reference** (composition pattern catalog + proposed default + feedback spec) - the composition itself is co-defined with the user in Phase 3 and locked in `docs/specs/04-architect.md`. Both are **not** auto-imported (to keep the session context lean) - the UI skills (`/python-p3-surfaces`, `/python-p4-architect`, `/python-p5-development`, `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-trace-feature`) read them on demand before producing or altering any UI.
 
 `sf-cli-reference/` is the binding reference for the **`sf` v2 command/flag catalog** — the source of truth for exact command names, subcommands, and flags (never invent an `sf` command or flag from memory). It is **only relevant when the Salesforce CLI integration is on** (the gate of `rules/sf-cli.md`) and is **loaded on demand by section, never read whole**: read `sf-cli-reference/INDEX.md` first (the capability → file map), then open only the section file matching the needed capability (`auth-orgs.md`, `data.md`, `apex.md`, etc.). `rules/sf-cli.md` is the hub that routes every sf-aware skill to it.
 
@@ -97,7 +97,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 | UI framework         | PySide6                                                                                            |
 | Architecture         | Strict MVC                                                                                         |
 | Style                | Centralized QSS - `resources/styles_light.qss` + `resources/styles_dark.qss`                       |
-| Icons                | qtawesome (Font Awesome)                                                                           |
+| Icons                | Lucide (vendored SVGs in `resources/icons/` + `utils/icons.py`)                                    |
 | Internationalization | FR/EN - FR default - `PySide6.QtCore.QTranslator`                                                  |
 | Database             | SQLite (stdlib) / PostgreSQL (`psycopg`) / JSON / CSV (if selected in Phase 1) - see `rules/db.md` |
 | Salesforce CLI       | `sf` v2 wrapper (if selected in Phase 1) - see `rules/sf-cli.md` + `sf-cli-reference/INDEX.md`     |
@@ -110,7 +110,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 ## ABSOLUTE RULES
 
 - Zero hardcoded visual value in Python - everything in `styles_light.qss` / `styles_dark.qss` or `config.py`.
-- Documented exception: qtawesome icon colors in `config.py` (technical constraint).
+- Documented exception: Lucide icon colors in `config.py` (`ICON_COLORS`, consumed by `utils/icons.py` — technical constraint, icons are painted, not QSS-stylable).
 - Every styled widget has an `objectName` matching a QSS rule.
 - Dark mode: complete QSS sheet replacement, never a partial override.
 - Zero `QMessageBox` for business errors - toasts only.
@@ -158,6 +158,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/python-trace-feature` | `skills/python-trace-feature/` | Trace a feature across the MVC layers, report        |
 | `/python-fix-issue`     | `skills/python-fix-issue/`     | Fix a bug - decision tree, root cause                |
 | `/python-refactor-code` | `skills/python-refactor-code/` | Refactor under explicit validation only              |
+| `/python-migrate-design` | `skills/python-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
 | `/python-run-tests`     | `skills/python-run-tests/`     | Run executable verification (ruff, mypy, pytest)     |
 
 ### State / utilities
@@ -183,6 +184,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/python-add-feature` → `/python-run-tests`
   - Fix a bug — `/python-fix-issue` → `/python-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/python-refactor-code` → `/python-run-tests`
+  - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/python-migrate-design` → `/python-run-tests`
   - Understand / audit the code — `/python-trace-feature`
   - Refresh the README — `/python-generate-readme`
 - **Verify on demand** — `/python-run-tests` (venv · ruff · mypy · pytest if enabled · smoke launch).

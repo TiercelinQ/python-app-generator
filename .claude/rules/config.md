@@ -34,9 +34,14 @@ SF_CLI_TIMEOUT: int = 60                        # seconds per sf invocation
 # Splash (if enabled in Phase 3) — painted programmatically, not QSS-stylable (documented exception, like ICON_COLORS). See @rules/splash.md
 SPLASH_MIN_DURATION_MS: int = 1200             # minimum on-screen time before dismissal
 SPLASH_COLORS: dict = {
-    "light": {"bg": "#FFFFFF", "text": "#111827"},   # bg / text (light neutrals)
-    "dark":  {"bg": "#1C1C1C", "text": "#F5F5F5"},   # bg / text (dark neutrals)
+    "light": {"bg": "#FDFEFF", "text": "#0F181E"},   # bg / text (derived light neutrals)
+    "dark":  {"bg": "#181C20", "text": "#F2F5F7"},   # bg / text (derived dark neutrals)
 }
+
+# Animation — design-system.md §6 (the only animated visuals: drawer slide + SlidingUnderline)
+ANIM_DEFAULT_MS: int = 160                     # short functional animations (ease-out)
+ANIM_SLOW_MS: int = 240                        # drawer slide, signature underline (ease-out)
+ANIMATIONS_ENABLED: bool = True                # reduced motion: set False → animations snap (design-system §12)
 
 # Accent stops — derived from the palette accent (primary-600). Neutrals (bg/text/border)
 # live in the QSS sheets, not here. See @rules/config.md "Deriving the full palette".
@@ -48,25 +53,30 @@ PRIMARY_800: str = "#2F5879"   # primary button pressed
 PRIMARY_900: str = "#2A4F72"   # dark selection bg
 ON_PRIMARY:  str = "#FFFFFF"   # text on the Steel Blue accent + danger buttons (white, both themes)
 
-# qtawesome icon colors — per-theme (technical constraint: not styleable via QSS)
+# Lucide icon colors — per-theme, consumed by utils/icons.py (technical constraint: not styleable via QSS)
+# Values are the DERIVED tokens (accent-tinted neutrals + per-project semantics, design-system §2/§10)
+ICON_SM: int = 16
+ICON_MD: int = 20
+ICON_LG: int = 24
+ICON_STROKE: float = 1.75      # Lucide stroke width (design-system §10)
 ICON_COLORS: dict = {
     "light": {
-        "default":  "#6B7280",   # text-subtle
+        "default":  "#65717B",   # text-subtle
         "active":   PRIMARY_600,
-        "success":  "#16A34A",   # success-600
-        "warning":  "#D97706",   # warning-600
-        "danger":   "#DC2626",   # danger-600
-        "info":     "#2563EB",   # info-600
-        "muted":    "#9CA3AF",   # text-muted
+        "success":  "#328F6D",   # success-600
+        "warning":  "#A58327",   # warning-600
+        "danger":   "#BA3B52",   # danger-600
+        "info":     PRIMARY_600, # info = accent
+        "muted":    "#98A4AE",   # text-muted
     },
     "dark": {
-        "default":  "#939393",   # text-subtle dark
+        "default":  "#94A2AD",   # text-subtle dark
         "active":   PRIMARY_400,
-        "success":  "#4A9E6A",   # success-600 dark
-        "warning":  "#CCA840",   # warning-600 dark
-        "danger":   "#C04A4A",   # danger-600 dark
-        "info":     "#4682B4",   # info-600 dark
-        "muted":    "#6E6E6E",   # text-muted dark
+        "success":  "#6EC4A4",   # success-600 dark
+        "warning":  "#D2B460",   # warning-600 dark
+        "danger":   "#CB7282",   # danger-600 dark
+        "info":     PRIMARY_400, # info = accent dark
+        "muted":    "#5F6C77",   # text-muted dark
     }
 }
 ```
@@ -77,11 +87,11 @@ Any constant reused in more than one file goes into `config.py`.
 
 ## Deriving the full palette
 
-In Phase 1 the user picks a **named palette** or enters a **custom palette** = 5 **light** roles (fond principal → `bg`, fond secondaire → `bg-subtle`, accent → `primary-600`, texte → `text`, détails → `border`). Claude derives everything else — supporting light tokens, the 5 accent stops, the **whole dark theme**, and `onPrimary` — and writes literal hex into `styles_light.qss` / `styles_dark.qss` and `config.py`. Role→token mapping, neutral sRGB mixes, and dark lightness targets: `design-system.md §2`. After deriving, Claude runs the WCAG AA check (`§12` below) and reports any failure without blocking.
+In Phase 1 the user picks a **named palette** or enters a **custom palette**: the accent is mandatory (→ `primary-600`), the four other roles are optional overrides (fond principal → `bg`, fond secondaire → `bg-subtle`, texte → `text`, détails → `border`). Claude derives everything else — the 5 accent stops, `onPrimary`, the **accent-tinted neutrals** for both themes, and the **per-project semantic colors** (hue anchors harmonized ±6° toward the accent; info = accent) — and writes literal hex into `styles_light.qss` / `styles_dark.qss` and `config.py`. Role→token mapping, HSL tinting targets, override mix rules, and semantic anchors: `design-system.md §2`. Explicit overrides win over the tinted targets. After deriving, Claude runs the WCAG AA check (`design-system.md §12`, including each derived semantic pair) and reports any failure without blocking.
 
-> The neutral tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`) live **in the QSS sheets**, not in `config.py`; only the accent stops, `ICON_COLORS`, and — if the splash screen is on (Phase 3) — `SPLASH_COLORS` live in `config.py`. `SPLASH_COLORS` mirrors the `bg`/`text` neutrals per theme because a `QSplashScreen` is painted programmatically and cannot be styled via QSS (`@rules/splash.md`); keep it in sync with the sheets. The derivation populates both.
+> The neutral and semantic tokens (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `text*`, `border*`, `*-50/600/700/800`) live **in the QSS sheets**, not in `config.py`; only the accent stops, `ICON_COLORS` (+ `ICON_STROKE`/sizes and the `ANIM_*` constants), and — if the splash screen is on (Phase 3) — `SPLASH_COLORS` live in `config.py`. `SPLASH_COLORS` mirrors the `bg`/`text` neutrals per theme because a `QSplashScreen` is painted programmatically and cannot be styled via QSS (`@rules/splash.md`); keep it in sync with the sheets. The derivation populates both.
 >
-> The default palette (Steel Blue) and every named/custom palette share **one chromatic accent ramp** across both themes: the same `PRIMARY_*` values drive light and dark, only the usage flips (`primary-600` for the button fill and light foreground; `primary-400` for the dark foreground; `primary-50`/`900` for light/dark selection). Only the **surfaces** are achromatic in the default dark theme (neutral greys, written as literals in `styles_dark.qss` like the dark neutrals).
+> The default palette (Steel Blue) and every named/custom palette share **one chromatic accent ramp** across both themes: the same `PRIMARY_*` values drive light and dark, only the usage flips (`primary-600` for the button fill and light foreground; `primary-400` for the dark foreground; `primary-50`/`900` for light/dark selection). In v2.0 the surfaces are **accent-tinted** in both themes (HSL targets, `design-system.md §2`) — the achromatic-grey default is retired.
 
 ### Accent stops — HSL rule from `primary-600`
 
@@ -105,7 +115,7 @@ Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, conve
 | Steel Blue (def.) | #4682B4     | #EDF3F8    | #5A9FD4     | #396A93     | #2F5879     | #2A4F72     |
 | Teal              | #0D9488     | #F0FDFA    | #2DD4BF     | #0F766E     | #115E59     | #134E4A     |
 
-> Steel Blue (default) is a single chromatic ramp used in **both** themes (preset values win over the rule). Surfaces stay neutral grey in dark; the accent does not. Note the default `primary-600 #4682B4` matches the `info` dark colour (`#4682B4`) — a minor hue overlap (different usages: button fill vs info border/icon, rarely adjacent). For any accent (named palette or custom), Claude computes the 5 stops by the rule above (one hue, both themes) and announces them before writing.
+> Steel Blue (default) is a single chromatic ramp used in **both** themes (preset values win over the rule). In v2.0 `info` **is** the accent by definition (`info-600` = `primary-600` light / `primary-400` dark, `design-system.md §2`) — no overlap to manage. For any accent (named palette or custom), Claude computes the 5 stops by the rule above (one hue, both themes) and announces them before writing.
 
 ### `onPrimary` — text on the accent
 
@@ -113,7 +123,7 @@ Method: convert the `primary-600` hex to HSL, recompute the 5 lightnesses, conve
 
 ### Named palettes & custom input
 
-The 5 named palettes (each = 5 light roles) and the custom-palette flow live in `design-system.md §2` and are presented by `p1-scoping`. For any custom palette Claude computes **all** derived tokens (light supporting + full dark theme + accent stops + `onPrimary`) and announces the resolved values before writing them to the QSS sheets and `config.py`.
+The 6 named palettes (each defined by its **accent alone**, plus optional role overrides for Amber) and the custom-palette flow (1 mandatory accent hex + up to 4 optional overrides) live in `design-system.md §2` and are presented by `p1-scoping`. For any palette Claude computes **all** derived tokens (accent stops + `onPrimary` + accent-tinted neutrals for both themes + per-project semantics) and announces the resolved values before writing them to the QSS sheets and `config.py`.
 
 ---
 
@@ -137,10 +147,9 @@ Read/write via `utils/helpers.py` (pure functions, see `@rules/mvc.md`).
 
 ```
 PySide6>=6.8.0
-qtawesome>=1.4.0
 ```
 
-Loose versions (`>=`), pinned to the minimum version validated in Phase 1.
+Loose versions (`>=`), pinned to the minimum version validated in Phase 1. Icons need **no dependency**: Lucide SVGs are vendored into `resources/icons/` and rendered via `QtSvg`, which ships with PySide6 (`design-system.md §10`).
 
 ### Conditional dependencies
 

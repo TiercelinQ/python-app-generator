@@ -13,12 +13,12 @@ python-app-generator/
 ├── README.md                 # Présentation du repo GitHub (EN)
 ├── LICENSE
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (v1.6) — source de vérité unique
-    ├── layout.md             # Cadre layout d'accompagnement (v4.0) — catalogue de patterns + composition par défaut + 6 positions de toasts
+    ├── design-system.md      # Référence visuelle contraignante (v2.0) — source de vérité unique
+    ├── layout.md             # Cadre layout d'accompagnement (v4.1) — catalogue de patterns + composition par défaut + 6 positions de toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # Séparation MVC, livraison par lots, nettoyage anomalies
-    │   ├── qss.md            # Règles QSS, tokens light/dark, flat design
+    │   ├── qss.md            # Règles QSS, tokens light/dark, profondeur par le trait
     │   ├── errors.md         # Protocole erreurs, toasts, sys.excepthook
     │   ├── config.md         # config.py, requirements, packaging, dérivation couleurs HSL
     │   ├── security.md       # Validation entrées, SQL paramétré, secrets keyring, anti-injection
@@ -41,6 +41,7 @@ python-app-generator/
     │   ├── python-trace-feature/    # Tracer une fonctionnalité à travers les couches
     │   ├── python-fix-issue/        # Corriger un bug — arbre de décision, cause racine
     │   ├── python-refactor-code/    # Restructurer sous validation explicite uniquement
+    │   ├── python-migrate-design/   # Convertir une app v1.x vers le design system v2.0
     │   ├── python-run-tests/        # Vérification exécutable (ruff, mypy, pytest, smoke)
     │   ├── python-load-project/     # Chargement d'un projet existant
     │   ├── python-generate-readme/  # Génération README.md projet existant
@@ -63,7 +64,7 @@ python-app-generator/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/python-load-project`, `/python-show-contract`, `/python-add-feature`, `/python-refactor-code`. |
-| **Skills de maintenance**     | `python-trace-feature`, `python-fix-issue`, `python-refactor-code`, `python-run-tests` (+ `python-add-feature`) avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `python-trace-feature`, `python-fix-issue`, `python-refactor-code`, `python-migrate-design`, `python-run-tests` (+ `python-add-feature`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/python-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -102,7 +103,7 @@ Sans cette activation, `/python-save-memory` formule les notes mais ne les persi
 
 ### Phase 1 — Scoping
 
-8 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · icône `.ico` · packaging .exe (PyInstaller) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : 5 rôles (fond principal, fond secondaire, accent, texte, détails) pour le thème clair, le sombre et les tokens secondaires étant dérivés. Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant). Les couleurs sémantiques restent figées.
+8 questions en un seul bloc : objectif · base de données (SQLite / PostgreSQL / JSON / CSV / aucune) · préférences persistantes · i18n FR/EN · tests (pytest + pytest-qt) · icône `.ico` · packaging .exe (PyInstaller) · intégration Salesforce CLI (opt-in `sf` v2 ; défaut recommandé à Yes si l'objectif mentionne Salesforce). Puis choix de la **palette** : un accent obligatoire + jusqu'à 4 rôles optionnels (fond principal, fond secondaire, texte, détails) en override. Tout le reste est dérivé de l'accent : neutres teintés (les deux thèmes), stops d'accent, couleurs sémantiques harmonisées vers l'accent (info = accent). Palette « Steel Blue » par défaut + 5 palettes nommées (Teal, Forest, Slate, Amber, Ruby) + palette personnalisée ; contrôle de contraste WCAG AA (averti, non bloquant), y compris sur les paires sémantiques dérivées.
 
 Calibrage **provisoire** annoncé (figé après Phase 2) :
 
@@ -121,7 +122,7 @@ Fiche structurée + calibrage **confirmé** à partir du compte réel. Validatio
 
 Co-conception guidée. Questionnaire structurant (navigation horizontale ou verticale, organisation du contenu, formulaires et actions) appuyé sur le catalogue de patterns de `layout.md` §12 : topbar + onglets (défaut), sidebar verticale, barre de menus (`QMenuBar`), master-detail (`QSplitter`). Puis proposition sur mesure, composition librement amendable, et questions de détail (position des onglets, drawer/modale, 6 positions de toasts, splash screen). Validation bloquante. Écrit `docs/specs/03-surfaces.md`.
 
-> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (flat, palette, dark mode). Il affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
+> **Splash screen (opt-in)** : question Oui/Non (Oui recommandé). Si Oui, `QSplashScreen` affiché au démarrage jusqu'à ce que la fenêtre principale soit prête, suivant le design system (skin par le trait, palette, dark mode). Il affiche l'icône de l'app si définie (Phase 1) ; sinon, un chemin d'icône optionnel est demandé en Phase 3, à défaut le splash montre le nom de l'app. Couleurs du splash dans `config.py` (`SPLASH_COLORS`), 2e exception QSS documentée comme `ICON_COLORS`. Durée minimale configurable (`SPLASH_MIN_DURATION_MS`). Détail : `rules/splash.md`.
 
 ### Phase 4 — Architect
 
@@ -158,6 +159,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/python-trace-feature`     |
 | Corriger un bug                 | `/python-fix-issue`         |
 | Restructurer (sous validation)  | `/python-refactor-code`    |
+| Convertir une app v1.x vers le design system v2.0 | `/python-migrate-design` |
 | Vérifier le build / lancer les checks | `/python-run-tests`  |
 
 ---
@@ -202,6 +204,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | `/python-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/python-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/python-refactor-code`             | Sonnet | Restructurer sous validation                         |
+| `/python-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
 | `/python-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/python-load-project`       | Sonnet | Charger un projet existant                           |
 | `/python-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -238,9 +241,9 @@ requirements-dev.txt
 
 ## Points de vigilance
 
-- `.claude/design-system.md` (v1.6) et `.claude/layout.md` (v4.0) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
-- Les couleurs d'icônes qtawesome sont dans `config.py` (`ICON_COLORS`), pas dans QSS (contrainte technique).
+- `.claude/design-system.md` (v2.0) et `.claude/layout.md` (v4.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
+- Les couleurs d'icônes Lucide sont dans `config.py` (`ICON_COLORS`), consommées par `utils/icons.py`, pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
-- `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
+- `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-migrate-design`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
 - `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q7 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.

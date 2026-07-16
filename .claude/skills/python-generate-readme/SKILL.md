@@ -36,7 +36,7 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 - [Inferred from the present views/ and controllers/]
 
 ## Technical stack
-- OS: Windows · Framework: PySide6 · Python: 3.12+ · Icons: qtawesome
+- OS: Windows · Framework: PySide6 · Python: 3.12+ · Icons: Lucide (vendored SVGs, `utils/icons.py`)
 - DB: [inferred from config.py or models/]
 - i18n: [Yes/No — inferred from resources/i18n/ or config.py]
 - Salesforce CLI: [Yes/No — inferred from models/sf_cli.py + SF_CLI_PATH in config.py]
@@ -63,7 +63,7 @@ pip install -r requirements-dev.txt
 pytest
 
 ## Palette
-[Name or custom; 5 roles (main background, secondary background, accent, text, details) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — otherwise default "Steel Blue" palette]
+[Name or custom accent (+ any explicit overrides) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — neutrals and semantics derived from the accent (design-system v2.0); otherwise default "Steel Blue" palette]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).

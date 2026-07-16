@@ -12,7 +12,7 @@ Unified edition: the full generation pipeline **plus** post-delivery maintenance
 
 A structured prompt system that generates complete, production-ready PySide6 desktop applications through a 5-phase cycle, then maintains them:
 
-1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; 5 roles, dark + supporting tokens derived, WCAG AA check)
+1. **Scoping** - 8 questions (objective, DB, prefs, i18n, tests, icon, packaging, Salesforce CLI opt-in) + color palette (named or custom; accent + optional overrides, neutrals and semantics derived, WCAG AA check)
 2. **Featuring** - structured feature sheet, explicit out-of-scope, locked sizing
 3. **Surfaces** - topbar tabs, drawer/modal, toast position (6 positions), splash screen
 4. **Architect** - full file tree, QSS token table, source→test mapping - locked before any code is written
@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready PySide6 des
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict MVC architecture.
 
@@ -34,7 +34,7 @@ Every generated app enforces the same visual design system and strict MVC archit
 | Framework      | PySide6                                                       |
 | Architecture   | MVC strict                                                  |
 | Styling        | Centralized QSS - `styles_light.qss` + `styles_dark.qss`    |
-| Icons          | qtawesome (Font Awesome)                                    |
+| Icons          | Lucide (vendored SVGs + `utils/icons.py`)                   |
 | i18n           | PySide6.QtCore.QTranslator FR/EN (opt-in)                     |
 | Tests          | pytest + pytest-qt (opt-in)                                 |
 | Logging        | stdlib `logging` + RotatingFileHandler                      |
@@ -85,6 +85,7 @@ Then in Claude Code:
 | `/python-trace-feature`              | Trace a feature across the MVC layers              |
 | `/python-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/python-refactor-code`             | Refactor under explicit validation only            |
+| `/python-migrate-design`            | Convert a v1.x app to design system v2.0           |
 | `/python-run-tests`                 | Executable verification (ruff, mypy, pytest)       |
 | `/python-load-project`       | Load an existing project from its specs/README     |
 | `/python-generate-readme`      | Generate README.md for an existing project         |
@@ -137,12 +138,13 @@ requirements-dev.txt               # pytest, pytest-qt
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md` (v1.6):
+All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.0):
 
-- **Flat design** - zero border-radius, zero shadows, zero gradients
+- **Depth by stroke** - borders express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
-- **Segoe UI** typography (Windows native)
-- **Color palette** - 5 roles (main background, secondary background, accent, text, details) chosen for the light theme; dark theme and all supporting tokens derived. Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette; semantic colors stay fixed
+- **System font** typography (QApplication native face, no pinned family)
+- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
+- **Lucide icons** (vendored SVGs, stroke 1.75) and one signature gesture: the sliding underline on tabs (`QPropertyAnimation`)
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---
@@ -150,12 +152,13 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
-- `.claude/design-system.md` (v1.6) - visual token reference + changelog
-- `.claude/layout.md` (v4.0) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
+- `.claude/design-system.md` (v2.0) - visual token reference + changelog
+- `.claude/layout.md` (v4.1) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
-  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in)
+  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in)
   - `verification.md` - single source of truth for executable + static checks
+  - `readme.md` - README synchronization rule
 - `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)
 
 ---

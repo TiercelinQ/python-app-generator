@@ -36,9 +36,11 @@ DB : [value]
 Entities detected: [list]
 Tests : [present ([N] files) | absent]
 Salesforce CLI: [enabled (sf v2 runner) | disabled]
+Design system: [v2.0 | v1.x (legacy)]
 Specs: [docs/specs present: yes/no]
 
 Generator rules applied. Ready for: development · fixes · improvements · adjustments.
 
-5. Read and apply all rules (`CLAUDE.md`, `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/tests.md` (if tests present) · `@rules/sf-cli.md` (if the project has the Salesforce integration) · `@rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change.
-6. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).
+5. **Design system version check.** Read the design-system version the app's `README.md` references (every generated app records it); confirm with legacy markers if needed (`qtawesome` in `requirements.txt`/imports, `border-radius: 0` era sheets without `resources/icons/`). If the app is on **v1.x** and its README carries no "v2.0 conversion declined" note, propose **once**, right after the confirmation block: convert to v2.0 with `/python-migrate-design` (recommended). If the user declines, append `(v2.0 conversion declined on [date])` to the README's design-system reference line and do not re-propose — only on explicit request. **A v1.x app is maintained in its own v1.x conventions** (its QSS sheets, `config.py` colors, and existing code are the visual reference); never mix v2.0 visuals into it.
+6. Read and apply all rules (`CLAUDE.md`, `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/logging.md` · `@rules/tests.md` (if tests present) · `@rules/sf-cli.md` (if the project has the Salesforce integration) · `@rules/verification.md`, `design-system.md`, `layout.md`) to any later change. The `rules/*` are not auto-imported: read them before any code change. On a v1.x app (step 5), the app's own design system version wins over the framework's `design-system.md` for visual conventions.
+7. Any structural or security deviation detected between the code and the rules (or vs `docs/specs/04-architect.md`): report it, do not fix without a request (hand off to `/python-fix-issue` or `/python-refactor-code`).

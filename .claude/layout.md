@@ -1,4 +1,4 @@
-# Layout System — v4.0
+# Layout System — v4.1
 
 > Companion layout reference — not a constraint. This file provides: (1) a **proposed default
 > composition** and a **catalog of alternative composition patterns** (§12) that Claude co-designs
@@ -7,12 +7,13 @@
 > technical recommendations** (dimensions, behaviors) — never a composition restriction.
 > The retained composition is the one validated in `docs/specs/03-surfaces.md` and locked in
 > `docs/specs/04-architect.md`.
-> Built on `design-system.md v1.6`. The two files are inseparable.
+> Built on `design-system.md v2.0`. The two files are inseparable.
 
 ## Changelog
 
 | Version | Date       | Main change                                                                                                                        |
 | ------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| v4.1    | 2026-07-16 | design-system v2.0 alignment: `SlidingUnderline` tab indicator (signature gesture) · hover = border strengthening · Lucide icon names (qtawesome note inverted) · drawer slide 240ms `ease-out`, no toast animations (motion policy) · floating layers (drawer, modal) marked by `border-strong` · default hex refreshed (accent-tinted neutrals) |
 | v4.0    | 2026-07-14 | Composition pattern catalog (§12): vertical sidebar, menu bar, master-detail alternatives; Phase 3 becomes a guided co-design flow |
 | v3.0    | 2026-07-13 | Non-binding composition: mandatory skeleton becomes the proposed default; caps become defaults/recommendations                     |
 | v2.2    | 2026-06-14 | statusbar text `text-subtle` (WCAG) · dark toast tints · layering reference                                                        |
@@ -91,8 +92,8 @@ Default values — customizable in Phase 3.
 | Token              | Default                |
 | ------------------ | ---------------------- |
 | height             | `topbar-height` = 48px |
-| light mode bg      | `bg` = #FFFFFF         |
-| dark mode bg       | `bg` = #1C1C1C         |
+| light mode bg      | `bg` = #FDFEFF         |
+| dark mode bg       | `bg` = #181C20         |
 | bottom border      | 1px `border`           |
 | horizontal padding | `spacing-4` = 16px     |
 
@@ -120,16 +121,16 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 
 - Embedded in the topbar, alignment defined in Phase 3 (left-after-logo or centered).
 - 5 visible tabs recommended at most; beyond, a `···` dropdown menu keeps the topbar readable.
-- Active tab: `primary-600` text (light) / `primary-400` (dark), 2px `primary-600` / `primary-400` bottom border.
-- Inactive tab: `text-subtle` text, transparent background.
-- Hover: `bg-muted` background, `transition-default` transition.
+- Active tab: `primary-600` text (light) / `primary-400` (dark); the selected indicator is the **signature underline** — the `SlidingUnderline` widget (2px accent) sliding to the active tab in 240ms `ease-out` (`design-system.md §8`), never a QSS border-bottom.
+- Inactive tab: `text-subtle` text, transparent background, 1px transparent border.
+- Hover: border strengthening — transparent border → `border` (`design-system.md §8`, instant in QSS).
 - Font: `medium` `sm` (14px).
 - Tab height: `topbar-height` = 48px (full topbar height).
 - Horizontal padding per tab: `spacing-4` = 16px.
 
 ### Theme selector
 
-- Icon only (sun / moon), size `icon-lg` = 24px.
+- Icon only (Lucide `sun` / `moon` via `utils/icons.py`), size `icon-lg` = 24px.
 - Mandatory tooltip: "Passer en mode sombre" / "Passer en mode clair".
 - Instant toggle — persisted in user preferences.
 
@@ -139,8 +140,8 @@ Tab alignment (left-after-logo OR centered) is decided in Phase 3.
 
 | Token             | Default                          |
 | ----------------- | -------------------------------- |
-| light mode bg     | `bg` = #FFFFFF                   |
-| dark mode bg      | `bg` = #1C1C1C                   |
+| light mode bg     | `bg` = #FDFEFF                   |
+| dark mode bg      | `bg` = #181C20                   |
 | inner padding     | `spacing-6` = 24px               |
 | scroll            | vertical — `QScrollArea`         |
 | max content width | `content-xl` = 1024px (centered) |
@@ -165,14 +166,16 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 6 positions available. Default: `top-right`.
 
-| Position        | Anchor          | Enter animation       | Exit animation     |
-| --------------- | --------------- | --------------------- | ------------------ |
-| `top-right`     | top + right     | Slide from the right  | Fade + slide right |
-| `top-left`      | top + left      | Slide from the left   | Fade + slide left  |
-| `top-center`    | top + center    | Slide from the top    | Fade + slide up    |
-| `bottom-right`  | bottom + right  | Slide from the right  | Fade + slide right |
-| `bottom-left`   | bottom + left   | Slide from the left   | Fade + slide left  |
-| `bottom-center` | bottom + center | Slide from the bottom | Fade + slide down  |
+| Position        | Anchor          |
+| --------------- | --------------- |
+| `top-right`     | top + right     |
+| `top-left`      | top + left      |
+| `top-center`    | top + center    |
+| `bottom-right`  | bottom + right  |
+| `bottom-left`   | bottom + left   |
+| `bottom-center` | bottom + center |
+
+> Motion policy (`design-system.md §6`): **no entry/exit animation** — toasts appear and disappear instantly, and the stack reflows without animation. The only animated visuals are the drawer slide and the signature underline.
 
 ### Margins and stacking
 
@@ -185,7 +188,6 @@ Fully replaces the inline banner. No inline banner in the applications.
 | stacking                       | Vertical, queue, no overlap                |
 | stacking direction (top)       | new toast on top, older ones descend       |
 | stacking direction (bottom)    | new toast at bottom, older ones rise       |
-| transition duration            | `transition-slow` = 250ms                  |
 
 ### Implementation
 
@@ -220,14 +222,14 @@ Fully replaces the inline banner. No inline banner in the applications.
 | description font | `normal` `xs` (12px), `text-subtle`          |
 | icon             | `icon-md` = 20px                             |
 
-| Type      | Bg           | Border        | Icon                 |
-| --------- | ------------ | ------------- | -------------------- |
-| `success` | `success-50` | `success-600` | circle-check         |
-| `warning` | `warning-50` | `warning-600` | triangle-exclamation |
-| `danger`  | `danger-50`  | `danger-600`  | circle-xmark         |
-| `info`    | `info-50`    | `info-600`    | circle-info          |
+| Type      | Bg           | Border        | Icon (Lucide)  |
+| --------- | ------------ | ------------- | -------------- |
+| `success` | `success-50` | `success-600` | circle-check   |
+| `warning` | `warning-50` | `warning-600` | triangle-alert |
+| `danger`  | `danger-50`  | `danger-600`  | circle-x       |
+| `info`    | `info-50`    | `info-600`    | info           |
 
-> `*-50` is the toast surface role: pale tint in light, deep tint in dark (see `design-system.md §2`). Both keep AA contrast with `text` and the `*-600` accent. Toast icons use the matching `ICON_COLORS` entry (`config.py`), per mode. Icon names are Font Awesome 6 glyphs (`qta.icon("fa6s.circle-check", …)`, `design-system.md §10`), **not** Feather/Lucide names (`check-circle`/`alert-triangle`/`x-circle`/`info` do not exist in qtawesome).
+> `*-50` is the toast surface role: pale tint in light, deep tint in dark (see `design-system.md §2`). Both keep AA contrast with `text` and the `*-600` accent. Toast icons use the matching `ICON_COLORS` entry (`config.py`), per mode. Icon names are **Lucide names** rendered by `utils/icons.py` from the vendored SVGs (`design-system.md §10`) — the Font Awesome 6 glyphs of v1.x (`circle-check`/`triangle-exclamation`/`circle-xmark`/`circle-info` via qtawesome) are retired.
 > Layering: toasts sit above modals (`z-toast` = 400, see `design-system.md §13`) so a persistent `danger` toast is never hidden.
 
 ---
@@ -236,13 +238,13 @@ Fully replaces the inline banner. No inline banner in the applications.
 
 Optional component. Default values below.
 
-| Token         | Default                                         |
-| ------------- | ----------------------------------------------- |
-| width         | `drawer-width` = 320px                          |
-| animation     | slide from the right, `transition-slow` = 250ms |
-| light mode bg | `bg-elevated` = #FFFFFF                         |
-| dark mode bg  | `bg-elevated` = #353535                         |
-| left border   | 1px `border`                                    |
+| Token         | Default                                                          |
+| ------------- | ---------------------------------------------------------------- |
+| width         | `drawer-width` = 320px                                           |
+| animation     | slide from the right, `ANIM_SLOW_MS` = 240ms `ease-out` (`QPropertyAnimation`) |
+| light mode bg | `bg-elevated` = #FDFEFF                                          |
+| dark mode bg  | `bg-elevated` = #252C32                                          |
+| left border   | 1px `border-strong` (floating layer, `design-system.md §5`)      |
 | padding       | `spacing-6` = 24px                              |
 | overlay bg    | `text` 40% opacity                              |
 
@@ -260,14 +262,14 @@ Default values below.
 | Token              | Default                   |
 | ------------------ | ------------------------- |
 | height             | `statusbar-height` = 28px |
-| light mode bg      | `bg-muted` = #F3F4F6      |
-| dark mode bg       | `bg-muted` = #3F3F3F      |
+| light mode bg      | `bg-muted` = #EEF1F4      |
+| dark mode bg       | `bg-muted` = #293138      |
 | top border         | 1px `border`              |
 | horizontal padding | `spacing-4` = 16px        |
 | font               | `normal` `xs` (12px)      |
 | text color         | `text-subtle`             |
 
-> WCAG: `text-subtle` on `bg-muted` reaches ~4.4:1, marginal vs AA (4.5:1). Essential or error status must use `text` for full contrast. `text-muted` is reserved for disabled/decorative use (see `design-system.md §12`).
+> WCAG: `text-subtle` on `bg-muted` sits near the AA threshold (4.5:1) — the exact ratio depends on the derived palette, and the Phase 1 AA check reports it. Essential or error status must use `text` for full contrast. `text-muted` is reserved for disabled/decorative use (see `design-system.md §12`).
 
 ### Statusbar zones (left → right)
 
@@ -292,8 +294,8 @@ Default values below.
 - Row: dynamic height (vertical padding `spacing-2` = 8px), 1px `border-subtle` bottom border.
 - Columns: dynamic width (`resizeColumnsToContents`). Exception: actions column — fixed width per content.
 - Selected row: `primary-50` / `primary-900` (dark) bg.
-- Row hover: `bg-muted` bg.
-- Row alternation: disabled (flat design).
+- Row hover: `bg-subtle` bg — the wide-row secondary cue of `design-system.md §8` (per-row border strengthening is limited in `QTableView` QSS; the delegate may add it where available).
+- Row alternation: disabled (uniform surfaces — depth by stroke).
 - Pagination below the table recommended beyond ~50 rows.
 
 ### Input form
@@ -307,7 +309,7 @@ Default values below.
 ### Tree view (QTreeView)
 
 - Indentation per level: `spacing-4` = 16px.
-- Expand/collapse icon: chevron, `icon-sm` = 16px, `text-muted`.
+- Expand/collapse icon: Lucide `chevron-right` / `chevron-down` (via `utils/icons.py`), `icon-sm` = 16px, `text-muted`.
 - Item height: dynamic (vertical padding `spacing-1` = 4px).
 - Selected item: `primary-50` / `primary-900` (dark) bg.
 
@@ -316,7 +318,7 @@ Default values below.
 - Background: transparent (inherits the main content).
 - Palette: `chart-primary`, `chart-success`, `chart-warning`, `chart-danger`, `chart-info`.
 - Legend: `normal` `sm` (14px), `text-subtle`.
-- No shadow (flat design).
+- No shadow (`design-system.md §5` — depth by stroke).
 
 ### Modal (QDialog)
 
@@ -335,9 +337,9 @@ Default values below.
 | Token         | Default                        |
 | ------------- | ------------------------------ |
 | width         | dynamic per content, min 480px |
-| light mode bg | `bg` = #FFFFFF                 |
-| dark mode bg  | `bg` = #1C1C1C                 |
-| border        | 1px `border`                   |
+| light mode bg | `bg` = #FDFEFF                 |
+| dark mode bg  | `bg` = #181C20                 |
+| border        | 1px `border-strong` (floating layer, `design-system.md §5`) |
 | padding       | `spacing-6` = 24px             |
 | overlay bg    | `text` 40% opacity             |
 
@@ -363,8 +365,8 @@ Shown below a `QTableView` when it grows long — beyond ~50 rows by default.
 | spacing from table | `spacing-4` = 16px                                                                        |
 | page button        | dynamic per number, padding `spacing-2` horizontal                                        |
 | active button      | `primary-50` bg, `primary-600` text (light) / `primary-900` bg, `primary-400` text (dark) |
-| inactive button    | transparent, `text-subtle` text                                                           |
-| button hover       | `bg-muted` bg                                                                             |
+| inactive button    | transparent, `text-subtle` text, 1px transparent border                                   |
+| button hover       | border strengthening — transparent → `border` (`design-system.md §8`)                     |
 | ← → buttons        | `icon-sm` (16px) icons, disabled on first/last page                                       |
 | page label         | `normal` `xs` (12px), `text-muted`, centered below the buttons                            |
 | visible pages      | 5 numbers by default — `···` ellipsis beyond                                              |
@@ -405,7 +407,7 @@ Read/write via `utils/helpers.py` — `load_preferences()` / `save_preferences(d
 
 ## 11. DESIGN SYSTEM CROSS-REFERENCE
 
-This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v1.6`.
+This file does not redefine tokens — it consumes them. Every visual value is traced to `design-system.md v2.0`.
 
 | Need                       | Token                                        |
 | -------------------------- | -------------------------------------------- |
@@ -417,10 +419,11 @@ This file does not redefine tokens — it consumes them. Every visual value is t
 | Borders                    | `border` / `border-subtle` / `border-strong` |
 | Active / selection color   | `primary-600` (light) / `primary-400` (dark) |
 | Focus                      | `focus-ring` 2px offset 2px                  |
-| Panel transitions          | `transition-slow` = 250ms                    |
-| State transitions          | `transition-default` = 150ms                 |
-| Shape                      | `radius` = 0px (flat design)                 |
-| Shadows                    | none (flat design)                           |
+| Easing                     | `ease-out` (`QEasingCurve.OutCubic`)         |
+| Panel animations           | `ANIM_SLOW_MS` = 240ms (drawer, underline)   |
+| State changes              | instant — QSS cannot transition (`design-system.md §6`) |
+| Shape                      | `radius` = 5px (nested: 3px)                 |
+| Shadows                    | none — floating layers marked by `border-strong` |
 | Line-height                | `leading-tight` 1.25 / `leading-normal` 1.5  |
 | Overlay opacity            | `opacity-overlay` 40% (`text` color)         |
 | Stacking order             | layering scale (`design-system.md §13`)      |
@@ -445,7 +448,7 @@ Horizontal navigation embedded in the topbar — the composition proposed by def
 
 **When to recommend**: 2-5 top-level views of comparable weight, flat hierarchy, no sub-navigation.
 
-**Implementation notes**: `objectName` anchors `topbar`, `nav_tabs`, `main_content` + the `QStatusBar` (§3, §7). Views stacked in a `QStackedWidget` driven by the `QTabBar` current index. `setDrawBase(False)` on the tab bar and `app.setStyle("Fusion")` stay mandatory (`@rules/qss.md`).
+**Implementation notes**: `objectName` anchors `topbar`, `nav_tabs`, `main_content` + the `QStatusBar` (§3, §7). Views stacked in a `QStackedWidget` driven by the `QTabBar` current index. `setDrawBase(False)` on the tab bar and `app.setStyle("Fusion")` stay mandatory (`@rules/qss.md`). The selected indicator is the `SlidingUnderline` widget (`views/sliding_underline.py`, `design-system.md §8`) repositioned on tab change (animated) and on resize (snap).
 
 **Interactions**: toasts (§5), drawer (§6), statusbar (§7), and modals (§8) unchanged. Master-detail (P4) may be used inside a tab.
 
@@ -476,9 +479,9 @@ Left navigation column — for many sections, or sections carrying sub-items.
 | right border          | 1px `border`                                                         |
 | item                  | icon `icon-md` (20px) + label `medium` `sm` (14px)                   |
 | item vertical padding | `spacing-2` = 8px                                                    |
-| active item           | `primary-600` text (light) / `primary-400` (dark), `bg-muted` bg     |
-| inactive item         | `text-subtle` text, transparent background                           |
-| hover                 | `bg-muted` background, `transition-default`                          |
+| active item           | `primary-600` text + `primary-50` bg (light) / `primary-400` text + `primary-900` bg (dark) — `design-system.md §8` (vertical nav has no underline) |
+| inactive item         | `text-subtle` text, transparent background, 1px transparent border   |
+| hover                 | border strengthening — transparent → `border` (`design-system.md §8`) |
 | collapse toggle       | optional — state persisted like the drawer (§10)                     |
 | topbar (if kept)      | reduced to app name + global actions (theme), `topbar-height` = 48px |
 
@@ -514,9 +517,10 @@ A classic File/Edit/View command bar above the content — for command-driven, d
 | bottom border    | 1px `border`                                                     |
 | menu label       | `medium` `sm` (14px), `text`                                     |
 | label padding    | `spacing-2` vertical, `spacing-3` horizontal                     |
-| label hover/open | `bg-muted` background                                            |
-| open menu        | `bg-elevated` bg, 1px `border`, min-width 200px                  |
-| menu item        | `sm` (14px), padding `spacing-2` / `spacing-4`, hover `bg-muted` |
+| label hover      | border strengthening — transparent → `border` (`design-system.md §8`) |
+| label open       | `bg-muted` background (open-state feedback)                      |
+| open menu        | `bg-elevated` bg, 1px `border-strong` (floating layer), min-width 200px |
+| menu item        | `sm` (14px), padding `spacing-2` / `spacing-4`, hover border strengthening; nested radius 3px |
 | separator        | 1px `border-subtle`                                              |
 | disabled item    | `text-muted`, not enabled                                        |
 
@@ -555,7 +559,7 @@ List panel + detail panel — for one dominant entity browsed and inspected item
 | list item padding   | `spacing-2` vertical, `spacing-4` horizontal                             |
 | list item separator | 1px `border-subtle`                                                      |
 | selected item       | `primary-50` / `primary-900` (dark) bg — same role as the table row (§8) |
-| item hover          | `bg-muted` bg                                                            |
+| item hover          | border strengthening + `bg-subtle` secondary cue (wide rows, `design-system.md §8`) |
 | detail padding      | `spacing-6` = 24px                                                       |
 | empty state         | centered message, `text-subtle` `sm` (14px)                              |
 | list header actions | add / refresh — top of the list panel                                    |

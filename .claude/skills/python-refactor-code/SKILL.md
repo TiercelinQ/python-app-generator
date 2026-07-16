@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/qss.md` (not auto-imported).
+1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/qss.md` (not auto-imported). If the app is on design system v1.x (README reference — see `/python-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/python-migrate-design`, on request.
 
 2. **Diagnose** what is actually wrong: duplication, a view doing business logic, a god-controller, a model leaking UI concerns, a hardcoded value bypassing a QSS token, a SQL query outside `models/`, a `print()` instead of `logger`. Anchor each finding to `file:line`.
 

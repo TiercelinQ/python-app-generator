@@ -12,14 +12,14 @@ The splash follows the design system (flat, palette, dark mode) like the rest of
 
 ## Colors — documented exception in `config.py`
 
-`QSplashScreen` is painted programmatically (its pixmap is built in Python), so its background/text colors **cannot** be styled via QSS. Like `ICON_COLORS` (qtawesome), the splash colors live in `config.py` — the second documented exception to "all visual values in QSS". Derived from the palette neutrals (`bg`/`text`), per theme:
+`QSplashScreen` is painted programmatically (its pixmap is built in Python), so its background/text colors **cannot** be styled via QSS. Like `ICON_COLORS` (Lucide icon colors), the splash colors live in `config.py` — the second documented exception to "all visual values in QSS". Derived from the palette neutrals (`bg`/`text`, accent-tinted in v2.0), per theme:
 
 ```python
 # Splash (if enabled in Phase 3) — painted programmatically, not QSS-stylable (documented exception, like ICON_COLORS)
 SPLASH_MIN_DURATION_MS: int = 1200            # minimum on-screen time before dismissal
 SPLASH_COLORS: dict = {
-    "light": {"bg": "#FFFFFF", "text": "#111827"},   # bg / text (light neutrals)
-    "dark":  {"bg": "#1C1C1C", "text": "#F5F5F5"},   # bg / text (dark neutrals)
+    "light": {"bg": "#FDFEFF", "text": "#0F181E"},   # bg / text (derived light neutrals)
+    "dark":  {"bg": "#181C20", "text": "#F2F5F7"},   # bg / text (derived dark neutrals)
 }
 ```
 
@@ -75,7 +75,7 @@ def create_splash(theme: str) -> QSplashScreen:
     return QSplashScreen(pixmap)
 ```
 
-- Flat: `pixmap.fill` with the themed neutral, no shadow/gradient/rounded corner — consistent with `@rules/qss.md` flat design.
+- Stroke-based design: `pixmap.fill` with the themed neutral, no shadow, no gradient. The splash pixmap stays rectangular — a transient top-level surface, the 5px `radius` token does not apply to it (`@rules/qss.md`).
 - No `objectName` (a `QSplashScreen` pixmap is not a styled QSS widget).
 
 ## Orchestration — `main.py`
@@ -114,7 +114,7 @@ sys.exit(app.exec())
 - **Do not** add business logic to `views/splash_screen.py` — it builds a pixmap and returns the splash.
 - **Do not** block on the splash (no `app.exec()` loop, no modal) — it self-dismisses via `splash.finish(window)`.
 - **Do not** load a remote image — the icon is the local `resources/icon.ico`.
-- **Do not** add a shadow, gradient, or rounded corner to the splash — flat design is global (`@rules/qss.md`).
+- **Do not** add a shadow or gradient to the splash, and keep its pixmap rectangular — depth is stroke-based and the splash is a transient surface (`@rules/qss.md`).
 - **Do not** ship the splash when Phase 3 "Splash screen" = No (no file, no `SPLASH_*` constant).
 
 ## Integrity verification

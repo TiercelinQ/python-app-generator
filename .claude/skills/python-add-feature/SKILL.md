@@ -64,7 +64,7 @@ Produce (in the user's language):
 
 ## Step 3 — Application — strict rules
 
-- Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change.
+- Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change. **Legacy design system**: if the app is on v1.x (README reference — see `/python-load-project` step 5), new UI follows the app's own v1.x conventions (its QSS sheets and existing widgets), never the framework's v2.0 files; the upgrade path is `/python-migrate-design`, on request.
 - Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/verification.md`, `@rules/readme.md`. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag, and keep every `sf` call inside `models/sf_cli.py`.
 - No modification not listed in the validated diff.
 - No opportunistic improvement of adjacent code.
