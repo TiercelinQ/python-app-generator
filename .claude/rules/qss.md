@@ -87,7 +87,17 @@ QPushButton:disabled              { color: rgba(15, 24, 30, 0.4); }   /* opacity
 /* Focus: 2px border without layout shift — compensate padding by 1px on :focus */
 QLineEdit { border: 1px solid #E1E6EA; border-radius: 5px; color: #0F181E; padding: 8px 12px; }
 QLineEdit:focus { border: 2px solid #4682B4; padding: 7px 11px; }
-QComboBox { ... }
+/* combobox-popup: 0 is load-bearing under Fusion: applying ANY QSS to a QComboBox
+   flips its popup to the Fusion "menu" mode, which crops item height and shows
+   parasitic scroll arrows even for 2 items. `combobox-popup: 0` restores the plain
+   list popup (sized to content, scrolls past maxVisibleItems). Also style ::item
+   (colour + min-height) or the popup items render illegible under Fusion. */
+QComboBox { border: 1px solid #E1E6EA; border-radius: 5px; color: #0F181E; padding: 8px 12px;
+            combobox-popup: 0; }
+QComboBox:focus { border: 2px solid #4682B4; padding: 7px 11px; }
+QComboBox QAbstractItemView { background-color: #FDFEFF; color: #0F181E;
+                              border: 1px solid #E1E6EA; outline: 0; }
+QComboBox QAbstractItemView::item { color: #0F181E; padding: 6px 10px; min-height: 24px; }
 
 /* --- TABLES ------------------------------------------------ */
 /* token : bg-subtle / text-subtle / border-strong / border-subtle / border / primary-bg / primary */
