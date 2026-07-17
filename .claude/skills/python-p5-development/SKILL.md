@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - PEP 8 · type hints · docstrings · ruff + mypy clean.
@@ -62,6 +62,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 - **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
+- **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `config.py` `APP_VERSION`. Later releases are cut with `/python-release`.
 - **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
@@ -69,7 +70,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: python v1.0.0
+  Framework: python v1.1.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -77,7 +78,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   ## Deviations from the framework
   - None
   ```
-  `[nom-app]` = `APP_NAME`. The version is the one declared at the top of the framework `CLAUDE.md` (currently 1.0.0). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json

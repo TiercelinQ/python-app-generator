@@ -65,7 +65,7 @@ Produce (in the user's language):
 ## Step 3 — Application — strict rules
 
 - Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change. **Legacy design system**: if the app is on v1.x (README reference — see `/python-load-project` step 5), new UI follows the app's own v1.x conventions (its QSS sheets and existing widgets), never the framework's v2.0 files; the upgrade path is `/python-migrate-design`, on request.
-- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/verification.md`, `@rules/readme.md`. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag, and keep every `sf` call inside `models/sf_cli.py`.
+- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/versioning.md`, `@rules/verification.md`, `@rules/readme.md`. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag, and keep every `sf` call inside `models/sf_cli.py`.
 - No modification not listed in the validated diff.
 - No opportunistic improvement of adjacent code.
 - DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `models/migrations.py`.
@@ -80,6 +80,15 @@ Single batch for the feature:
 Feature [name] — [N files]
 
 Deliver each created/modified file as a complete block. If tests requested: deliver in the same batch, at the end.
+
+## Step 4b — Changelog entry
+
+After the feature is delivered, append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`) — **in English**, no version bump:
+- `### Added` — the new capability, one concise line (add a `### Changed` line too if it alters existing behavior).
+- If the change is backward-incompatible, mark it `**BREAKING:**` (drives a MAJOR at release).
+- If `docs/release/CHANGELOG.md` is absent (app predates the system), skip silently and suggest `/python-load-project` to initialize it.
+
+Do **not** bump the version — that happens at `/python-release`. Mention it once, at the end: the change is recorded under `[Unreleased]`; run `/python-release` when ready to cut a version.
 
 ## Step 5 — Anomaly
 

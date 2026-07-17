@@ -2,7 +2,7 @@
 
 > Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
 > Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.0.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -126,12 +126,13 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see `rules/config.md`
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see `rules/security.md`
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations. See `/python-p5-development`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/python-p5-development` and `rules/versioning.md`.
+- Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/python-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/python-save-memory`"
 - Never read and write the generator's own `.claude/settings.json` — only read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
   Per-domain rule detail (loaded on demand by the skills - not auto-imported):
   `rules/mvc.md` · `rules/qss.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` ·
-  `rules/tests.md` · `rules/logging.md` · `rules/i18n.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/verification.md` · `rules/readme.md`
+  `rules/tests.md` · `rules/logging.md` · `rules/i18n.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/versioning.md` · `rules/verification.md` · `rules/readme.md`
 
 ---
 
@@ -159,6 +160,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/python-fix-issue`     | `skills/python-fix-issue/`     | Fix a bug - decision tree, root cause                |
 | `/python-refactor-code` | `skills/python-refactor-code/` | Refactor under explicit validation only              |
 | `/python-migrate-design` | `skills/python-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
+| `/python-release`       | `skills/python-release/`       | Cut a SemVer release from the accumulated changelog  |
 | `/python-run-tests`     | `skills/python-run-tests/`     | Run executable verification (ruff, mypy, pytest)     |
 
 ### State / utilities
@@ -187,6 +189,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/python-migrate-design` → `/python-run-tests`
   - Understand / audit the code — `/python-trace-feature`
   - Refresh the README — `/python-generate-readme`
+  - Cut a release / prepare a GitHub deploy — `/python-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)
 - **Verify on demand** — `/python-run-tests` (venv · ruff · mypy · pytest if enabled · smoke launch).
 - **End of session** — `/python-save-session`; remember a lesson not to repeat — `/python-save-memory`.
 

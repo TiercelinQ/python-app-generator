@@ -44,6 +44,7 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/python-add-feature`
 - fix a bug → `/python-fix-issue`
 - restructure existing code → `/python-refactor-code`
+- cut a release / bump the version → `/python-release`
 - verify the build / run checks → `/python-run-tests`
 
 If `/python-app` is typed mid-project: show the menu only, without resetting the current state.

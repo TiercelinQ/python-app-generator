@@ -46,6 +46,7 @@ Rules:
 10. Signals/slots consistent (every connected signal has a slot, every slot is connected).
 11. Architectural contract (`docs/specs/04-architect.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
 12. Zero hardcoded visual value in Python; `README.md` generated and complete.
+13. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version equals `config.py` `APP_VERSION`. See `@rules/versioning.md`.
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`@rules/db.md`): `models/db.py` + `models/migrations.py` present and called in `main.py` before the MainWindow; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS.keys())`; no `connect` outside `db.py`; SQL 100% parameterized.
@@ -54,6 +55,7 @@ Rules:
 - **logging** (`@rules/logging.md`): `utils/logger.py` conforming; `setup_logging()` first line of `main.py`; no `print(` in source folders; non-re-raising `except` calls `logger.exception(...)`.
 - **splash** (`@rules/splash.md`): if enabled, `views/splash_screen.py` present (PySide6 only, no business logic); `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py`; `create_splash` called in `main.py` before `MainWindow`, dismissed via `splash.finish(window)` after the min duration; splash colors read from `config.SPLASH_COLORS` (no hardcoded value in the view); icon resolved to `resources/icon.ico` or text-only fallback.
 - **tests** (`@rules/tests.md`): each source module has its matching test file (Phase 4 mapping); `pytest` exit 0; `requirements-dev.txt` present.
+- **versioning** (`@rules/versioning.md`): `docs/release/CHANGELOG.md` present and English; top released version == `config.py` `APP_VERSION`; maintenance changes recorded under `[Unreleased]` in the right category; after `/python-release`, `[Unreleased]` reset empty and the cut block carries the right version + date.
 
 ---
 
