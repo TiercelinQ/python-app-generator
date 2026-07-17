@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready PySide6 des
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-release` (cut a SemVer release from the accumulated changelog), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system and strict MVC architecture.
 
@@ -86,6 +86,7 @@ Then in Claude Code:
 | `/python-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/python-refactor-code`             | Refactor under explicit validation only            |
 | `/python-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/python-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/python-run-tests`                 | Executable verification (ruff, mypy, pytest)       |
 | `/python-load-project`       | Load an existing project from its specs/README     |
 | `/python-generate-readme`      | Generate README.md for an existing project         |
@@ -107,6 +108,7 @@ my_app/
 ├── CLAUDE.md                      # Project identity (origin, business context, deviations)
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
+├── docs/release/CHANGELOG.md      # SemVer changelog (Keep a Changelog, English)
 ├── models/
 │   ├── exceptions.py              # Named business exceptions
 │   ├── db.py                      # Single DB access point (if DB ≠ none)
@@ -133,6 +135,12 @@ scripts/seed.py                    # Idempotent demo-data seed (run manually)
 tests/                             # Mirrors the source structure
 requirements-dev.txt               # pytest, pytest-qt
 ```
+
+---
+
+## Versioning & changelog
+
+Every generated app carries a SemVer version and a changelog at `docs/release/CHANGELOG.md` (Keep a Changelog format, written in English). Maintenance skills (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulate entries under `## [Unreleased]`; `/python-release` freezes them into a dated version block and bumps the version source (`config.py` `APP_VERSION`, single source, no mirror). The version is never bumped silently. See `rules/versioning.md`.
 
 ---
 

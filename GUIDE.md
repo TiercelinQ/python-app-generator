@@ -42,6 +42,7 @@ python-app-generator/
     │   ├── python-fix-issue/        # Corriger un bug — arbre de décision, cause racine
     │   ├── python-refactor-code/    # Restructurer sous validation explicite uniquement
     │   ├── python-migrate-design/   # Convertir une app v1.x vers le design system v2.0
+    │   ├── python-release/          # Figer une version SemVer depuis le changelog cumulé
     │   ├── python-run-tests/        # Vérification exécutable (ruff, mypy, pytest, smoke)
     │   ├── python-load-project/     # Chargement d'un projet existant
     │   ├── python-generate-readme/  # Génération README.md projet existant
@@ -64,7 +65,7 @@ python-app-generator/
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/python-load-project`, `/python-show-contract`, `/python-add-feature`, `/python-refactor-code`. |
-| **Skills de maintenance**     | `python-trace-feature`, `python-fix-issue`, `python-refactor-code`, `python-migrate-design`, `python-run-tests` (+ `python-add-feature`) avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `python-trace-feature`, `python-fix-issue`, `python-refactor-code`, `python-migrate-design`, `python-release`, `python-run-tests` (+ `python-add-feature`) avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/python-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -160,6 +161,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Corriger un bug                 | `/python-fix-issue`         |
 | Restructurer (sous validation)  | `/python-refactor-code`    |
 | Convertir une app v1.x vers le design system v2.0 | `/python-migrate-design` |
+| Figer une version SemVer (changelog cumulé) | `/python-release` |
 | Vérifier le build / lancer les checks | `/python-run-tests`  |
 
 ---
@@ -205,6 +207,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | `/python-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/python-refactor-code`             | Sonnet | Restructurer sous validation                         |
 | `/python-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/python-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé  |
 | `/python-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/python-load-project`       | Sonnet | Charger un projet existant                           |
 | `/python-generate-readme`      | Sonnet | Générer README.md d'un projet existant               |
@@ -226,6 +229,7 @@ mon-app/
 ├── CLAUDE.md                      # Identité projet (origine, contexte, écarts) — généré en fin de Phase 5
 ├── .claude/settings.json          # Garde-fous + hook de vérification (app auto-contrôlée)
 ├── docs/specs/                    # Specs de génération (langue utilisateur)
+├── docs/release/CHANGELOG.md      # Changelog SemVer (Keep a Changelog, anglais)
 ├── models/                        # exceptions.py, db.py + migrations.py (si DB), [entite]_model.py
 ├── views/                         # main_window.py, toast_manager.py, [entite]_view.py
 ├── controllers/                   # [entite]_controller.py
@@ -237,6 +241,10 @@ tests/                             # Miroir de la structure source
 requirements-dev.txt
 ```
 
+### Versioning & changelog
+
+Chaque app générée porte une version SemVer et un changelog `docs/release/CHANGELOG.md` (format Keep a Changelog, rédigé en anglais). Les skills de maintenance (`add-feature`, `fix-issue`, `refactor-code`, `migrate-design`) accumulent leurs entrées sous `## [Unreleased]` ; `/python-release` les fige en un bloc de version daté et incrémente la source de version (`config.py` `APP_VERSION`, source unique). La version n'est jamais incrémentée en silence. Voir `rules/versioning.md`.
+
 ---
 
 ## Points de vigilance
@@ -244,6 +252,6 @@ requirements-dev.txt
 - `.claude/design-system.md` (v2.0) et `.claude/layout.md` (v4.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
 - Les couleurs d'icônes Lucide sont dans `config.py` (`ICON_COLORS`), consommées par `utils/icons.py`, pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
-- `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-migrate-design`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
+- `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-migrate-design`, `/python-release`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
 - `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q7 = Oui.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.
