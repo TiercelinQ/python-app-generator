@@ -52,7 +52,7 @@ Write all files there via `Write`. Create the needed subfolders before writing t
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Each file delivered as a complete, self-contained block via `Write`.
 - Automatic chaining between batches without confirmation.
-- Batch split: tables in `@rules/mvc.md` (conditional on Phase 1 Q5 — tests or not, frozen in Phase 2).
+- Batch split: tables in `@rules/mvc.md` (conditional on the Phase 1 tests choice — tests or not, frozen in Phase 2).
 
 ## Verification
 
@@ -112,7 +112,7 @@ If a database was selected, deliver a standalone seed script `scripts/seed.py` t
 
 Announce `Batch [final]/[total] — scripts/seed.py` (before the tests batch if both apply). See `@rules/db.md`.
 
-## Test batch — only if Phase 1 Q5 = Yes
+## Test batch — only if Phase 1 tests = Yes
 
 Announce `Batch [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tests/` mirroring the source structure (`@rules/tests.md`: mocked-controller pattern, qtbot smoke views, no `time.sleep`/`assert True`/network/prod-DB) + `requirements-dev.txt`, then append the pytest instructions to the README.
 

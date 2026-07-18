@@ -98,4 +98,4 @@ End with:
 
 Once validated, write the sheet to `docs/specs/02-featuring.md` (in the user's language), including the application name, the MoSCoW table with the v1.0 column, and the **two distinct exclusion sections (Deferred — Could / Dropped — Won't)**.
 
-Chain to `/python-p3-surfaces` after validation.
+→ Chain to `/python-p3-surfaces` after validation.

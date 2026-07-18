@@ -12,6 +12,9 @@ preferences.json
 *.log
 logs/
 
+# Local work plan
+tasks/
+
 # Python
 __pycache__/
 *.py[cod]

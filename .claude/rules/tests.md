@@ -2,7 +2,7 @@
 
 ## Activation
 
-Conditional — enabled if Phase 1 choice (Q5) = `Yes`.
+Conditional — enabled if Phase 1 tests = `Yes`.
 
 If enabled:
 - `tests/` folder mandatory in the architectural contract (Phase 4).
@@ -166,7 +166,7 @@ pytest --tb=short                   # Short traceback
 - **Do not** redefine the `qapp` fixture — pytest-qt provides it.
 - **Do not** test a controller without mocking its model.
 - **Do not** go beyond smoke for views (instantiation + `objectName` + key widgets via `findChild`).
-- **Do not** create a test suite when Phase 1 Q5 = No (and `/python-run-tests` never scaffolds one unasked).
+- **Do not** create a test suite when Phase 1 tests = No (and `/python-run-tests` never scaffolds one unasked).
 
 ## Integrity verification
 

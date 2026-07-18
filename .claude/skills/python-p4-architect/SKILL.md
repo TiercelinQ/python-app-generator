@@ -39,7 +39,7 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
    **If the splash screen is on (Phase 3)**: add `views/splash_screen.py` to the tree, note the `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` constants in `config.py`, and the `main.py` orchestration (`create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). The icon source (Phase 1 icon reused, path provided in Phase 3, or text-only) is part of the contract. See @rules/splash.md.
 
-3. **Source → test mapping** (only if tests enabled in Phase 1 Q5): each source module → its `test_*.py` file (incl. `models/sf_cli.py` / `controllers/org_manager_controller.py` if the Salesforce integration is on). See `@rules/tests.md`.
+3. **Source → test mapping** (only if tests enabled in Phase 1): each source module → its `test_*.py` file (incl. `models/sf_cli.py` / `controllers/org_manager_controller.py` if the Salesforce integration is on). See `@rules/tests.md`.
 
 **→ Validation required. This contract is locked.**
 

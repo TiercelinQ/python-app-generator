@@ -52,7 +52,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 
 ## Batch delivery
 
-### Without tests (Phase 1 Q5 = No)
+### Without tests (Phase 1 tests = No)
 
 **Small project (3 batches):**
 
@@ -71,7 +71,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | 3     | `controllers/`                                                                   |
 | 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
 
-### With tests (Phase 1 Q5 = Yes)
+### With tests (Phase 1 tests = Yes)
 
 **Small project (4 batches):**
 

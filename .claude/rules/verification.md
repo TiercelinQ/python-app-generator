@@ -15,13 +15,13 @@ pip install -r requirements.txt                  # + requirements-dev.txt if tes
 ruff check .                                      # lint — clean
 ruff format --check .                             # format — clean
 mypy .                                            # type-check (strict) — clean
-pytest                                            # ONLY if tests enabled (Phase 1 Q5 = Yes) — exit code 0
+pytest                                            # ONLY if tests enabled in Phase 1 — exit code 0
 python main.py                                    # smoke launch (manual — confirm no startup crash)
 ```
 
 Rules:
 - A non-zero exit or any reported error is a failure → fix the root cause, do not silence the rule. Re-run until clean.
-- **`pytest`**: run only if `tests/` exists (Phase 1 Q5 = Yes). **Do not create a test suite if the project has none** — the default verification is ruff + mypy + smoke launch.
+- **`pytest`**: run only if `tests/` exists (Phase 1 tests = Yes). **Do not create a test suite if the project has none** — the default verification is ruff + mypy + smoke launch.
 - `ruff`/`mypy` available via `requirements-dev.txt`; if absent, install them or fall back to the static read-through and tell the user.
 - If Python/venv is **not** available in the environment, say so explicitly, fall back to the static checks below, and list the commands the user must run themselves. Never claim a clean type-check you could not run.
 - Quote the relevant command output as proof when reporting completion.

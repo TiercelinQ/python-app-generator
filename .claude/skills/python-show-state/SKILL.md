@@ -20,7 +20,7 @@ The status block (in the user's language).
 
 ---
 
-Show exactly this format (in the user's language):
+Show only (in the user's language):
 
 Phase: [name] | Batch: [X/total] | Next: [expected action]
 Locked decisions: [list]

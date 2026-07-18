@@ -63,6 +63,7 @@ Example for Phase 2 (renders as a heading + two lines, not a fenced block):
 - Progress map: completed phases marked `✓`, the current phase marked `▶`, upcoming phases plain. These are **intentional progress markers** (not decorative - the no-emoji rule does not strip them).
 - Render every phase label and intent in the user's language.
 - **Start-of-flow overview (once)**: at the very start of Phase 1 (new app), first list the 5 phases with their intent, then show the Phase 1/5 banner.
+- **Skill slug ↔ phase label**: the skill names carry the pipeline verb, the banner shows the user-facing label — `python-p2-featuring` → **Features**, `python-p4-architect` → **Architecture**. The other three match by name (`p1-scoping` → Scoping, `p3-surfaces` → Surfaces, `p5-development` → Development).
 
 ---
 
@@ -118,7 +119,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Zero `# TODO`, zero unjustified `pass`. PEP 8 · type hints · docstrings.
 - Python 3.12+ · PySide6 stable · zero PySide2 or PyQt API.
 - No library that was not validated in Phase 1.
-- If tests enabled in Phase 1 (Q5): `tests/` folder mandatory, pytest + pytest-qt, see `rules/tests.md`
+- If tests enabled in Phase 1: `tests/` folder mandatory, pytest + pytest-qt, see `rules/tests.md`
 - If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see `rules/i18n.md`
 - If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see `rules/db.md`
 - If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see `rules/sf-cli.md`
@@ -129,7 +130,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/python-p5-development` and `rules/versioning.md`.
 - Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/python-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/python-save-memory`"
-- Never read and write the generator's own `.claude/settings.json` — only read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
+- NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
   Per-domain rule detail (loaded on demand by the skills - not auto-imported):
   `rules/mvc.md` · `rules/qss.md` · `rules/errors.md` · `rules/config.md` · `rules/security.md` ·
   `rules/tests.md` · `rules/logging.md` · `rules/i18n.md` · `rules/db.md` · `rules/sf-cli.md` · `rules/splash.md` · `rules/versioning.md` · `rules/verification.md` · `rules/readme.md`

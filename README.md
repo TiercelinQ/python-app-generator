@@ -20,9 +20,9 @@ A structured prompt system that generates complete, production-ready PySide6 des
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/python-add-feature` (incremental work via a contract diff), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-release` (cut a SemVer release from the accumulated changelog), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/python-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-release` (cut a SemVer release from the accumulated changelog), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
-Every generated app enforces the same visual design system and strict MVC architecture.
+Every generated app enforces the same visual design system, strict MVC architecture, and non-negotiable security rules.
 
 ---
 
@@ -81,7 +81,7 @@ Then in Claude Code:
 | `/python-p3-surfaces`        | Surfaces - layout proposal + customization        |
 | `/python-p4-architect`       | Architect - locked architecture contract           |
 | `/python-p5-development` | Auto-chained batch delivery                        |
-| `/python-add-feature`          | Add a feature to a shipped project (diff first)    |
+| `/python-add-feature`          | Add a feature to a shipped project (contract diff first) |
 | `/python-trace-feature`              | Trace a feature across the MVC layers              |
 | `/python-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/python-refactor-code`             | Refactor under explicit validation only            |
@@ -157,6 +157,12 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 
 ---
 
+## Security
+
+`.claude/rules/security.md` is non-negotiable, applied to 100% of generated apps: every input validated in the models, 100% parameterized SQL, secrets only in the OS keyring (`keyring`, never plain text), user paths resolved and confined (no traversal), no `shell=True` / `eval` / `exec` on untrusted input. `/python-fix-issue` and `/python-add-feature` always route through it.
+
+---
+
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
@@ -164,7 +170,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - `.claude/layout.md` (v4.1) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
-  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in)
+  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `readme.md` · `versioning.md`
   - `verification.md` - single source of truth for executable + static checks
   - `readme.md` - README synchronization rule
 - `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)

@@ -38,7 +38,7 @@ A short report in the user's language stating what passed, with command output a
 
 ## Test creation policy
 
-- **Do not create a test suite if the project has none** (Phase 1 Q5 = No). The default verification is ruff + mypy + smoke launch.
+- **Do not create a test suite if the project has none** (Phase 1 tests = No). The default verification is ruff + mypy + smoke launch.
 - If the user **explicitly asks** to add tests: follow `@rules/tests.md` (pytest + pytest-qt, source-mirroring structure, mocked-controller pattern, qtbot smoke views). Confirm scope, then add `requirements-dev.txt` if missing.
 
 ## Anti-patterns — what NOT to do

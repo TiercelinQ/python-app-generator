@@ -11,6 +11,7 @@ python-app-generator/
 ├── CLAUDE.md                 # Instructions core (EN) · persona · communication FR · index commandes · calibrage
 ├── GUIDE.md                  # Ce fichier
 ├── README.md                 # Présentation du repo GitHub (EN)
+├── CHANGELOG.md              # Changelog du générateur (distinct de celui des apps générées)
 ├── LICENSE
 └── .claude/
     ├── design-system.md      # Référence visuelle contraignante (v2.0) — source de vérité unique
@@ -58,14 +59,14 @@ python-app-generator/
 
 ---
 
-## Nouveautés de la version unifiée
+## Spécificités de ce framework
 
 | Apport                        | Détail                                                                          |
 | ----------------------------- | ------------------------------------------------------------------------------- |
 | **Rôle par skill**            | Chaque skill ouvre sur un persona ciblé (Role / Goal / Deliverable).            |
 | **Specs persistées**          | Phases 1→4 écrivent `docs/specs/01-scoping.md` … `04-architect.md` (dans la langue de l'utilisateur). |
 | **Contrat = source de vérité**| `docs/specs/04-architect.md` relu par `/python-load-project`, `/python-show-contract`, `/python-add-feature`, `/python-refactor-code`. |
-| **Skills de maintenance**     | `python-trace-feature`, `python-fix-issue`, `python-refactor-code`, `python-migrate-design`, `python-release`, `python-run-tests` (+ `python-add-feature`) avec arbres de décision et anti-patterns. |
+| **Skills de maintenance**     | `python-trace-feature`, `python-add-feature`, `python-fix-issue`, `python-refactor-code`, `python-migrate-design`, `python-release`, `python-run-tests` avec arbres de décision et anti-patterns. |
 | **Vérification exécutable**   | `rules/verification.md` : ruff, mypy, pytest, smoke — échec bloquant.           |
 | **Mémoire native**            | `/python-save-memory` écrit dans la mémoire native Claude Code + `MEMORY.md`.            |
 
@@ -74,8 +75,7 @@ python-app-generator/
 ## Installation
 
 ```bash
-# Copier le dossier du framework dans le projet cible (ou démarrer dedans)
-# Claude Code détecte CLAUDE.md automatiquement.
+# Démarrer Claude Code depuis le dossier du framework (ou copier dans le projet cible).
 claude
 ```
 
@@ -142,6 +142,8 @@ Claude crée les dossiers et écrit les fichiers directement sur le disque. Anno
 /python-app → 2     # reprendre : fournir le chemin du fichier SESSION
 ```
 
+La reprise est gérée par `/python-app` (option 2, ou bloc SESSION collé directement dans le message — reprise sans menu) : lecture complète du fichier SESSION, réponse `Resuming [APP_NAME] — [phase suivante] | Batch [X/total] | Open points: …`, puis enchaînement immédiat sans re-poser les questions résolues.
+
 ---
 
 ## Travailler sur un projet livré
@@ -150,7 +152,7 @@ Claude crée les dossiers et écrit les fichiers directement sur le disque. Anno
 /python-app → 3       # ou directement /python-load-project depuis la racine du projet
 ```
 
-Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis applique toutes les règles. Projet sans README : `/python-generate-readme`.
+Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le code, puis confirme la prise en charge en un bloc au format unifié (`Project loaded: [nom] v[version]`, stack, entités, DB, tests, design system, specs, `Generator rules applied. Ready for: development · fixes · improvements · adjustments.`) et applique toutes les règles. Projet sans README : `/python-generate-readme`.
 
 ### Maintenance (`/python-app → 4`)
 
@@ -181,6 +183,12 @@ python main.py                         # smoke launch
 ```
 
 `/python-run-tests` exécute cette échelle ; `/python-fix-issue` y renvoie pour confirmer une correction.
+
+---
+
+## Sécurité
+
+`rules/security.md` est non négociable et appliqué à 100% : entrées validées dans les modèles ; SQL 100% paramétré ; secrets uniquement dans le trousseau OS (`keyring`, jamais en clair) ; chemins utilisateur résolus et confinés (pas de traversée) ; aucun `shell=True` / `eval` / `exec` sur une entrée non fiable. `/python-fix-issue` et `/python-add-feature` y renvoient.
 
 ---
 
