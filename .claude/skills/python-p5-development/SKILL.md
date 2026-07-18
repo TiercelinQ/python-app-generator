@@ -77,6 +77,12 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Deviations from the framework
   - None
+
+  ## Maintenance
+  - Load the project first: `/python-load-project`
+  - Change it: `/python-add-feature` · `/python-fix-issue` · `/python-refactor-code` (each records the change under `[Unreleased]` in `docs/release/CHANGELOG.md`; the version does not move)
+  - Verify: `/python-run-tests`
+  - Publish a version: `/python-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
   `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.1.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
@@ -132,6 +138,8 @@ Once the last batch (plus the seed/test batches if any) is delivered, close Phas
   python main.py
   ```
   (+ `python scripts/seed.py` if a DB was selected; `pytest` if tests enabled.)
+
+- **Maintenance & release** — after delivery: `/python-load-project` first, then `/python-add-feature` · `/python-fix-issue` · `/python-refactor-code` to change it, `/python-run-tests` to verify, and `/python-release` to publish a version (it turns the accumulated `[Unreleased]` changelog into a dated version and raises the number). The same reminder is recorded in the generated `CLAUDE.md`.
 
 The summary points to the documents; it does not restate them.
 
