@@ -81,7 +81,8 @@ Default values — customizable in Phase 3.
 | ---------------- | -------------------------- |
 | `min-width`      | 1024px                     |
 | `min-height`     | 768px                      |
-| state on launch  | restored (position + size) |
+| position on launch | centered on the primary screen; when the persisted-position preference is on and a position was saved, that saved position is restored instead (centering is the first-launch / preference-off fallback) |
+| size on launch   | default 1280×800; restored via the preference when enabled |
 | theme on launch  | follows the OS theme       |
 | OS default theme | light                      |
 
@@ -293,6 +294,7 @@ Default values below.
 - Header bottom border: 2px `border-strong`.
 - Row: dynamic height (vertical padding `spacing-2` = 8px), 1px `border-subtle` bottom border.
 - Columns: dynamic width (`resizeColumnsToContents`). Exception: actions column — fixed width per content.
+- Column sorting: enable `setSortingEnabled(True)` on the `QTableView`; clicking a column header sorts by it and a second click reverses the order (ascending, then descending). The active column shows the native `QHeaderView` sort indicator (painted under Fusion); one sort column at a time. A presentational column such as the actions column stays non-sortable.
 - Selected row: `primary-50` / `primary-900` (dark) bg.
 - Row hover: `bg-subtle` bg — the wide-row secondary cue of `design-system.md §8` (per-row border strengthening is limited in `QTableView` QSS; the delegate may add it where available).
 - Row alternation: disabled (uniform surfaces — depth by stroke).
@@ -478,6 +480,7 @@ Left navigation column — for many sections, or sections carrying sub-items.
 | bg                    | `bg-subtle`                                                          |
 | right border          | 1px `border`                                                         |
 | item                  | icon `icon-md` (20px) + label `medium` `sm` (14px)                   |
+| item label            | word-wraps within the 240px width (`QListWidget.setWordWrap(True)`, or a `QLabel(wordWrap=True)` / delegate for `QToolButton` items — QSS cannot wrap), never elided, so long labels stay fully visible |
 | item vertical padding | `spacing-2` = 8px                                                    |
 | active item           | `primary-600` text + `primary-50` bg (light) / `primary-400` text + `primary-900` bg (dark) — `design-system.md §8` (vertical nav has no underline) |
 | inactive item         | `text-subtle` text, transparent background, 1px transparent border   |
