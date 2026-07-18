@@ -2,7 +2,7 @@
 
 > Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
 > Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.1.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.2.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
