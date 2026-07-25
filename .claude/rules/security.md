@@ -1,4 +1,4 @@
-# Security rules — Python/PySide6
+# Security rules — Python/PySide6 — NON-NEGOTIABLE
 
 Applied to 100% of generated applications. Any deviation requires the contract declaration protocol (stop → declare → validate).
 

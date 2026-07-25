@@ -170,7 +170,7 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 - `.claude/layout.md` (v4.1) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
-  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `readme.md` · `versioning.md`
+  - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `versioning.md`
   - `verification.md` - single source of truth for executable + static checks
   - `readme.md` - README synchronization rule
 - `.claude/sf-cli-reference/` - `sf` v2 command/flag catalog (loaded by section when the Salesforce integration is on)

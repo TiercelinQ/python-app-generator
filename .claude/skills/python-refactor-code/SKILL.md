@@ -25,7 +25,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 
 ## Steps
 
-1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/qss.md` (not auto-imported). If the app is on design system v1.x (README reference — see `/python-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/python-migrate-design`, on request.
+1. **Load context**: `docs/specs/04-architect.md`, then `design-system.md`, `layout.md`, `@rules/mvc.md` · `@rules/qss.md` · `@rules/security.md` (not auto-imported). If the app is on design system v1.x (README reference — see `/python-load-project` step 5), refactor within the app's own v1.x conventions; the upgrade path is `/python-migrate-design`, on request.
 
 2. **Diagnose** what is actually wrong: duplication, a view doing business logic, a god-controller, a model leaking UI concerns, a hardcoded value bypassing a QSS token, a SQL query outside `models/`, a `print()` instead of `logger`. Anchor each finding to `file:line`.
 
@@ -33,9 +33,9 @@ A validated plan, then the refactored files on disk + a passing verification + a
    - **Factorize** when the blocks express the **same intent** (same operation, same data shape), are non-trivial (> ~5 meaningful lines of real logic), and a natural home exists (a `utils/helpers.py` pure function, a base class/mixin, a shared model method) **without** forcing a long bag of options or a `mode`/`kind` flag to fork behavior.
    - **Leave** when the blocks are coincidentally similar but conceptually independent, when factoring would break the MVC direction just to share a few lines, or when the shape will diverge soon. When in doubt, leave it.
 
-4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change**. Wait for validation.
+4. **Propose the plan** (in the user's language): the findings, the proposed change per finding (factorize/leave + where the helper lives), the files touched, and the explicit promise of **zero behavior change** and **zero security regression**. Wait for validation.
 
-5. **Apply** only after validation. Minimum diff. Respect the MVC layers, the contract, and the QSS rules.
+5. **Apply** only after validation. Minimum diff. Respect the MVC layers, the contract, the QSS rules, and `@rules/security.md`.
 
 6. **Verify**: `@rules/verification.md §A` — behavior unchanged, ruff/mypy clean, `pytest` still green if tests exist. If the structure changed (new shared file, moved code), update `docs/specs/04-architect.md` and regenerate the README (`@rules/readme.md`).
 
@@ -46,6 +46,7 @@ A validated plan, then the refactored files on disk + a passing verification + a
 - **Do not** factorize two blocks into a helper with a `mode`/`type` flag that forks inside — that is two functions sharing a body.
 - **Do not** create a shared abstraction "for the future" before a second real caller exists.
 - **Do not** change behavior under the cover of a refactor — if behavior must change, that is `/python-add-feature`, declared separately.
+- **Do not** weaken security while "cleaning up" (e.g. interpolating a value into a SQL string, dropping input validation, switching a `subprocess` call to `shell=True`).
 - **Do not** introduce an MVC violation while "simplifying" (e.g. a model importing a view, business logic moved into a widget).
 - **Do not** move a value out of `config.py`/`styles_*.qss` into a local constant — refactors keep the centralization.
 - **Do not** move an `sf` call out of `models/sf_cli.py` into a view/controller, or change a command/flag while refactoring — centralization is the injection guard (@rules/sf-cli.md; consult `sf-cli-reference/` by section to keep every command intact).
