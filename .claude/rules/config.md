@@ -268,7 +268,7 @@ pyinstaller --onefile --windowed --name [AppName] main.py ^
 Details:
 - Resource paths handled via `helpers.resource_path()` which resolves `sys._MEIPASS` in bundled mode.
 - `preferences.json` and `logs/` moved to `%APPDATA%/[AppName]/` in bundled mode.
-- `build.spec` is **committed** (cf. updated `.gitignore`).
+- `build.spec` is **committed** (a source file, not matched by the anchored `/build/` output pattern — see the `## .gitignore` section).
 - `.exe` signing: out of the generator's scope (done separately with `signtool`).
 
 ### Application icon
@@ -278,6 +278,52 @@ Details:
 - Executable: `--icon resources/icon.ico` in `build.spec` (if packaging, Phase 1 Q7).
 - If the user provides no icon in Phase 1 (Q6 = No): OS default icon, noted in the generated README.
 - **Splash icon (if the splash screen is on, Phase 3)**: the splash reuses this `resources/icon.ico`. If no icon was set in Phase 1 and the user provides a splash icon path in Phase 3, save it as `resources/icon.ico` — it then serves the window/taskbar and packaging too. No icon at all → text-only splash. See `@rules/splash.md`.
+
+## `.gitignore`
+
+Delivered at the project root in the last batch (`@rules/mvc.md` batch table · `/python-p5-development`). Single source of truth for what stays out of the repo. Comments in English (the authoring language). Socle common to every stack + the Python build additions on top:
+
+```gitignore
+# --- Python: bytecode, build, env ------------------------------------------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+/dist/
+/build/
+*.egg-info/
+.env
+
+# --- App runtime data (dev only; moves to %APPDATA%/[AppName]/ when packaged) -
+/data/
+/logs/
+/preferences.json
+
+# --- Claude Code -----------------------------------------------------------
+# Personal, never committed.
+.claude/settings.local.json
+.claude/agent-memory/
+# NOTE: .claude/settings.json IS a delivered asset — do NOT ignore it.
+
+# Local work plan — never committed.
+tasks/
+
+# Private specs. Only the published changelog is committed.
+docs/*
+!docs/release/
+docs/release/*
+!docs/release/CHANGELOG.md
+
+# OS noise.
+.DS_Store
+Thumbs.db
+desktop.ini
+```
+
+- **Build outputs are anchored** (`/dist/`, `/build/`) — the leading slash confines each pattern to the repo root, so a nested `build/` or `dist/` folder deeper in the tree is not swept by accident. `build.spec` (packaging) is a file, not the `build/` directory: the trailing-slash pattern leaves it tracked.
+- **App runtime data is anchored to the root** (`/data/`, `/logs/`, `/preferences.json`) — in dev the SQLite DB (`config.DB_PATH = "data/…"`), the rotating logs (`config.LOG_DIR = "logs"`), and `preferences.json` are written at the project root (`@rules/security.md §4`, `@rules/db.md`, `@rules/logging.md`); in `.exe` packaging mode they move to `%APPDATA%/[AppName]/` and are not produced at the root at all. Never commit user data (DB/prefs/logs may hold PII).
+- **Never ignored** (delivered assets): `docs/release/CHANGELOG.md` (the negated pattern above), `.claude/settings.json`, the generated root `CLAUDE.md`, `tests/`, and `scripts/` (`seed.py` / `build.ps1` / the i18n scripts must ship).
+- Verify the template with `git add -A` + `git status`, **not** only `git check-ignore` — the negation rules make `check-ignore` misleading.
 
 ## Integrity verification
 

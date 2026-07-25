@@ -47,6 +47,7 @@ Rules:
 11. Architectural contract (`docs/specs/04-architect.md`) respected — every file matches the locked contract, or a declared+validated deviation exists.
 12. Zero hardcoded visual value in Python; `README.md` generated and complete.
 13. `docs/release/CHANGELOG.md` present, Keep a Changelog-shaped (English), and its top released version equals `config.py` `APP_VERSION`. See `@rules/versioning.md`.
+14. `.gitignore` present at the project root and correct (`@rules/config.md` `## .gitignore`): ignores the Python build outputs (`__pycache__/`, `*.py[cod]`, `.venv/`, `venv/`, the anchored `/dist/` + `/build/`, `*.egg-info/`), `.env`, the anchored app runtime data (`/data/`, `/logs/`, `/preferences.json`), `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and `docs/specs/`; **never** ignores `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `tests/`, or `scripts/`. Verify with `git add -A` + `git status`, not only `git check-ignore` (the negation rules mislead it).
 
 ### Per-domain (conditional — see the matching rule for detail)
 - **DB** (`@rules/db.md`): `models/db.py` + `models/migrations.py` present and called in `main.py` before the MainWindow; `config.DB_SCHEMA_VERSION` == `max(MIGRATIONS.keys())`; no `connect` outside `db.py`; SQL 100% parameterized.

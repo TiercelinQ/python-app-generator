@@ -2,6 +2,10 @@
 
 > The generated app's `README.md` is a **derived** document — its source of truth is the code plus `docs/specs/04-architect.md`. After any post-delivery change, the README must keep reflecting what shipped. This is the single, shared definition of when and how to refresh it. Referenced by `/python-add-feature`, `/python-fix-issue`, `/python-refactor-code`.
 
+## Language — English
+
+**Language — English.** The generated `README.md` is always written in English, regardless of the user's interface language. It is the public-facing entry document (rendered on the repository page). Specs under `docs/specs/` stay in the user's language; the README does not.
+
 ## What the README documents
 
 objective · stack & dependencies · file tree · MVC modules (models/views/controllers) · DB schema · prerequisites (incl. the `sf` CLI + `SF_CLI_PATH` if the Salesforce integration is on) · conventions · build & run. Exact sections: `/python-generate-readme`.

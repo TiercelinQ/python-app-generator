@@ -4,6 +4,13 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.3.0] - 2026-07-25
+### Added
+- Generated apps now ship a `.gitignore` at the project root (delivered in the last batch): Python bytecode/build/env outputs (`__pycache__/`, `.venv/`, `/dist/`, `/build/`, `*.egg-info/`, `.env`), Claude Code personal files (`settings.local.json`, `agent-memory/`), `tasks/`, and the private `docs/specs/` — while keeping `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `tests/`, and `scripts/` tracked. New `## .gitignore` section in `rules/config.md`, a last-batch check in `rules/verification.md`, and a deliverable in `p5-development`.
+
+### Changed
+- The generated app `README.md` is now always written in English (public-facing document), regardless of the user's interface language; specs under `docs/specs/` stay in the user's language. New `Language — English` section in `rules/readme.md`, write-point note in `generate-readme`, corrected parenthesis in `rules/versioning.md`.
+
 ## [1.2.0] - 2026-07-18
 ### Added
 - Data table (QTableView) columns are sortable ascending and descending (`setSortingEnabled(True)` + native header indicator).

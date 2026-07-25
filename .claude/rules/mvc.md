@@ -60,7 +60,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | ----- | -------------------------------------------------------------------------------- |
 | 1     | `config.py` + `models/` (including `db.py` and `migrations.py` if DB)             |
 | 2     | `views/` + `controllers/`                                                         |
-| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + `.gitignore` + instructions |
 
 **Medium / Large project (4 batches):**
 
@@ -69,7 +69,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | 1     | `config.py` + `models/` (including `db.py` and `migrations.py` if DB)             |
 | 2     | `views/`                                                                          |
 | 3     | `controllers/`                                                                   |
-| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + `.gitignore` + instructions |
 
 ### With tests (Phase 1 tests = Yes)
 
@@ -79,7 +79,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | ----- | -------------------------------------------------------------------------------- |
 | 1     | `config.py` + `models/`                                                          |
 | 2     | `views/` + `controllers/`                                                         |
-| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 3     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + `.gitignore` + instructions |
 | 4     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
 
 **Medium / Large project (5 batches):**
@@ -89,7 +89,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 | 1     | `config.py` + `models/`                                                          |
 | 2     | `views/`                                                                          |
 | 3     | `controllers/`                                                                   |
-| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + instructions |
+| 4     | `main.py` + `utils/` + `resources/styles_*.qss` + `requirements.txt` + `pyproject.toml` + `.gitignore` + instructions |
 | 5     | `tests/` + `requirements-dev.txt` + pytest instructions                          |
 
 > **Salesforce CLI integration (if Phase 1 = Yes)** — no dedicated batch. `sf_cli.py` (runner + helpers) ships in **Batch 1** with `config.py` + `models/`; `org_manager_view.py` ships with the views batch; `org_manager_controller.py` ships with the controllers batch. It counts toward the size (`## CALIBRATION` in `CLAUDE.md`). See `@rules/sf-cli.md`.
