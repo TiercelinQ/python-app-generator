@@ -109,6 +109,7 @@ my_app/
 ├── .claude/settings.json          # Guardrails + verification hook (self-enforced app)
 ├── docs/specs/                    # Generation specs (user's language): 01-scoping … 04-architect
 ├── docs/release/CHANGELOG.md      # SemVer changelog (Keep a Changelog, English)
+├── docs/sessions/SESSION_<App>_S0.md  # Delivery baseline session (auto, end of Phase 5)
 ├── models/
 │   ├── exceptions.py              # Named business exceptions
 │   ├── db.py                      # Single DB access point (if DB ≠ none)

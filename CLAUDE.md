@@ -2,7 +2,7 @@
 
 > Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
 > Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.3.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -127,7 +127,7 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see `rules/config.md`
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see `rules/security.md`
-- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`). See `/python-p5-development` and `rules/versioning.md`.
+- At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`), and write the delivery baseline session `docs/sessions/SESSION_[app_name]_S0.md` (`/python-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). See `/python-p5-development` and `rules/versioning.md`.
 - Maintenance changes (`add-feature`/`fix-issue`/`refactor-code`/`migrate-design`) append an entry under `## [Unreleased]` in `docs/release/CHANGELOG.md`; the version is bumped only by `/python-release`. Never bump the version silently. See `rules/versioning.md`.
 - After resolving an anomaly, offer: "Do you want to remember this point? `/python-save-memory`"
 - NEVER read and write the generator's own `.claude/settings.json` — ONLY read and write in `settings.local.json`. (The `.claude/settings.json` written into a delivered project in Phase 5 is a legitimate deliverable; this rule concerns this framework's own file, not the generated one.)
