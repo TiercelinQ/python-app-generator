@@ -263,5 +263,5 @@ Chaque app générée porte une version SemVer et un changelog `docs/release/CHA
 - Les couleurs d'icônes Lucide sont dans `config.py` (`ICON_COLORS`), consommées par `utils/icons.py`, pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
 - `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-migrate-design`, `/python-release`, `/python-run-tests` s'invoquent depuis la racine du projet cible.
-- `build.spec` est versionné (non gitignoré) si packaging Phase 1 Q7 = Oui.
+- `build.spec` est versionné (non gitignoré) si packaging activé en Phase 1.
 - Toutes les commandes shell des skills sont compatibles Windows PowerShell.

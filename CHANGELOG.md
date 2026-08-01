@@ -4,6 +4,22 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.5.0] - 2026-08-01
+### Added
+- Single-instance lock: `QLockFile` acquired in `main.py` (after `setup_logging()`, before `run_migrations()`) when the app writes data; a second instance logs, prints a one-line message, and exits without touching any file (`rules/security.md §4`).
+- `pip-audit` mentioned in the last batch instructions (PyPA dependency-vulnerability check — parity with `npm audit` on the npm stacks, `rules/security.md §6`).
+- Phase 5 offers `/python-save-session` between batches when the session is running long or the context is heavily loaded (safety net before saturation; automatic chaining stays the default).
+- Phase 2 Step 1 constrains the application name: space-free candidates, a free-typed name is normalized into the technical identifier (`APP_NAME`); the display name (window title, README) may keep spaces and both are recorded when they differ.
+- `/python-release` now updates the README title line (`# [APP_NAME] — v[NEW]`) as a targeted edit of that single line; the version-bump trigger is documented in `rules/readme.md`.
+- The app-template `.claude/settings.json` deny anchoring is documented as deliberate in Phase 5 ("Deny anchoring" note — no deny may match `docs/release/CHANGELOG.md`).
+
+### Changed
+- Phase 5 loads `tests.md` / `i18n.md` / `db.md` only when the matching option is enabled (leaner context on projects without tests/i18n/DB).
+- The seed script `scripts/seed.py` ships inside the last code batch — no dedicated seed batch; the announced batch total now always matches the frozen calibration.
+- Downstream Phase 1 question numbers removed: conditions now read "if [option] enabled in Phase 1"; the numbers stay in `p1-scoping` only.
+- The debug env var name is normalized (`[^A-Z0-9]` → `_`) in `rules/logging.md`, so a hyphenated app name stays shell-usable.
+- The CALIBRATION closing paragraph is harmonized across the 5 generators ("the highest criterion wins"; "Salesforce and splash push the size up").
+
 ## [1.4.0] - 2026-07-26
 ### Added
 - Phase 5 now writes the delivery baseline session file `docs/sessions/SESSION_<App>_S0.md` automatically at the end of the last batch (`/python-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). Manual `/python-save-session` saves keep numbering from `S1`. The delivery summary links it.

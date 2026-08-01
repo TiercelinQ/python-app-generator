@@ -129,7 +129,7 @@ The 6 named palettes (each defined by its **accent alone**, plus optional role o
 
 ## Persisted preferences — default values
 
-Enabled if Phase 1 Q3 = Yes. Stored in `preferences.json` at the **project root** (gitignored). In `.exe` packaging mode, move to `%APPDATA%/[AppName]/preferences.json`.
+Enabled if Phase 1 preferences = Yes. Stored in `preferences.json` at the **project root** (gitignored). In `.exe` packaging mode, move to `%APPDATA%/[AppName]/preferences.json`.
 
 | Preference         | Default value     |
 | ------------------ | ----------------- |
@@ -161,7 +161,7 @@ Loose versions (`>=`), pinned to the minimum version validated in Phase 1. Icons
 | i18n = Yes                           | none (PySide6.QtCore.QTranslator native)  |
 | Salesforce CLI = Yes                 | none (`subprocess` + `shutil` stdlib — @rules/sf-cli.md) |
 | Secrets to store (validated Phase 1) | `keyring>=25.0` (@rules/security.md §3) |
-| Packaging = Yes (Q7)                 | `pyinstaller>=6.15.0` (requirements-dev.txt) |
+| Packaging = Yes                      | `pyinstaller>=6.15.0` (requirements-dev.txt) |
 
 > **Version maintenance**: these versions reflect the state validated at the time of writing and **age quickly** — treat every version number above as *indicative*, not authoritative. Before pinning, re-confirm each floor against PyPI (`pip index versions <pkg>`) and **verify the pinned floor is an actually released version** (a `>=X.0` floor for a not-yet-released major would make `pip install` fail). The loose-version rule and the structure stay; the numbers are refreshed per project in Phase 1.
 
@@ -255,9 +255,9 @@ Summary — detail in `@rules/errors.md`.
 
 ---
 
-## Windows packaging (.exe) — opt-in via Phase 1 Q7
+## Windows packaging (.exe) — opt-in in Phase 1
 
-If Q7 = Yes, a final mini-batch delivers `build.spec` + a `build.ps1` script. Tool: `pyinstaller>=6.15.0` (added to `requirements-dev.txt`).
+If packaging = Yes, a final mini-batch delivers `build.spec` + a `build.ps1` script. Tool: `pyinstaller>=6.15.0` (added to `requirements-dev.txt`).
 
 ```bash
 pyinstaller --onefile --windowed --name [AppName] main.py ^
@@ -275,8 +275,8 @@ Details:
 
 - File: `resources/icon.ico`, multi-resolution (16→256px, 256 mandatory).
 - Window (taskbar): `app.setWindowIcon(QIcon(helpers.resource_path("resources/icon.ico")))` in `main.py`.
-- Executable: `--icon resources/icon.ico` in `build.spec` (if packaging, Phase 1 Q7).
-- If the user provides no icon in Phase 1 (Q6 = No): OS default icon, noted in the generated README.
+- Executable: `--icon resources/icon.ico` in `build.spec` (if packaging, Phase 1).
+- If the user provides no icon in Phase 1: OS default icon, noted in the generated README.
 - **Splash icon (if the splash screen is on, Phase 3)**: the splash reuses this `resources/icon.ico`. If no icon was set in Phase 1 and the user provides a splash icon path in Phase 3, save it as `resources/icon.ico` — it then serves the window/taskbar and packaging too. No icon at all → text-only splash. See `@rules/splash.md`.
 
 ## `.gitignore`
@@ -327,4 +327,4 @@ desktop.ini
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `config.py`; the only colors there are the accent stops, `ICON_COLORS` and — if the splash is on — `SPLASH_COLORS` (the neutrals stay in the QSS sheets, and the derived values must match them); `requirements.txt` / `requirements-dev.txt` list only Phase 1-validated dependencies, with floors re-confirmed against PyPI as actually released versions; `pyproject.toml` delivered with the ruff / mypy / pytest configuration; `build.spec` + `scripts/build.ps1` delivered and `build.spec` committed only when packaging is enabled (Phase 1 Q7).
+Detailed in `@rules/verification.md`. Key points: every constant reused in more than one file lives in `config.py`; the only colors there are the accent stops, `ICON_COLORS` and — if the splash is on — `SPLASH_COLORS` (the neutrals stay in the QSS sheets, and the derived values must match them); `requirements.txt` / `requirements-dev.txt` list only Phase 1-validated dependencies, with floors re-confirmed against PyPI as actually released versions; `pyproject.toml` delivered with the ruff / mypy / pytest configuration; `build.spec` + `scripts/build.ps1` delivered and `build.spec` committed only when packaging is enabled (Phase 1).

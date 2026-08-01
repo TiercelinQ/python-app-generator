@@ -21,7 +21,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` · `@rules/logging.md` · `@rules/i18n.md` · `@rules/db.md` · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/logging.md` · `@rules/i18n.md` (if i18n enabled) · `@rules/db.md` (if DB ≠ none) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 - PEP 8 · type hints · docstrings · ruff + mypy clean.
@@ -52,6 +52,7 @@ Write all files there via `Write`. Create the needed subfolders before writing t
 - Announcement (in the user's language): `Batch N/[total] — [content]`
 - Each file delivered as a complete, self-contained block via `Write`.
 - Automatic chaining between batches without confirmation.
+- After each delivered batch, if the session is running long or the context is heavily loaded, offer `/python-save-session` before starting the next batch — the automatic chaining above stays the default.
 - Batch split: tables in `@rules/mvc.md` (conditional on the Phase 1 tests choice — tests or not, frozen in Phase 2).
 
 ## Verification
@@ -60,8 +61,8 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 ## Last batch — mandatory deliverables
 
-- **`main.py`** with the strict init order: `setup_logging()` → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → center the window on the primary screen (`frame = window.frameGeometry(); frame.moveCenter(window.screen().availableGeometry().center()); window.move(frame.topLeft())`; a saved position from the persisted-position preference, when enabled, takes precedence over centering) → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
-- **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled.
+- **`main.py`** with the strict init order: `setup_logging()` → single-instance lock via `QLockFile` (second instance → one-line message + exit before any write — `@rules/security.md §4`) → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → center the window on the primary screen (`frame = window.frameGeometry(); frame.moveCenter(window.screen().availableGeometry().center()); window.move(frame.topLeft())`; a saved position from the persisted-position preference, when enabled, takes precedence over centering) → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
+- **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled; `pip-audit` mentioned as the dependency-vulnerability check (`@rules/security.md §6`).
 - **`.gitignore`** written at the project root — template in `@rules/config.md` (`## .gitignore`). Keeps the Python build outputs (`__pycache__/`, `*.py[cod]`, `.venv/`, the anchored `/dist/` + `/build/`, `*.egg-info/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and the private `docs/specs/` out of the repo, while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `tests/`, or `scripts/`.
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `config.py` `APP_VERSION`. Later releases are cut with `/python-release`.
 - **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
@@ -71,7 +72,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   # [nom-app]
 
   ## Origin
-  Framework: python v1.4.0
+  Framework: python v1.5.0
 
   ## Business context
   [What the app does — synthesized from docs/specs/02-featuring.md: objective + key features]
@@ -85,7 +86,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Verify: `/python-run-tests`
   - Publish a version: `/python-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
-  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.4.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 
   ```json
@@ -100,6 +101,8 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   }
   ```
   The `Stop` hook runs the fast static check at the end of each turn; it assumes `ruff` is installed (`requirements-dev.txt`). Note in the README that the user can tune or remove it. **If the Salesforce CLI integration is on**, add `"Bash(sf:*)"` to the `allow` list (so maintenance sessions can verify flags with `sf <cmd> --help`).
+
+  **Deny anchoring (deliberate):** no deny pattern may ever match `docs/release/CHANGELOG.md` (written at delivery and by the maintenance/release skills). A build-output deny whose folder name could collide with it (e.g. `release/`) is **anchored to the project root** — `Write(release/**)`, never the unanchored `Write(**/release/**)`. Keep this anchoring when adding deny patterns.
 - **`docs/sessions/SESSION_[app_name]_S0.md`** written at the project root (create `docs/sessions/`) — the **delivery baseline** session, produced automatically here, no user action. Apply the `/python-save-session` template as-is (that skill stays the single source of the format) with `[N]` **forced to `0`**: `Completed phase: 5 — Development`, `Next phase: — (delivered — maintenance via /python-load-project)`, every delivered batch checked, locked decisions and open points filled. **Overwrite** it if it already exists (Phase 5 replayed). `S0` is reserved for this baseline; manual `/python-save-session` saves keep numbering from `1`.
 
 ## Icons — always
@@ -110,7 +113,7 @@ No dedicated batch. Per `design-system.md §10`: vendor the Lucide SVGs actually
 
 No dedicated batch. Deliver, per `@rules/splash.md`: `SPLASH_MIN_DURATION_MS` + `SPLASH_COLORS` in `config.py` (**Batch 1**), `views/splash_screen.py` (views batch), and the `main.py` orchestration (last batch — `create_splash` before `MainWindow`, `splash.finish(window)` after the min duration). Splash colors are a documented `config.py` exception (like `ICON_COLORS`), painted programmatically. If a splash icon path was provided in Phase 3, save it as `resources/icon.ico`. It counts toward the size, not a separate batch.
 
-## Seed batch — only if DB ≠ none (Phase 1 Q2)
+## Seed script — only if DB ≠ none (Phase 1)
 
 If a database was selected, deliver a standalone seed script `scripts/seed.py` that inserts a coherent demo dataset:
 - Uses `models/db.py` (`get_connection()`) and the business models — never raw SQL outside `models/`.
@@ -118,7 +121,7 @@ If a database was selected, deliver a standalone seed script `scripts/seed.py` t
 - Idempotent: insert only if the target tables are empty (count check first); re-running must not duplicate rows.
 - Run instruction added to the README: `python scripts/seed.py`. Never called from `main.py`.
 
-Announce `Batch [final]/[total] — scripts/seed.py` (before the tests batch if both apply). See `@rules/db.md`.
+**No dedicated batch**: `scripts/seed.py` ships inside the **last code batch** (the one already carrying `main.py` + `utils/` + root configs — `@rules/mvc.md` batch tables), before the tests batch when both apply. The announced batch total stays the calibration count (`## CALIBRATION` in `CLAUDE.md`). See `@rules/db.md`.
 
 ## Test batch — only if Phase 1 tests = Yes
 
@@ -126,7 +129,7 @@ Announce `Batch [final]/[total] — tests/ + requirements-dev.txt`. Deliver `tes
 
 ## Final delivery summary
 
-Once the last batch (plus the seed/test batches if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
+Once the last batch (plus the tests batch if any) is delivered, close Phase 5 with a **delivery summary** in the user's language. **Make every file and the project folder a clickable Markdown link** `[label](path)`, each path pointing to the real on-disk location under the project root (relative to the project root, or absolute if the project root lies outside the current workspace). **Valid link syntax (mandatory)**: a Markdown link destination cannot contain spaces unless wrapped in angle brackets. When the path contains spaces (typical of absolute Windows paths), wrap the destination in `<…>` and use forward slashes, e.g. `[README.md](<D:/Documents/00 Mes Documents/.../my-app/README.md>)`. Without spaces, a plain relative path is fine. List:
 
 - **Project folder** — the project root (clickable).
 - **README.md** — how to run, stack, tree, conventions (clickable).

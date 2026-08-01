@@ -62,7 +62,10 @@ def setup_logging() -> None:
 
 def _debug_enabled() -> bool:
     import os
-    return os.environ.get(f"{config.APP_NAME.upper()}_DEBUG") == "1"
+    import re
+    # e.g. app "My-App" → env var MY_APP_DEBUG. Non-alphanumerics normalized so the name is shell-usable.
+    key = re.sub(r"[^A-Z0-9]", "_", config.APP_NAME.upper()) + "_DEBUG"
+    return os.environ.get(key) == "1"
 ```
 
 ---

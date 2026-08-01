@@ -23,6 +23,7 @@ Applied to 100% of generated applications. Any deviation requires the contract d
 
 - Paths received from the user (file dialogs, drag-drop, import) are resolved (`Path(...).resolve()`) and checked to stay under an allowed directory before read/write — zero path traversal.
 - Application data (DB, `preferences.json`, logs) lives in the project root in dev and `%APPDATA%/[AppName]/` when packaged — never in arbitrary user locations.
+- **Single-instance lock** when the app writes data (SQLite/JSON, `preferences.json`): acquire a `QLockFile` (QtCore, cross-platform, works before the `QApplication` exists) in `main.py` right after `setup_logging()` and **before** `run_migrations()`. If the lock is already held (second instance), log it, write a one-line message to stderr, and exit without touching any file — the second instance simply does not start (the Python counterpart of Electron's `requestSingleInstanceLock()`). Concurrent instances otherwise corrupt `preferences.json` (last write wins / truncated file) and trigger unexpected `SQLITE_BUSY`.
 
 ## 5. Process / code execution
 
@@ -35,6 +36,7 @@ Applied to 100% of generated applications. Any deviation requires the contract d
 
 - Only libraries validated in Phase 1. Pin minimum versions (`@rules/config.md`).
 - No remote code download at runtime; everything ships via `requirements.txt`.
+- `pip-audit` (the PyPA dependency-vulnerability check) mentioned in the last batch instructions — installable via `requirements-dev.txt` or `pipx`; same role as `npm audit` on the npm stacks.
 
 ## Anti-patterns — what NOT to do
 

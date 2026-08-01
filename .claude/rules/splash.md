@@ -6,7 +6,7 @@ The splash follows the design system (flat, palette, dark mode) like the rest of
 
 ## Icon source
 
-- The splash reuses the **application icon** captured in Phase 1 (Q6, `resources/icon.ico`).
+- The splash reuses the **application icon** captured in Phase 1 (`resources/icon.ico`).
 - If no icon was defined in Phase 1 and the splash is enabled, Phase 3 offers an **optional icon path** (free-form). A provided image is saved as `resources/icon.ico` and becomes the app icon everywhere (window/taskbar via `app.setWindowIcon`, packaging via `build.spec`) — not a splash-only asset.
 - No icon at all → the splash shows the application name only. Never a placeholder image.
 

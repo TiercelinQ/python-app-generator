@@ -2,7 +2,7 @@
 
 > Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
 > Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.4.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.5.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -120,11 +120,11 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 - Python 3.12+ · PySide6 stable · zero PySide2 or PyQt API.
 - No library that was not validated in Phase 1.
 - If tests enabled in Phase 1: `tests/` folder mandatory, pytest + pytest-qt, see `rules/tests.md`
-- If i18n enabled in Phase 1 (Q4): `resources/i18n/` folder mandatory, see `rules/i18n.md`
-- If DB ≠ none in Phase 1 (Q2): `models/db.py` + `models/migrations.py` mandatory, see `rules/db.md`
+- If i18n enabled in Phase 1: `resources/i18n/` folder mandatory, see `rules/i18n.md`
+- If DB ≠ none in Phase 1: `models/db.py` + `models/migrations.py` mandatory, see `rules/db.md`
 - If Salesforce CLI enabled in Phase 1: all `sf` calls go through `models/sf_cli.py` via `subprocess.run([...], shell=False)` (args list, never `shell=True`) - see `rules/sf-cli.md`
 - If a splash screen is enabled in Phase 3: a `QSplashScreen` shown at launch until the main window is ready, following the design system, showing the app icon if one is defined - see `rules/splash.md`. Splash colors live in `config.py` (`SPLASH_COLORS`) - a second documented QSS exception, like `ICON_COLORS` (QSplashScreen is painted programmatically, not QSS-stylable).
-- If packaging enabled in Phase 1 (Q7): `build.spec` + `scripts/build.ps1` delivered, see `rules/config.md`
+- If packaging enabled in Phase 1: `build.spec` + `scripts/build.ps1` delivered, see `rules/config.md`
 - `utils/logger.py` and `sys.excepthook` mandatory in every app - see `rules/logging.md` and `rules/errors.md`
 - Security mandatory in every app: validated inputs, 100% parameterized SQL, secrets via OS keyring (never hardcoded), no shell injection / `eval`/`exec` - see `rules/security.md`
 - At project finalization (last batch of Phase 5): generate a `CLAUDE.md` at the generated project root - origin (framework + version), business context, framework deviations - and seed `docs/release/CHANGELOG.md` (Keep a Changelog, English, initial `1.0.0`), and write the delivery baseline session `docs/sessions/SESSION_[app_name]_S0.md` (`/python-save-session` template, `N = 0`, overwritten if Phase 5 is replayed). See `/python-p5-development` and `rules/versioning.md`.
@@ -205,4 +205,4 @@ Canonical source of the calibration. Skills refer to it - do not duplicate this 
 | Small          | < 10  | ≤ 5      | 3                  | 4                    |
 | Medium / Large | ≥ 10  | > 5      | 4                  | 5                    |
 
-The extra batch corresponds to `tests/` + `requirements-dev.txt` (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest wins → Medium/Large.
+The extra batch corresponds to `tests/` + `requirements-dev.txt` (see `rules/tests.md`). Divergent criteria (e.g. < 10 files but > 5 features): the highest criterion wins → Medium/Large. The Salesforce CLI integration and the splash screen add files and push the size up (no dedicated batch).

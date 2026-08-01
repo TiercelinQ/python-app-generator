@@ -1,6 +1,6 @@
 # Database rules
 
-## Stack per Phase 1 Q2 choice
+## Stack per Phase 1 DB choice
 
 | DB choice   | Library                  | Reference model file        |
 | ----------- | ------------------------ | --------------------------- |
@@ -153,7 +153,7 @@ run_migrations()   # avant création de la MainWindow
 
 ## Seed data (if DB ≠ none)
 
-Delivered in the last phase of generation as a standalone script `scripts/seed.py`:
+Delivered **inside the last code batch** of generation (the batch already carrying `main.py` + `utils/` + root configs — no dedicated seed batch, the announced batch total stays the calibration count) as a standalone script `scripts/seed.py`:
 - Single responsibility: populate the DB with a coherent demo dataset via the business models (`models/`), never raw SQL outside `models/db.py`.
 - Idempotent: check the target tables are empty before inserting; re-running must not duplicate rows.
 - FK integrity: insert parents before children, reuse the returned ids.
