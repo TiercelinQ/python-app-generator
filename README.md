@@ -2,7 +2,7 @@
 
 > Claude Code generator for **Windows desktop apps** - Python · PySide6 · QSS · MVC.
 
-Part of a family of Claude Code generators. See also [dotnet-wpf-app-generator](https://github.com/TiercelinQ/dotnet-wpf-app-generator), [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator), [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator), [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator), and [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator).
+Part of a family of Claude Code generators. See also [dotnet-wpf-app-generator](https://github.com/TiercelinQ/dotnet-wpf-app-generator), [electron-app-generator](https://github.com/TiercelinQ/electron-app-generator), [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator), [local-webapp-generator](https://github.com/TiercelinQ/local-webapp-generator), [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator), [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator), and [yarn-generator](https://github.com/TiercelinQ/yarn-generator).
 
 Unified edition: the full generation pipeline **plus** post-delivery maintenance skills, an explicit role per skill, persisted specs, centralized executable verification, and native memory.
 
@@ -188,6 +188,8 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 | [flutter-app-generator](https://github.com/TiercelinQ/flutter-app-generator) | Flutter · Dart · Riverpod | Android |
 | [sf-node-generator](https://github.com/TiercelinQ/sf-node-generator) | Node.js · TypeScript · Salesforce CLI | Headless CLI |
 | [vscode-ext-generator](https://github.com/TiercelinQ/vscode-ext-generator) | TypeScript · esbuild · native theming | VS Code extension |
+| [local-webapp-generator](https://github.com/TiercelinQ/local-webapp-generator) | Node.js · Express · TS | Local web app |
+| [yarn-generator](https://github.com/TiercelinQ/yarn-generator) | Node.js · TypeScript · Yarn Berry (optional Salesforce CLI) | CLI · library · service · extension · application |
 
 ---
 
