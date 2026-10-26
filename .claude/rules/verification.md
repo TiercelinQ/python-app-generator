@@ -37,7 +37,7 @@ Rules:
 3. MVC responsibilities respected (zero business logic in view/controller, zero UI in model). See `@rules/mvc.md` anti-patterns.
 4. Zero `# TODO`, zero unjustified `pass`, zero unjustified `any`/untyped public API.
 5. Python 3.12+ · PySide6 stable · zero PySide2 or PyQt API.
-6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in Python, every styled widget has an `objectName`. See `@rules/qss.md` anti-patterns.
+6. `design-system.md` compliance + the composition validated in `docs/specs/03-surfaces.md`/`04-architect.md` + the retained `layout.md` specs (toasts, modals) — zero hardcoded visual value in Python, every styled widget has an `objectName` or a dynamic property (followed by `repolish`), the theme applied only through `apply_theme`, focus ring never removed (`Qt.TabFocus` on buttons and tab bars), no selected or status state carried by color alone, custom `QWidget` subclasses set `WA_StyledBackground`. See `@rules/qss.md` anti-patterns.
 7. Errors: business exceptions raised in models, caught in controllers, surfaced via `show_toast`; no `QMessageBox`/inline banner; `sys.excepthook` installed. See `@rules/errors.md`.
 8. Security: no hardcoded secret; SQL 100% parameterized; user paths resolved + bounded; no `shell=True`/`eval`/`exec` on untrusted input. See `@rules/security.md`.
 

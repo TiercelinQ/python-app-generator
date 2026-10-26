@@ -2,7 +2,7 @@
 
 > Senior Python/PySide6 expert. Windows desktop applications, strict MVC architecture, personal and professional use.
 > Do not explain general programming concepts. Explain only the Python/PySide6 specifics that deviate from what a generic senior developer would expect.
-> Framework version: 1.5.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
+> Framework version: 1.6.0 (unified edition). This version is recorded in each generated app's `CLAUDE.md`.
 
 ---
 
@@ -111,8 +111,8 @@ The generation pipeline writes a persisted spec file per phase into `docs/specs/
 ## ABSOLUTE RULES
 
 - Zero hardcoded visual value in Python - everything in `styles_light.qss` / `styles_dark.qss` or `config.py`.
-- Documented exception: Lucide icon colors in `config.py` (`ICON_COLORS`, consumed by `utils/icons.py` — technical constraint, icons are painted, not QSS-stylable).
-- Every styled widget has an `objectName` matching a QSS rule.
+- Documented exceptions: Lucide icon colors in `config.py` (`ICON_COLORS`, consumed by `utils/icons.py` — technical constraint, icons are painted, not QSS-stylable) and the native `QPalette` roles QSS cannot reach (`NATIVE_PALETTE`, applied by `utils/styles.py` `apply_theme`).
+- Every styled widget has an `objectName` or a dynamic property matching a QSS rule.
 - Dark mode: complete QSS sheet replacement, never a partial override.
 - Zero `QMessageBox` for business errors - toasts only.
 - Zero inline banner - toasts only.
@@ -160,7 +160,7 @@ All commands below are Claude Code skills invocable with `/`:
 | `/python-trace-feature` | `skills/python-trace-feature/` | Trace a feature across the MVC layers, report        |
 | `/python-fix-issue`     | `skills/python-fix-issue/`     | Fix a bug - decision tree, root cause                |
 | `/python-refactor-code` | `skills/python-refactor-code/` | Refactor under explicit validation only              |
-| `/python-migrate-design` | `skills/python-migrate-design/` | Convert a v1.x app to design system v2.0 (validated plan) |
+| `/python-migrate-design` | `skills/python-migrate-design/` | Convert a v1.x app to design system v2.1 (validated plan) |
 | `/python-release`       | `skills/python-release/`       | Cut a SemVer release from the accumulated changelog  |
 | `/python-run-tests`     | `skills/python-run-tests/`     | Run executable verification (ruff, mypy, pytest)     |
 
@@ -187,7 +187,7 @@ Which command(s) to run for a given intent. The **generation pipeline** (p1→p5
   - Add a feature — `/python-add-feature` → `/python-run-tests`
   - Fix a bug — `/python-fix-issue` → `/python-run-tests`
   - Refactor (behavior-preserving, plan validated first) — `/python-refactor-code` → `/python-run-tests`
-  - Convert a legacy app to design system v2.0 (proposed by load-project on detection) — `/python-migrate-design` → `/python-run-tests`
+  - Convert a legacy app to design system v2.1 (proposed by load-project on detection) — `/python-migrate-design` → `/python-run-tests`
   - Understand / audit the code — `/python-trace-feature`
   - Refresh the README — `/python-generate-readme`
   - Cut a release / prepare a GitHub deploy — `/python-release` (turns the accumulated `docs/release/CHANGELOG.md` `[Unreleased]` entries into a dated SemVer version)

@@ -14,8 +14,8 @@ python-app-generator/
 ├── CHANGELOG.md              # Changelog du générateur (distinct de celui des apps générées)
 ├── LICENSE
 └── .claude/
-    ├── design-system.md      # Référence visuelle contraignante (v2.0) — source de vérité unique
-    ├── layout.md             # Cadre layout d'accompagnement (v4.1) — catalogue de patterns + composition par défaut + 6 positions de toasts
+    ├── design-system.md      # Référence visuelle contraignante (v2.1) — source de vérité unique
+    ├── layout.md             # Cadre layout d'accompagnement (v4.2) — catalogue de patterns + composition par défaut + 6 positions de toasts
     ├── sf-cli-reference/     # Catalogue commandes/flags sf v2 (chargé par section si intégration Salesforce)
     ├── rules/
     │   ├── mvc.md            # Séparation MVC, livraison par lots, nettoyage anomalies
@@ -42,7 +42,7 @@ python-app-generator/
     │   ├── python-trace-feature/    # Tracer une fonctionnalité à travers les couches
     │   ├── python-fix-issue/        # Corriger un bug — arbre de décision, cause racine
     │   ├── python-refactor-code/    # Restructurer sous validation explicite uniquement
-    │   ├── python-migrate-design/   # Convertir une app v1.x vers le design system v2.0
+    │   ├── python-migrate-design/   # Convertir une app v1.x vers le design system v2.1
     │   ├── python-release/          # Figer une version SemVer depuis le changelog cumulé
     │   ├── python-run-tests/        # Vérification exécutable (ruff, mypy, pytest, smoke)
     │   ├── python-load-project/     # Chargement d'un projet existant
@@ -164,7 +164,7 @@ Claude lit `docs/specs/04-architect.md` (priorité), sinon le README, sinon le c
 | Comprendre / tracer le code     | `/python-trace-feature`     |
 | Corriger un bug                 | `/python-fix-issue`         |
 | Restructurer (sous validation)  | `/python-refactor-code`    |
-| Convertir une app v1.x vers le design system v2.0 | `/python-migrate-design` |
+| Convertir une app v1.x vers le design system v2.1 | `/python-migrate-design` |
 | Figer une version SemVer (changelog cumulé) | `/python-release` |
 | Vérifier le build / lancer les checks | `/python-run-tests`  |
 
@@ -216,7 +216,7 @@ Après correction (`/python-fix-issue` ou Phase 5), Claude produit un bilan de n
 | `/python-trace-feature`              | Sonnet | Tracer une fonctionnalité à travers les couches      |
 | `/python-fix-issue`                  | Sonnet | Corriger un bug — cause racine                       |
 | `/python-refactor-code`             | Sonnet | Restructurer sous validation                         |
-| `/python-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.0    |
+| `/python-migrate-design`            | Sonnet | Convertir une app v1.x vers le design system v2.1    |
 | `/python-release`                   | Sonnet | Figer une version SemVer depuis le changelog cumulé  |
 | `/python-run-tests`                 | Sonnet | Vérification exécutable                               |
 | `/python-load-project`       | Sonnet | Charger un projet existant                           |
@@ -241,9 +241,9 @@ mon-app/
 ├── docs/specs/                    # Specs de génération (langue utilisateur)
 ├── docs/release/CHANGELOG.md      # Changelog SemVer (Keep a Changelog, anglais)
 ├── models/                        # exceptions.py, db.py + migrations.py (si DB), [entite]_model.py
-├── views/                         # main_window.py, toast_manager.py, [entite]_view.py
+├── views/                         # main_window.py, base.py, overlays.py, toast_manager.py, [entite]_view.py
 ├── controllers/                   # [entite]_controller.py
-├── utils/                         # helpers.py, logger.py
+├── utils/                         # helpers.py, styles.py, a11y.py, icons.py, logger.py
 └── resources/                     # styles_light.qss, styles_dark.qss, i18n/ (si activé)
 
 # Si tests activés en Phase 1 :
@@ -259,7 +259,7 @@ Chaque app générée porte une version SemVer et un changelog `docs/release/CHA
 
 ## Points de vigilance
 
-- `.claude/design-system.md` (v2.0) et `.claude/layout.md` (v4.1) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
+- `.claude/design-system.md` (v2.1) et `.claude/layout.md` (v4.2) sont la **source de vérité unique** — ne pas les dupliquer ni modifier sans bump de version. La composition portée par `layout.md` est un défaut modifiable (retenue validée en Phase 3) ; le skin de `design-system.md` reste contraignant.
 - Les couleurs d'icônes Lucide sont dans `config.py` (`ICON_COLORS`), consommées par `utils/icons.py`, pas dans QSS (contrainte technique).
 - Le contrat (`docs/specs/04-architect.md`) est verrouillé. Tout changement structurel passe par `/python-add-feature` ou le protocole de déclaration d'écart.
 - `/python-load-project`, `/python-generate-readme`, `/python-add-feature`, `/python-trace-feature`, `/python-fix-issue`, `/python-refactor-code`, `/python-migrate-design`, `/python-release`, `/python-run-tests` s'invoquent depuis la racine du projet cible.

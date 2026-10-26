@@ -65,7 +65,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
 ## Last batch — mandatory deliverables
 
-- **`main.py`** with the strict init order: `setup_logging()` → single-instance lock via `QLockFile` (second instance → one-line message + exit before any write — `@rules/security.md §4`) → `run_migrations()` (if DB) → `QApplication` → `app.setStyle("Fusion")` → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → center the window on the primary screen (`frame = window.frameGeometry(); frame.moveCenter(window.screen().availableGeometry().center()); window.move(frame.topLeft())`; a saved position from the persisted-position preference, when enabled, takes precedence over centering) → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
+- **`main.py`** with the strict init order: `setup_logging()` → single-instance lock via `QLockFile` (second instance → one-line message + exit before any write — `@rules/security.md §4`) → `run_migrations()` (if DB) → `QApplication` → `config.ANIMATIONS_ENABLED = animations_enabled()` → `apply_theme(app, theme)` from `utils/styles.py` (Fusion, color scheme, `QPalette`, complete sheet; `theme` = saved preference, else the OS theme — `@rules/qss.md`) → `app.setWindowIcon(...)` (if icon defined — `@rules/config.md`) → `install_translator(app)` (if i18n) → `create_splash(theme)` + `splash.show()` (if splash enabled) → `MainWindow` → `install_excepthook(window)` → center the window on the primary screen (`frame = window.frameGeometry(); frame.moveCenter(window.screen().availableGeometry().center()); window.move(frame.topLeft())`; a saved position from the persisted-position preference, when enabled, takes precedence over centering) → `window.show()` → `QTimer.singleShot(SPLASH_MIN_DURATION_MS, lambda: splash.finish(window))` (if splash) → `app.exec()`. See `@rules/splash.md`.
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled; `pip-audit` mentioned as the dependency-vulnerability check (`@rules/security.md §6`).
 - **`.gitignore`** written at the project root — template in `@rules/config.md` (`## .gitignore`). Keeps the Python build outputs (`__pycache__/`, `*.py[cod]`, `.venv/`, the anchored `/dist/` + `/build/`, `*.egg-info/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and the private `docs/specs/` out of the repo, while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `tests/`, or `scripts/`.
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `config.py` `APP_VERSION`. Later releases are cut with `/python-release`.
@@ -77,7 +77,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: python v1.5.0
+  Framework: python v1.6.0
 
   ## Business context
 
@@ -95,7 +95,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Publish a version: `/python-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
 
-  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.5.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 1.6.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 

@@ -20,6 +20,8 @@ models/
 views/
 ├── __init__.py
 ├── main_window.py         # Main window (topbar, global layout) (default pattern — layout.md §12)
+├── base.py                # Frame (WA_StyledBackground), Button (TabFocus), IconButton, FittedList, SelectionBarDelegate - design-system.md §7, §8, §11
+├── overlays.py            # ModalDialog (QDialog) and Drawer (focus trap, InertScope) + danger-toast Alert event - layout.md §6, §8, design-system.md §12
 ├── toast_manager.py       # Toast system
 ├── sliding_underline.py   # Signature underline widget (if the composition has tabs/horizontal nav) — design-system.md §8
 ├── splash_screen.py       # QSplashScreen factory (if splash enabled) — @rules/splash.md
@@ -32,7 +34,10 @@ controllers/
 └── [entity]_controller.py # One file per entity
 
 utils/
-└── helpers.py             # Pure functions only — zero PySide6, zero business logic
+├── helpers.py             # Pure functions only — zero PySide6, zero business logic
+├── styles.py              # apply_theme (Fusion + color scheme + QPalette + sheet), build_palette, load_stylesheet, icon_file - design-system.md §2, §10
+├── a11y.py                # InertScope (Qt has no inert) - design-system.md §12
+└── icons.py               # Lucide SVG → themed QIcon helper — design-system.md §10
 
 tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 ├── __init__.py
@@ -49,6 +54,7 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 - Data validation (email, numeric…).
 - JSON file read/write (preferences).
 - Generic conversion functions.
+- `animations_enabled()`: the OS "Show animations" probe read once at startup into `config.ANIMATIONS_ENABLED` (`design-system.md §6`); no PySide6, no business logic.
 
 ## Batch delivery
 
@@ -98,12 +104,14 @@ tests/                     # If tests enabled in Phase 1 — see @rules/tests.md
 
 ### Content of the `utils/` folder
 
-- `utils/helpers.py` — pure functions (formatting, validation, JSON)
+- `utils/helpers.py` - pure functions (formatting, validation, JSON, and the OS reduced-motion probe `animations_enabled()`, `design-system.md §6`: `ctypes`, Windows only, no PySide6)
 - `utils/logger.py` — logging configuration (see `@rules/logging.md`)
 - `utils/icons.py` — Lucide SVG → themed `QIcon` helper (`design-system.md §10`)
+- `utils/styles.py` - the single theme entry point: `apply_theme(app, theme)` calls `setStyle("Fusion")`, `styleHints().setColorScheme(...)`, `setPalette(build_palette(theme))` from `config.NATIVE_PALETTE`, then `setStyleSheet(load_stylesheet(theme))`; `load_stylesheet` substitutes the `{{icon:NAME:KEY}}` placeholders with recolored SVG files (`icon_file()`); PySide6 allowed, no business logic (`design-system.md §2, §10`)
+- `utils/a11y.py` - `InertScope`, the focus-policy substitute for `inert` behind the drawer (`design-system.md §12`)
 - `utils/resource_path.py` — PyInstaller `sys._MEIPASS` helper (if packaging opt-in)
 
-> **Icons (always)** — `utils/icons.py` ships with the `utils/` batch and the vendored Lucide SVGs (`resources/icons/*.svg`, only the icons the app uses) ship with the resources batch (alongside `styles_*.qss`); `views/sliding_underline.py` ships with the views batch when the retained composition has tabs / horizontal navigation.
+> **Icons and theme (always)** — `utils/icons.py` and `utils/styles.py` ship with the `utils/` batch, `utils/a11y.py` too, and the vendored Lucide SVGs (`resources/icons/*.svg`, only the icons the app uses) ship with the resources batch (alongside `styles_*.qss`). `views/base.py` and `views/overlays.py` ship with the views batch; `views/sliding_underline.py` ships with the views batch when the retained composition has tabs / horizontal navigation. Item views that host widgets (sidebar, master list) use `FittedList` from `views/base.py`.
 
 ### Format
 
@@ -141,4 +149,4 @@ Isolated fix on the affected file + its direct dependencies. Deliver the complet
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic or data access in a view/controller, zero PySide6 widget in a model beyond `QObject`/`Signal`); imports unidirectional (Controller → Model + View, never Model → View); signals/slots consistent (every connected signal has a slot, every slot is connected); `utils/helpers.py` limited to pure functions; shared constants promoted to `config.py`; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.
+Detailed in `@rules/verification.md`. Key points: MVC responsibilities respected (zero business logic or data access in a view/controller, zero PySide6 widget in a model beyond `QObject`/`Signal`); imports unidirectional (Controller → Model + View, never Model → View); signals/slots consistent (every connected signal has a slot, every slot is connected); `utils/helpers.py` limited to pure functions (plus `animations_enabled()`); theme applied only through `utils/styles.py` `apply_theme`; shared constants promoted to `config.py`; architectural contract (`docs/specs/04-architect.md`) respected. Run silently every batch; cross-file checks on the last batch.

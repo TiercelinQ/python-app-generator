@@ -20,7 +20,7 @@ A structured prompt system that generates complete, production-ready PySide6 des
 
 Each phase writes a spec in the user's language to `docs/specs/` (`01-scoping` … `04-architect`); the contract is the source of truth.
 
-**Maintenance commands**: `/python-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.0), `/python-release` (cut a SemVer release from the accumulated changelog), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
+**Maintenance commands**: `/python-add-feature` (add a feature, contract-compliant — explicit contract-diff validation before writing), `/python-trace-feature` (trace behavior), `/python-fix-issue` (root-cause debugging with a decision tree), `/python-refactor-code` (validated, behavior-preserving), `/python-migrate-design` (convert a v1.x app to design system v2.1), `/python-release` (cut a SemVer release from the accumulated changelog), `/python-run-tests` (executable verification). Plus `/python-load-project` and `/python-generate-readme` to load/document existing apps.
 
 Every generated app enforces the same visual design system, strict MVC architecture, and non-negotiable security rules.
 
@@ -85,7 +85,7 @@ Then in Claude Code:
 | `/python-trace-feature`              | Trace a feature across the MVC layers              |
 | `/python-fix-issue`                  | Fix a bug - decision tree, root cause              |
 | `/python-refactor-code`             | Refactor under explicit validation only            |
-| `/python-migrate-design`            | Convert a v1.x app to design system v2.0           |
+| `/python-migrate-design`            | Convert a v1.x app to design system v2.1           |
 | `/python-release`                   | Cut a SemVer release from the accumulated changelog|
 | `/python-run-tests`                 | Executable verification (ruff, mypy, pytest)       |
 | `/python-load-project`       | Load an existing project from its specs/README     |
@@ -117,12 +117,17 @@ my_app/
 │   └── [entity]_model.py
 ├── views/
 │   ├── main_window.py             # Main window · topbar · install_excepthook
-│   ├── toast_manager.py           # Toasts (6 positions, animation, durations)
+│   ├── base.py                    # Frame, Button (keyboard-only ring), IconButton, FittedList, SelectionBarDelegate
+│   ├── overlays.py                # Modal dialog and drawer (focus trap), danger-toast alert event
+│   ├── toast_manager.py           # Toasts (6 positions, durations, no entry animation)
 │   └── [entity]_view.py
 ├── controllers/
 │   └── [entity]_controller.py
 ├── utils/
-│   ├── helpers.py                 # Pure functions (formatting, validation)
+│   ├── helpers.py                 # Pure functions (formatting, validation), reduced-motion probe
+│   ├── styles.py                  # apply_theme: Fusion, color scheme, QPalette, QSS sheet
+│   ├── a11y.py                    # InertScope: page behind the drawer out of the tab order
+│   ├── icons.py                   # Lucide SVG to themed QIcon
 │   └── logger.py                  # Centralized logging setup
 └── resources/
     ├── styles_light.qss           # Light theme - all design-system.md tokens
@@ -147,13 +152,14 @@ Every generated app carries a SemVer version and a changelog at `docs/release/CH
 
 ## Design system
 
-All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.0):
+All generated apps share the same visual system, defined in `.claude/design-system.md` (v2.1):
 
-- **Depth by stroke** - borders express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
+- **Depth by stroke and surface ladder** - borders and four fill levels (canvas, chrome, panel, floating) express hierarchy and elevation, zero shadows, zero gradients; soft 5px radius
 - **QSS sheets** - all colors, sizes and durations are tokens; full light/dark theme via complete QSS replacement
 - **System font** typography (QApplication native face, no pinned family)
-- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops, and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
+- **Color palette** - one mandatory accent (+ up to 4 optional role overrides); accent-tinted neutrals, accent stops (the accent is darkened until white text and text on the background reach 4.5:1), and per-project semantic colors all derived from it (info = accent). Default "Steel Blue" + Teal, Forest, Slate, Amber, Ruby named palettes + custom palette
 - **Lucide icons** (vendored SVGs, stroke 1.75) and one signature gesture: the sliding underline on tabs (`QPropertyAnimation`)
+- **Accessibility** - WCAG 2.1 AA measured on every text and control pair, focus ring drawn inside the widget (keyboard only), no state carried by color alone, focus trap behind the drawer, accessible names on every control, reduced motion read from the OS
 - **Toasts only** - no inline banners, no `QMessageBox` for business errors
 
 ---
@@ -167,8 +173,8 @@ All generated apps share the same visual system, defined in `.claude/design-syst
 ## Documentation
 
 - [GUIDE.md](GUIDE.md) - full usage guide (FR)
-- `.claude/design-system.md` (v2.0) - visual token reference + changelog
-- `.claude/layout.md` (v4.1) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
+- `.claude/design-system.md` (v2.1) - visual token reference + changelog
+- `.claude/layout.md` (v4.2) - layout companion (pattern catalog + proposed default composition) + 6 toast positions
 - `.claude/rules/` - domain rules:
   - `mvc.md` · `qss.md` · `errors.md` · `config.md` · `security.md`
   - `tests.md` · `logging.md` · `i18n.md` · `db.md` · `sf-cli.md` (opt-in) · `splash.md` (opt-in) · `versioning.md`

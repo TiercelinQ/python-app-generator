@@ -1,16 +1,16 @@
 ---
 name: python-migrate-design
-description: Convert a Python/PySide6 app generated with design system v1.x to v2.0 — QSS tokens (accent-tinted neutrals, derived semantics), icons (qtawesome → vendored Lucide SVGs), hover model, radius, sliding underline — without changing any behavior. Proposed by /python-load-project when a legacy app is detected; runs only on explicit validation.
+description: Convert a Python/PySide6 app generated with design system v1.x to v2.1 — QSS tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (qtawesome → vendored Lucide SVGs), hover model, radius, sliding underline, accessibility behaviors — without changing any behavior. Proposed by /python-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
 ---
 
-# /python-migrate-design — Convert a v1.x app to design system v2.0
+# /python-migrate-design — Convert a v1.x app to design system v2.1
 
 ## Role
-Migration engineer — re-skin a delivered app to the v2.0 design system with zero behavior change.
+Migration engineer — re-skin a delivered app to the v2.1 design system with zero behavior change.
 
 ## Goal
-The app renders under the full v2.0 visual language (tokens, icons, states, motion) while every feature, signal, and business rule behaves exactly as before.
+The app renders under the full v2.1 visual language (tokens, surface ladder, icons, states, motion, accessibility behaviors) while every feature, signal, and business rule behaves exactly as before.
 
 ## Deliverable
 The converted files on disk (QSS sheets, `config.py` colors, icon usages, new helpers) + refreshed app `README.md` / `CLAUDE.md` / `docs/specs/04-architect.md` token table + passing verification + a conversion summary.
@@ -19,9 +19,9 @@ The converted files on disk (QSS sheets, `config.py` colors, icon usages, new he
 
 ## Prerequisite
 
-The project is loaded (`/python-load-project`) and detected on design system **v1.x** (README reference; markers: `qtawesome` in `requirements.txt`/imports, no `resources/icons/`, no `utils/icons.py`). If the app is already on v2.0, say so and stop.
+The project is loaded (`/python-load-project`) and detected on design system **v1.x** (README reference; markers: `qtawesome` in `requirements.txt`/imports, no `resources/icons/`, no `utils/icons.py`). If the app is already on v2.0 or v2.1, say so and stop: a v2.0 app is maintained in its own v2.0 conventions, and no v2.0 to v2.1 path is provided.
 
-**Load context**: `design-system.md` (v2.0) + `layout.md` (v4.1) + `@rules/qss.md` + `@rules/config.md` + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
+**Load context**: `design-system.md` (v2.1) + `layout.md` (v4.2) + `@rules/qss.md` + `@rules/config.md` + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
 
 ## Step 1 — Inventory (read-only)
 
@@ -33,8 +33,8 @@ The project is loaded (`/python-load-project`) and detected on design system **v
 
 ## Step 2 — Palette conversion decision
 
-- **Preset palette** → re-derive **everything** from the accent per `design-system.md §2`: accent stops, accent-tinted neutrals (both themes), per-project semantic colors (info = accent). Full v2.0 atmosphere.
-- **Custom palette** → the roles the user explicitly chose in Phase 1 (recorded in `01-scoping.md`) become **v2.0 overrides** (they win over the tinted targets); everything else derives from the accent.
+- **Preset palette** → re-derive **everything** from the accent per `design-system.md §2`: accent stops (`primary-600` AA-darkened), accent-tinted neutrals with the surface ladder (both themes), per-project semantic colors (info = accent). Full v2.1 atmosphere.
+- **Custom palette** → the roles the user explicitly chose in Phase 1 (recorded in `01-scoping.md`) become **v2.1 overrides** (they win over the tinted targets); everything else derives from the accent.
 - Announce the derived token set and run the **AA contrast check** (same pairs as `/python-p1-scoping` §2), reporting failures without blocking.
 
 ## Step 3 — Conversion plan (validation gate)
@@ -43,12 +43,13 @@ Present the plan (in the user's language): files touched, the icon mapping table
 
 ## Step 4 — Conversion (single batch, complete files)
 
-1. **QSS sheets** — full v2.0 rewrite of both sheets per `@rules/qss.md`: tinted neutrals + derived semantics as literal hex, `border-radius: 5px` (3px nested), neutral hover = border strengthening (transparent 1px borders added so layout never shifts), `pressed` = `bg-muted`, drawer/dialog borders promoted to `border-strong`, statusbar `text-subtle` derived value, no pinned `font-family`, selected-tab border-bottom removed (the underline widget replaces it), `/* token : … */` comments updated.
-2. **`config.py`** — derived `PRIMARY_*`/`ON_PRIMARY` (unchanged if the accent is kept), `ICON_COLORS` rewritten with the derived values, add `ICON_SM/MD/LG`, `ICON_STROKE = 1.75`, `ANIM_DEFAULT_MS = 160`, `ANIM_SLOW_MS = 240`, `ANIMATIONS_ENABLED = True`; `SPLASH_COLORS` re-derived if the splash is on.
+1. **QSS sheets** — full v2.1 rewrite of both sheets per `@rules/qss.md`: tinted neutrals with the surface ladder (`bg-panel`) + derived semantics (`danger-fill`) + pre-blended `disabled-*` and `overlay` as literal hex, `border-radius: 5px` (3px nested), rules selected by dynamic property (`variant`, `btnSize`, `role`, `tone`, `error`), neutral hover = border strengthening to `border-strong` (transparent 1px borders added so layout never shifts), control edge on `border-strong`, `pressed` = `bg-muted`, focus ring drawn inside the widget (`text` on filled buttons), topbar and menu bar on `bg-subtle`, drawer/dialog on `bg-elevated` with `border-strong`, statusbar `text-subtle` derived value, no pinned `font-family`, selected-tab border-bottom removed (the underline widget replaces it), `/* token : … */` comments updated.
+2. **`config.py`** — derived `PRIMARY_*` (`primary-600` AA-darkened)/`ON_PRIMARY`, `ICON_COLORS` rewritten with the derived values (+ `on-primary`), add `NATIVE_PALETTE`, `ICON_SM/MD/LG`, `ICON_STROKE = 1.75`, `ANIM_DEFAULT_MS = 160`, `ANIM_SLOW_MS = 240`, `ANIMATIONS_ENABLED = True` (read from `animations_enabled()` at startup); `SPLASH_COLORS` re-derived if the splash is on.
+2b. **Theme and accessibility helpers** — add `utils/styles.py` (`apply_theme`, `build_palette`, `load_stylesheet`, `icon_file`), `utils/a11y.py` (`InertScope`), `views/base.py` (`Frame`, `Button` with `Qt.TabFocus`, `IconButton`, `FittedList`, `SelectionBarDelegate`), `views/overlays.py` (`ModalDialog`, `Drawer`, danger-toast `Alert` event), `animations_enabled()` in `utils/helpers.py`; route theme changes through `apply_theme` and call `repolish` after every dynamic-property change (reference implementations: `design-system.md §2, §7, §8, §11, §12`).
 3. **Icons** — remove `qtawesome` from `requirements.txt`; add `utils/icons.py` (Lucide SVG → themed `QIcon` helper, `design-system.md §10`); vendor the needed SVGs into `resources/icons/` (source: npm `lucide-static` or the official Lucide repo — verify each name at the source); replace every `qta.icon("fa6s.…", color=…)` call with `get_icon("…", color_key, theme, size)` using the mapping below.
 4. **Underline** — only if the retained composition has tabs / horizontal navigation (the underline exists nowhere else, `design-system.md §8`): add `views/sliding_underline.py` (reference implementation in §8) wired to the tab bar on tab change (animated) and on resize/mount (snap). Snaps when `config.ANIMATIONS_ENABLED` is off.
-5. **Docs** — app `README.md`: design system reference → `v2.0` (+ layout `v4.1`), stack line Icons → Lucide, `qtawesome` removed from prerequisites; app `CLAUDE.md`: dated migration note under `## Deviations from the framework` (or a `## Design system migration` block); `docs/specs/04-architect.md`: refresh the tokens → QSS table values, add the new files (`utils/icons.py`, `views/sliding_underline.py`, `resources/icons/`), append a dated migration note (this validated run is the contract amendment).
-6. **Changelog** — append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`): `- Migrated UI to design system v2.0.` (English, no version bump; migrate-design infers MINOR at `/python-release`). If the file is absent (legacy app never initialized), skip silently and suggest `/python-load-project`.
+5. **Docs** — app `README.md`: design system reference → `v2.1` (+ layout `v4.2`), stack line Icons → Lucide, `qtawesome` removed from prerequisites; app `CLAUDE.md`: dated migration note under `## Deviations from the framework` (or a `## Design system migration` block); `docs/specs/04-architect.md`: refresh the tokens → QSS table values, add the new files (`utils/icons.py`, `views/sliding_underline.py`, `resources/icons/`), append a dated migration note (this validated run is the contract amendment).
+6. **Changelog** — append a `### Changed` entry under `## [Unreleased]` in `docs/release/CHANGELOG.md` (`@rules/versioning.md`): `- Migrated UI to design system v2.1.` (English, no version bump; migrate-design infers MINOR at `/python-release`). If the file is absent (legacy app never initialized), skip silently and suggest `/python-load-project`.
 
 ### Icon mapping — Font Awesome 6 (`fa6s.*`) → Lucide SVG name
 
@@ -77,7 +78,7 @@ Any icon not in this table: pick the closest Lucide equivalent, verify the SVG e
 
 ## Anti-patterns — what NOT to do
 
-- **Do not** run without the Step 3 validation, and do not convert partially — the app is either fully v1.x or fully v2.0 (never a mix).
+- **Do not** run without the Step 3 validation, and do not convert partially — the app is either fully v1.x or fully v2.1 (never a mix).
 - **Do not** touch models, controllers, signals, i18n strings, or any business logic — this is a re-skin.
 - **Do not** redesign the layout/composition — the retained Phase 3 composition stays; only its skin changes.
 - **Do not** improvise a Lucide name — map it, verify the SVG exists, report it.
@@ -86,4 +87,4 @@ Any icon not in this table: pick the closest Lucide equivalent, verify the SVG e
 
 ## Integrity verification
 
-Detailed in `@rules/verification.md`. Key points: §A executable suite green after conversion; zero `qtawesome`/`fa6` residue in source and `requirements.txt`; both QSS sheets fully v2.0 (tinted neutrals, derived semantics, radius token, border-strengthening hover, no selected border-bottom) with `utils/icons.py` + `resources/icons/` + `views/sliding_underline.py` present; app README/CLAUDE.md/04-architect.md updated with the v2.0 reference and the dated migration note.
+Detailed in `@rules/verification.md`. Key points: §A executable suite green after conversion; zero `qtawesome`/`fa6` residue in source and `requirements.txt`; both QSS sheets fully v2.1 (tinted neutrals and surface ladder, AA-darkened accent, derived semantics, radius token, border-strengthening hover, ring inside the widget, no selected border-bottom) with `utils/icons.py` + `utils/styles.py` + `utils/a11y.py` + `views/base.py` + `views/overlays.py` + `resources/icons/` + `views/sliding_underline.py` present; app README/CLAUDE.md/04-architect.md updated with the v2.1 reference and the dated migration note.

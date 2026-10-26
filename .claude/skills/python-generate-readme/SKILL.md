@@ -63,7 +63,7 @@ pip install -r requirements-dev.txt
 pytest
 
 ## Palette
-[Name or custom accent (+ any explicit overrides) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — neutrals and semantics derived from the accent (design-system v2.0); otherwise default "Steel Blue" palette]
+[Name or custom accent (+ any explicit overrides) inferred from the QSS sheets + PRIMARY_* / ICON_COLORS in config.py — neutrals and semantics derived from the accent (design-system v2.1); otherwise default "Steel Blue" palette]
 ```
 
 3. Write the file via `Write` (never `cat`/heredoc — Windows-incompatible).

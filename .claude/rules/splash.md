@@ -12,14 +12,14 @@ The splash follows the design system (flat, palette, dark mode) like the rest of
 
 ## Colors — documented exception in `config.py`
 
-`QSplashScreen` is painted programmatically (its pixmap is built in Python), so its background/text colors **cannot** be styled via QSS. Like `ICON_COLORS` (Lucide icon colors), the splash colors live in `config.py` — the second documented exception to "all visual values in QSS". Derived from the palette neutrals (`bg`/`text`, accent-tinted in v2.0), per theme:
+`QSplashScreen` is painted programmatically (its pixmap is built in Python), so its background/text colors **cannot** be styled via QSS. Like `ICON_COLORS` (Lucide icon colors), the splash colors live in `config.py` — the second documented exception to "all visual values in QSS". Derived from the palette neutrals (`bg`/`text`, accent-tinted since v2.0), per theme:
 
 ```python
 # Splash (if enabled in Phase 3) — painted programmatically, not QSS-stylable (documented exception, like ICON_COLORS)
 SPLASH_MIN_DURATION_MS: int = 1200            # minimum on-screen time before dismissal
 SPLASH_COLORS: dict = {
-    "light": {"bg": "#FDFEFF", "text": "#0F181E"},   # bg / text (derived light neutrals)
-    "dark":  {"bg": "#181C20", "text": "#F2F5F7"},   # bg / text (derived dark neutrals)
+    "light": {"bg": "#FFFFFF", "text": "#0F181E"},   # bg / text (derived light neutrals)
+    "dark":  {"bg": "#111519", "text": "#F2F5F7"},   # bg / text (derived dark neutrals)
 }
 ```
 

@@ -4,6 +4,18 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [1.6.0] - 2026-10-26
+### Added
+- Theme and accessibility files in the generated tree: `utils/styles.py` (`apply_theme`: Fusion, Qt color scheme, `QPalette`, complete QSS sheet), `utils/a11y.py` (`InertScope`), `views/base.py` (`Frame`, `Button` with keyboard-only focus, `IconButton`, `FittedList`, `SelectionBarDelegate`), `views/overlays.py` (`ModalDialog`, `Drawer`, danger-toast alert event); `NATIVE_PALETTE` and `animations_enabled()`.
+- `design-system.md` section 14 lists what QSS cannot do and what to validate on Windows.
+- `python-p1-scoping` announces the AA darkening of the accent and derives `bg-panel`, `danger-fill` and the pre-blended `disabled-*` colors.
+
+### Changed
+- Design system v2.1 and layout v4.2 replace v2.0 and v4.1: surface ladder with recomputed neutrals; `primary-600` darkened until white text, text on `bg` and text on `primary-50` reach 4.5:1 (default `#4682B4` becomes `#3D729E`); control edge and neutral hover on `border-strong`; 2px `primary` selection bar; focus ring drawn inside the widget (`text` on filled buttons); QSS rules selected by dynamic property.
+- `rules/qss.md` rewritten from the design system (no reference sheet was supplied); `rules/config.md`, `rules/splash.md`, `rules/mvc.md`, `rules/verification.md`, `rules/versioning.md` aligned; `main.py` init order goes through `apply_theme`.
+- `python-p4-architect`, `python-migrate-design` (target v2.1) updated; `python-load-project` recognizes v2.1, v2.0 and v1.x.
+- An app generated on v2.0 is maintained in its own v2.0 conventions: no v2.0 to v2.1 migration path is provided.
+
 ## [1.5.0] - 2026-08-01
 ### Added
 - Single-instance lock: `QLockFile` acquired in `main.py` (after `setup_logging()`, before `run_migrations()`) when the app writes data; a second instance logs, prints a one-line message, and exits without touching any file (`rules/security.md §4`).

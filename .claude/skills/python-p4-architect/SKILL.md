@@ -23,7 +23,7 @@ At start: read `design-system.md`, `layout.md` (no longer auto-imported), `@rule
 
 Present (in the user's language, as plain Markdown — never inside a code block):
 
-1. **Complete project tree** (model: `@rules/mvc.md`) with the role of each file.
+1. **Complete project tree** (model: `@rules/mvc.md`) with the role of each file. The design-system files are always part of it: `views/base.py`, `views/overlays.py`, `utils/styles.py`, `utils/a11y.py`, `utils/icons.py` (plus `views/sliding_underline.py` when the retained composition has tabs / horizontal navigation).
 
    **If the Salesforce CLI integration is on (Phase 1)**: add the runner + Org Manager files to the tree (`models/sf_cli.py`, `views/org_manager_view.py`, `controllers/org_manager_controller.py`). The `sf` runtime prerequisite and the `SF_CLI_PATH` setting are part of the contract. See @rules/sf-cli.md.
 
@@ -31,8 +31,9 @@ Present (in the user's language, as plain Markdown — never inside a code block
 
 | design-system.md token | Light value | Dark value | Target QSS rule |
 | ---------------------- | ----------- | ---------- | --------------- |
-| `bg`                   | #FDFEFF     | #181C20    | QMainWindow, #main_content, #topbar |
-| `primary-600`          | #4682B4     | #4682B4    | #btn_primary; QTabBar::tab:selected color + SlidingUnderline (light) |
+| `bg`                   | #FFFFFF     | #111519    | QMainWindow, #main_content |
+| `bg-subtle`            | #F1F4F7     | #1A2025    | #topbar (chrome, surface ladder N1) |
+| `primary-600`          | #3D729E     | #3D729E    | QPushButton[variant="primary"]; QTabBar::tab:selected color + SlidingUnderline (light) |
 | …                      | …           | …          | …               |
 
    The example rows use the **default composition** (topbar + tabs). The `objectName` anchors and QSS targets always follow **the retained composition from `docs/specs/03-surfaces.md`** — another pattern (`layout.md` §12) replaces them with its own widgets and anchors (`#sidebar`, `#menu_bar`, `#master_list`/`#detail_pane`).
