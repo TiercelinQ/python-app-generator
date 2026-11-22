@@ -45,6 +45,9 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 ## Architecture
 [Actual file tree with the role of each file]
 
+## Database schema
+[Section included only if a DB is used: tables, columns, version]
+
 ## Conventions
 [MVC, QSS tokens, toasts, security — pointer to the rules]
 

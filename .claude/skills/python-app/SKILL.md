@@ -44,6 +44,8 @@ Project root to maintain? (folder path, e.g. C:\projects\MyApp)
 - add a feature → `/python-add-feature`
 - fix a bug → `/python-fix-issue`
 - restructure existing code → `/python-refactor-code`
+- convert a legacy app to design system v2.1 → `/python-migrate-design`
+- refresh the README → `/python-generate-readme`
 - cut a release / bump the version → `/python-release`
 - verify the build / run checks → `/python-run-tests`
 
