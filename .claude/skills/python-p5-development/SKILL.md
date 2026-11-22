@@ -78,7 +78,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: python v1.6.0
+  Framework: python v2.0.0
 
   ## Business context
 
