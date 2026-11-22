@@ -24,7 +24,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/logging.md` · `@rules/i18n.md` (if i18n enabled) · `@rules/db.md` (if DB ≠ none) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/logging.md` · `@rules/i18n.md` (if i18n enabled) · `@rules/db.md` (if DB ≠ none) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) only before the batch that produces UI (views, then styles), by the sections that batch needs, not at start. Skip them for batches without UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 
