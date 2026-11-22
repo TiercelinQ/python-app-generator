@@ -2,6 +2,7 @@
 name: python-p5-development
 description: Phase 5 of the Python app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
 model: sonnet
+effort: medium
 ---
 
 # /python-p5-development — Batch development

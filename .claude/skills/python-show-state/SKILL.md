@@ -2,6 +2,7 @@
 name: python-show-state
 description: Show the current state of the in-progress project (phase, batch, locked decisions, open points).
 model: haiku
+effort: low
 ---
 
 # /python-show-state — Current state

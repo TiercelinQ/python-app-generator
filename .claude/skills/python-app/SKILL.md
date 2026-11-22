@@ -2,6 +2,7 @@
 name: python-app
 description: Start menu of the Python/PySide6 app generator — new app, resume an existing session, load a delivered project, or maintain one. Invoke at the beginning of a conversation or at any time via /python-app.
 model: haiku
+effort: low
 ---
 
 # /python-app — Start / resume / maintenance menu

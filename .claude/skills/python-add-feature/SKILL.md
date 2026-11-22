@@ -2,6 +2,7 @@
 name: python-add-feature
 description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /python-load-project or on an already-loaded project.
 model: sonnet
+effort: high
 ---
 
 # /python-add-feature — Add a feature to a delivered project

@@ -2,6 +2,7 @@
 name: python-migrate-design
 description: Convert a Python/PySide6 app generated with design system v1.x to v2.1 — QSS tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (qtawesome → vendored Lucide SVGs), hover model, radius, sliding underline, accessibility behaviors — without changing any behavior. Proposed by /python-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
+effort: medium
 ---
 
 # /python-migrate-design — Convert a v1.x app to design system v2.1
