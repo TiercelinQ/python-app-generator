@@ -2,6 +2,7 @@
 name: python-generate-readme
 description: Analyze the specs and source of an existing Python/PySide6 project and generate its README.md (objective, features, stack, tree, conventions, installation). Invoke from the target project root.
 model: sonnet
+effort: low
 ---
 
 # /python-generate-readme — Generate the README.md
@@ -44,6 +45,9 @@ Use the native Claude Code tools (no shell — Windows-compatible):
 
 ## Architecture
 [Actual file tree with the role of each file]
+
+## Database schema
+[Section included only if a DB is used: tables, columns, version]
 
 ## Conventions
 [MVC, QSS tokens, toasts, security — pointer to the rules]

@@ -2,6 +2,7 @@
 name: python-add-feature
 description: Add a feature to an existing project while respecting the locked architectural contract. Invoke from the target project root, after /python-load-project or on an already-loaded project.
 model: sonnet
+effort: high
 ---
 
 # /python-add-feature — Add a feature to a delivered project
@@ -71,7 +72,7 @@ Produce (in the user's language):
 ## Step 4 — Application — strict rules
 
 - Read `design-system.md` and `layout.md` (no longer auto-imported) before any UI change. **Legacy design system**: if the app is on v1.x or v2.0 (README reference — see `/python-load-project` step 5), new UI follows the app's own conventions (its QSS sheets and existing widgets), never the framework's v2.1 files; the upgrade path for a v1.x app is `/python-migrate-design`, on request (none is provided for v2.0).
-- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md`, `@rules/db.md`, `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/versioning.md`, `@rules/verification.md`, `@rules/readme.md`. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag, and keep every `sf` call inside `models/sf_cli.py`.
+- Fully respect `@rules/mvc.md`, `@rules/qss.md`, `@rules/errors.md`, `@rules/config.md`, `@rules/security.md`, `@rules/tests.md`, `@rules/logging.md`, `@rules/i18n.md` (if i18n is enabled), `@rules/db.md` (if DB ≠ none), `@rules/sf-cli.md` (if the Salesforce CLI integration is on), `@rules/versioning.md`, `@rules/verification.md`, `@rules/readme.md`. For an `sf`-related change, consult the matching `sf-cli-reference/` section file before writing any command/flag, and keep every `sf` call inside `models/sf_cli.py`.
 - No modification not listed in the validated diff.
 - No opportunistic improvement of adjacent code.
 - DB migration needed → increment `DB_SCHEMA_VERSION`, add a `MIGRATIONS` entry in `models/migrations.py`.

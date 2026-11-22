@@ -4,6 +4,19 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [2.0.0] - 2026-11-22
+### Added
+- `.claude/scripts/` with four dependency-free Node scripts: `bump-release.mjs` (`config.py` `APP_VERSION`), `run-verification.mjs` (ruff, mypy, pytest), `static-checks.mjs` and `search-sf-catalog.mjs`. Tested on fixtures only, not on a generated project. The commands that could call them are unchanged.
+
+### Changed
+- **Major version.** Every skill now carries an `effort` field and a rebalanced `model` (`opus` for `p1-scoping`, `p2-featuring`, `p4-architect`, `fix-issue` and `refactor-code`, `haiku` for `release` and `run-tests`), which changes the cost profile of every command. Values come from the 2026-11-22 cost and quality audit and the Claude Code skill frontmatter documentation.
+- `python-show-state` names its sources (the latest `docs/sessions/SESSION_*_S*.md`, then `docs/release/CHANGELOG.md`) instead of risking an invented state.
+- `python-p5-development` loads `@rules/readme.md` and writes the delivered `README.md` in English; it reads `design-system.md` and `layout.md` only before the batch that produces UI.
+- `python-add-feature` loads `@rules/i18n.md` and `@rules/db.md` only when i18n or a database is enabled; `python-migrate-design` loads `@rules/mvc.md` for the cleanup protocol.
+- `python-save-memory` asks the memory category with `AskUserQuestion` instead of a typed A-D choice.
+- `python-app` maintenance menu routes `/python-migrate-design` and `/python-generate-readme`; `python-generate-readme` template gains a `## Database schema` section.
+- `rules/verification.md` lists the skills that load it (all 8 of them, not 4).
+
 ## [1.6.0] - 2026-10-26
 ### Added
 - Theme and accessibility files in the generated tree: `utils/styles.py` (`apply_theme`: Fusion, Qt color scheme, `QPalette`, complete QSS sheet), `utils/a11y.py` (`InertScope`), `views/base.py` (`Frame`, `Button` with keyboard-only focus, `IconButton`, `FittedList`, `SelectionBarDelegate`), `views/overlays.py` (`ModalDialog`, `Drawer`, danger-toast alert event); `NATIVE_PALETTE` and `animations_enabled()`.

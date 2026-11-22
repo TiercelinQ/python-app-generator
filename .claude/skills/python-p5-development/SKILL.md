@@ -2,6 +2,7 @@
 name: python-p5-development
 description: Phase 5 of the Python app generation cycle — development and batch delivery, files written directly to disk, executable verification, final README. Invoke after the architectural contract (Phase 4) is validated, and for each subsequent batch.
 model: sonnet
+effort: medium
 ---
 
 # /python-p5-development — Batch development
@@ -24,7 +25,7 @@ The full project source on disk + `README.md` + verified build.
 
 ## Code rules
 
-Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/logging.md` · `@rules/i18n.md` (if i18n enabled) · `@rules/db.md` (if DB ≠ none) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) before producing any UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
+Apply fully: `@rules/mvc.md` · `@rules/qss.md` · `@rules/errors.md` · `@rules/config.md` · `@rules/security.md` · `@rules/tests.md` (if tests) · `@rules/logging.md` · `@rules/i18n.md` (if i18n enabled) · `@rules/db.md` (if DB ≠ none) · `@rules/sf-cli.md` (if Salesforce CLI) · `@rules/splash.md` (if splash screen enabled in Phase 3) · `@rules/versioning.md` · `@rules/readme.md` · `@rules/verification.md`. **Read `design-system.md` and `layout.md`** (no longer auto-imported) only before the batch that produces UI (views, then styles), by the sections that batch needs, not at start. Skip them for batches without UI. Read `docs/specs/04-architect.md` — it is the locked contract this build follows.
 
 Critical reminders:
 
@@ -69,7 +70,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 - **Install instructions** (venv, pip, `python main.py`); pytest instructions appended if tests enabled; `pip-audit` mentioned as the dependency-vulnerability check (`@rules/security.md §6`).
 - **`.gitignore`** written at the project root — template in `@rules/config.md` (`## .gitignore`). Keeps the Python build outputs (`__pycache__/`, `*.py[cod]`, `.venv/`, the anchored `/dist/` + `/build/`, `*.egg-info/`), `.env`, `tasks/`, `.claude/settings.local.json` + `.claude/agent-memory/`, and the private `docs/specs/` out of the repo, while **never** ignoring `docs/release/CHANGELOG.md`, `.claude/settings.json`, the generated `CLAUDE.md`, `tests/`, or `scripts/`.
 - **`docs/release/CHANGELOG.md`** written at the project root (create `docs/release/`), seeded per `@rules/versioning.md` — **in English**, Keep a Changelog shape: the preamble, an empty `## [Unreleased]`, and the initial `## [1.0.0] - <YYYY-MM-DD>` block with `### Added` / `- Initial release.`. The `1.0.0` matches the app version in `config.py` `APP_VERSION`. Later releases are cut with `/python-release`.
-- **`README.md`** written automatically at the project root: objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
+- **`README.md`** written automatically at the project root, in English (`@rules/readme.md`): objective, features, out-of-scope, stack, architecture, installation, tests (if enabled), color palette.
 - **`CLAUDE.md`** written at the generated project root (in the user's language), recording the app's identity for future sessions:
 
   ```markdown
@@ -77,7 +78,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: python v1.6.0
+  Framework: python v2.0.0
 
   ## Business context
 

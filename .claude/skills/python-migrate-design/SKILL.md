@@ -2,6 +2,7 @@
 name: python-migrate-design
 description: Convert a Python/PySide6 app generated with design system v1.x to v2.1 — QSS tokens (accent-tinted neutrals, surface ladder, AA-darkened accent, derived semantics), icons (qtawesome → vendored Lucide SVGs), hover model, radius, sliding underline, accessibility behaviors — without changing any behavior. Proposed by /python-load-project when a legacy app is detected; runs only on explicit validation.
 model: sonnet
+effort: medium
 ---
 
 # /python-migrate-design — Convert a v1.x app to design system v2.1
@@ -21,7 +22,7 @@ The converted files on disk (QSS sheets, `config.py` colors, icon usages, new he
 
 The project is loaded (`/python-load-project`) and detected on design system **v1.x** (README reference; markers: `qtawesome` in `requirements.txt`/imports, no `resources/icons/`, no `utils/icons.py`). If the app is already on v2.0 or v2.1, say so and stop: a v2.0 app is maintained in its own v2.0 conventions, and no v2.0 to v2.1 path is provided.
 
-**Load context**: `design-system.md` (v2.1) + `layout.md` (v4.2) + `@rules/qss.md` + `@rules/config.md` + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
+**Load context**: `design-system.md` (v2.1) + `layout.md` (v4.2) + `@rules/qss.md` + `@rules/config.md` + `@rules/mvc.md` (cleanup protocol) + `@rules/verification.md`, and the app's `docs/specs/01-scoping.md` (original palette choice) + `docs/specs/04-architect.md` (locked contract).
 
 ## Step 1 — Inventory (read-only)
 
