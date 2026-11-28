@@ -1,6 +1,6 @@
 ---
 name: python-p1-scoping
-description: Phase 1 of the Python app generation cycle — scoping in up to 8 questions (incl. application icon, packaging, and a conditional Salesforce CLI opt-in shown only when the objective mentions Salesforce), full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
+description: Phase 1 of the Python app generation cycle — scoping in up to 8 questions (incl. application icon, packaging, and a conditional Salesforce CLI opt-in shown only when the objective mentions Salesforce), project folder creation, full color palette choice, calibration announcement (number of batches), and writing of the scoping spec.
 model: opus
 effort: high
 ---
@@ -32,7 +32,7 @@ Start with the objective, then establish the project root (folder name → locat
 
 - **Folder name** — propose 2-4 candidate names derived from the objective, **in kebab-case** (e.g. `expense-tracker`), the recommended one first, with `AskUserQuestion` (the **Other** option carries a custom name as free-form text). The user selects a candidate or types their own. This is the **project directory name**, distinct from the application name chosen in Phase 2.
 - **Location** — free-form text: `Parent folder where to create the project? (path, e.g. C:\projects)`.
-- **Create the folder** — project root = `[parent]\[folder-name]`. Create it, then confirm: `Project root: [path]`. If it already exists and is not empty, warn and ask the user to confirm reuse or pick another name. Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
+- **Create the folder** — project root = `[parent]\[folder-name]`. If the parent folder does not exist, ask whether to create it (recommended) or to give another path. Create the project folder, then confirm: `Project root: [path]`. If it already exists and is not empty, warn and ask the user to confirm reuse or pick another name. Store this path as the project root — all generated files and specs (`docs/specs/`) are written there.
 
 ### Closed parameters
 
@@ -52,15 +52,19 @@ Start with the objective, then establish the project root (folder name → locat
 
 After the answers, propose the **palette** with `AskUserQuestion` (single question; clickable options from the catalog, recommended default first; the **Other** option covers a remaining named palette and the custom palette). A palette = **1 mandatory accent** + up to 4 **optional overrides** (main background, secondary background, text, details); every neutral token, the accent stops, and the semantic colors derive from the accent (`design-system.md §2`).
 
-- **Palette — `AskUserQuestion`**, options (≤ 4): `Steel Blue` (default, recommended) · `Teal` · `Forest` · `Slate`. The **Other** option covers `Amber`, `Ruby` and a **custom palette**. If the user picks a custom palette, ask the accent hex as free-form text, then offer the 4 optional overrides (free-form, skippable — most projects need the accent only). Catalog + accents: `design-system.md §2`.
-- Steel Blue is the recommended default; the named-palette values are canonical — do not improvise them. If no answer: default palette.
-- From the accent (+ any overrides), Claude **derives** and announces: `primary-600` (the accent **darkened in steps of 1 % lightness until white text, `primary` on `bg` and `primary` on `primary-50` all reach 4.5:1**; an accent that already passes keeps its value; announce both the source accent and the resulting `primary-600`), the other accent stops (`primary-50/400/900` by lightness, `primary-700/800` = `primary-600` minus 3 and 6 points of lightness), `text-on-primary`, the **accent-tinted neutrals** and surface ladder for both themes (HSL targets in `design-system.md §2`, `bg-panel` included), the **per-project semantic colors** (hue anchors harmonized ±6° toward the accent; info = accent; `*-50` surface mixes; `danger-fill` and danger 700/800 stops) and the pre-blended `disabled-*` colors. Explicit overrides win over the tinted targets. Written as literal hex to `styles_light.qss` + `styles_dark.qss` (neutrals + semantics) and `config.py` (`PRIMARY_*`, `ON_PRIMARY`, `ICON_COLORS`, `NATIVE_PALETTE` with the derived values).
-- **Contrast check (WCAG AA, non-blocking)**: on the values after the darkening, compute text/bg, text-subtle/bg, primary/bg, text-on-primary/primary-600, each derived semantic pair (`*-600` vs `bg` and vs its `*-50`), and the focus ring on the filled buttons (`text` vs `primary-600` and vs `danger-fill`, 3:1); if a ratio fails AA, report it (`color — ratio — target`) and ask the user to confirm or adjust before continuing.
+- **Palette - `AskUserQuestion`**: the options are the first 4 palettes of the catalog (`design-system.md §2`, "Named palettes" section), in table order, the default first and recommended. The **Other** option covers the remaining named palettes and a **custom palette**. For a custom palette, ask the accent hex as free-form text, then offer the 4 optional overrides (free-form, skippable - most projects need the accent only). A value that is not a 6-digit hex is asked again.
+- The named-palette values are canonical - do not improvise them. If no answer: default palette.
+- **Default palette without override**: do not derive anything, take the tables of `design-system.md §2` as they are (they pass the `§12` checks).
+- **Any other palette, or any override**: derive and check with the script (rules: `design-system.md §2` and `§12`):
+  `python "${CLAUDE_SKILL_DIR}/../../scripts/derive-palette.py" "<accent>" [--bg "<hex>"] [--bg-subtle "<hex>"] [--text "<hex>"] [--border "<hex>"]`
+  Pass the overrides of the preset or of the user (light theme). The JSON values, `disabled-*` and `overlay` included, are the ones written as literal hex to `styles_light.qss` + `styles_dark.qss` (neutrals + semantics) and `config.py` (`PRIMARY_*`, `ON_PRIMARY`, `ICON_COLORS`, `NATIVE_PALETTE`). Announce both the source accent and the resulting `primary-600`, then every other token listed in `adjusted` (the AA floor moved it).
+- **Contrast check (WCAG AA, non-blocking)**: report each entry of `failures` (theme, pair, ratio, target) and ask the user to confirm or adjust before continuing.
+- If the script cannot run, derive and check by hand from `design-system.md §2` and `§12`, and say so.
 - The global `design-system.md` stays unchanged.
 
 ## 3. Provisional calibration — announced at the end of Phase 1
 
-Apply the CALIBRATION table in `CLAUDE.md` (canonical source) — it holds the size thresholds, the batch counts, and the +1 batch when tests are enabled (Q5); do not restate them here. The Salesforce CLI integration adds files (`models/sf_cli.py` + the Org Manager view/controller) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
+Apply the CALIBRATION table in `CLAUDE.md` (canonical source) — it holds the size thresholds, the batch counts, and the +1 batch when tests are enabled; do not restate them here. The Salesforce CLI integration adds files (`models/sf_cli.py` + the Org Manager view/controller) and pushes the size up (no dedicated batch — the runner ships in Batch 1).
 
 Announce it as **provisional** (template, rendered in the user's language):
 
@@ -71,10 +75,14 @@ The real feature count is not known yet (features are elicited in Phase 2). The 
 
 ## 4. Libraries
 
-Any library outside the stack (charts, keyring…) is proposed and validated here — none can be added later without a declaration protocol.
+Ask only when the objective implies a need outside the stack (charts, keyring…): after the palette, propose it with `AskUserQuestion`. Otherwise record none. A library is validated here — none can be added later without a declaration protocol.
 
 ## 5. Write the spec
 
-Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, tests (Q5), icon, packaging, Salesforce CLI integration (Yes/No), the **palette** (preset name or custom accent; any explicit overrides; the derived accent stops, tinted neutrals for both themes, onPrimary, and per-project semantic colors) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+If `docs/specs/01-scoping.md` already exists, ask before overwriting it. Write `docs/specs/01-scoping.md` (in the user's language) capturing: objective, DB choice, persistent preferences, i18n, tests, icon, packaging, Salesforce CLI integration (Yes/No), the **palette** (preset name or custom accent; any explicit overrides; the derived accent stops, tinted neutrals for both themes, onPrimary, and per-project semantic colors) and the contrast-check result, validated libraries, and the provisional calibration (size + number of batches — confirmed in Phase 2). If `docs/specs/` does not exist yet, create it (it will live in the generated project root).
+
+## 6. Validation
+
+Show the on-screen summary (the parameters written to the spec, one line each, in the user's language), then ask with `AskUserQuestion`: `Validate` (recommended) · `Adjust`. On `Adjust`, collect the change as free text, update the spec, and ask again.
 
 → Chain to `/python-p2-featuring` after validation.

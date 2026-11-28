@@ -4,6 +4,18 @@ All notable changes to this generator are documented in this file.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 (This is the changelog of the **generator** itself, distinct from the `docs/release/CHANGELOG.md` of each generated app.)
 
+## [2.1.0] - 2026-11-28
+### Added
+- `.claude/scripts/derive-palette.py`: derives the accent stops, tinted neutrals, semantic colors and Qt disabled literals from one accent and runs the WCAG AA check. Port of the electron script. Called by `python-p1-scoping` and `python-migrate-design`. Tested against the reference tables of `design-system.md`, not on a generated project.
+- `python-p1-scoping` gains an explicit validation step before chaining to Phase 2, and handles an invalid hex, a missing parent folder, an existing `01-scoping.md` and out-of-stack libraries.
+
+### Changed
+- `python-p1-scoping` reads the palette options from the catalog of `design-system.md` section 2 instead of listing the names.
+- `rules/config.md` and `rules/qss.md` point to `design-system.md` section 2 instead of restating the derivation.
+
+### Fixed
+- Derived palettes could fall under the `design-system.md` section 12 thresholds without being reported. Section 2 now states an AA floor for the derived tokens, and the contrast check covers the section 12 pairs. The default palette is unchanged.
+
 ## [2.0.0] - 2026-11-22
 ### Added
 - `.claude/scripts/` with four dependency-free Node scripts: `bump-release.mjs` (`config.py` `APP_VERSION`), `run-verification.mjs` (ruff, mypy, pytest), `static-checks.mjs` and `search-sf-catalog.mjs`. Tested on fixtures only, not on a generated project. The commands that could call them are unchanged.

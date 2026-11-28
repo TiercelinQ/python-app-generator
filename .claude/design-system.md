@@ -12,6 +12,7 @@
 
 | Version | Date       | Main change |
 | ------- | ---------- | ----------- |
+| v2.1    | 2026-11-28 | **AA floor** on the derived tokens (§2): same token set, default palette values unchanged; the §12 check covers more pairs |
 | v2.1    | 2026-10-25 | **surface ladder** N0-N3 (canvas / chrome / panel / floating) with wider fill steps · new token `bg-panel` · neutral hex recomputed (`bg`, `bg-subtle`, `bg-muted`, `bg-elevated`, `border`, `border-subtle`, `border-strong`, `text-subtle`) · **accent AA darkening**: `primary-600` is darkened until white text, text on `bg` and text on `primary-50` reach 4.5:1 (default `#4682B4` → `#3D729E`); `primary-700/800` re-derived from it · new token `danger-fill` · topbar and menu bar on `bg-subtle`, modal on `bg-elevated` · control edge (field, Secondary button) = `border-strong` · neutral hover step transparent → `border-strong` · selected items carry a 2px `primary` bar painted by `SelectionBarDelegate` · pagination label and tree chevrons `text-subtle` · **Qt substitutes made explicit**: pre-blended `disabled-*` colors (QSS has no opacity), `overlay` rgba, ring in `text` on filled buttons, keyboard-only ring through `TabFocus`, `QPalette` for the roles QSS cannot reach, `QStyleHints.setColorScheme`, `InertScope` for the drawer, `Alert` accessibility event for danger toasts · measured sizes (§4) · section 14 lists what QSS cannot do and what to validate on Windows |
 | v2.0    | 2026-07-16 | modernization: `radius` 0 → **5px** · typography → **system font** (QApplication default, no pinned family) · **accent-tinted neutrals** (all neutral roles derived from the accent hue; explicit palette roles still win) · **semantic colors derived per project** (fixed hue anchors, harmonized ±6° toward the accent; info = accent) · hover on neutral elements = **border strengthening** (replaces `bg-muted` fill) · easing `ease-out` (decelerate, `QEasingCurve.OutCubic`) 160/240ms via `config.ANIM_*` · **signature gesture**: sliding underline (tabs / horizontal nav, `QPropertyAnimation`) · icons qtawesome/Font Awesome → **Lucide** (vendored SVGs, stroke 1.75, `utils/icons.py` helper) · floating layers marked by `border-strong` (shadows still forbidden) |
 | v1.6    | 2026-06-27 | default accent → **Steel Blue** `#4682B4` (chromatic in both themes, derived like the named palettes) · dark **surfaces** stay neutral grey · `onPrimary` stays a single white value · Teal kept as a named palette |
@@ -133,13 +134,23 @@ flowchart LR
 | Text                 | optional  | `text`          | `text-subtle` (mix text→bg ~45 %), `text-muted` (mix text→bg ~62 %) |
 | Details              | optional  | `border`        | `border-subtle` (mix border→bg ~50 %), `border-strong` (mix border→text ~12 %) |
 
-### Derivation rules (computed by Claude in Phase 1, written as literal hex)
+### Derivation rules (computed in Phase 1 by `scripts/derive-palette.py`, written as literal hex)
 
-**Accent stops** (same H/S as the accent, lightness varies): `primary-50` L≈95 %, `primary-400` L≈70 %, `primary-900` L≈25 %.
+**Accent stops** (same H/S as the accent, lightness varies): `primary-50` L≈95 %, `primary-400` L≈70 %, `primary-900` L≈25 % (the last two are starting values of the AA floor below).
 
-**AA darkening (new in v2.1).** `primary-600` is the accent, darkened in steps of 1 % lightness until three pairs all reach 4.5:1: white on it, it on `bg`, and it on `primary-50`. An accent that already passes keeps its value. `primary-700` is `primary-600` minus 3 % L and `primary-800` minus 6 % L, so hover and pressed stay visible and never lose contrast. `text-on-primary` is `#FFFFFF`: after the darkening, white always passes. Method (`colorsys`): `rules/config.md`.
+**AA darkening (new in v2.1).** `primary-600` is the accent, darkened in steps of 1 % lightness until three pairs all reach 4.5:1: white on it, it on `bg`, and it on `primary-50`. An accent that already passes keeps its value. `primary-700` is `primary-600` minus 3 % L and `primary-800` minus 6 % L, so hover and pressed stay visible and never lose contrast. `text-on-primary` is `#FFFFFF`: after the darkening, white always passes.
 
 Usage tokens: `primary` = `primary-600` (light) / `primary-400` (dark); `primary-bg` = `primary-50` (light) / `primary-900` (dark).
+
+**AA floor.** The AA darkening applies to other derived tokens too: a token that fails moves by steps of 1 % lightness, away from what it is read against, until all its pairs pass; a token that passes keeps its value. Values chosen by the user (`bg`, `bg-subtle`, `text`, `border`) never move: a pair they make impossible is reported by the §12 check. The tinted targets and the override mixes below are starting values.
+
+| Token | Moves | Pairs to satisfy |
+| ----- | ----- | ---------------- |
+| `primary-600` | darker | the AA darkening above, plus 4.5:1 on light `bg-subtle` |
+| `text-subtle` (each theme) | away from `bg` | 4.5:1 on `bg`, `bg-subtle`, `bg-elevated`, `bg-muted`, the success / warning / danger `*-50`, and light `primary-50` |
+| `border-strong` (each theme) | away from `bg` | 3:1 on the same four surfaces |
+| `primary-400` | lighter | 4.5:1 on dark `bg` and `bg-subtle` |
+| `primary-900` | darker | 4.5:1 with `primary-400`, dark `text-subtle` and dark `text` |
 
 **Tinted neutrals.** Let **H** be the accent hue. Every neutral token is `hsl(H, S, L)` with the fixed S/L targets below. The tint is atmospheric, never saturated: S stays ≤ 33 % in light, ≤ 24 % in dark. When an optional palette role is provided, its explicit value replaces the tinted target for that token, and its supporting tokens derive from it by the mix rules of the role table above.
 
@@ -878,7 +889,7 @@ class InertScope:
 | `disabled-text` on `bg` | 2.54 | 3.62 | exempt: disabled |
 | `border` on `bg` | 1.41 | 1.85 | decorative separator only, never the sole edge of a control |
 
-> Ratios are computed from the hex values above (WCAG relative luminance). They are computed, not measured by a third-party tool on the rendered pixels. For any other palette, Phase 1 runs the AA check on: `text`/`bg`, `text-subtle`/`bg`, `primary`/`bg`, `text-on-primary`/`primary-600`, each `*-600` on `bg` and on its `*-50`, and the filled-button ring; it reports failures without blocking (`rules/config.md`).
+> Ratios are computed from the hex values above (WCAG relative luminance). They are computed, not measured by a third-party tool on the rendered pixels. For any other palette, Phase 1 runs the AA check (`scripts/derive-palette.py`) on: `text` on `bg`, `primary-bg` and `bg-elevated`; `text-subtle` on the four surfaces, `primary-bg` and the status `*-50`; `border-strong` on the four surfaces; `primary` on `bg`, `bg-subtle` and `primary-bg`; `text-on-primary` on `primary-600/700/800`; `text-on-danger` on `danger-fill`; each `*-600` on `bg` and on its `*-50`; and the filled-button ring (`text` on `primary-600` and `danger-fill`, 3:1); it reports failures without blocking (`rules/config.md`).
 
 ---
 
