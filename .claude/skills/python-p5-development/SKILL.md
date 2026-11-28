@@ -78,7 +78,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
 
   ## Origin
 
-  Framework: python v2.0.0
+  Framework: python v2.1.0
 
   ## Business context
 
@@ -96,7 +96,7 @@ Apply `@rules/verification.md` — both the executable commands (§A, blocking w
   - Publish a version: `/python-release` (turns the accumulated `[Unreleased]` changelog into a dated version and raises the version number)
   ```
 
-  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 2.0.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
+  `[nom-app]` = `APP_NAME`. The version here is the **framework** version declared at the top of the framework `CLAUDE.md` (currently 2.1.0) — not the app's own version (which starts at 1.0.0 in `config.py` `APP_VERSION` / `docs/release/CHANGELOG.md`). Replace the `Deviations` list with every deviation validated via the Phase 4/5 deviation protocol (`- [deviation] — reason: [justification]`); if none, keep `- None`.
 
 - **`.claude/settings.json`** written at the generated project root so the app stays self-enforced in later maintenance sessions:
 

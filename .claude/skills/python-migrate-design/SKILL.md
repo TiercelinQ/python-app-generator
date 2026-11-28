@@ -36,6 +36,7 @@ The project is loaded (`/python-load-project`) and detected on design system **v
 
 - **Preset palette** → re-derive **everything** from the accent per `design-system.md §2`: accent stops (`primary-600` AA-darkened), accent-tinted neutrals with the surface ladder (both themes), per-project semantic colors (info = accent). Full v2.1 atmosphere.
 - **Custom palette** → the roles the user explicitly chose in Phase 1 (recorded in `01-scoping.md`) become **v2.1 overrides** (they win over the tinted targets); everything else derives from the accent.
+- Compute the derived values with `python "${CLAUDE_SKILL_DIR}/../../scripts/derive-palette.py" "<accent>"` plus the override flags (usage: script header; default Steel Blue without override: tables of `design-system.md §2`).
 - Announce the derived token set and run the **AA contrast check** (same pairs as `/python-p1-scoping` §2), reporting failures without blocking.
 
 ## Step 3 — Conversion plan (validation gate)
